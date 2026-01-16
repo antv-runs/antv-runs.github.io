@@ -1,20 +1,104 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <title>Tran Van An - Fresher Developer</title>
+
+  <!-- CSS -->
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 80px auto;
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      font-size: 36px;
+      color: #2c3e50;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-weight: normal;
+      color: #6c757d;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.7;
+      margin: 20px 0;
+    }
+
+    .highlight {
+      color: #667eea;
+      font-weight: bold;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      background: #667eea;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #5a67d8;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #999;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Tran Van An</h1>
-  <h2>Fresher Developer</h2>
+  <div class="container">
+    <h1>Tran Van An</h1>
+    <h2>Fresher Developer</h2>
 
-  <p>
-    Hello! My name is Tran Van An. I am a fresher developer who is learning and practicing
-    web development. I am interested in building simple and effective web applications.
-  </p>
+    <p>
+      Hello! My name is <span class="highlight">Tran Van An</span>.
+      I am a fresher developer who is learning and practicing web development.
+      I am interested in building simple and effective web applications.
+    </p>
 
-  <p>
-    This website is created using GitHub Pages as part of my GitHub practice assignment.
-  </p>
+    <p>
+      This website is created using <span class="highlight">GitHub Pages</span>
+      as part of my GitHub practice assignment.
+    </p>
+
+    <button onclick="showMessage()">Click to say hello 👋</button>
+
+    <footer>
+      © 2026 Tran Van An • Built with HTML, CSS & JavaScript
+    </footer>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    function showMessage() {
+      alert("Hello! Thanks for visiting my website 😊");
+    }
+  </script>
 </body>
 </html>
