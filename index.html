@@ -4,8 +4,11 @@
   <meta charset="utf-8">
   <title>Tran Van An - Fresher Developer</title>
 
-  <!-- CSS -->
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, Helvetica, sans-serif;
       background: linear-gradient(135deg, #667eea, #764ba2);
@@ -15,31 +18,80 @@
     }
 
     .container {
-      max-width: 800px;
-      margin: 80px auto;
+      max-width: 900px;
+      margin: 60px auto;
       background: #fff;
       padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      text-align: center;
+      border-radius: 14px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
     }
 
-    h1 {
-      margin-bottom: 10px;
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      margin-bottom: 8px;
       font-size: 36px;
       color: #2c3e50;
     }
 
-    h2 {
+    .header h2 {
       margin-top: 0;
       font-weight: normal;
       color: #6c757d;
     }
 
+    /* Tabs */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #eee;
+    }
+
+    .tab {
+      padding: 12px 20px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #6c757d;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .tab:hover {
+      color: #667eea;
+    }
+
+    .tab.active {
+      color: #667eea;
+      border-bottom: 3px solid #667eea;
+    }
+
+    /* Tab content */
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
     p {
       font-size: 16px;
       line-height: 1.7;
-      margin: 20px 0;
+      margin: 16px 0;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    ul li {
+      margin-bottom: 10px;
     }
 
     .highlight {
@@ -48,7 +100,7 @@
     }
 
     button {
-      margin-top: 30px;
+      margin-top: 20px;
       padding: 12px 24px;
       font-size: 16px;
       border: none;
@@ -65,40 +117,109 @@
 
     footer {
       margin-top: 40px;
+      text-align: center;
       font-size: 14px;
       color: #999;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <h1>Tran Van An</h1>
-    <h2>Fresher Developer</h2>
+    <!-- Header -->
+    <div class="header">
+      <h1>Tran Van An</h1>
+      <h2>Fresher Developer</h2>
+    </div>
 
-    <p>
-      Hello! My name is <span class="highlight">Tran Van An</span>.
-      I am a fresher developer who is learning and practicing web development.
-      I am interested in building simple and effective web applications.
-    </p>
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab active" onclick="openTab('about')">About</div>
+      <div class="tab" onclick="openTab('skills')">Skills</div>
+      <div class="tab" onclick="openTab('projects')">Projects</div>
+      <div class="tab" onclick="openTab('contact')">Contact</div>
+    </div>
 
-    <p>
-      This website is created using <span class="highlight">GitHub Pages</span>
-      as part of my GitHub practice assignment.
-    </p>
+    <!-- About -->
+    <div id="about" class="tab-content active">
+      <p>
+        Hello! My name is <span class="highlight">Tran Van An</span>.
+        I am a fresher developer who is learning and practicing web development.
+      </p>
+      <p>
+        I enjoy building simple, clean, and effective web applications.
+        This website is hosted on <span class="highlight">GitHub Pages</span>
+        as part of my learning journey.
+      </p>
+      <button onclick="sayHello()">Say Hello 👋</button>
+    </div>
 
-    <button onclick="showMessage()">Click to say hello 👋</button>
+    <!-- Skills -->
+    <div id="skills" class="tab-content">
+      <p>Here are some technologies I am learning:</p>
+      <ul>
+        <li>HTML5 / CSS3</li>
+        <li>JavaScript (Basic)</li>
+        <li>Git & GitHub</li>
+        <li>Java / Spring Boot (Basic)</li>
+        <li>REST API concepts</li>
+      </ul>
+    </div>
+
+    <!-- Projects -->
+    <div id="projects" class="tab-content">
+      <p>Some practice projects:</p>
+      <ul>
+        <li>Personal Portfolio Website</li>
+        <li>Simple CRUD Web App (School Project)</li>
+        <li>Git Practice Repository</li>
+      </ul>
+      <p>
+        More projects will be added as I continue learning 🚀
+      </p>
+    </div>
+
+    <!-- Contact -->
+    <div id="contact" class="tab-content">
+      <p>You can reach me via:</p>
+      <ul>
+        <li>Email: tranvanan@example.com</li>
+        <li>GitHub: github.com/tranvanan</li>
+      </ul>
+    </div>
 
     <footer>
       © 2026 Tran Van An • Built with HTML, CSS & JavaScript
     </footer>
   </div>
 
-  <!-- JavaScript -->
   <script>
-    function showMessage() {
+    function openTab(tabId) {
+      const tabs = document.querySelectorAll('.tab');
+      const contents = document.querySelectorAll('.tab-content');
+
+      tabs.forEach(tab => tab.classList.remove('active'));
+      contents.forEach(content => content.classList.remove('active'));
+
+      document.getElementById(tabId).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    function sayHello() {
       alert("Hello! Thanks for visiting my website 😊");
     }
   </script>
 </body>
 </html>
+
