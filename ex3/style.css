@@ -1,0 +1,95 @@
+body {
+  background-color: #000;
+  font-size: 15px;
+  font-family: "Times New Roman", Times, serif;
+}
+
+h3 {
+  font-size: 17px;
+}
+
+.main-container {
+  margin: 0 auto;
+  width: 628px;
+  background-color: #fff;
+  padding: 10px 80px;
+}
+
+.sub-container {
+  border: 1px solid #dfdfdf;
+}
+
+.a-ref {
+  text-decoration: none;
+  color: #1424f4;
+}
+
+ul li {
+  list-style: none;
+  background-image: url("./imgs/pic_star.jpg");
+  background-repeat: no-repeat;
+  padding-left: 20px;
+}
+
+.custom-input {
+  border: 1px solid #e1e1e1;
+  padding: 2px;
+}
+
+.messages {
+  margin: 20px 0;
+}
+
+.msg-item {
+  position: relative;
+  text-align: start;
+  background-image: url("./imgs/pic_msg_bg.png");
+  background-size: cover;
+}
+
+.msg-content {
+  /* position: absolute; */
+}
+
+.sub-txt {
+  font-size: 13px;
+  margin-left: 80px;
+}
+
+.profile {
+  display: flex;
+  flex-direction: row;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-item label {
+  min-width: 100px;
+}
+
+.sec-your-comment {
+  margin: 0 5px 10px 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+}
+
+.comment-title h3 {
+  margin: 0;
+}
