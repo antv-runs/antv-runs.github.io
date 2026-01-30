@@ -109,7 +109,7 @@ body {
   position: relative;
   width: 100%;
   font-size: 11px;
-  background-image: url("./imgs/pic_horoscopes_man.png");
+  background-image: url("../images/pic_horoscopes_man.png");
   background-size: cover;
   background-position: center;
   background-color: #f4f4ea;
