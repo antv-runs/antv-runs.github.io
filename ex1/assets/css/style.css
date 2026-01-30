@@ -24,12 +24,13 @@ a {
 container {
   max-width: 701px;
   display: flex;
-  gap: 28px;
-  padding: 27px 0;
+  gap: 24px;
+  margin: 15px 0;
   margin-inline: auto;
 }
 
 content {
+  max-width: 408px;
   width: fit-content;
   margin: 0;
   padding: 0;
