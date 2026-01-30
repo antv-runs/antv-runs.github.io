@@ -6,12 +6,47 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Danh sách bài tập</h1>
+    <h1>Màn hình danh sách bài tập HTML</h1>
 
     <ul>
-      <li><a href="ex1/">Ex1</a></li>
-      <li><a href="ex2/">Ex2</a></li>
-      <li><a href="ex3/">Ex3</a></li>
+      <li>
+        Tuần 1 ngày 1:
+        <a target="_blank" href="ex1/">bài làm</a>,
+      </li>
+      <li>
+        Tuần 1 ngày 2 - de1:
+        <a target="_blank" href="ex2/">bài làm</a>,
+        <a class="github-link" target="_blank" data-repo="/tree/main/ex2"
+          >GitHub</a
+        >,
+        <a
+          class="github-link"
+          target="_blank"
+          data-repo="/tree/main/ex2/de 2.png"
+          >Giao diện mẫu</a
+        >
+      </li>
+      <li>
+        Tuần 1 ngày 2 - de2:
+        <a target="_blank" href="ex3/">bài làm</a>,
+        <a class="github-link" target="_blank" data-repo="/tree/main/ex3"
+          >GitHub</a
+        >,
+        <a
+          class="github-link"
+          target="_blank"
+          data-repo="/tree/main/ex2/de 3.png"
+          >Giao diện mẫu</a
+        >
+      </li>
     </ul>
   </body>
+
+  <script>
+    const GITHUB_BASE = "https://github.com/antv-runs/antv-runs.github.io";
+
+    document.querySelectorAll(".github-link").forEach((link) => {
+      link.href = `${GITHUB_BASE}/${link.dataset.repo}`;
+    });
+  </script>
 </html>
