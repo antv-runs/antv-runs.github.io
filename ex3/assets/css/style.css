@@ -26,7 +26,7 @@ h3 {
 
 ul li {
   list-style: none;
-  background-image: url("./imgs/pic_star.jpg");
+  background-image: url("../images/pic_star.jpg");
   background-repeat: no-repeat;
   padding-left: 20px;
 }
@@ -43,7 +43,7 @@ ul li {
 .msg-item {
   position: relative;
   text-align: start;
-  background-image: url("./imgs/pic_msg_bg.png");
+  background-image: url("../images/pic_msg_bg.png");
   background-size: cover;
 }
 
