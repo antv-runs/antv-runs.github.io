@@ -17,10 +17,6 @@
   font-family: "Times New Roman", Times, serif;
 }
 
-.txt-arial-bold {
-  font-family: "Arial-BoldMT", sans-serif;
-}
-
 .txt-arial-mt {
   font-family: "ArialMT", sans-serif;
 }
@@ -43,19 +39,26 @@
 
 body {
   background-color: #000;
+  line-height: 1;
+}
+
+strong {
+  font-weight: bold;
+  color: #0a6395;
+  font-size: 12px;
 }
 
 .main-container {
   background-color: #fff;
-  width: 360px;
+  max-width: 363px;
   margin: 0 auto;
-  padding: 10px 0;
+  padding: 13px 0;
 }
 
 .sub-container {
   background-color: #e6f3fb;
-  padding: 8px 13px 20px 16px;
-  margin: 0 20px;
+  padding: 8px 8px 20px 16px;
+  margin: 0 25px 0 22px;
 }
 
 .blog-pic-desc {
@@ -75,8 +78,9 @@ body {
 
 .sec-info {
   background-color: #fff;
-  border-top: 6px solid #f7a418;
-  margin: 0;
+  border-top: 4px solid #f7a418;
+  font-family: "Arial", sans-serif;
+  font-size: 12px;
 }
 
 .blog-msg-list {
@@ -109,7 +113,7 @@ body {
   position: relative;
   width: 100%;
   font-size: 11px;
-  background-image: url("./imgs/pic_horoscopes_man.png");
+  background-image: url("../images/pic_horoscopes_man.png");
   background-size: cover;
   background-position: center;
   background-color: #f4f4ea;
@@ -177,6 +181,7 @@ h3 {
 h4 {
   font-family: "Arial-BoldMT", sans-serif;
   margin: 0;
+  font-weight: normal;
 }
 
 p {
