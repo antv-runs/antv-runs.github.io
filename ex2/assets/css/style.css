@@ -13,6 +13,14 @@
   src: url(fonts/ArialMT-Italic.ttf);
 }
 
+.horo-desc-til {
+  font-size: 15px;
+  line-height: 15px;
+  color: #000000;
+  font-family: "Arial";
+  font-weight: normal;
+}
+
 .txt-times-new-roman {
   font-family: "Times New Roman", Times, serif;
 }
@@ -29,8 +37,20 @@
   font-family: "Arial-ItalicMT", sans-serif;
 }
 
-.til-color {
+.blog-desc-til {
+  font-size: 12px;
+  line-height: 15px;
   color: #0a6395;
+  font-weight: bold;
+  font-family: "Arial";
+}
+
+.blog-desc-content {
+  font-size: 12px;
+  line-height: 15px;
+  color: #000000;
+  font-family: "Arial";
+  margin-left: 4px;
 }
 
 * {
@@ -40,6 +60,7 @@
 body {
   background-color: #000;
   line-height: 1;
+  padding-bottom: 20px;
 }
 
 strong {
@@ -52,28 +73,51 @@ strong {
   background-color: #fff;
   max-width: 363px;
   margin: 0 auto;
-  padding: 13px 0;
+  padding: 16px 0 26px 0;
 }
 
 .sub-container {
   background-color: #e6f3fb;
-  padding: 8px 8px 20px 16px;
+  padding: 4px 9px 16px 11px;
   margin: 0 25px 0 22px;
 }
 
 .blog-pic-desc {
   display: flex;
-  gap: 10px;
+  gap: 6px;
   align-items: flex-start;
-  margin: 10px 20px 14px 12px;
-}
-
-.blog-desc {
-  padding-top: 3px;
+  margin: 7px 10px 12px 8px;
 }
 
 .sec-content {
   background-color: transparent;
+}
+
+.blogroll-til {
+  margin-left: 1px;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 15px;
+  color: #000000;
+  font-family: "Times New Roman";
+}
+
+.horo-til {
+  font-weight: normal;
+  margin-top: 1px;
+  margin-left: 1px;
+  margin-bottom: 1px;
+}
+
+.news-til {
+  margin-top: 21px;
+  margin-left: 2px;
+  margin-bottom: 1px;
+  font-size: 16px;
+  line-height: 15px;
+  color: #000000;
+  font-family: "Times New Roman";
+  font-weight: normal;
 }
 
 .sec-info {
@@ -86,33 +130,84 @@ strong {
 .blog-msg-list {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
   padding-bottom: 2px;
 }
 
 .blog-msg-item {
-  display: flex;
-  justify-content: start;
-  align-items: center;
   background-color: #f9f1c1;
   height: 35px;
   color: #0a6395;
-  padding-left: 15px;
+}
+
+.blog-msg-item p {
+  font-size: 12px;
+  line-height: 15px;
+  color: #0a6395;
+  font-family: "Arial";
+}
+
+.blog-msg-item:nth-child(1) {
+  height: 32px;
+}
+
+.blog-msg-item:nth-child(1) p {
+  margin-left: 9px;
+  margin-top: 6px;
+}
+
+.blog-msg-item:nth-child(2) {
+  height: 34px;
+}
+
+.blog-msg-item:nth-child(2) p {
+  margin-left: 9px;
+  margin-top: 10px;
+}
+
+.blog-msg-item:nth-child(3) {
+  height: 37px;
+}
+
+.blog-msg-item:nth-child(3) p {
+  margin-left: 9px;
+  margin-top: 11px;
 }
 
 .horo-pic-desc {
   display: flex;
-  gap: 25px;
+  gap: 19px;
   align-items: flex-start;
-  margin-top: 25px;
-  margin-bottom: 20px;
-  padding: 0 15px;
+  margin-top: 20px;
+  margin-bottom: 14px;
+  padding: 0 6px 0 15px;
+}
+
+.horo-desc {
+  margin-top: 3px;
+}
+
+.horo-desc-date {
+  font-size: 11px;
+  line-height: 15px;
+  color: #595959;
+  font-family: "Arial";
+}
+
+.horo-desc-content {
+  font-size: 11px;
+  line-height: 14px;
+  color: #000000;
+  font-family: "Arial";
+  margin-left: 2px;
+  margin-top: 7px;
 }
 
 .horo-footer {
   position: relative;
   width: 100%;
   font-size: 11px;
+  height: 45px;
   background-image: url("../images/pic_horoscopes_man.png");
   background-size: cover;
   background-position: center;
@@ -120,15 +215,21 @@ strong {
 }
 
 .horo-footer-txt {
-  padding: 10px 20px;
+  padding: 11px 22px;
 }
 
 .horo-footer-txt p {
   font-size: 11px;
+  line-height: 14px;
+  color: #000000;
+  font-family: "Arial";
 }
 
 .horo-footer-txt a {
+  font-weight: bold;
   font-size: 11px;
+  line-height: 14px;
+  font-family: "Arial";
 }
 
 .competion-info {
@@ -137,6 +238,7 @@ strong {
   border-width: 1px;
   padding: 12px;
   color: #4d5d73;
+  background-color: #fff;
 }
 
 .news-pic-desc {
@@ -156,9 +258,24 @@ strong {
 }
 
 .news-desc-txt {
-  margin-top: 20px;
-  margin-left: 20px;
+  margin-top: 21px;
+  margin-left: 23px;
   margin-right: 20px;
+}
+
+.news-desc-txt p {
+  font-size: 12px;
+  line-height: 15px;
+  color: #000000;
+  font-family: "Times New Roman";
+  margin-bottom: 5px;
+}
+
+.news-desc-txt a {
+  font-size: 12px;
+  line-height: 15px;
+  color: #0a6395;
+  font-family: "Times New Roman";
 }
 
 .btn-more {
@@ -166,10 +283,32 @@ strong {
   color: #0a6395;
 }
 
-.divider-dots {
+hr {
   border: none;
   border-top: 1px solid #595959;
-  margin: 5px 0;
+  margin: 9px 0 4px 0;
+}
+
+.sec-competion .competion-til {
+  font-size: 14px;
+  line-height: 15px;
+  color: #000000;
+  font-family: "Times New Roman";
+  font-weight: normal;
+}
+
+.competion-info {
+  font-size: 12px;
+  line-height: 15px;
+  color: #4d5d73;
+  font-family: "Times New Roman";
+  padding: 0;
+  margin: 0;
+  margin-left: 1px;
+  padding-top: 8px;
+  padding-right: 10px;
+  padding-left: 8px;
+  padding-bottom: 8px;
 }
 
 h3 {
