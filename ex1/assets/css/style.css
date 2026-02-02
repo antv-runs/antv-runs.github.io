@@ -6,9 +6,8 @@ body {
   background-color: #121214;
   font-family: "Times New Roman", Times, serif;
   color: #fff;
-  margin: 0 auto;
-  height: 600px;
-  width: 1100px;
+  margin: 0;
+  padding: 0;
 }
 
 p,
@@ -16,13 +15,29 @@ li {
   color: #595959;
 }
 
-container {
-  display: flex;
-  margin: 27px 203px;
+h3,
+h4,
+a {
+  font-weight: normal !important;
 }
 
-.container content {
-  flex: 2;
+container {
+  max-width: 701px;
+  display: flex;
+  gap: 24px;
+  margin: 10px 0;
+  margin-inline: auto;
+}
+
+content {
+  max-width: 408px;
+  width: fit-content;
+  margin: 0;
+  padding: 0;
+}
+
+figure {
+  margin: 0;
 }
 
 .pic-info {
@@ -33,8 +48,7 @@ container {
 }
 
 .pic-info .pic img {
-  width: 130px;
-  height: 100px;
+  max-width: 130px;
   object-fit: cover;
   border-radius: 4px;
 }
@@ -51,6 +65,7 @@ container {
 .pic-info .info p {
   margin-bottom: 0;
   margin-top: 12px;
+  max-width: 252px;
 }
 
 .sec-info p {
@@ -68,14 +83,19 @@ container {
 .sec-content ul {
   display: flex;
   padding: 0;
+  margin: 0;
+  margin-top: 22px;
   flex-wrap: wrap;
   list-style: none;
+  text-indent: -3px;
 }
 
 .sec-content ul li {
+  position: relative;
   width: 50%;
   color: #a0a0a0;
   margin-bottom: 10px;
+  line-height: 1;
 }
 
 .sec-content ul li a {
@@ -90,61 +110,79 @@ container {
   content: "▶";
   position: absolute;
   top: 20%;
-  left: 0;
-  color: #595959;
-  font-size: 5px;
-}
-
-content {
-  padding: 0px 30px 40px 30px;
+  left: 5px;
+  color: #888;
+  font-size: 6px;
 }
 
 .sec-info {
-  margin-bottom: 100px;
+  margin-bottom: 82px;
 }
 
 .card {
+  max-width: 190px;
   background-color: #232227;
   height: fit-content;
-  padding-top: 60px;
-  padding-bottom: 45px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-top: 63px;
+  padding-bottom: 38px;
+  padding-left: 22px;
+  padding-right: 24px;
 }
 
 .card img {
-  border-radius: 20px;
+  margin-left: 10px;
+  margin-top: 18px;
 }
 
-.card h4 {
-  margin-bottom: 10px;
+.card .card-content {
+  margin-left: 11px;
 }
 
-.card p {
+.card .card-content h4 {
   margin: 0;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-weight: normal;
+}
+
+.card .card-content p {
+  margin: 0;
+  line-height: 1;
+  font-weight: normal;
 }
 
 .btn-more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 15px;
   text-decoration: none;
   color: #fff;
 }
 
 .btn-more::before {
-  content: url("../imgs/pic_arr.png");
-  margin-right: 8px;
-}
-
-.divider-dots {
-  border: none;
-  border-top: 1px dotted #444;
-  background-color: #3c3c3c;
-  margin: 15px 0;
+  display: inline-block;
+  content: url("../images/pic_arr.png");
+  margin-right: 7px;
+  position: relative;
+  top: 1px;
 }
 
 .txt-highlight {
   color: #fff;
+  font-weight: normal;
 }
 
 .txt-sub {
   color: #767884;
+}
+
+hr {
+  border: none;
+  border-top: 1px dotted #444;
+  margin: 10px 0;
+}
+
+.hr-line {
+  border-top: 1px solid #444;
 }
