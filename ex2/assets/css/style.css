@@ -52,28 +52,49 @@ strong {
   background-color: #fff;
   max-width: 363px;
   margin: 0 auto;
-  padding: 13px 0;
+  padding: 13px 0 20px 0;
 }
 
 .sub-container {
   background-color: #e6f3fb;
-  padding: 8px 8px 20px 16px;
+  padding: 8px 9px 20px 9px;
   margin: 0 25px 0 22px;
 }
 
 .blog-pic-desc {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: flex-start;
-  margin: 10px 20px 14px 12px;
+  margin: 7px 10px 12px 8px;
+}
+
+.blog-pic-desc .blog-desc strong {
+  font-size: 12px;
+  line-height: 15px;
+  color: #0a6395;
+  font-weight: bold;
+  font-family: "Arial";
+}
+
+.blog-pic-desc .blog-desc p {
+  font-size: 12px;
+  line-height: 15px;
+  color: #000000;
+  font-family: "Arial";
+  margin-left: 2px;
+  margin-top: 0;
 }
 
 .blog-desc {
-  padding-top: 3px;
+  padding-top: 1px;
 }
 
 .sec-content {
   background-color: transparent;
+}
+
+.news-til {
+  margin-top: 20px;
 }
 
 .sec-info {
@@ -86,7 +107,7 @@ strong {
 .blog-msg-list {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
   padding-bottom: 2px;
 }
 
@@ -102,11 +123,36 @@ strong {
 
 .horo-pic-desc {
   display: flex;
-  gap: 25px;
+  gap: 19px;
   align-items: flex-start;
-  margin-top: 25px;
-  margin-bottom: 20px;
-  padding: 0 15px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  padding: 0 10px 0 15px;
+}
+
+.horo-desc {
+  margin-top: 3px;
+}
+
+.horo-desc h4 {
+  font-size: 15px;
+  line-height: 15px;
+  color: #000000;
+  font-family: "Arial";
+}
+
+.horo-desc p {
+  font-size: 11px;
+  line-height: 14px;
+  color: #000000;
+  font-family: "Arial";
+}
+
+.horo-desc .date-under {
+  font-size: 11px;
+  line-height: 15px;
+  color: #595959;
+  font-family: "Arial";
 }
 
 .horo-footer {
@@ -125,10 +171,15 @@ strong {
 
 .horo-footer-txt p {
   font-size: 11px;
+  line-height: 14px;
+  color: #000000;
+  font-family: "Arial";
 }
 
 .horo-footer-txt a {
   font-size: 11px;
+  line-height: 14px;
+  font-family: "Arial";
 }
 
 .competion-info {
@@ -156,9 +207,24 @@ strong {
 }
 
 .news-desc-txt {
-  margin-top: 20px;
-  margin-left: 20px;
+  margin-top: 22px;
+  margin-left: 23px;
   margin-right: 20px;
+}
+
+.news-desc-txt p {
+  font-size: 12px;
+  line-height: 15px;
+  color: #000000;
+  font-family: "Times New Roman";
+  margin-bottom: 4px;
+}
+
+.news-desc-txt a {
+  font-size: 12px;
+  line-height: 15px;
+  color: #0a6395;
+  font-family: "Times New Roman";
 }
 
 .btn-more {
@@ -166,10 +232,31 @@ strong {
   color: #0a6395;
 }
 
-.divider-dots {
+hr {
   border: none;
   border-top: 1px solid #595959;
-  margin: 5px 0;
+  margin: 7px 0 4px 0;
+}
+
+.sec-competion .competion-til {
+  font-size: 14px;
+  line-height: 15px;
+  color: #000000;
+  font-family: "Times New Roman";
+}
+
+.competion-info {
+  font-size: 12px;
+  line-height: 15px;
+  color: #4d5d73;
+  font-family: "Times New Roman";
+  padding: 0;
+  margin: 0;
+  margin-left: 3px;
+  padding-top: 9px;
+  padding-right: 10px;
+  padding-left: 7px;
+  padding-bottom: 8px;
 }
 
 h3 {
