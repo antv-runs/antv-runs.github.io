@@ -1,16 +1,17 @@
-@font-face {
-  font-family: Arial-BoldMT;
-  src: url(fonts/ArialMT-Bold.ttf);
+* {
+  font-size: 12px;
 }
 
-@font-face {
-  font-family: ArialMT;
-  src: url(fonts/ArialMT-Light.ttf);
+body {
+  background-color: #000;
+  line-height: 1;
+  padding-bottom: 20px;
 }
 
-@font-face {
-  font-family: Arial-ItalicMT;
-  src: url(fonts/ArialMT-Italic.ttf);
+strong {
+  font-weight: bold;
+  color: #0a6395;
+  font-size: 12px;
 }
 
 .horo-desc-til {
@@ -19,22 +20,6 @@
   color: #000000;
   font-family: "Arial";
   font-weight: normal;
-}
-
-.txt-times-new-roman {
-  font-family: "Times New Roman", Times, serif;
-}
-
-.txt-arial-mt {
-  font-family: "ArialMT", sans-serif;
-}
-
-.txt-arial-italic-m {
-  font-family: "Arial-ItalicMT", sans-serif;
-}
-
-.txt-arial-italic-mt {
-  font-family: "Arial-ItalicMT", sans-serif;
 }
 
 .blog-desc-til {
@@ -51,22 +36,6 @@
   color: #000000;
   font-family: "Arial";
   margin-left: 4px;
-}
-
-* {
-  font-size: 12px;
-}
-
-body {
-  background-color: #000;
-  line-height: 1;
-  padding-bottom: 20px;
-}
-
-strong {
-  font-weight: bold;
-  color: #0a6395;
-  font-size: 12px;
 }
 
 .main-container {
@@ -231,16 +200,6 @@ strong {
   line-height: 14px;
   font-family: "Arial";
 }
-
-.competion-info {
-  border-style: solid;
-  border-color: #595959;
-  border-width: 1px;
-  padding: 12px;
-  color: #4d5d73;
-  background-color: #fff;
-}
-
 .news-pic-desc {
   display: flex;
   gap: 10px;
@@ -298,17 +257,23 @@ hr {
 }
 
 .competion-info {
+  border-style: solid;
+  border-color: #595959;
+  border-width: 1px;
+  color: #4d5d73;
+  background-color: #fff;
   font-size: 12px;
   line-height: 15px;
   color: #4d5d73;
   font-family: "Times New Roman";
   padding: 0;
   margin: 0;
-  margin-left: 1px;
+  margin-left: -1px;
   padding-top: 8px;
   padding-right: 10px;
   padding-left: 8px;
   padding-bottom: 8px;
+  transform: translateX(3px);
 }
 
 h3 {
