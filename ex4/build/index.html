@@ -2,12 +2,80 @@
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
-    <title>Gulp Test</title>
+    <title>Ex4 - UI Only</title>
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
   <body>
-    <div class="header">Hello Gulp + SCSS</div>
-    <div>hihi</div>
-    <script src="assets/js/main.js"></script>
+    <div class="container">
+      <section class="products-tabs">
+        <nav class="tabs" aria-label="Product tabs">
+          <button class="tabs__tab" data-tab="detail">Product Details</button>
+
+          <button class="tabs__tab" data-tab="reviews">Rating & Reviews</button>
+
+          <button class="tabs__tab" data-tab="faqs">FAQs</button>
+        </nav>
+
+        <section class="reviews">
+          <header class="reviews__header">
+            <h2>All Reviews <span>(451)</span></h2>
+
+            <button class="reviews__filter"></button>
+            <button class="reviews__sort">Latest</button>
+            <button class="reviews__write btn btn--primary">
+              Write a Review
+            </button>
+          </header>
+
+          <ul class="reviews__list">
+            <li class="reviews__item">
+              <header class="review-card__header">
+                <span class="review-card__rating"></span>
+                <button
+                  class="review-card__actions"
+                  aria-label="More actions"
+                ></button>
+              </header>
+
+              <div class="review-card__author">
+                <h3>Samantha D.</h3>
+                <img src="./assets/images/icn_tick.png" alt="Tick" />
+              </div>
+              <div class="review-card__content">
+                "I absolutely love this t-shirt! The design is unique and the
+                fabric feels so comfortable. As a fellow designer, I appreciate
+                the attention to detail. It's become my favorite go-to shirt."
+              </div>
+              <footer class="review-card__footer">
+                Posted on August 14, 2023
+              </footer>
+            </li>
+          </ul>
+        </section>
+
+        <button class="reviews__load-more"></button>
+      </section>
+
+      <section class="other-products">
+        <h2 class="other-products__title">You Might Also Like</h2>
+
+        <ul class="other-products__list">
+          <li class="other-products__item">
+            <img
+              class="other-products__image"
+              src="./assets/images/pic_polo_blue.png"
+              alt="Polo blue"
+            />
+            <h3 class="other-products__title"></h3>
+            <div class="other-products__rating"></div>
+            <div class="other-products__prices">
+              <span class="other-products__price--original"></span>
+              <span class="other-products__price--discounted"></span>
+              <span class="other-products__price--percent"></span>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
   </body>
 </html>
