@@ -6,8 +6,28 @@
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
   <body>
-    <div class="header">Hello Gulp + SCSS</div>
-    <div>hihi</div>
-    <script src="assets/js/main.js"></script>
+    <section class="products-tabs">
+      <div class="tabs js-tabs">
+        <div class="tabs__nav">
+          <button class="tabs__tab" data-tab="detail">Product Details</button>
+
+          <button class="tabs__tab" data-tab="reviews">Rating & Reviews</button>
+
+          <button class="tabs__tab" data-tab="faqs">FAQs</button>
+        </div>
+
+        <div class="tabs__content">
+          <div class="tabs__panel" data-panel="detail">Product Details</div>
+
+          <div class="tabs__panel" data-panel="reviews">
+            <div>main-UI</div>
+          </div>
+
+          <div class="tabs__panel" data-panel="faqs">FAQs</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="more"></section>
   </body>
 </html>
