@@ -14,10 +14,10 @@ h3 {
 
 .profile {
   margin: 0;
-  margin-bottom: 21px;
+  margin-bottom: 15px;
 }
 
-.profile .pro-header {
+.pro-header {
   background: linear-gradient(
     to bottom,
     #fff 0,
@@ -26,65 +26,82 @@ h3 {
     #fcfcfc 100%
   );
   margin: 0;
-  margin-top: 4px;
+  margin-top: 8px;
   margin-bottom: 4px;
 }
 
 .pro-til {
   margin: 0;
   font-size: 17px;
-  margin-left: 4px;
+  margin-left: 2px;
+  margin-top: 1px;
+  font-size: 17px;
+  line-height: 10px;
+  color: #000000;
+  font-family: "Times New Roman";
 }
 
 .profile .info {
   display: flex;
-  gap: 5px;
+  gap: 0px;
   padding-left: 12px;
   padding-top: 2px;
 }
 
-.profile .info .info-detail {
-  padding-left: 9px;
-  max-height: 95px;
-  overflow-x: scroll;
-  overflow-y: scroll;
-  flex: 1;
+.info-img-wrap {
+  margin-top: 4px;
 }
 
-.profile .info .info-detail p {
-  margin: 1px;
+.info-detail {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  background-image: url("../images/bg_profile.png");
+  background-size: cover;
+  background-position: center;
+  margin-right: 9px;
+  padding-top: 5px;
+  padding-left: 14px;
+  line-height: 1.1;
+}
+
+.info-detail p {
+  margin: 0.05px;
+
   font-size: 15px;
-  line-height: 1;
+  line-height: 16px;
+  color: #000000;
+  font-family: "Times New Roman";
 }
 
 .facts {
-  margin-bottom: 62px;
+  margin-bottom: 63px;
 }
 
-.facts-header {
-  margin-left: 3px;
-  margin-bottom: 16px;
+.facts-til {
+  margin-left: 4px;
 }
 
 .facts-list {
-  padding: 0 80px 0 35px;
-  font-size: 15px;
+  padding: 0 60px 0 40px;
   list-style: none;
 }
 
 .facts-list li {
   font-size: 15px;
+  color: #000000;
+  font-family: "Times New Roman";
 }
 
 .facts-list li::before {
   content: "★";
   color: #66b4fc;
   font-size: 23px;
-  margin-right: 5px;
 }
 
 .messages {
-  margin-bottom: 29px;
+  margin-top: 5px;
+  margin-bottom: 28px;
 }
 
 .msg-item {
@@ -97,14 +114,21 @@ h3 {
 }
 
 .msg-item .msg-content {
+  font-size: 15px;
+  line-height: 16px;
+  color: #000000;
+  font-family: "Times New Roman";
   margin: 1px 235px 0 18px;
-  padding-top: 8px;
+  padding-top: 7px;
 }
 
-.msg-item .sub-txt {
+.sub-txt {
   font-size: 13px;
+  line-height: 16px;
+  color: #000000;
+  font-family: "Times New Roman";
   margin-left: 51px;
-  margin-top: 6px;
+  margin-top: 3px;
 }
 
 .msg-item .sub-txt a {
@@ -113,8 +137,14 @@ h3 {
   text-decoration: none;
 }
 
-.sec-your-comment .comment-header {
+.comment-header {
   text-align: center;
+}
+
+.comment-til {
+  font-size: 17px;
+  color: #000000;
+  font-family: "Times New Roman";
 }
 
 h3 {
@@ -122,7 +152,7 @@ h3 {
 }
 
 .comment-form {
-  padding-left: 6px;
+  padding-left: 5px;
 }
 
 .comment-form .form-item {
@@ -140,7 +170,7 @@ h3 {
 
 .comment-form input {
   width: 140px;
-  height: 19px;
+  height: 18px;
   border: 1px solid #ccc;
   margin-bottom: 5px;
 }
@@ -152,7 +182,6 @@ h3 {
   font-family: "Times New Roman", Times, serif;
   font-size: 15px;
   margin-right: 5px;
-  margin-top: 5px;
   margin-bottom: 5px;
 }
 
