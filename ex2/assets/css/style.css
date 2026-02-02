@@ -14,7 +14,7 @@ strong {
   font-size: 12px;
 }
 
-.horoscope__sign {
+.horo-desc-til {
   font-size: 15px;
   line-height: 15px;
   color: #000000;
@@ -22,7 +22,7 @@ strong {
   font-weight: normal;
 }
 
-.blogroll__title {
+.blog-desc-til {
   font-size: 12px;
   line-height: 15px;
   color: #0a6395;
@@ -30,7 +30,7 @@ strong {
   font-family: "Arial";
 }
 
-.blogroll__description {
+.blog-desc-content {
   font-size: 12px;
   line-height: 15px;
   color: #000000;
@@ -51,18 +51,18 @@ strong {
   margin: 0 25px 0 22px;
 }
 
-.blogroll__featured {
+.blog-pic-desc {
   display: flex;
   gap: 6px;
   align-items: flex-start;
   margin: 7px 10px 12px 8px;
 }
 
-.widget {
+.sec-content {
   background-color: transparent;
 }
 
-.widget__tilte {
+.blogroll-til {
   margin-left: 1px;
   font-weight: normal;
   font-size: 16px;
@@ -71,14 +71,14 @@ strong {
   font-family: "Times New Roman";
 }
 
-.widget__title--horo {
+.horo-til {
   font-weight: normal;
   margin-top: 1px;
   margin-left: 1px;
   margin-bottom: 1px;
 }
 
-.widget__title--news {
+.news-til {
   margin-top: 21px;
   margin-left: 2px;
   margin-bottom: 1px;
@@ -89,27 +89,27 @@ strong {
   font-weight: normal;
 }
 
-.widget__body {
+.sec-info {
   background-color: #fff;
   border-top: 4px solid #f7a418;
   font-family: "Arial", sans-serif;
   font-size: 12px;
 }
 
-.blogroll__list {
+.blog-msg-list {
   display: flex;
   flex-direction: column;
   gap: 1px;
   padding-bottom: 2px;
 }
 
-.blogroll__item {
+.blog-msg-item {
   background-color: #f9f1c1;
   height: 35px;
   color: #0a6395;
 }
 
-.blogroll__item p {
+.blog-msg-item p {
   font-size: 12px;
   line-height: 15px;
   color: #0a6395;
@@ -143,7 +143,7 @@ strong {
   margin-top: 11px;
 }
 
-.horoscope__featured {
+.horo-pic-desc {
   display: flex;
   gap: 19px;
   align-items: flex-start;
@@ -152,18 +152,18 @@ strong {
   padding: 0 6px 0 15px;
 }
 
-.horoscope__content {
+.horo-desc {
   margin-top: 3px;
 }
 
-.horoscope__date {
+.horo-desc-date {
   font-size: 11px;
   line-height: 15px;
   color: #595959;
   font-family: "Arial";
 }
 
-.horoscope__text {
+.horo-desc-content {
   font-size: 11px;
   line-height: 14px;
   color: #000000;
@@ -172,7 +172,7 @@ strong {
   margin-top: 7px;
 }
 
-.horoscope__footer {
+.horo-footer {
   position: relative;
   width: 100%;
   font-size: 11px;
@@ -183,18 +183,18 @@ strong {
   background-color: #f4f4ea;
 }
 
-.horoscope__source {
+.horo-footer-txt {
   padding: 11px 22px;
 }
 
-.horoscope__source p {
+.horo-footer-txt p {
   font-size: 11px;
   line-height: 14px;
   color: #000000;
   font-family: "Arial";
 }
 
-.horoscope__source a {
+.horo-footer-txt a {
   font-weight: bold;
   font-size: 11px;
   line-height: 14px;
@@ -204,6 +204,10 @@ strong {
   display: flex;
   gap: 10px;
   align-items: flex-start;
+}
+
+.news-desc {
+  display: flex;
 }
 
 .news-desc-content {
@@ -244,7 +248,7 @@ hr {
   margin: 9px 0 4px 0;
 }
 
-.widget .widget__title--competion {
+.sec-competion .competion-til {
   font-size: 14px;
   line-height: 15px;
   color: #000000;
@@ -252,7 +256,7 @@ hr {
   font-weight: normal;
 }
 
-.widget__body--competition {
+.competion-info {
   border-style: solid;
   border-color: #595959;
   border-width: 1px;
