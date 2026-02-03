@@ -5,6 +5,7 @@
 
 body, button {
   font-family: "Satoshi";
+  font-size: 16px;
 }
 
 .container {
@@ -41,7 +42,13 @@ body, button {
 }
 
 .reviews {
-  margin-bottom: 3px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
 
   &__title {
     font-size: 24px;
@@ -56,14 +63,13 @@ body, button {
 
   &__actions {
     display: flex;
-    gap: 7px;
+    gap: 10px;
     height: 48px;
     width: 354px;
   }
 
   &__action {
     border-radius: 62px;
-    padding: 16px 20px;
     font-weight: 500;
     border: none;
     cursor: pointer;
@@ -72,17 +78,16 @@ body, button {
       font-weight: 500;
     }
 
-    --filter {
-      height: 40px;
-      width: 40px;
+    &--filter {
+      height: 48px;
+      width: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
 
       img {
-        width: 20.25px;
-        height: 18.75px;
-        display: block;
+        width: 24px;
+        height: 24px;
       }
     }
 
@@ -128,7 +133,7 @@ body, button {
 .review-card {
   border: 1px solid rgba(0,0,0,0.1019607843);
   border-radius: 20px;
-  padding: 27px 30px;
+  padding: 26px 30px 28px 30px;
   
   &__meta {
     display: flex;
@@ -183,7 +188,6 @@ body, button {
     font-size: 48px;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 55px;
     font-family: "IntegralCF";
   }
 
@@ -191,31 +195,42 @@ body, button {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
+    padding-top: 62px;
   }
 }
 
 .product-item {
+  &__image {
+    margin-bottom: 18px;
+  }
 
   &__title {
     font-size: 20px;
     font-weight: 700;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
 
   &__rating {
     display: flex;
-    align-items: center;
-    gap: 13px;
+    gap: 14px;
 
     p {
+      padding-top: 3px;
       font-size: 14px;
       font-weight: 400;
     }
   }
 
+  &__stars {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    margin-bottom: 15px;
+  }
+
   &__prices {
     display: flex;
-    gap: 10px;
+    gap: 1px;
 
     &--discounted {
       font-size: 24px;
@@ -238,6 +253,7 @@ body, button {
       background-color: rgba(255, 51, 51, 0.1019607843);
       padding: 6px 14px;
       border-radius: 62px;
+      margin-left: 10px;
     }
   }
 }
