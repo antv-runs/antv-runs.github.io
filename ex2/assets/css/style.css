@@ -1,11 +1,7 @@
-* {
-  font-size: 12px;
-}
-
 body {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12px;
   background-color: #000;
-  line-height: 1;
-  padding-bottom: 20px;
 }
 
 strong {
@@ -14,20 +10,58 @@ strong {
   font-size: 12px;
 }
 
-.horo-desc-til {
-  font-size: 15px;
-  line-height: 15px;
-  color: #000000;
-  font-family: "Arial";
+h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+h4 {
+  font-family: "Arial-BoldMT", sans-serif;
+  margin: 0;
   font-weight: normal;
 }
 
-.blog-desc-til {
+p {
+  font-family: "ArialMT", sans-serif;
+  margin: 0;
+}
+
+.u-font-arial {
+  font-family: Arial, sans-serif;
+}
+
+.u-fs-12 {
   font-size: 12px;
+}
+
+.u-fs-15 {
+  font-size: 15px;
+}
+
+.u-lh-1 {
+  line-height: 1;
+}
+
+.u-lh-1-dot-25 {
+  line-height: 1.25;
+}
+
+.u-fw-normal {
+  font-weight: 400;
+}
+
+.u-fw-bold {
+  font-weight: 700;
+}
+
+.horo-desc-til {
+  color: #000000;
+}
+
+.blog-desc-til {
   line-height: 15px;
   color: #0a6395;
   font-weight: bold;
-  font-family: "Arial";
 }
 
 .blog-desc-content {
@@ -38,14 +72,14 @@ strong {
   margin-left: 4px;
 }
 
-.main-container {
+.container {
   background-color: #fff;
   max-width: 363px;
   margin: 0 auto;
   padding: 16px 0 26px 0;
 }
 
-.sub-container {
+.inner {
   background-color: #e6f3fb;
   padding: 4px 9px 16px 11px;
   margin: 0 25px 0 22px;
@@ -62,31 +96,29 @@ strong {
   background-color: transparent;
 }
 
-.blogroll-til {
-  margin-left: 1px;
-  font-weight: normal;
+.title {
+  font-weight: 400;
   font-size: 16px;
-  line-height: 15px;
-  color: #000000;
-  font-family: "Times New Roman";
+  line-height: 0.9375;
+  color: #000;
 }
 
-.horo-til {
-  font-weight: normal;
-  margin-top: 1px;
+.u-ml-1 {
   margin-left: 1px;
-  margin-bottom: 1px;
 }
-
-.news-til {
-  margin-top: 21px;
+.u-ml-2 {
   margin-left: 2px;
+}
+
+.u-mt-1 {
+  margin-top: 1px;
+}
+.u-mt-21 {
+  margin-top: 21px;
+}
+
+.u-mb-1 {
   margin-bottom: 1px;
-  font-size: 16px;
-  line-height: 15px;
-  color: #000000;
-  font-family: "Times New Roman";
-  font-weight: normal;
 }
 
 .sec-info {
@@ -172,34 +204,27 @@ strong {
   margin-top: 7px;
 }
 
+.horo-desc-content a {
+  color: #0a6395;
+}
+
 .horo-footer {
-  position: relative;
-  width: 100%;
-  font-size: 11px;
-  height: 45px;
-  background-image: url("../images/pic_horoscopes_man.png");
-  background-size: cover;
-  background-position: center;
-  background-color: #f4f4ea;
-}
-
-.horo-footer-txt {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-height: 45px;
   padding: 11px 22px;
-}
-
-.horo-footer-txt p {
+  background: #f4f4ea url("../images/pic_horoscopes_man.png") right / cover
+    no-repeat;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 11px;
   line-height: 14px;
-  color: #000000;
-  font-family: "Arial";
+  color: #000;
 }
 
-.horo-footer-txt a {
+.horo-footer a {
   font-weight: bold;
-  font-size: 11px;
-  line-height: 14px;
-  font-family: "Arial";
 }
+
 .news-pic-desc {
   display: flex;
   gap: 10px;
@@ -217,16 +242,13 @@ strong {
 }
 
 .news-desc-txt {
-  margin-top: 21px;
-  margin-left: 23px;
-  margin-right: 20px;
+  padding: 21px 20px 0 23px;
 }
 
 .news-desc-txt p {
   font-size: 12px;
   line-height: 15px;
   color: #000000;
-  font-family: "Times New Roman";
   margin-bottom: 5px;
 }
 
@@ -234,7 +256,6 @@ strong {
   font-size: 12px;
   line-height: 15px;
   color: #0a6395;
-  font-family: "Times New Roman";
 }
 
 .btn-more {
@@ -248,47 +269,21 @@ hr {
   margin: 9px 0 4px 0;
 }
 
-.sec-competion .competion-til {
+.competion-til {
   font-size: 14px;
   line-height: 15px;
   color: #000000;
-  font-family: "Times New Roman";
   font-weight: normal;
 }
 
 .competion-info {
-  border-style: solid;
-  border-color: #595959;
-  border-width: 1px;
-  color: #4d5d73;
+  list-style: none;
+  border: 1px solid #595959;
   background-color: #fff;
   font-size: 12px;
-  line-height: 15px;
+  line-height: 1.25;
   color: #4d5d73;
-  font-family: "Times New Roman";
-  padding: 0;
-  margin: 0;
-  margin-left: -1px;
-  padding-top: 8px;
-  padding-right: 10px;
-  padding-left: 8px;
-  padding-bottom: 8px;
-  transform: translateX(3px);
-}
-
-h3 {
-  font-family: "Times New Roman", Times, serif;
-  margin: 0;
-  font-size: 16px;
-}
-
-h4 {
-  font-family: "Arial-BoldMT", sans-serif;
-  margin: 0;
-  font-weight: normal;
-}
-
-p {
-  font-family: "ArialMT", sans-serif;
-  margin: 0;
+  margin: 0 0 0 -1px;
+  padding: 8px 10px 8px 8px;
+  transform: translate(3px);
 }

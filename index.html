@@ -8,54 +8,8 @@
   <body>
     <h1>Màn hình danh sách bài tập HTML</h1>
 
-    <ul>
-      <li>
-        Tuần 1 ngày 1:
-        <a target="_blank" href="ex1/">bài làm</a>,
-        <a class="github-link" target="_blank" data-repo="/tree/main/ex1"
-          >GitHub</a
-        >,
-        <a
-          class="github-link"
-          target="_blank"
-          data-repo="/tree/main/ex1/de%201.png"
-          >Hình dùng cho Perfect Pixel</a
-        >
-      </li>
-      <li>
-        Tuần 1 ngày 2 - de1:
-        <a target="_blank" href="ex2/">bài làm</a>,
-        <a class="github-link" target="_blank" data-repo="/tree/main/ex2"
-          >GitHub</a
-        >,
-        <a
-          class="github-link"
-          target="_blank"
-          data-repo="/tree/main/ex2/de%202.png"
-          >Hình dùng cho Perfect Pixel</a
-        >
-      </li>
-      <li>
-        Tuần 1 ngày 2 - de2:
-        <a target="_blank" href="ex3/">bài làm</a>,
-        <a class="github-link" target="_blank" data-repo="/tree/main/ex3"
-          >GitHub</a
-        >,
-        <a
-          class="github-link"
-          target="_blank"
-          data-repo="/tree/main/ex3/de%203.png"
-          >Hình dùng cho Perfect Pixel</a
-        >
-      </li>
-    </ul>
+    <ul class="exercises" id="exercise-list"></ul>
+
+    <script src="script.js"></script>
   </body>
-
-  <script>
-    const GITHUB_BASE = "https://github.com/antv-runs/antv-runs.github.io";
-
-    document.querySelectorAll(".github-link").forEach((link) => {
-      link.href = `${GITHUB_BASE}/${link.dataset.repo}`;
-    });
-  </script>
 </html>
