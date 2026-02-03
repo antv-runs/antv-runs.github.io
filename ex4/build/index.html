@@ -8,39 +8,64 @@
   <body>
     <div class="container">
       <section class="products-tabs">
-        <nav class="tabs" aria-label="Product tabs">
+        <div class="tabs" aria-label="Product tabs">
           <button class="tabs__tab" data-tab="detail">Product Details</button>
 
-          <button class="tabs__tab" data-tab="reviews">Rating & Reviews</button>
+          <button class="tabs__tab tabs__tab--active" data-tab="reviews">
+            Rating & Reviews
+          </button>
 
           <button class="tabs__tab" data-tab="faqs">FAQs</button>
-        </nav>
+        </div>
 
         <section class="reviews">
           <header class="reviews__header">
-            <h2>All Reviews <span>(451)</span></h2>
+            <h2 class="reviews__title">All Reviews <span>(451)</span></h2>
 
-            <button class="reviews__filter"></button>
-            <button class="reviews__sort">Latest</button>
-            <button class="reviews__write btn btn--primary">
-              Write a Review
-            </button>
+            <div class="reviews__actions">
+              <button class="reviews__action reviews__action--filter">
+                <img src="./assets/images/icn_filter.png" alt="Filter icon" />
+              </button>
+              <button class="reviews__action reviews__action--sort">
+                <p>Latest</p>
+                <img
+                  src="./assets/images/icn_arrowdown.png"
+                  alt="Arrow down icon"
+                />
+              </button>
+              <button class="reviews__action reviews__action--write">
+                Write a Review
+              </button>
+            </div>
           </header>
 
           <ul class="reviews__list">
-            <li class="reviews__item">
-              <header class="review-card__header">
-                <span class="review-card__rating"></span>
-                <button
-                  class="review-card__actions"
-                  aria-label="More actions"
-                ></button>
-              </header>
+            <li class="reviews__item review-card">
+              <div class="review-card__meta">
+                <div class="review-card__stars">
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img
+                    src="./assets/images/icn_half_star.png"
+                    alt="Half star"
+                  />
+                </div>
 
-              <div class="review-card__author">
-                <h3>Samantha D.</h3>
-                <img src="./assets/images/icn_tick.png" alt="Tick" />
+                <button
+                  class="review-card__more-btn"
+                  aria-label="More actions"
+                  aria-haspopup="menu"
+                >
+                  <img src="./assets/images/icn_menu.png" alt="Menu icon" />
+                </button>
               </div>
+
+              <header class="review-card__header">
+                <h3 class="review-card__name">Samantha D.</h3>
+                <img src="./assets/images/icn_tick.png" alt="Tick" />
+              </header>
               <div class="review-card__content">
                 "I absolutely love this t-shirt! The design is unique and the
                 fabric feels so comfortable. As a fellow designer, I appreciate
@@ -50,28 +75,341 @@
                 Posted on August 14, 2023
               </footer>
             </li>
+
+            <li class="reviews__item review-card">
+              <div class="review-card__meta">
+                <div class="review-card__stars">
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                </div>
+
+                <button
+                  class="review-card__more-btn"
+                  aria-label="More actions"
+                  aria-haspopup="menu"
+                >
+                  <img src="./assets/images/icn_menu.png" alt="Menu icon" />
+                </button>
+              </div>
+
+              <header class="review-card__header">
+                <h3 class="review-card__name">Alex M.</h3>
+                <img src="./assets/images/icn_tick.png" alt="Tick" />
+              </header>
+              <div class="review-card__content">
+                "The t-shirt exceeded my expectations! The colors are vibrant
+                and the print quality is top-notch. Being a UI/UX designer
+                myself, I'm quite picky about aesthetics, and this t-shirt
+                definitely gets a thumbs up from me."
+              </div>
+              <footer class="review-card__footer">
+                Posted on August 15, 2023
+              </footer>
+            </li>
+
+            <li class="reviews__item review-card">
+              <div class="review-card__meta">
+                <div class="review-card__stars">
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img
+                    src="./assets/images/icn_half_star.png"
+                    alt="Half star"
+                  />
+                </div>
+
+                <button
+                  class="review-card__more-btn"
+                  aria-label="More actions"
+                  aria-haspopup="menu"
+                >
+                  <img src="./assets/images/icn_menu.png" alt="Menu icon" />
+                </button>
+              </div>
+
+              <header class="review-card__header">
+                <h3 class="review-card__name">Ethan R.</h3>
+                <img src="./assets/images/icn_tick.png" alt="Tick" />
+              </header>
+              <div class="review-card__content">
+                "This t-shirt is a must-have for anyone who appreciates good
+                design. The minimalistic yet stylish pattern caught my eye, and
+                the fit is perfect. I can see the designer's touch in every
+                aspect of this shirt."
+              </div>
+              <footer class="review-card__footer">
+                Posted on August 16, 2023
+              </footer>
+            </li>
+
+            <li class="reviews__item review-card">
+              <div class="review-card__meta">
+                <div class="review-card__stars">
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                </div>
+
+                <button
+                  class="review-card__more-btn"
+                  aria-label="More actions"
+                  aria-haspopup="menu"
+                >
+                  <img src="./assets/images/icn_menu.png" alt="Menu icon" />
+                </button>
+              </div>
+
+              <header class="review-card__header">
+                <h3 class="review-card__name">Olivia P.</h3>
+                <img src="./assets/images/icn_tick.png" alt="Tick" />
+              </header>
+              <div class="review-card__content">
+                "As a UI/UX enthusiast, I value simplicity and functionality.
+                This t-shirt not only represents those principles but also feels
+                great to wear. It's evident that the designer poured their
+                creativity into making this t-shirt stand out."
+              </div>
+              <footer class="review-card__footer">
+                Posted on August 17, 2023
+              </footer>
+            </li>
+
+            <li class="reviews__item review-card">
+              <div class="review-card__meta">
+                <div class="review-card__stars">
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                </div>
+
+                <button
+                  class="review-card__more-btn"
+                  aria-label="More actions"
+                  aria-haspopup="menu"
+                >
+                  <img src="./assets/images/icn_menu.png" alt="Menu icon" />
+                </button>
+              </div>
+
+              <header class="review-card__header">
+                <h3 class="review-card__name">Liam K.</h3>
+                <img src="./assets/images/icn_tick.png" alt="Tick" />
+              </header>
+              <div class="review-card__content">
+                "This t-shirt is a fusion of comfort and creativity. The fabric
+                is soft, and the design speaks volumes about the designer's
+                skill. It's like wearing a piece of art that reflects my passion
+                for both design and fashion."
+              </div>
+              <footer class="review-card__footer">
+                Posted on August 18, 2023
+              </footer>
+            </li>
+
+            <li class="reviews__item review-card">
+              <div class="review-card__meta">
+                <div class="review-card__stars">
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <img
+                    src="./assets/images/icn_half_star.png"
+                    alt="Half star"
+                  />
+                </div>
+
+                <button
+                  class="review-card__more-btn"
+                  aria-label="More actions"
+                  aria-haspopup="menu"
+                >
+                  <img src="./assets/images/icn_menu.png" alt="Menu icon" />
+                </button>
+              </div>
+
+              <header class="review-card__header">
+                <h3 class="review-card__name">Ava H.</h3>
+                <img src="./assets/images/icn_tick.png" alt="Tick" />
+              </header>
+              <div class="review-card__content">
+                "I'm not just wearing a t-shirt; I'm wearing a piece of design
+                philosophy. The intricate details and thoughtful layout of the
+                design make this shirt a conversation starter."
+              </div>
+              <footer class="review-card__footer">
+                Posted on August 19, 2023
+              </footer>
+            </li>
           </ul>
         </section>
 
-        <button class="reviews__load-more"></button>
+        <button class="reviews__load-more">Load More Reviews</button>
       </section>
 
       <section class="other-products">
         <h2 class="other-products__title">You Might Also Like</h2>
 
         <ul class="other-products__list">
-          <li class="other-products__item">
+          <li class="other-products__item product-item">
             <img
-              class="other-products__image"
+              class="product-item__image"
               src="./assets/images/pic_polo_blue.png"
               alt="Polo blue"
             />
-            <h3 class="other-products__title"></h3>
-            <div class="other-products__rating"></div>
-            <div class="other-products__prices">
-              <span class="other-products__price--original"></span>
-              <span class="other-products__price--discounted"></span>
-              <span class="other-products__price--percent"></span>
+            <h3 class="product-item__title">Polo with Contrast Trims</h3>
+            <div class="product-item__rating">
+              <div class="product-item__stars">
+                <img
+                  class="product-item__star"
+                  src="./assets/images/icn_star.png"
+                  alt="Star"
+                />
+                <img
+                  class="product-item__star"
+                  src="./assets/images/icn_star.png"
+                  alt="Star"
+                />
+                <img
+                  class="product-item__star"
+                  src="./assets/images/icn_star.png"
+                  alt="Star"
+                />
+                <img
+                  class="product-item__star"
+                  src="./assets/images/icn_star.png"
+                  alt="Star"
+                />
+              </div>
+              <p>4.0/5</p>
+            </div>
+            <div class="product-item__prices">
+              <span class="product-item__prices--discounted">$212</span>
+              <span class="product-item__prices--original">$242</span>
+              <span class="product-item__prices--percent">-20%</span>
+            </div>
+          </li>
+
+          <li class="product-item__item">
+            <img
+              class="product-item__image"
+              src="./assets/images/pic_t_shirt.png"
+              alt="White T-Shirt"
+            />
+            <h3 class="product-item__title">Gradient Graphic T-shirt</h3>
+            <div class="product-item__rating">
+              <div class="product-item__stars">
+                <img
+                  class="product-item__star"
+                  src="./assets/images/icn_star.png"
+                  alt="Star"
+                />
+                <img
+                  class="product-item__star"
+                  src="./assets/images/icn_star.png"
+                  alt="Star"
+                />
+                <img
+                  class="product-item__star"
+                  src="./assets/images/icn_star.png"
+                  alt="Star"
+                />
+                <img
+                  class="product-item__star"
+                  src="./assets/images/icn_half_star.png"
+                  alt="Half star"
+                />
+              </div>
+              <p>3.5/5</p>
+            </div>
+            <div class="product-item__prices">
+              <span class="product-item__prices--discounted">$145</span>
+            </div>
+          </li>
+
+          <li class="other-products__item">
+            <img
+              class="product-item__image"
+              src="./assets/images/pic_polo_tipping.png"
+              alt="Tipping polo"
+            />
+            <h3 class="product-item__title">Polo with Tipping Details</h3>
+            <div class="product-item__rating">
+              <div class="product-item__stars">
+                <img
+                  class="product-item__star"
+                  src="./assets/images/icn_star.png"
+                  alt="Star"
+                />
+                <img
+                  class="product-item__star"
+                  src="./assets/images/icn_star.png"
+                  alt="Star"
+                />
+                <img
+                  class="product-item__star"
+                  src="./assets/images/icn_star.png"
+                  alt="Star"
+                />
+                <img
+                  class="product-item__star"
+                  src="./assets/images/icn_star.png"
+                  alt="Star"
+                />
+                <img
+                  class="product-item__star"
+                  src="./assets/images/icn_half_star.png"
+                  alt="Half star"
+                />
+              </div>
+              <p>4.5/5</p>
+            </div>
+            <div class="product-item__prices">
+              <span class="product-item__prices--discounted">$180</span>
+            </div>
+          </li>
+
+          <li class="other-products__item">
+            <img
+              class="product-item__image"
+              src="./assets/images/pic_t_shirt_black.png"
+              alt="Black T-Shirt"
+            />
+            <h3 class="product-item__title">Black Striped T-shirt</h3>
+            <div class="product-item__rating">
+              <div class="product-item__stars">
+                <img
+                  class="product-item__star"
+                  src="./assets/images/icn_star.png"
+                  alt="Star"
+                />
+                <img
+                  class="product-item__star"
+                  src="./assets/images/icn_star.png"
+                  alt="Star"
+                />
+                <img
+                  class="product-item__star"
+                  src="./assets/images/icn_star.png"
+                  alt="Star"
+                />
+                <img
+                  class="product-item__star"
+                  src="./assets/images/icn_star.png"
+                  alt="Star"
+                />
+              </div>
+              <p>5.0/5</p>
+            </div>
+            <div class="product-item__prices">
+              <span class="product-item__prices--discounted">$120</span>
+              <span class="product-item__prices--original">$150</span>
+              <span class="product-item__prices--percent">-30%</span>
             </div>
           </li>
         </ul>
