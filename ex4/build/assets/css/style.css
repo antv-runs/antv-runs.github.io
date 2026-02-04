@@ -265,6 +265,10 @@ body, button {
   gap: 20px;
   margin-bottom: 36px;
 }
+.reviews__load-more-wrapper {
+  display: flex;
+  justify-content: center;
+}
 .reviews__load-more {
   margin: 0 auto;
   font-size: 16px;

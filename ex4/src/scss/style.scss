@@ -124,6 +124,11 @@ body, button {
     margin-bottom: 36px;
   }
 
+  &__load-more-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
   &__load-more {
     margin: 0 auto;
     font-size: 16px; 
