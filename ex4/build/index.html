@@ -9,17 +9,26 @@
     <div class="container">
       <section class="products-tabs">
         <div class="tabs" aria-label="Product tabs">
-          <button class="tabs__tab" data-tab="detail">Product Details</button>
+          <button class="tabs__tab" data-tab="tc-details">
+            Product Details
+          </button>
 
-          <button class="tabs__tab tabs__tab--active" data-tab="reviews">
+          <button class="tabs__tab tabs__tab--active" data-tab="tc-reviews">
             Rating & Reviews
           </button>
 
-          <button class="tabs__tab" data-tab="faqs">FAQs</button>
+          <button class="tabs__tab" data-tab="tc-faqs">FAQs</button>
         </div>
 
-        <section class="reviews">
-          <header class="reviews__header">
+        <section id="tc-details" class="products-tabs__content">
+          Product Details
+        </section>
+
+        <section
+          id="tc-reviews"
+          class="reviews products-tabs__content products-tabs__content--active"
+        >
+          <div class="reviews__header">
             <h2 class="reviews__title">All Reviews <span>(451)</span></h2>
 
             <div class="reviews__actions">
@@ -37,7 +46,7 @@
                 Write a Review
               </button>
             </div>
-          </header>
+          </div>
 
           <ul class="reviews__list">
             <li class="reviews__item review-card">
@@ -62,18 +71,16 @@
                 </button>
               </div>
 
-              <header class="review-card__header">
+              <div class="review-card__header">
                 <h3 class="review-card__name">Samantha D.</h3>
                 <img src="./assets/images/icn_tick.png" alt="Tick" />
-              </header>
-              <div class="review-card__content">
+              </div>
+              <p class="review-card__content">
                 "I absolutely love this t-shirt! The design is unique and the
                 fabric feels so comfortable. As a fellow designer, I appreciate
                 the attention to detail. It's become my favorite go-to shirt."
-              </div>
-              <footer class="review-card__footer">
-                Posted on August 14, 2023
-              </footer>
+              </p>
+              <p class="review-card__footer">Posted on August 14, 2023</p>
             </li>
 
             <li class="reviews__item review-card">
@@ -94,19 +101,17 @@
                 </button>
               </div>
 
-              <header class="review-card__header">
+              <div class="review-card__header">
                 <h3 class="review-card__name">Alex M.</h3>
                 <img src="./assets/images/icn_tick.png" alt="Tick" />
-              </header>
-              <div class="review-card__content">
+              </div>
+              <p class="review-card__content">
                 "The t-shirt exceeded my expectations! The colors are vibrant
                 and the print quality is top-notch. Being a UI/UX designer
                 myself, I'm quite picky about aesthetics, and this t-shirt
                 definitely gets a thumbs up from me."
-              </div>
-              <footer class="review-card__footer">
-                Posted on August 15, 2023
-              </footer>
+              </p>
+              <p class="review-card__footer">Posted on August 15, 2023</p>
             </li>
 
             <li class="reviews__item review-card">
@@ -130,19 +135,17 @@
                 </button>
               </div>
 
-              <header class="review-card__header">
+              <div class="review-card__header">
                 <h3 class="review-card__name">Ethan R.</h3>
                 <img src="./assets/images/icn_tick.png" alt="Tick" />
-              </header>
-              <div class="review-card__content">
+              </div>
+              <p class="review-card__content">
                 "This t-shirt is a must-have for anyone who appreciates good
                 design. The minimalistic yet stylish pattern caught my eye, and
                 the fit is perfect. I can see the designer's touch in every
                 aspect of this shirt."
-              </div>
-              <footer class="review-card__footer">
-                Posted on August 16, 2023
-              </footer>
+              </p>
+              <p class="review-card__footer">Posted on August 16, 2023</p>
             </li>
 
             <li class="reviews__item review-card">
@@ -163,19 +166,17 @@
                 </button>
               </div>
 
-              <header class="review-card__header">
+              <div class="review-card__header">
                 <h3 class="review-card__name">Olivia P.</h3>
                 <img src="./assets/images/icn_tick.png" alt="Tick" />
-              </header>
-              <div class="review-card__content">
+              </div>
+              <p class="review-card__content">
                 "As a UI/UX enthusiast, I value simplicity and functionality.
                 This t-shirt not only represents those principles but also feels
                 great to wear. It's evident that the designer poured their
                 creativity into making this t-shirt stand out."
-              </div>
-              <footer class="review-card__footer">
-                Posted on August 17, 2023
-              </footer>
+              </p>
+              <p class="review-card__footer">Posted on August 17, 2023</p>
             </li>
 
             <li class="reviews__item review-card">
@@ -196,19 +197,17 @@
                 </button>
               </div>
 
-              <header class="review-card__header">
+              <div class="review-card__header">
                 <h3 class="review-card__name">Liam K.</h3>
                 <img src="./assets/images/icn_tick.png" alt="Tick" />
-              </header>
-              <div class="review-card__content">
+              </div>
+              <p class="review-card__content">
                 "This t-shirt is a fusion of comfort and creativity. The fabric
                 is soft, and the design speaks volumes about the designer's
                 skill. It's like wearing a piece of art that reflects my passion
                 for both design and fashion."
-              </div>
-              <footer class="review-card__footer">
-                Posted on August 18, 2023
-              </footer>
+              </p>
+              <p class="review-card__footer">Posted on August 18, 2023</p>
             </li>
 
             <li class="reviews__item review-card">
@@ -233,23 +232,23 @@
                 </button>
               </div>
 
-              <header class="review-card__header">
+              <div class="review-card__header">
                 <h3 class="review-card__name">Ava H.</h3>
                 <img src="./assets/images/icn_tick.png" alt="Tick" />
-              </header>
-              <div class="review-card__content">
+              </div>
+              <p class="review-card__content">
                 "I'm not just wearing a t-shirt; I'm wearing a piece of design
                 philosophy. The intricate details and thoughtful layout of the
                 design make this shirt a conversation starter."
-              </div>
-              <footer class="review-card__footer">
-                Posted on August 19, 2023
-              </footer>
+              </p>
+              <p class="review-card__footer">Posted on August 19, 2023</p>
             </li>
           </ul>
+
+          <button class="reviews__load-more">Load More Reviews</button>
         </section>
 
-        <button class="reviews__load-more">Load More Reviews</button>
+        <section id="tc-faqs" class="products-tabs__content">FAQs</section>
       </section>
 
       <section class="other-products">
@@ -415,5 +414,7 @@
         </ul>
       </section>
     </div>
+
+    <script src="./assets/js/main.js"></script>
   </body>
 </html>

@@ -173,9 +173,13 @@ body, button {
 }
 
 .products-tabs {
-  display: flex;
-  flex-direction: column;
   margin-bottom: 64px;
+}
+.products-tabs__content {
+  display: none;
+}
+.products-tabs__content--active {
+  display: block;
 }
 
 .tabs {
