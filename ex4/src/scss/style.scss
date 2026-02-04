@@ -97,17 +97,21 @@ body, button {
       }
     }
 
+    &--filter:hover {
+      background-color: #E6E6E6;
+    }
+
     &--sort {
+      position: relative;
       display: flex;
       width: 120px;
       justify-content: center;
       align-items: center;
-      gap: 21px;
+      background-color: #F0F0F0;
+    }
 
-      img {
-        height: 6.5px;
-        width: 11.5px;
-      }
+    &--sort:hover {
+      background-color: #E6E6E6;
     }
 
     &--write {
@@ -115,6 +119,24 @@ body, button {
       background-color: black;
       color: white;
     }
+
+    &--write:hover {
+      background-color: #1A1A1A;
+    }
+  }
+
+  &__select {
+    width: 60px;
+    appearance: none;
+    border: none;
+    background-color: transparent;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  &__select:focus {
+    outline: none;
+    box-shadow: none;
   }
 
   &__list {
