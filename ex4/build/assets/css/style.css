@@ -225,15 +225,12 @@ body, button {
 }
 .reviews__filter-dropdown {
   position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
-  right: 0;
   background-color: #fff;
   border-radius: 12px;
   padding: 8px 0;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  width: calc(100% + 280px);
-  z-index: 1000;
+  width: 330px;
+  z-index: 100;
   display: none;
 }
 .reviews__filter-dropdown--show {
