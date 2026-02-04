@@ -223,6 +223,39 @@ body, button {
   height: 48px;
   width: 354px;
 }
+.reviews__filter-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 8px 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  width: calc(100% + 280px);
+  z-index: 1000;
+  display: none;
+}
+.reviews__filter-dropdown--show {
+  display: block;
+}
+.reviews__filter-option {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+}
+.reviews__filter-option--active, .reviews__filter-option:hover {
+  background: #f5f5f5;
+}
+.reviews__filter-stars {
+  display: flex;
+  align-items: center;
+}
+.reviews__filter-stars-img {
+  width: 16px;
+  height: 16px;
+}
 .reviews__action {
   border-radius: 62px;
   font-weight: 500;
