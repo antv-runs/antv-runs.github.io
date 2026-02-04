@@ -1,57 +1,55 @@
-const GITHUB_BASE = "https://github.com/antv-runs/antv-runs.github.io";
-
 const exercises = [
   {
-    week: 1,
-    day: 1,
-    slug: "ex1",
-    image: "de 1.png",
+    title: "Tuần 1 ngày 1 - đề 1",
+    links: {
+      demo: "ex1/",
+      github: "https://github.com/antv-runs/antv-runs.github.io/tree/main/ex1",
+      image:
+        "https://github.com/antv-runs/antv-runs.github.io/tree/main/ex1/de%201.png",
+    },
   },
   {
-    week: 1,
-    day: 2,
-    label: "de1",
-    slug: "ex2",
-    image: "de 2.png",
+    title: "Tuần 1 ngày 2 - đề 2",
+    links: {
+      demo: "ex2/",
+      github: "https://github.com/antv-runs/antv-runs.github.io/tree/main/ex2",
+      image:
+        "https://github.com/antv-runs/antv-runs.github.io/tree/main/ex2/de%202.png",
+    },
   },
   {
-    week: 1,
-    day: 2,
-    label: "de2",
-    slug: "ex3",
-    image: "de 3.png",
+    title: "Tuần 1 ngày 2 - đề 3",
+    links: {
+      demo: "ex3/",
+      github: "https://github.com/antv-runs/antv-runs.github.io/tree/main/ex3",
+      image:
+        "https://github.com/antv-runs/antv-runs.github.io/tree/main/ex3/de%203.png",
+    },
   },
   {
-    week: 1,
-    day: 3,
-    label: "Figma",
-    slug: "ex4/build",
-    image: "Product Detail Page.jpg",
+    title: "Tuần 1 ngày 3/4 - đề 4",
+    links: {
+      demo: "ex4/build/",
+      github: "https://github.com/antv-runs/antv-runs.github.io/tree/main/ex4",
+      image:
+        "https://github.com/antv-runs/antv-runs.github.io/tree/main/ex4/Product%20Detail%20Page.jpg",
+    },
   },
 ];
 
 const listEl = document.getElementById("exercise-list");
 
 listEl.innerHTML = exercises
-  .map((item) => {
-    const title = `Tuần ${item.week} ngày ${item.day}${
-      item.label ? " - " + item.label : ""
-    }`;
-
-    return `
-      <li>
-        ${title}:
-        <a target="_blank" href="${item.slug}/">bài làm</a>,
-        <a target="_blank" href="${GITHUB_BASE}/tree/main/${item.slug}">
-          GitHub
-        </a>,
-        <a
-          target="_blank"
-          href="${GITHUB_BASE}/tree/main/${item.slug}/${item.image}"
-        >
-          Hình dùng cho Perfect Pixel
-        </a>
-      </li>
-    `;
-  })
+  .map(
+    (item) => `
+    <li>
+      ${item.title}:
+      <a target="_blank" href="${item.links.demo}">bài làm</a>,
+      <a target="_blank" href="${item.links.github}">GitHub</a>,
+      <a target="_blank" href="${item.links.image}">
+        Hình dùng cho Perfect Pixel
+      </a>
+    </li>
+  `,
+  )
   .join("");

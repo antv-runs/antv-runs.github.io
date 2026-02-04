@@ -1,13 +1,13 @@
 body {
-  font-family: "Times New Roman", Times, serif;
+  font-family: Arial;
   font-size: 12px;
   background-color: #000;
+  font-weight: normal;
 }
 
 strong {
   font-weight: bold;
   color: #0a6395;
-  font-size: 12px;
 }
 
 h3 {
@@ -16,18 +16,17 @@ h3 {
 }
 
 h4 {
-  font-family: "Arial-BoldMT", sans-serif;
   margin: 0;
   font-weight: normal;
+  font-size: 14px;
 }
 
 p {
-  font-family: "ArialMT", sans-serif;
   margin: 0;
 }
 
-.u-font-arial {
-  font-family: Arial, sans-serif;
+.u-fs-11 {
+  font-size: 11px;
 }
 
 .u-fs-12 {
@@ -46,30 +45,8 @@ p {
   line-height: 1.25;
 }
 
-.u-fw-normal {
-  font-weight: 400;
-}
-
 .u-fw-bold {
   font-weight: 700;
-}
-
-.horo-desc-til {
-  color: #000000;
-}
-
-.blog-desc-til {
-  line-height: 15px;
-  color: #0a6395;
-  font-weight: bold;
-}
-
-.blog-desc-content {
-  font-size: 12px;
-  line-height: 15px;
-  color: #000000;
-  font-family: "Arial";
-  margin-left: 4px;
 }
 
 .container {
@@ -89,7 +66,7 @@ p {
   display: flex;
   gap: 6px;
   align-items: flex-start;
-  margin: 7px 10px 12px 8px;
+  padding: 7px 10px 12px 8px;
 }
 
 .sec-content {
@@ -97,6 +74,7 @@ p {
 }
 
 .title {
+  font-family: "Times New Roman", Times, serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 0.9375;
@@ -113,6 +91,11 @@ p {
 .u-mt-1 {
   margin-top: 1px;
 }
+
+.u-mt-3 {
+  margin-top: 1px;
+}
+
 .u-mt-21 {
   margin-top: 21px;
 }
@@ -121,58 +104,36 @@ p {
   margin-bottom: 1px;
 }
 
+.u-mb-5 {
+  margin-bottom: 5px;
+}
+
+.u-pl-4 {
+  padding-left: 4px;
+}
+
 .sec-info {
   background-color: #fff;
   border-top: 4px solid #f7a418;
-  font-family: "Arial", sans-serif;
-  font-size: 12px;
 }
 
 .blog-msg-list {
   display: flex;
   flex-direction: column;
   gap: 1px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
   padding-bottom: 2px;
 }
 
 .blog-msg-item {
+  display: flex;
+  align-items: center;
   background-color: #f9f1c1;
   height: 35px;
   color: #0a6395;
-}
-
-.blog-msg-item p {
-  font-size: 12px;
-  line-height: 15px;
-  color: #0a6395;
-  font-family: "Arial";
-}
-
-.blog-msg-item:nth-child(1) {
-  height: 32px;
-}
-
-.blog-msg-item:nth-child(1) p {
-  margin-left: 9px;
-  margin-top: 6px;
-}
-
-.blog-msg-item:nth-child(2) {
-  height: 34px;
-}
-
-.blog-msg-item:nth-child(2) p {
-  margin-left: 9px;
-  margin-top: 10px;
-}
-
-.blog-msg-item:nth-child(3) {
-  height: 37px;
-}
-
-.blog-msg-item:nth-child(3) p {
-  margin-left: 9px;
-  margin-top: 11px;
+  padding-left: 9px;
 }
 
 .horo-pic-desc {
@@ -184,24 +145,15 @@ p {
   padding: 0 6px 0 15px;
 }
 
-.horo-desc {
-  margin-top: 3px;
-}
-
 .horo-desc-date {
-  font-size: 11px;
   line-height: 15px;
   color: #595959;
-  font-family: "Arial";
 }
 
 .horo-desc-content {
-  font-size: 11px;
   line-height: 14px;
-  color: #000000;
-  font-family: "Arial";
-  margin-left: 2px;
-  margin-top: 7px;
+  padding-left: 2px;
+  padding-top: 7px;
 }
 
 .horo-desc-content a {
@@ -215,14 +167,8 @@ p {
   padding: 11px 22px;
   background: #f4f4ea url("../images/pic_horoscopes_man.png") right / cover
     no-repeat;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 11px;
   line-height: 14px;
   color: #000;
-}
-
-.horo-footer a {
-  font-weight: bold;
 }
 
 .news-pic-desc {
@@ -232,30 +178,7 @@ p {
 }
 
 .news-desc {
-  display: flex;
-}
-
-.news-desc-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.news-desc-txt {
   padding: 21px 20px 0 23px;
-}
-
-.news-desc-txt p {
-  font-size: 12px;
-  line-height: 15px;
-  color: #000000;
-  margin-bottom: 5px;
-}
-
-.news-desc-txt a {
-  font-size: 12px;
-  line-height: 15px;
-  color: #0a6395;
 }
 
 .btn-more {
@@ -272,7 +195,6 @@ hr {
 .competion-til {
   font-size: 14px;
   line-height: 15px;
-  color: #000000;
   font-weight: normal;
 }
 
@@ -280,10 +202,9 @@ hr {
   list-style: none;
   border: 1px solid #595959;
   background-color: #fff;
-  font-size: 12px;
   line-height: 1.25;
   color: #4d5d73;
-  margin: 0 0 0 -1px;
+  margin: 0;
   padding: 8px 10px 8px 8px;
   transform: translate(3px);
 }
