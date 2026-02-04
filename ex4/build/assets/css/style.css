@@ -297,6 +297,9 @@ body, button {
   background-color: transparent;
   cursor: pointer;
 }
+.reviews__load-more:hover {
+  background-color: #E6E6E6;
+}
 
 .review-card {
   border: 1px solid rgba(0, 0, 0, 0.1019607843);

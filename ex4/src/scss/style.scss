@@ -161,6 +161,10 @@ body, button {
     background-color: transparent; 
     cursor: pointer; 
   }
+
+  &__load-more:hover {
+    background-color: #E6E6E6;
+  }
 }
 
 .review-card {
