@@ -29,10 +29,6 @@ p {
   font-size: 11px;
 }
 
-.u-fs-12 {
-  font-size: 12px;
-}
-
 .u-fs-15 {
   font-size: 15px;
 }
@@ -140,8 +136,8 @@ p {
   display: flex;
   gap: 19px;
   align-items: flex-start;
-  margin-top: 20px;
-  margin-bottom: 14px;
+  padding-top: 20px;
+  padding-bottom: 14px;
   padding: 0 6px 0 15px;
 }
 
