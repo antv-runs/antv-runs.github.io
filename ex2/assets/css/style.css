@@ -104,6 +104,14 @@ p {
   margin-bottom: 5px;
 }
 
+.u-mb-18 {
+  margin-bottom: 18px;
+}
+
+.u-pt-3 {
+  padding-top: 3px;
+}
+
 .u-pl-4 {
   padding-left: 4px;
 }
@@ -136,9 +144,7 @@ p {
   display: flex;
   gap: 19px;
   align-items: flex-start;
-  padding-top: 20px;
-  padding-bottom: 14px;
-  padding: 0 6px 0 15px;
+  padding: 20px 6px 14px 15px;
 }
 
 .horo-desc-date {
@@ -174,7 +180,7 @@ p {
 }
 
 .news-desc {
-  padding: 21px 20px 0 23px;
+  padding: 23px 16px 0 21px;
 }
 
 .btn-more {
@@ -186,6 +192,10 @@ hr {
   border: none;
   border-top: 1px solid #595959;
   margin: 9px 0 4px 0;
+}
+
+.sec-competion {
+  font-family: "Times New Roman", Times, serif;
 }
 
 .competion-til {
@@ -201,6 +211,5 @@ hr {
   line-height: 1.25;
   color: #4d5d73;
   margin: 0;
-  padding: 8px 10px 8px 8px;
-  transform: translate(3px);
+  padding: 9px 10px 8px 8px;
 }
