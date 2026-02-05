@@ -74,6 +74,45 @@ body, button {
     width: 354px;
   }
 
+  &__filter-dropdown {
+    position: absolute;
+    // left: 0;
+    // right: 0;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 8px 0;
+    border: 1px solid rgb(0, 0, 0, 0.1);
+    width:330px;
+    // width: 100px;
+    z-index: 100;
+    display: none;
+
+    &--show {
+      display: block;
+    }
+  }
+
+  &__filter-option {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+  }
+
+  &__filter-option--active, &__filter-option:hover {
+    background: #f5f5f5;
+  }
+
+  &__filter-stars {
+    display: flex;
+    align-items: center;
+
+    &-img {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
   &__action {
     border-radius: 62px;
     font-weight: 500;

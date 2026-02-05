@@ -32,9 +32,122 @@
             <h2 class="reviews__title">All Reviews <span>(451)</span></h2>
 
             <div class="reviews__actions">
-              <button class="reviews__action reviews__action--filter">
-                <img src="./assets/images/icn_filter.png" alt="Filter icon" />
-              </button>
+              <div class="reviews__filter">
+                <button
+                  id="btn-filter-by-stars"
+                  class="reviews__action reviews__action--filter"
+                >
+                  <img src="./assets/images/icn_filter.png" alt="Filter icon" />
+                </button>
+
+                <div
+                  id="dropdown-filter-by-stars"
+                  class="reviews__filter-dropdown"
+                >
+                  <div class="reviews__filter-option" data-option="All">
+                    <div class="reviews__filter-stars">All Reviews</div>
+                  </div>
+                  <div class="reviews__filter-option" data-option="5">
+                    <div class="reviews__filter-stars">
+                      <img
+                        class="reviews__filter-stars-img"
+                        src="./assets/images/icn_star.png"
+                        alt="Star"
+                      />
+                      <img
+                        class="reviews__filter-stars-img"
+                        src="./assets/images/icn_star.png"
+                        alt="Star"
+                      />
+                      <img
+                        class="reviews__filter-stars-img"
+                        src="./assets/images/icn_star.png"
+                        alt="Star"
+                      />
+                      <img
+                        class="reviews__filter-stars-img"
+                        src="./assets/images/icn_star.png"
+                        alt="Star"
+                      />
+                      <img
+                        class="reviews__filter-stars-img"
+                        src="./assets/images/icn_star.png"
+                        alt="Star"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="reviews__filter-option" data-option="4">
+                    <div class="reviews__filter-stars">
+                      <img
+                        class="reviews__filter-stars-img"
+                        src="./assets/images/icn_star.png"
+                        alt="Star"
+                      />
+                      <img
+                        class="reviews__filter-stars-img"
+                        src="./assets/images/icn_star.png"
+                        alt="Star"
+                      />
+                      <img
+                        class="reviews__filter-stars-img"
+                        src="./assets/images/icn_star.png"
+                        alt="Star"
+                      />
+                      <img
+                        class="reviews__filter-stars-img"
+                        src="./assets/images/icn_star.png"
+                        alt="Star"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="reviews__filter-option" data-option="3">
+                    <div class="reviews__filter-stars">
+                      <img
+                        class="reviews__filter-stars-img"
+                        src="./assets/images/icn_star.png"
+                        alt="Star"
+                      />
+                      <img
+                        class="reviews__filter-stars-img"
+                        src="./assets/images/icn_star.png"
+                        alt="Star"
+                      />
+                      <img
+                        class="reviews__filter-stars-img"
+                        src="./assets/images/icn_star.png"
+                        alt="Star"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="reviews__filter-option" data-option="2">
+                    <div class="reviews__filter-stars">
+                      <img
+                        class="reviews__filter-stars-img"
+                        src="./assets/images/icn_star.png"
+                        alt="Star"
+                      />
+                      <img
+                        class="reviews__filter-stars-img"
+                        src="./assets/images/icn_star.png"
+                        alt="Star"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="reviews__filter-option" data-option="1">
+                    <div class="reviews__filter-stars">
+                      <img
+                        class="reviews__filter-stars-img"
+                        src="./assets/images/icn_star.png"
+                        alt="Star"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="reviews__action reviews__action--sort">
                 <select class="reviews__select" aria-label="Sort reviews">
                   <option value="latest">Latest</option>
@@ -424,6 +537,6 @@
       </section>
     </div>
 
-    <!-- <script src="./assets/js/main.js"></script> -->
+    <script src="./assets/js/main.js"></script>
   </body>
 </html>
