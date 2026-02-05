@@ -246,8 +246,11 @@ body, button {
   background: #f5f5f5;
 }
 .reviews__filter-stars {
+  font-size: 15px;
   display: flex;
   align-items: center;
+  padding: 8px 16px;
+  gap: 2px;
 }
 .reviews__filter-stars-img {
   width: 16px;
