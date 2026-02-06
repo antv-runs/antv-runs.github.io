@@ -281,9 +281,13 @@ body, button {
   align-items: center;
   justify-content: center;
 }
-.reviews__action--filter img {
-  width: 24px;
-  height: 24px;
+.reviews__action--filter::after {
+  content: "";
+  position: absolute;
+  content: "";
+  width: 22px;
+  height: 22px;
+  background: url("../images/icn_filter.svg") no-repeat center/contain;
 }
 .reviews__action--filter:hover {
   background-color: #E6E6E6;
@@ -299,6 +303,18 @@ body, button {
 .reviews__action--sort:hover {
   background-color: #E6E6E6;
 }
+.reviews__action--sort::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50px);
+  content: "";
+  width: 12px;
+  height: 12px;
+  background: url("../images/icn_dropdown.svg") no-repeat center/contain;
+}
 .reviews__action--write {
   width: 166px;
   background-color: black;
@@ -312,10 +328,11 @@ body, button {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
 }
 .reviews__select {
-  width: 60px;
-  appearance: none;
-  border: none;
   background-color: transparent;
+  border: none;
+  appearance: none;
+  outline: none;
+  width: 60px;
   font: inherit;
   cursor: pointer;
 }
@@ -452,10 +469,9 @@ body, button {
 .other-products__prev, .other-products__next {
   position: absolute;
   background: #fff;
-  border: 1px solid #000;
+  border: none;
   padding: 5px;
   cursor: pointer;
-  border-radius: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -465,17 +481,48 @@ body, button {
   transform: translateY(-50%);
   opacity: 0.5;
 }
-.other-products__prev:hover, .other-products__next:hover {
-  background: #1A1A1A;
+.other-products__prev::after, .other-products__next::after {
+  content: "";
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  transition: background-color 0.25s ease, transform 0.2s ease;
+}
+.other-products__prev:hover::after, .other-products__next:hover::after {
+  background-color: #333;
+  transform: scale(1.1);
 }
 .other-products__prev {
   left: -30px;
 }
+.other-products__prev::after {
+  content: "";
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  background-color: #000;
+  opacity: 0.8;
+  mask: url("../images/icn_back.svg") no-repeat center/contain;
+  -webkit-mask: url("../images/icn_back.svg") no-repeat center/contain;
+}
 .other-products__next {
   right: -30px;
 }
+.other-products__next::after {
+  content: "";
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  background-color: #000;
+  opacity: 0.8;
+  mask: url("../images/icn_next.svg") no-repeat center/contain;
+  -webkit-mask: url("../images/icn_next.svg") no-repeat center/contain;
+}
 
 .product-item__image {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
   margin-bottom: 18px;
 }
 .product-item__title {
@@ -491,6 +538,7 @@ body, button {
 .product-item__rating {
   display: flex;
   gap: 14px;
+  margin-bottom: 10px;
 }
 .product-item__rating p {
   padding-top: 3px;
