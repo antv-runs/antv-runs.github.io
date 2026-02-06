@@ -313,6 +313,24 @@ body, button {
 
   &__item {
     max-width: 295px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+      .product-item__title {
+        color: #ff4d4f;
+      }
+
+      .product-item__image {
+        transform: scale(1.08);
+      }
+
+      .product-item__prices--discounted {
+        color: #ff4d4f;
+      }
+    }
   }
 
   &__title {
@@ -406,6 +424,10 @@ body, button {
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 10px;
+
+    &:hover {
+      color: #ff3333;
+    }
   }
 
   &__rating {
