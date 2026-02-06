@@ -120,7 +120,13 @@ body, button {
     }
   }
 
+  &__filter-star {
+    @include icon-bg(v.$icon-star, 16px, 16px);
+  }
+
   &__action {
+    position: relative;
+    display: inline-block;
     border-radius: 62px;
     font-weight: 500;
     border: none;
