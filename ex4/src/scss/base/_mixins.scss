@@ -6,3 +6,11 @@
   overflow: hidden;
   min-width: 0;
 }
+
+@mixin icon-bg($url, $width: 16px, $height: 16px) {
+  content: "";
+  width: $width;
+  height: $height;
+
+  background: url($url) no-repeat center / contain;
+}

@@ -351,32 +351,49 @@ body, button {
   margin-bottom: 17px;
 }
 .review-card__stars {
-  display: flex;
-  flex-direction: row;
+  display: inline-flex;
+  align-items: center;
   gap: 6px;
+}
+.review-card__star {
+  content: "";
+  width: 22px;
+  height: 22px;
+  background: url("../images/icn_star.svg") no-repeat center/contain;
+  flex-shrink: 0;
+}
+.review-card__star--half {
+  background-image: url("../images/icn_half_star.svg");
 }
 .review-card__more-btn {
   border: none;
   cursor: pointer;
   background-color: transparent;
-  padding: 0 2px 0 0;
+  padding: 0 25px 0 0;
+}
+.review-card__more-btn::after {
+  content: "";
+  position: absolute;
+  content: "";
+  width: 25px;
+  height: 25px;
+  background: url("../images/icn_menu.svg") no-repeat center/contain;
 }
 .review-card__header {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-bottom: 13px;
-}
-.review-card__name {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  overflow: hidden;
-  min-width: 0;
-  font-weight: 700;
+  position: relative;
+  padding-right: 32px;
   font-size: 20px;
   line-height: 1.1;
-  margin-right: 4px;
+  font-weight: 700;
+  margin-bottom: 13px;
+}
+.review-card__header::after {
+  content: "";
+  position: absolute;
+  content: "";
+  width: 25px;
+  height: 25px;
+  background: url("../images/icn_tick.svg") no-repeat center/contain;
 }
 .review-card__content {
   display: -webkit-box;
@@ -468,10 +485,19 @@ body, button {
   font-size: 14px;
 }
 .product-item__stars {
-  display: flex;
-  flex-direction: row;
+  display: inline-flex;
+  align-items: center;
   gap: 6px;
-  margin-bottom: 15px;
+}
+.product-item__star {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background: url("../images/icn_star.svg") no-repeat center/contain;
+  flex-shrink: 0;
+}
+.product-item__star--half {
+  background-image: url("../images/icn_half_star.svg");
 }
 .product-item__prices {
   display: flex;
