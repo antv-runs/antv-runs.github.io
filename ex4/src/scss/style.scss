@@ -167,7 +167,7 @@ body, button {
         pointer-events: none;
         right: 14px;
         top: 50%;
-        transform: translateY(-50px);
+        transform: translateY(-5px);
         @include icon-bg(v.$icon-dropdown, 12px, 12px);
       }
     }

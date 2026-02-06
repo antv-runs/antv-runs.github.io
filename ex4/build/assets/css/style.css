@@ -309,7 +309,7 @@ body, button {
   pointer-events: none;
   right: 14px;
   top: 50%;
-  transform: translateY(-50px);
+  transform: translateY(-5px);
   content: "";
   width: 12px;
   height: 12px;
