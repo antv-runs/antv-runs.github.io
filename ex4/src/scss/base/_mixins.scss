@@ -1,0 +1,36 @@
+@mixin line-clamp($lines: 3) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
+
+  overflow: hidden;
+  min-width: 0;
+}
+
+@mixin icon-bg($url, $width: 16px, $height: 16px) {
+  content: "";
+  width: $width;
+  height: $height;
+
+  background: url($url) no-repeat center / contain;
+}
+
+@mixin icon-mask(
+  $url,
+  $width: 16px,
+  $height: 16px,
+  $color: currentColor,
+  $opacity: 1
+) {
+  content: "";
+  display: inline-block;
+
+  width: $width;
+  height: $height;
+
+  background-color: $color;
+  opacity: $opacity;
+
+  mask: url($url) no-repeat center / contain;
+  -webkit-mask: url($url) no-repeat center / contain;
+}

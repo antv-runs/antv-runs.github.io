@@ -2,6 +2,7 @@
 @use "base/variables" as v;
 @use "components/button";
 @use "base/fonts";
+@use "base/mixins" as *;
 
 body, button {
   font-family: "Satoshi";
@@ -57,6 +58,12 @@ body, button {
   }
 
   &__title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+
+    overflow: hidden;
+    min-width: 0;
     font-size: 24px;
     font-weight: 700;
 
@@ -76,14 +83,11 @@ body, button {
 
   &__filter-dropdown {
     position: absolute;
-    // left: 0;
-    // right: 0;
     background-color: #fff;
     border-radius: 12px;
     padding: 8px 0;
     border: 1px solid rgb(0, 0, 0, 0.1);
     width:330px;
-    // width: 100px;
     z-index: 100;
     display: none;
 
@@ -104,16 +108,20 @@ body, button {
   }
 
   &__filter-stars {
+    font-size: 15px;
     display: flex;
     align-items: center;
+    padding: 8px 16px;
+    gap: 2px;
+  }
 
-    &-img {
-      width: 16px;
-      height: 16px;
-    }
+  &__filter-star {
+    @include icon-bg(v.$icon-star, 16px, 16px);
   }
 
   &__action {
+    position: relative;
+    display: inline-block;
     border-radius: 62px;
     font-weight: 500;
     border: none;
@@ -130,9 +138,10 @@ body, button {
       align-items: center;
       justify-content: center;
 
-      img {
-        width: 24px;
-        height: 24px;
+      &::after {
+        content: "";
+        position: absolute;
+        @include icon-bg(v.$icon-filter, 22px, 22px);
       }
     }
 
@@ -147,28 +156,46 @@ body, button {
       justify-content: center;
       align-items: center;
       background-color: #F0F0F0;
-    }
 
-    &--sort:hover {
-      background-color: #E6E6E6;
+      &:hover {
+        background-color: #E6E6E6;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50px);
+        @include icon-bg(v.$icon-dropdown, 12px, 12px);
+      }
     }
 
     &--write {
       width: 166px;
       background-color: black;
       color: white;
+
+      &:hover {
+        background-color: #1A1A1A;
+      }
+
+      &:active {
+        background-color: #000;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+      }
     }
 
-    &--write:hover {
-      background-color: #1A1A1A;
-    }
+    
   }
 
   &__select {
-    width: 60px;
-    appearance: none;
-    border: none;
     background-color: transparent;
+    border: none;
+    appearance: none;
+    outline: none;
+    width: 60px;
     font: inherit;
     cursor: pointer;
   }
@@ -199,10 +226,15 @@ body, button {
     border-radius: 62px; 
     background-color: transparent; 
     cursor: pointer; 
-  }
 
-  &__load-more:hover {
-    background-color: #E6E6E6;
+    &:hover {
+      background-color: #E6E6E6;
+    }
+
+    &:active {
+      background-color: #eee;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1019607843);
+    }
   }
 }
 
@@ -219,40 +251,57 @@ body, button {
   }
 
   &__stars {
-    display: flex;
-    flex-direction: row;
+    display: inline-flex;
+    align-items: center;
     gap: 6px;
+  }
+
+  &__star {
+    @include icon-bg(v.$icon-star, 22px, 22px);
+    flex-shrink: 0;
+
+    &--half {
+      background-image: url(v.$icon-half-star);
+    }
   }
 
   &__more-btn {
     border: none;
     cursor: pointer;
     background-color: transparent;
-    padding: 0 2px 0 0;
+    padding: 0 25px 0 0;
+
+    &::after {
+      content: "";
+      position: absolute;
+      @include icon-bg(v.$icon-menu, 25px, 25px);
+    }
   }
 
   &__header {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-bottom: 13px;
-  }
-
-  &__name {
-    font-weight: 700;
+    position: relative;
+    padding-right: 32px;
     font-size: 20px;
     line-height: 1.1; // line-height/font-size = 22/20
-    margin-right: 4px;
+    font-weight: 700;
+    margin-bottom: 13px;
+
+    &::after {
+      content: "";
+      position: absolute;
+      @include icon-bg(v.$icon-tick, 25px, 25px);
+    }
   }
 
   &__content {
-    font-weight: 400;
+    @include line-clamp(3);
     line-height: 1.375; // line-height/font-size = 22/16
     color: rgba(0,0,0,0.6);
     margin-bottom: 24px;
   }
 
   &__footer {
+    @include line-clamp(1);
     font-weight: 500;
     line-height: 1.375; // line-height/font-size = 22/16
     color: rgba(0,0,0,0.6);
@@ -260,6 +309,12 @@ body, button {
 }
 
 .other-products {
+  position: relative;
+
+  &__item {
+    max-width: 295px;
+  }
+
   &__title {
     font-size: 48px;
     font-weight: 700;
@@ -267,20 +322,87 @@ body, button {
     font-family: "IntegralCF";
   }
 
+  &__viewport {
+    overflow: hidden;
+  }
+
   &__list {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    width: max-content;
     gap: 20px;
-    padding-top: 62px;
+    margin-top: 62px;
+  }
+
+  &__prev, &__next {
+    position: absolute;
+    background: #fff;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 100;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.5;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      transition:
+        background-color 0.25s ease,
+        transform 0.2s ease;
+    }
+
+    &:hover::after {
+      background-color: #333;
+      transform: scale(1.1);
+    }
+  }
+
+  &__prev {
+    left: -30px;
+
+    &::after {
+      @include icon-mask(
+        v.$icon-back,
+        60px,
+        60px,
+        #000,
+        0.8
+      );
+    }
+  }
+
+  &__next {
+    right: -30px;
+
+    &::after {
+      @include icon-mask(
+        v.$icon-next,
+        60px,
+        60px,
+        #000,
+        0.8
+      );
+    }
   }
 }
 
 .product-item {
   &__image {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
     margin-bottom: 18px;
   }
 
   &__title {
+    @include line-clamp(1);
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 10px;
@@ -289,19 +411,27 @@ body, button {
   &__rating {
     display: flex;
     gap: 14px;
+    margin-bottom: 10px;
 
     p {
       padding-top: 3px;
       font-size: 14px;
-      font-weight: 400;
     }
   }
 
   &__stars {
-    display: flex;
-    flex-direction: row;
+    display: inline-flex;
+    align-items: center;
     gap: 6px;
-    margin-bottom: 15px;
+  }
+
+  &__star {
+    @include icon-bg(v.$icon-star, 20px, 20px);
+    flex-shrink: 0;
+
+    &--half {
+      background-image: url(v.$icon-half-star);
+    }
   }
 
   &__prices {

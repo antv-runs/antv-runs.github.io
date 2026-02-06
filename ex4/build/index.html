@@ -9,24 +9,32 @@
     <div class="container">
       <section class="products-tabs">
         <div class="tabs" aria-label="Product tabs">
-          <button class="tabs__tab" data-tab="tc-details">
+          <button class="tabs__tab js-tabs__tab" data-tab="tc-details">
             Product Details
           </button>
 
-          <button class="tabs__tab tabs__tab--active" data-tab="tc-reviews">
+          <button
+            class="tabs__tab js-tabs__tab tabs__tab--active"
+            data-tab="tc-reviews"
+          >
             Rating & Reviews
           </button>
 
-          <button class="tabs__tab" data-tab="tc-faqs">FAQs</button>
+          <button class="tabs__tab js-tabs__tab" data-tab="tc-faqs">
+            FAQs
+          </button>
         </div>
 
-        <section id="tc-details" class="products-tabs__content">
+        <section
+          id="tc-details"
+          class="products-tabs__content js-products-tabs__content"
+        >
           Product Details
         </section>
 
         <section
           id="tc-reviews"
-          class="reviews products-tabs__content products-tabs__content--active"
+          class="reviews products-tabs__content js-products-tabs__content products-tabs__content--active"
         >
           <div class="reviews__header">
             <h2 class="reviews__title">All Reviews <span>(451)</span></h2>
@@ -36,114 +44,57 @@
                 <button
                   id="btn-filter-by-stars"
                   class="reviews__action reviews__action--filter"
-                >
-                  <img src="./assets/images/icn_filter.png" alt="Filter icon" />
-                </button>
+                ></button>
 
                 <div
                   id="dropdown-filter-by-stars"
                   class="reviews__filter-dropdown"
                 >
-                  <div class="reviews__filter-option" data-option="All">
-                    <div class="reviews__filter-stars">All Reviews</div>
+                  <div
+                    class="reviews__filter-option js-reviews__filter-option"
+                    data-option="All"
+                  >
+                    <p class="reviews__filter-stars">All Reviews</p>
                   </div>
-                  <div class="reviews__filter-option" data-option="5">
+                  <div
+                    class="reviews__filter-option js-reviews__filter-option"
+                    data-option="4"
+                  >
                     <div class="reviews__filter-stars">
-                      <img
-                        class="reviews__filter-stars-img"
-                        src="./assets/images/icn_star.png"
-                        alt="Star"
-                      />
-                      <img
-                        class="reviews__filter-stars-img"
-                        src="./assets/images/icn_star.png"
-                        alt="Star"
-                      />
-                      <img
-                        class="reviews__filter-stars-img"
-                        src="./assets/images/icn_star.png"
-                        alt="Star"
-                      />
-                      <img
-                        class="reviews__filter-stars-img"
-                        src="./assets/images/icn_star.png"
-                        alt="Star"
-                      />
-                      <img
-                        class="reviews__filter-stars-img"
-                        src="./assets/images/icn_star.png"
-                        alt="Star"
-                      />
+                      <span class="reviews__filter-star"></span>
+                      <span class="reviews__filter-star"></span>
+                      <span class="reviews__filter-star"></span>
+                      <span class="reviews__filter-star"></span>
                     </div>
                   </div>
 
-                  <div class="reviews__filter-option" data-option="4">
+                  <div
+                    class="reviews__filter-option js-reviews__filter-option"
+                    data-option="3"
+                  >
                     <div class="reviews__filter-stars">
-                      <img
-                        class="reviews__filter-stars-img"
-                        src="./assets/images/icn_star.png"
-                        alt="Star"
-                      />
-                      <img
-                        class="reviews__filter-stars-img"
-                        src="./assets/images/icn_star.png"
-                        alt="Star"
-                      />
-                      <img
-                        class="reviews__filter-stars-img"
-                        src="./assets/images/icn_star.png"
-                        alt="Star"
-                      />
-                      <img
-                        class="reviews__filter-stars-img"
-                        src="./assets/images/icn_star.png"
-                        alt="Star"
-                      />
+                      <span class="reviews__filter-star"></span>
+                      <span class="reviews__filter-star"></span>
+                      <span class="reviews__filter-star"></span>
                     </div>
                   </div>
 
-                  <div class="reviews__filter-option" data-option="3">
+                  <div
+                    class="reviews__filter-option js-reviews__filter-option"
+                    data-option="2"
+                  >
                     <div class="reviews__filter-stars">
-                      <img
-                        class="reviews__filter-stars-img"
-                        src="./assets/images/icn_star.png"
-                        alt="Star"
-                      />
-                      <img
-                        class="reviews__filter-stars-img"
-                        src="./assets/images/icn_star.png"
-                        alt="Star"
-                      />
-                      <img
-                        class="reviews__filter-stars-img"
-                        src="./assets/images/icn_star.png"
-                        alt="Star"
-                      />
+                      <span class="reviews__filter-star"></span>
+                      <span class="reviews__filter-star"></span>
                     </div>
                   </div>
 
-                  <div class="reviews__filter-option" data-option="2">
+                  <div
+                    class="reviews__filter-option js-reviews__filter-option"
+                    data-option="1"
+                  >
                     <div class="reviews__filter-stars">
-                      <img
-                        class="reviews__filter-stars-img"
-                        src="./assets/images/icn_star.png"
-                        alt="Star"
-                      />
-                      <img
-                        class="reviews__filter-stars-img"
-                        src="./assets/images/icn_star.png"
-                        alt="Star"
-                      />
-                    </div>
-                  </div>
-
-                  <div class="reviews__filter-option" data-option="1">
-                    <div class="reviews__filter-stars">
-                      <img
-                        class="reviews__filter-stars-img"
-                        src="./assets/images/icn_star.png"
-                        alt="Star"
-                      />
+                      <span class="reviews__filter-star"></span>
                     </div>
                   </div>
                 </div>
@@ -154,13 +105,6 @@
                   <option value="oldest">Oldest</option>
                   <option value="oldest Super">Oldest Super</option>
                 </select>
-
-                <img
-                  class="reviews__select-icon"
-                  src="./assets/images/icn_arrowdown.png"
-                  alt="Arrow down icon"
-                  aria-hidden="true"
-                />
               </div>
               <button class="reviews__action reviews__action--write">
                 Write a Review
@@ -169,32 +113,29 @@
           </div>
 
           <ul class="reviews__list">
-            <li class="reviews__item review-card">
+            <li
+              class="reviews__item js-reviews__item review-card"
+              data-stars="4"
+            >
               <div class="review-card__meta">
                 <div class="review-card__stars">
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img
-                    src="./assets/images/icn_half_star.png"
-                    alt="Half star"
-                  />
+                  <span class="review-card__star"></span>
+                  <span class="review-card__star"></span>
+                  <span class="review-card__star"></span>
+                  <span class="review-card__star"></span>
+                  <span
+                    class="review-card__star review-card__star--half"
+                  ></span>
                 </div>
 
                 <button
                   class="review-card__more-btn"
                   aria-label="More actions"
                   aria-haspopup="menu"
-                >
-                  <img src="./assets/images/icn_menu.png" alt="Menu icon" />
-                </button>
+                ></button>
               </div>
 
-              <div class="review-card__header">
-                <h3 class="review-card__name">Samantha D.</h3>
-                <img src="./assets/images/icn_tick.png" alt="Tick" />
-              </div>
+              <p class="review-card__header">Samantha D.</p>
               <p class="review-card__content">
                 "I absolutely love this t-shirt! The design is unique and the
                 fabric feels so comfortable. As a fellow designer, I appreciate
@@ -203,28 +144,26 @@
               <p class="review-card__footer">Posted on August 14, 2023</p>
             </li>
 
-            <li class="reviews__item review-card">
+            <li
+              class="reviews__item js-reviews__item review-card"
+              data-stars="4"
+            >
               <div class="review-card__meta">
                 <div class="review-card__stars">
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <span class="review-card__star"></span>
+                  <span class="review-card__star"></span>
+                  <span class="review-card__star"></span>
+                  <span class="review-card__star"></span>
                 </div>
 
                 <button
                   class="review-card__more-btn"
                   aria-label="More actions"
                   aria-haspopup="menu"
-                >
-                  <img src="./assets/images/icn_menu.png" alt="Menu icon" />
-                </button>
+                ></button>
               </div>
 
-              <div class="review-card__header">
-                <h3 class="review-card__name">Alex M.</h3>
-                <img src="./assets/images/icn_tick.png" alt="Tick" />
-              </div>
+              <p class="review-card__header">Alex M.</p>
               <p class="review-card__content">
                 "The t-shirt exceeded my expectations! The colors are vibrant
                 and the print quality is top-notch. Being a UI/UX designer
@@ -234,31 +173,28 @@
               <p class="review-card__footer">Posted on August 15, 2023</p>
             </li>
 
-            <li class="reviews__item review-card">
+            <li
+              class="reviews__item js-reviews__item review-card"
+              data-stars="3"
+            >
               <div class="review-card__meta">
                 <div class="review-card__stars">
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img
-                    src="./assets/images/icn_half_star.png"
-                    alt="Half star"
-                  />
+                  <span class="review-card__star"></span>
+                  <span class="review-card__star"></span>
+                  <span class="review-card__star"></span>
+                  <span
+                    class="review-card__star review-card__star--half"
+                  ></span>
                 </div>
 
                 <button
                   class="review-card__more-btn"
                   aria-label="More actions"
                   aria-haspopup="menu"
-                >
-                  <img src="./assets/images/icn_menu.png" alt="Menu icon" />
-                </button>
+                ></button>
               </div>
 
-              <div class="review-card__header">
-                <h3 class="review-card__name">Ethan R.</h3>
-                <img src="./assets/images/icn_tick.png" alt="Tick" />
-              </div>
+              <p class="review-card__header">Ethan R.</p>
               <p class="review-card__content">
                 "This t-shirt is a must-have for anyone who appreciates good
                 design. The minimalistic yet stylish pattern caught my eye, and
@@ -268,28 +204,26 @@
               <p class="review-card__footer">Posted on August 16, 2023</p>
             </li>
 
-            <li class="reviews__item review-card">
+            <li
+              class="reviews__item js-reviews__item review-card"
+              data-stars="4"
+            >
               <div class="review-card__meta">
                 <div class="review-card__stars">
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <span class="review-card__star"></span>
+                  <span class="review-card__star"></span>
+                  <span class="review-card__star"></span>
+                  <span class="review-card__star"></span>
                 </div>
 
                 <button
                   class="review-card__more-btn"
                   aria-label="More actions"
                   aria-haspopup="menu"
-                >
-                  <img src="./assets/images/icn_menu.png" alt="Menu icon" />
-                </button>
+                ></button>
               </div>
 
-              <div class="review-card__header">
-                <h3 class="review-card__name">Olivia P.</h3>
-                <img src="./assets/images/icn_tick.png" alt="Tick" />
-              </div>
+              <p class="review-card__header">Olivia P.</p>
               <p class="review-card__content">
                 "As a UI/UX enthusiast, I value simplicity and functionality.
                 This t-shirt not only represents those principles but also feels
@@ -299,28 +233,23 @@
               <p class="review-card__footer">Posted on August 17, 2023</p>
             </li>
 
-            <li class="reviews__item review-card">
+            <li class="reviews__item review-card" data-stars="4">
               <div class="review-card__meta">
                 <div class="review-card__stars">
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img src="./assets/images/icn_star.png" alt="Star" />
+                  <span class="review-card__star"></span>
+                  <span class="review-card__star"></span>
+                  <span class="review-card__star"></span>
+                  <span class="review-card__star"></span>
                 </div>
 
                 <button
                   class="review-card__more-btn"
                   aria-label="More actions"
                   aria-haspopup="menu"
-                >
-                  <img src="./assets/images/icn_menu.png" alt="Menu icon" />
-                </button>
+                ></button>
               </div>
 
-              <div class="review-card__header">
-                <h3 class="review-card__name">Liam K.</h3>
-                <img src="./assets/images/icn_tick.png" alt="Tick" />
-              </div>
+              <p class="review-card__header">Liam K.</p>
               <p class="review-card__content">
                 "This t-shirt is a fusion of comfort and creativity. The fabric
                 is soft, and the design speaks volumes about the designer's
@@ -330,32 +259,26 @@
               <p class="review-card__footer">Posted on August 18, 2023</p>
             </li>
 
-            <li class="reviews__item review-card">
+            <li class="reviews__item review-card" data-stars="4">
               <div class="review-card__meta">
                 <div class="review-card__stars">
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img src="./assets/images/icn_star.png" alt="Star" />
-                  <img
-                    src="./assets/images/icn_half_star.png"
-                    alt="Half star"
-                  />
+                  <span class="review-card__star"></span>
+                  <span class="review-card__star"></span>
+                  <span class="review-card__star"></span>
+                  <span class="review-card__star"></span>
+                  <span
+                    class="review-card__star review-card__star--half"
+                  ></span>
                 </div>
 
                 <button
                   class="review-card__more-btn"
                   aria-label="More actions"
                   aria-haspopup="menu"
-                >
-                  <img src="./assets/images/icn_menu.png" alt="Menu icon" />
-                </button>
+                ></button>
               </div>
 
-              <div class="review-card__header">
-                <h3 class="review-card__name">Ava H.</h3>
-                <img src="./assets/images/icn_tick.png" alt="Tick" />
-              </div>
+              <p class="review-card__header">Ava H.</p>
               <p class="review-card__content">
                 "I'm not just wearing a t-shirt; I'm wearing a piece of design
                 philosophy. The intricate details and thoughtful layout of the
@@ -370,173 +293,213 @@
           </div>
         </section>
 
-        <section id="tc-faqs" class="products-tabs__content">FAQs</section>
+        <section
+          id="tc-faqs"
+          class="products-tabs__content js-products-tabs__content"
+        >
+          FAQs
+        </section>
       </section>
 
       <section class="other-products">
         <h2 class="other-products__title">You Might Also Like</h2>
 
-        <ul class="other-products__list">
-          <li class="other-products__item product-item">
-            <img
-              class="product-item__image"
-              src="./assets/images/pic_polo_blue.png"
-              alt="Polo blue"
-            />
-            <h3 class="product-item__title">Polo with Contrast Trims</h3>
-            <div class="product-item__rating">
-              <div class="product-item__stars">
-                <img
-                  class="product-item__star"
-                  src="./assets/images/icn_small_star.png"
-                  alt="Star"
-                />
-                <img
-                  class="product-item__star"
-                  src="./assets/images/icn_small_star.png"
-                  alt="Star"
-                />
-                <img
-                  class="product-item__star"
-                  src="./assets/images/icn_small_star.png"
-                  alt="Star"
-                />
-                <img
-                  class="product-item__star"
-                  src="./assets/images/icn_small_star.png"
-                  alt="Star"
-                />
-              </div>
-              <p>4.0/5</p>
-            </div>
-            <div class="product-item__prices">
-              <p class="product-item__prices--discounted">$212</p>
-              <p class="product-item__prices--original">$242</p>
-              <p class="product-item__prices--percent">-20%</p>
-            </div>
-          </li>
+        <button class="other-products__prev js-other-products__prev"></button>
 
-          <li class="product-item__item">
-            <img
-              class="product-item__image"
-              src="./assets/images/pic_t_shirt.png"
-              alt="White T-Shirt"
-            />
-            <h3 class="product-item__title">Gradient Graphic T-shirt</h3>
-            <div class="product-item__rating">
-              <div class="product-item__stars">
-                <img
-                  class="product-item__star"
-                  src="./assets/images/icn_small_star.png"
-                  alt="Star"
-                />
-                <img
-                  class="product-item__star"
-                  src="./assets/images/icn_small_star.png"
-                  alt="Star"
-                />
-                <img
-                  class="product-item__star"
-                  src="./assets/images/icn_small_star.png"
-                  alt="Star"
-                />
-                <img
-                  class="product-item__star"
-                  src="./assets/images/icn_small_half_star.png"
-                  alt="Half star"
-                />
+        <div class="other-products__viewport">
+          <ul class="other-products__list js-other-products__list">
+            <li class="other-products__item js-other-products__item">
+              <img
+                class="product-item__image"
+                src="./assets/images/pic_polo_blue.png"
+                alt="Polo blue"
+              />
+              <h3 class="product-item__title">Polo with Contrast Trims</h3>
+              <div class="product-item__rating">
+                <div class="product-item__stars">
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                </div>
+                <p>4.0/5</p>
               </div>
-              <p>3.5/5</p>
-            </div>
-            <div class="product-item__prices">
-              <p class="product-item__prices--discounted">$145</p>
-            </div>
-          </li>
+              <div class="product-item__prices">
+                <p class="product-item__prices--discounted">$212</p>
+                <p class="product-item__prices--original">$242</p>
+                <p class="product-item__prices--percent">-20%</p>
+              </div>
+            </li>
 
-          <li class="other-products__item">
-            <img
-              class="product-item__image"
-              src="./assets/images/pic_polo_tipping.png"
-              alt="Tipping polo"
-            />
-            <h3 class="product-item__title">Polo with Tipping Details</h3>
-            <div class="product-item__rating">
-              <div class="product-item__stars">
-                <img
-                  class="product-item__star"
-                  src="./assets/images/icn_small_star.png"
-                  alt="Star"
-                />
-                <img
-                  class="product-item__star"
-                  src="./assets/images/icn_small_star.png"
-                  alt="Star"
-                />
-                <img
-                  class="product-item__star"
-                  src="./assets/images/icn_small_star.png"
-                  alt="Star"
-                />
-                <img
-                  class="product-item__star"
-                  src="./assets/images/icn_small_star.png"
-                  alt="Star"
-                />
-                <img
-                  class="product-item__star"
-                  src="./assets/images/icn_small_half_star.png"
-                  alt="Half star"
-                />
+            <li class="other-products__item js-other-products__item">
+              <img
+                class="product-item__image"
+                src="./assets/images/pic_t_shirt.png"
+                alt="White T-Shirt"
+              />
+              <h3 class="product-item__title">Gradient Graphic T-shirt</h3>
+              <div class="product-item__rating">
+                <div class="product-item__stars">
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                  <span
+                    class="product-item__star product-item__star--half"
+                  ></span>
+                </div>
+                <p>3.5/5</p>
               </div>
-              <p>4.5/5</p>
-            </div>
-            <div class="product-item__prices">
-              <p class="product-item__prices--discounted">$180</p>
-            </div>
-          </li>
+              <div class="product-item__prices">
+                <p class="product-item__prices--discounted">$145</p>
+              </div>
+            </li>
 
-          <li class="other-products__item">
-            <img
-              class="product-item__image"
-              src="./assets/images/pic_t_shirt_black.png"
-              alt="Black T-Shirt"
-            />
-            <h3 class="product-item__title">Black Striped T-shirt</h3>
-            <div class="product-item__rating">
-              <div class="product-item__stars">
-                <img
-                  class="product-item__star"
-                  src="./assets/images/icn_small_star.png"
-                  alt="Star"
-                />
-                <img
-                  class="product-item__star"
-                  src="./assets/images/icn_small_star.png"
-                  alt="Star"
-                />
-                <img
-                  class="product-item__star"
-                  src="./assets/images/icn_small_star.png"
-                  alt="Star"
-                />
-                <img
-                  class="product-item__star"
-                  src="./assets/images/icn_small_star.png"
-                  alt="Star"
-                />
+            <li class="other-products__item js-other-products__item">
+              <img
+                class="product-item__image"
+                src="./assets/images/pic_polo_tipping.png"
+                alt="Tipping polo"
+              />
+              <h3 class="product-item__title">Polo with Tipping Details</h3>
+              <div class="product-item__rating">
+                <div class="product-item__stars">
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                  <span
+                    class="product-item__star product-item__star--half"
+                  ></span>
+                </div>
+                <p>4.5/5</p>
               </div>
-              <p>5.0/5</p>
-            </div>
-            <div class="product-item__prices">
-              <p class="product-item__prices--discounted">$120</p>
-              <p class="product-item__prices--original">$150</p>
-              <p class="product-item__prices--percent">-30%</p>
-            </div>
-          </li>
-        </ul>
+              <div class="product-item__prices">
+                <p class="product-item__prices--discounted">$180</p>
+              </div>
+            </li>
+
+            <li class="other-products__item">
+              <img
+                class="product-item__image"
+                src="./assets/images/pic_t_shirt_black.png"
+                alt="Black T-Shirt"
+              />
+              <h3 class="product-item__title">Black Striped T-shirt</h3>
+              <div class="product-item__rating">
+                <div class="product-item__stars">
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                </div>
+                <p>5.0/5</p>
+              </div>
+              <div class="product-item__prices">
+                <p class="product-item__prices--discounted">$120</p>
+                <p class="product-item__prices--original">$150</p>
+                <p class="product-item__prices--percent">-30%</p>
+              </div>
+            </li>
+
+            <li class="other-products__item">
+              <img
+                class="product-item__image"
+                src="./assets/images/pic_polo_blue.png"
+                alt="Polo blue"
+              />
+              <h3 class="product-item__title">Polo with Contrast Trims</h3>
+              <div class="product-item__rating">
+                <div class="product-item__stars">
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                </div>
+                <p>4.0/5</p>
+              </div>
+              <div class="product-item__prices">
+                <p class="product-item__prices--discounted">$212</p>
+                <p class="product-item__prices--original">$242</p>
+                <p class="product-item__prices--percent">-20%</p>
+              </div>
+            </li>
+
+            <li class="other-products__item">
+              <img
+                class="product-item__image"
+                src="./assets/images/pic_t_shirt.png"
+                alt="White T-Shirt"
+              />
+              <h3 class="product-item__title">Gradient Graphic T-shirt</h3>
+              <div class="product-item__rating">
+                <div class="product-item__stars">
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                  <span
+                    class="product-item__star product-item__star--half"
+                  ></span>
+                </div>
+                <p>3.5/5</p>
+              </div>
+              <div class="product-item__prices">
+                <p class="product-item__prices--discounted">$145</p>
+              </div>
+            </li>
+
+            <li class="other-products__item">
+              <img
+                class="product-item__image"
+                src="./assets/images/pic_polo_tipping.png"
+                alt="Tipping polo"
+              />
+              <h3 class="product-item__title">Polo with Tipping Details</h3>
+              <div class="product-item__rating">
+                <div class="product-item__stars">
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                  <span
+                    class="product-item__star product-item__star--half"
+                  ></span>
+                </div>
+                <p>4.5/5</p>
+              </div>
+              <div class="product-item__prices">
+                <p class="product-item__prices--discounted">$180</p>
+              </div>
+            </li>
+
+            <li class="other-products__item">
+              <img
+                class="product-item__image"
+                src="./assets/images/pic_t_shirt_black.png"
+                alt="Black T-Shirt"
+              />
+              <h3 class="product-item__title">Black Striped T-shirt</h3>
+              <div class="product-item__rating">
+                <div class="product-item__stars">
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                  <span class="product-item__star"></span>
+                </div>
+                <p>5.0/5</p>
+              </div>
+              <div class="product-item__prices">
+                <p class="product-item__prices--discounted">$120</p>
+                <p class="product-item__prices--original">$150</p>
+                <p class="product-item__prices--percent">-30%</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <button class="other-products__next js-other-products__next"></button>
       </section>
     </div>
 
-    <!-- <script src="./assets/js/main.js"></script> -->
+    <script src="./assets/js/main.js"></script>
   </body>
 </html>
