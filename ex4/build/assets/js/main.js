@@ -1,5 +1,7 @@
-const productTabs = document.querySelectorAll(".tabs__tab");
-const productTabContent = document.querySelectorAll(".products-tabs__content");
+const productTabs = document.querySelectorAll(".js-tabs__tab");
+const productTabContent = document.querySelectorAll(
+  ".js-products-tabs__content",
+);
 const filterByStarsBtn = document.getElementById("btn-filter-by-stars");
 const filterDropdown = document.getElementById("dropdown-filter-by-stars");
 const filterOptions = document.querySelectorAll(".reviews__filter-option");
