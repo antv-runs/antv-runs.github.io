@@ -56,13 +56,16 @@ filterOptions.forEach((option) => {
     });
 
     option.classList.add("reviews__filter-option--active");
-    const selectedOption = option.dataset.option;
+    const selectedOption = option.dataset.stars;
+    console.log(
+      `onClick Filter icon - selectedOption: reviews.length: ${reviews.length}`,
+    );
     reviews.forEach((review) => {
       const reviewStars = review.dataset.stars;
       if (selectedOption === "All" || reviewStars === selectedOption) {
-        review.style.display = "block";
+        review.classList.remove("reviews__item--hidden");
       } else {
-        review.style.display = "none";
+        review.classList.add("reviews__item--hidden");
       }
     });
   });

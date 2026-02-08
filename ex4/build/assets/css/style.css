@@ -246,23 +246,32 @@ button {
   cursor: pointer;
   display: flex;
   align-items: center;
-  font-size: 15px;
 }
 .reviews__filter-option--active, .reviews__filter-option:hover {
   background: #f5f5f5;
 }
 .reviews__filter-stars {
-  font-size: 15px;
   display: flex;
   align-items: center;
   padding: 8px 16px;
   gap: 2px;
 }
 .reviews__filter-star {
-  content: "";
-  width: 16px;
-  height: 16px;
-  background: url("../images/icn_star.svg") no-repeat center/contain;
+  width: 10px;
+  aspect-ratio: 22/21;
+  flex-shrink: 0;
+}
+.reviews__filter-star path {
+  fill: none;
+  stroke: #ffc633;
+  stroke-width: 1;
+  transition: fill 0.2s ease;
+}
+.reviews__filter-star--active path {
+  fill: #ffc633;
+}
+.reviews__filter-star--empty path {
+  opacity: 0.3;
 }
 .reviews__action {
   position: relative;
@@ -365,6 +374,9 @@ button {
   background-color: #eee;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1019607843);
 }
+.reviews__item--hidden {
+  display: none;
+}
 
 .review-card {
   border: 1px solid rgba(0, 0, 0, 0.1019607843);
@@ -383,14 +395,21 @@ button {
   gap: 6px;
 }
 .review-card__star {
-  content: "";
-  width: 22px;
-  height: 22px;
-  background: url("../images/icn_star.svg") no-repeat center/contain;
+  width: 20px;
+  aspect-ratio: 22/21;
   flex-shrink: 0;
 }
-.review-card__star--half {
-  background-image: url("../images/icn_half_star.svg");
+.review-card__star path {
+  fill: none;
+  stroke: #ffc633;
+  stroke-width: 1;
+  transition: fill 0.2s ease;
+}
+.review-card__star--active path {
+  fill: #ffc633;
+}
+.review-card__star--empty path {
+  opacity: 0.3;
 }
 .review-card__more-btn {
   border: none;
@@ -447,6 +466,7 @@ button {
   position: relative;
 }
 .other-products__item {
+  cursor: pointer;
   max-width: 295px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -565,14 +585,21 @@ button {
   gap: 6px;
 }
 .product-item__star {
-  content: "";
-  width: 20px;
-  height: 20px;
-  background: url("../images/icn_star.svg") no-repeat center/contain;
+  width: 18px;
+  aspect-ratio: 22/21;
   flex-shrink: 0;
 }
-.product-item__star--half {
-  background-image: url("../images/icn_half_star.svg");
+.product-item__star path {
+  fill: none;
+  stroke: #ffc633;
+  stroke-width: 1;
+  transition: fill 0.2s ease;
+}
+.product-item__star--active path {
+  fill: #ffc633;
+}
+.product-item__star--empty path {
+  opacity: 0.3;
 }
 .product-item__prices {
   display: flex;

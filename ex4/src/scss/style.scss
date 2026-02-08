@@ -95,7 +95,6 @@ button {
     cursor: pointer;
     display: flex;
     align-items: center;
-    font-size: 15px;
   }
 
   &__filter-option--active,
@@ -104,7 +103,6 @@ button {
   }
 
   &__filter-stars {
-    font-size: 15px;
     display: flex;
     align-items: center;
     padding: 8px 16px;
@@ -112,7 +110,24 @@ button {
   }
 
   &__filter-star {
-    @include icon-bg(v.$icon-star, 16px, 16px);
+    width: 10px;
+    aspect-ratio: 22/21;
+    flex-shrink: 0;
+
+    path {
+      fill: none;
+      stroke: #ffc633;
+      stroke-width: 1;
+      transition: fill 0.2s ease;
+    }
+
+    &--active path {
+      fill: #ffc633;
+    }
+
+    &--empty path {
+      opacity: 0.3;
+    }
   }
 
   &__action {
@@ -226,6 +241,10 @@ button {
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1019607843);
     }
   }
+
+  &__item--hidden {
+    display: none;
+  }
 }
 
 .review-card {
@@ -247,11 +266,23 @@ button {
   }
 
   &__star {
-    @include icon-bg(v.$icon-star, 22px, 22px);
+    width: 20px;
+    aspect-ratio: 22/21;
     flex-shrink: 0;
 
-    &--half {
-      background-image: url(v.$icon-half-star);
+    path {
+      fill: none;
+      stroke: #ffc633;
+      stroke-width: 1;
+      transition: fill 0.2s ease;
+    }
+
+    &--active path {
+      fill: #ffc633;
+    }
+
+    &--empty path {
+      opacity: 0.3;
     }
   }
 
@@ -302,6 +333,7 @@ button {
   position: relative;
 
   &__item {
+    cursor: pointer;
     max-width: 295px;
     transition:
       transform 0.3s ease,
@@ -429,11 +461,23 @@ button {
   }
 
   &__star {
-    @include icon-bg(v.$icon-star, 20px, 20px);
+    width: 18px;
+    aspect-ratio: 22/21;
     flex-shrink: 0;
 
-    &--half {
-      background-image: url(v.$icon-half-star);
+    path {
+      fill: none;
+      stroke: #ffc633;
+      stroke-width: 1;
+      transition: fill 0.2s ease;
+    }
+
+    &--active path {
+      fill: #ffc633;
+    }
+
+    &--empty path {
+      opacity: 0.3;
     }
   }
 
