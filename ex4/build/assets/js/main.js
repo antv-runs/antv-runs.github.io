@@ -14,14 +14,14 @@ const prevBtn = document.querySelector(".js-other-products__prev");
 const nextBtn = document.querySelector(".js-other-products__next");
 const TOTAL_OTHER_PRODUCTS = otherProducts.querySelectorAll("li").length;
 const VISIBLE_OTHER_PRODUCTS = 4;
-let currentIndex = 1;
+let currentIndex = 0;
 const otherProdItems = Array.from(otherProducts.children);
 const firstClone = otherProdItems[0].cloneNode(true);
 const lastClone = otherProdItems[TOTAL_OTHER_PRODUCTS - 1].cloneNode(true);
 
 // Clone: [4*][1][2][3][4][1*]
-otherProducts.appendChild(firstClone);
-otherProducts.insertBefore(lastClone, otherProdItems[0]);
+// otherProducts.appendChild(firstClone);
+// otherProducts.insertBefore(lastClone, otherProdItems[0]);
 
 productTabs.forEach((tab) => {
   tab.addEventListener("click", () => {
