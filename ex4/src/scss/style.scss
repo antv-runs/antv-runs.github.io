@@ -8,7 +8,7 @@ body,
 button {
   font-family: "Satoshi";
   font-size: 16px;
-  line-height: 100%;
+  line-height: 1;
 }
 
 .container {
@@ -17,7 +17,7 @@ button {
 }
 
 .products-tabs {
-  margin-bottom: 64px;
+  margin-bottom: 70px;
 
   &__content {
     display: none;
@@ -65,6 +65,7 @@ button {
 
     span {
       font-size: 16px;
+      font-weight: 400;
       color: rgba(0, 0, 0, 0.6);
     }
   }
@@ -160,8 +161,6 @@ button {
       position: relative;
       display: flex;
       width: 120px;
-      justify-content: center;
-      align-items: center;
       background-color: #f0f0f0;
 
       &:hover {
@@ -172,7 +171,7 @@ button {
         content: "";
         position: absolute;
         pointer-events: none;
-        right: 14px;
+        right: 25px;
         top: 50%;
         transform: translateY(-5px);
         @include icon-bg(v.$icon-dropdown, 12px, 12px);
@@ -200,9 +199,10 @@ button {
     border: none;
     appearance: none;
     outline: none;
-    width: 60px;
+    width: 100%;
     font: inherit;
     cursor: pointer;
+    padding-left: 20px;
   }
 
   &__select:focus {
@@ -214,7 +214,7 @@ button {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    margin-bottom: 36px;
+    margin-bottom: 40px;
   }
 
   &__load-more-wrapper {
@@ -224,7 +224,6 @@ button {
 
   &__load-more {
     margin: 0 auto;
-    font-size: 16px;
     font-weight: 500;
     padding: 15px 45px;
     border: 1px solid rgba(0, 0, 0, 0.1019607843);
@@ -250,7 +249,7 @@ button {
 .review-card {
   border: 1px solid rgba(0, 0, 0, 0.1019607843);
   border-radius: 20px;
-  padding: 28px 30px 28px 30px;
+  padding: 25px 30px 25px 30px;
 
   &__meta {
     display: flex;
@@ -291,12 +290,7 @@ button {
     cursor: pointer;
     background-color: transparent;
     padding: 0 25px 0 0;
-
-    &::after {
-      content: "";
-      position: absolute;
-      @include icon-bg(v.$icon-menu, 25px, 25px);
-    }
+    @include icon-bg(v.$icon-menu, 25px, 25px);
   }
 
   &__header {
@@ -305,7 +299,7 @@ button {
     font-size: 20px;
     line-height: 1.1; // line-height/font-size = 22/20
     font-weight: 700;
-    margin-bottom: 15px;
+    margin-bottom: 14px;
 
     &::after {
       content: "";
@@ -318,7 +312,8 @@ button {
     @include line-clamp(3);
     line-height: 1.375; // line-height/font-size = 22/16
     color: rgba(0, 0, 0, 0.6);
-    margin-bottom: 25px;
+    padding-right: 25px;
+    margin-bottom: 22px;
   }
 
   &__footer {
@@ -430,7 +425,7 @@ button {
     min-height: 300px;
     aspect-ratio: 1/1;
     object-fit: cover;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 
   &__title {
@@ -446,7 +441,7 @@ button {
 
   &__rating {
     display: flex;
-    gap: 14px;
+    gap: 15px;
     margin-bottom: 10px;
 
     p {
@@ -462,7 +457,6 @@ button {
   }
 
   &__star {
-    width: 18px;
     aspect-ratio: 22/21;
     flex-shrink: 0;
 
@@ -480,6 +474,11 @@ button {
     &--empty path {
       opacity: 0.3;
     }
+  }
+
+  &__rating-text {
+    margin: 0;
+    white-space: nowrap;
   }
 
   &__prices {

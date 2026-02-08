@@ -97,7 +97,7 @@ prevBtn.addEventListener("click", () => {
     currentIndex--;
     updateSlider(currentIndex);
   } else {
-    currentIndex = TOTAL_OTHER_PRODUCTS - VISIBLE_OTHER_PRODUCTS + 1;
+    currentIndex = TOTAL_OTHER_PRODUCTS - VISIBLE_OTHER_PRODUCTS;
     updateSlider(currentIndex, false);
   }
   console.log(`Click Prev button - currentIndex: ${currentIndex}`);

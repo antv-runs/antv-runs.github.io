@@ -166,7 +166,7 @@ body,
 button {
   font-family: "Satoshi";
   font-size: 16px;
-  line-height: 100%;
+  line-height: 1;
 }
 
 .container {
@@ -175,7 +175,7 @@ button {
 }
 
 .products-tabs {
-  margin-bottom: 64px;
+  margin-bottom: 70px;
 }
 .products-tabs__content {
   display: none;
@@ -221,6 +221,7 @@ button {
 }
 .reviews__title span {
   font-size: 16px;
+  font-weight: 400;
   color: rgba(0, 0, 0, 0.6);
 }
 .reviews__actions {
@@ -303,8 +304,6 @@ button {
   position: relative;
   display: flex;
   width: 120px;
-  justify-content: center;
-  align-items: center;
   background-color: #f0f0f0;
 }
 .reviews__action--sort:hover {
@@ -314,7 +313,7 @@ button {
   content: "";
   position: absolute;
   pointer-events: none;
-  right: 14px;
+  right: 25px;
   top: 50%;
   transform: translateY(-5px);
   content: "";
@@ -339,9 +338,10 @@ button {
   border: none;
   appearance: none;
   outline: none;
-  width: 60px;
+  width: 100%;
   font: inherit;
   cursor: pointer;
+  padding-left: 20px;
 }
 .reviews__select:focus {
   outline: none;
@@ -351,7 +351,7 @@ button {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  margin-bottom: 36px;
+  margin-bottom: 40px;
 }
 .reviews__load-more-wrapper {
   display: flex;
@@ -359,7 +359,6 @@ button {
 }
 .reviews__load-more {
   margin: 0 auto;
-  font-size: 16px;
   font-weight: 500;
   padding: 15px 45px;
   border: 1px solid rgba(0, 0, 0, 0.1019607843);
@@ -381,7 +380,7 @@ button {
 .review-card {
   border: 1px solid rgba(0, 0, 0, 0.1019607843);
   border-radius: 20px;
-  padding: 28px 30px 28px 30px;
+  padding: 25px 30px 25px 30px;
 }
 .review-card__meta {
   display: flex;
@@ -416,10 +415,6 @@ button {
   cursor: pointer;
   background-color: transparent;
   padding: 0 25px 0 0;
-}
-.review-card__more-btn::after {
-  content: "";
-  position: absolute;
   content: "";
   width: 25px;
   height: 25px;
@@ -431,7 +426,7 @@ button {
   font-size: 20px;
   line-height: 1.1;
   font-weight: 700;
-  margin-bottom: 15px;
+  margin-bottom: 14px;
 }
 .review-card__header::after {
   content: "";
@@ -449,7 +444,8 @@ button {
   min-width: 0;
   line-height: 1.375;
   color: rgba(0, 0, 0, 0.6);
-  margin-bottom: 25px;
+  padding-right: 25px;
+  margin-bottom: 22px;
 }
 .review-card__footer {
   display: -webkit-box;
@@ -556,7 +552,7 @@ button {
   min-height: 300px;
   aspect-ratio: 1/1;
   object-fit: cover;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 .product-item__title {
   display: -webkit-box;
@@ -573,7 +569,7 @@ button {
 }
 .product-item__rating {
   display: flex;
-  gap: 14px;
+  gap: 15px;
   margin-bottom: 10px;
 }
 .product-item__rating p {
@@ -586,7 +582,6 @@ button {
   gap: 6px;
 }
 .product-item__star {
-  width: 18px;
   aspect-ratio: 22/21;
   flex-shrink: 0;
 }
@@ -601,6 +596,10 @@ button {
 }
 .product-item__star--empty path {
   opacity: 0.3;
+}
+.product-item__rating-text {
+  margin: 0;
+  white-space: nowrap;
 }
 .product-item__prices {
   display: flex;
