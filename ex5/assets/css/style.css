@@ -1,0 +1,12 @@
+body {
+  background: #000;
+}
+
+.canvas-wrapper {
+  width: 500px;
+  margin: 0 auto;
+}
+
+canvas {
+  background: #fff;
+}
