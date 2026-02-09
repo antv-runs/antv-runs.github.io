@@ -254,11 +254,11 @@ button {
 .reviews__filter-stars {
   display: flex;
   align-items: center;
+  gap: 5px;
   padding: 8px 16px;
-  gap: 2px;
 }
 .reviews__filter-star {
-  width: 10px;
+  width: 18px;
   aspect-ratio: 22/21;
   flex-shrink: 0;
 }
@@ -582,6 +582,7 @@ button {
   gap: 6px;
 }
 .product-item__star {
+  width: 18px;
   aspect-ratio: 22/21;
   flex-shrink: 0;
 }
