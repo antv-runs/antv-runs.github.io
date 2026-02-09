@@ -1,14 +1,85 @@
 @use "base/reset";
 @use "base/variables" as v;
 @use "components/button";
+@use "base/fonts";
 
 body {
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
+  font-family: "Meiryo";
+  font-size: 13px;
+  line-height: 24px;
+  color: #66402b;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 1300px;
+  border-top: 4px solid #f0831e;
+  margin: 0 auto;
+}
+
+.inner {
+  padding: 0 170px;
 }
 
 .header {
-  background: v.$primary-color;
-  color: #fff;
-  padding: 20px;
+
+  &__subtext {
+    line-height: 40px;
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__contact {
+    display: flex;
+    flex-direction: column;
+    align-items:flex-end;
+    font-size: 12px;
+    line-height: 40px;
+  }
+
+  &__telephone {
+    position: relative;
+    font-size: 28px;
+    color: #f0831e;
+    padding-left: 30px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+
+      width: 24px;
+      height: 24px;
+      background: url("../images/icn_phone.png");
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+  }
+
+  &__hours {
+    line-height: 1.5; // 18/12
+  }
+}
+
+.links {
+  
+  &__list {
+    display: flex;
+
+  }
+
+  &__item {
+
+
+    ul {
+      background: #ffc472;
+    }
+  }
+
+
 }
