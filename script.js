@@ -35,6 +35,15 @@ const exercises = [
         "https://github.com/antv-runs/antv-runs.github.io/tree/main/ex4/Product%20Detail%20Page.jpg",
     },
   },
+  {
+    title: "Tuần 1 ngày 5 - Biểu đồ cột",
+    links: {
+      demo: "ex5",
+      github: "https://github.com/antv-runs/antv-runs.github.io/tree/main/ex5",
+      image:
+        "https://github.com/antv-runs/antv-runs.github.io/tree/main/ex5/chart2.png",
+    },
+  },
 ];
 
 const listEl = document.getElementById("exercise-list");

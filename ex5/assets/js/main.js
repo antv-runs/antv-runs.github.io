@@ -1,82 +1,141 @@
-window.onload = () => {
-  const canvas = document.getElementById("barChart");
-  const ctx = canvas.getContext("2d");
+const canvas = document.getElementById("myCanvas");
+const ctx = canvas.getContext("2d");
 
-  const width = canvas.width;
-  const height = canvas.height;
+const COLORS = {
+  bar: "#3366cc",
+  textPrimary: "#111",
+  textSecondary: "#555",
+  gridLine: "#e5e7eb",
+  axis: "#000",
+};
 
-  const padding = 60;
-  const barWidth = 40;
-  const spaceBetweenBars = 50;
+const FONT = {
+  title: "18px Arial",
+  label: "10px Arial",
+  legend: "12px Arial",
+  axisText: "italic 13px Arial",
+};
 
-  const maxValue = 4;
-  const yAxisSteps = 5;
+const PADDING = {
+  left: 80,
+  right: 80,
+  top: 68,
+  bottom: 80,
+};
 
-  ctx.clearRect(0, 0, width, height);
+const BAR_CONFIG = {
+  width: 35,
+  gap: 25,
+};
 
-  ctx.font = "20px Arial";
+const OFFSETS = {
+  y: 13,
+};
+
+const CHART = {
+  x: 90,
+  y: 30,
+  width: canvas.width - PADDING.left * 2,
+  height: canvas.height - PADDING.top * 2,
+};
+
+const { title, projectName, labels, values } = chartData;
+const MAX_VALUE = Math.max(...values);
+
+const drawTitle = () => {
+  ctx.font = FONT.title;
+  ctx.fillStyle = COLORS.textPrimary;
   ctx.textAlign = "center";
-  ctx.fillStyle = "#000";
-  ctx.fillText(chartData.title, width / 2, 40);
+  ctx.fillText(title, canvas.width / 2, 30);
+};
 
+const drawYAxisLabel = () => {
   ctx.save();
-  ctx.translate(20, height / 2);
+  ctx.translate(25, 205);
   ctx.rotate(-Math.PI / 2);
-  ctx.font = "16px Arial";
-  ctx.fillStyle = "#000";
-  ctx.textAlign = "center";
-  ctx.fillStyle(chartData.yLabel, 0, 0);
+  ctx.font = FONT.axisText;
+  ctx.fillStyle = COLORS.textPrimary;
+  ctx.textAlign = "left";
+  ctx.fillText("LEVEL OF POSITION", 0, 5);
   ctx.restore();
+};
 
-  ctx.font = "italic 16px Arial";
-  ctx.textAlign = "center";
-  ctx.fillText(chartData.xLabel, width / 2, height - 20);
+const drawAxisLines = () => {
+  const baseY = canvas.height - PADDING.bottom + OFFSETS.y;
 
-  ctx.font = "14px Arial";
+  ctx.beginPath();
+  ctx.moveTo(CHART.x, baseY);
+  ctx.lineTo(canvas.width - PADDING.right, baseY);
+  ctx.strokeStyle = COLORS.axis;
+  ctx.stroke();
+
+  ctx.font = FONT.label;
+  ctx.fillStyle = "#666";
   ctx.textAlign = "right";
-  ctx.fillStyle = "#000";
-
-  for (let i = 0; i <= yAxisSteps; i++) {
-    const y = height - padding - (i * (height - 2 * padding)) / yAxisSteps;
-    const value = (maxValue * i) / yAxisSteps;
+  for (let level = 0; level <= 4; level++) {
+    const y = baseY - (level / MAX_VALUE) * CHART.height;
 
     ctx.beginPath();
-    ctx.moveTo(padding, y);
-    ctx.lineTo(width - padding, y);
-    ctx.strokeStyle = "#ccc";
+    ctx.moveTo(CHART.x, y);
+    ctx.lineTo(canvas.width - PADDING.right, y);
+    ctx.strokeStyle = COLORS.gridLine;
     ctx.stroke();
 
-    ctx.fillText(value.toFixed(1), padding - 10, y + 5);
+    ctx.fillText(level, CHART.x - 15, y + 4);
   }
-
-  const totalBars = chartData.bars.length;
-  const totalCharWidth = totalBars * (barWidth + spaceBetweenBars);
-  const startX = (width - totalCharWidth) / 2 + padding / 2;
-
-  chartData.bars.forEach((data, index) => {
-    const x = startX + index * (barWidth + spaceBetweenBars);
-    const barHeight = (data.value / maxValue) * (height - 2 * padding);
-    const y = height - padding - barHeight;
-
-    ctx.fillStyle = data.color;
-    ctx.fillRect(x, y, barWidth, barHeight);
-
-    ctx.fillStyle = "#000";
-    ctx.font = "14px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText(data.label, x + barWidth / 2, height - padding + 20);
-  });
-
-  const legendX = width - padding + 10;
-  const legendY = padding;
-
-  ctx.fillStyle = "#000";
-  ctx.font = "16px Arial";
-  ctx.textAlign = "left";
-  ctx.fillText("LEVEL", legendX, legendY);
-  ctx.fillText("OF", legendX, legendY + 16);
-  ctx.fillText("POSITION", legendX, legendY + 32);
-
-  ctx.fillStyle = chartData.bars[0].color;
-  ctx.fillRect(legendX - 20, legendY, 12, 12);
 };
+
+const drawBars = () => {
+  const baseY = canvas.height - PADDING.bottom + OFFSETS.y;
+
+  values.forEach((value, index) => {
+    const barHeight = (value / MAX_VALUE) * CHART.height;
+    const x = CHART.x + index * (BAR_CONFIG.width + BAR_CONFIG.gap);
+    const y = baseY - barHeight;
+
+    ctx.fillStyle = COLORS.bar;
+    ctx.fillRect(x, y, BAR_CONFIG.width, barHeight);
+    ctx.font = FONT.label;
+    ctx.fillStyle = COLORS.textPrimary;
+    ctx.textAlign = "center";
+    ctx.fillText(labels[index], x + BAR_CONFIG.width / 2, baseY + 15);
+  });
+};
+
+const drawLegend = () => {
+  const legendX = CHART.x + CHART.width - 5;
+  const boxY = CHART.y + OFFSETS.y + 25;
+  const boxHeight = 15;
+
+  ctx.fillStyle = COLORS.bar;
+  ctx.fillRect(legendX, boxY, 38, boxHeight);
+
+  ctx.font = FONT.legend;
+  ctx.fillStyle = COLORS.textPrimary;
+  ctx.textAlign = "left";
+
+  let textY = boxY + boxHeight + 18;
+  ctx.fillText("LEVEL", legendX, textY);
+  ctx.fillText("OF", legendX, textY + 20);
+  ctx.fillText("POSITION", legendX, textY + 40);
+};
+
+const drawProjectName = () => {
+  ctx.font = FONT.axisText;
+  ctx.fillStyle = COLORS.textSecondary;
+  ctx.textAlign = "center";
+  ctx.fillText(projectName, canvas.width / 2, canvas.height - 18);
+};
+
+const draw = () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  drawTitle();
+  drawYAxisLabel();
+  drawAxisLines();
+  drawBars();
+  drawLegend();
+  drawProjectName();
+};
+
+draw();

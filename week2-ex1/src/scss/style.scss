@@ -1,0 +1,14 @@
+@use "base/reset";
+@use "base/variables" as v;
+@use "components/button";
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+}
+
+.header {
+  background: v.$primary-color;
+  color: #fff;
+  padding: 20px;
+}
