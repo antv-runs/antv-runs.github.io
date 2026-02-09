@@ -1,0 +1,60 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 40px;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rating__label {
+  font-size: 14px;
+  color: #333;
+  min-width: 120px;
+}
+
+.stars {
+  display: flex;
+  gap: 4px;
+}
+
+/* SVG star */
+.star {
+  width: 22px;
+  height: 21px;
+  cursor: pointer;
+}
+
+.star path {
+  fill: none;
+  stroke: #ffc633;
+  stroke-width: 1;
+  transition:
+    fill 0.2s,
+    transform 0.15s;
+}
+
+.star.active path {
+  fill: #ffc633;
+}
+
+.star:hover {
+  transform: scale(1.15);
+}
+
+/* hover preview */
+.star:hover {
+  transform: scale(1.2);
+}
+
+.rating__text {
+  font-size: 14px;
+  color: #888;
+  min-width: 70px;
+}

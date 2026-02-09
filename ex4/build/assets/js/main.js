@@ -14,14 +14,14 @@ const prevBtn = document.querySelector(".js-other-products__prev");
 const nextBtn = document.querySelector(".js-other-products__next");
 const TOTAL_OTHER_PRODUCTS = otherProducts.querySelectorAll("li").length;
 const VISIBLE_OTHER_PRODUCTS = 4;
-let currentIndex = 1;
+let currentIndex = 0;
 const otherProdItems = Array.from(otherProducts.children);
 const firstClone = otherProdItems[0].cloneNode(true);
 const lastClone = otherProdItems[TOTAL_OTHER_PRODUCTS - 1].cloneNode(true);
 
 // Clone: [4*][1][2][3][4][1*]
-otherProducts.appendChild(firstClone);
-otherProducts.insertBefore(lastClone, otherProdItems[0]);
+// otherProducts.appendChild(firstClone);
+// otherProducts.insertBefore(lastClone, otherProdItems[0]);
 
 productTabs.forEach((tab) => {
   tab.addEventListener("click", () => {
@@ -56,13 +56,16 @@ filterOptions.forEach((option) => {
     });
 
     option.classList.add("reviews__filter-option--active");
-    const selectedOption = option.dataset.option;
+    const selectedOption = option.dataset.stars;
+    console.log(
+      `onClick Filter icon - selectedOption: reviews.length: ${reviews.length}`,
+    );
     reviews.forEach((review) => {
       const reviewStars = review.dataset.stars;
       if (selectedOption === "All" || reviewStars === selectedOption) {
-        review.style.display = "block";
+        review.classList.remove("reviews__item--hidden");
       } else {
-        review.style.display = "none";
+        review.classList.add("reviews__item--hidden");
       }
     });
   });
@@ -94,7 +97,7 @@ prevBtn.addEventListener("click", () => {
     currentIndex--;
     updateSlider(currentIndex);
   } else {
-    currentIndex = TOTAL_OTHER_PRODUCTS - VISIBLE_OTHER_PRODUCTS + 1;
+    currentIndex = TOTAL_OTHER_PRODUCTS - VISIBLE_OTHER_PRODUCTS;
     updateSlider(currentIndex, false);
   }
   console.log(`Click Prev button - currentIndex: ${currentIndex}`);
