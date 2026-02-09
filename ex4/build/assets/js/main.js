@@ -18,6 +18,7 @@ let currentIndex = 0;
 const otherProdItems = Array.from(otherProducts.children);
 const firstClone = otherProdItems[0].cloneNode(true);
 const lastClone = otherProdItems[TOTAL_OTHER_PRODUCTS - 1].cloneNode(true);
+let isSliding = false;
 
 // Clone: [4*][1][2][3][4][1*]
 // otherProducts.appendChild(firstClone);
@@ -74,28 +75,42 @@ filterOptions.forEach((option) => {
 const updateSlider = (index, enableAnimation = true) => {
   const translateX = -index * (OTHER_PROD_ITEM_WIDTH + OTHER_PROD_LIST_GAP);
   console.log(`transformX: ${translateX}px`);
-  otherProducts.style.transition = enableAnimation
-    ? "transform 0.5s ease-in-out"
-    : "none";
+
+  if (enableAnimation) {
+    otherProducts.classList.add("is-animated");
+  } else {
+    otherProducts.classList.remove("is-animated");
+    otherProducts.getBoundingClientRect();
+  }
   otherProducts.style.transform = `translateX(${translateX}px)`;
+};
+
+const slideTo = (index) => {
+  if (isSliding) return;
+
+  isSliding = true;
+  updateSlider(index, true);
+
+  setTimeout(() => {
+    isSliding = false;
+  }, 500);
 };
 
 const moveToNextItem = () => {
   if (currentIndex < TOTAL_OTHER_PRODUCTS - VISIBLE_OTHER_PRODUCTS) {
     currentIndex++;
-    updateSlider(currentIndex);
+    slideTo(currentIndex);
   } else {
     currentIndex = 1;
     updateSlider(currentIndex, false);
   }
   console.log(`Click Next button - currentIndex: ${currentIndex}`);
-  updateSlider(currentIndex);
 };
 
 prevBtn.addEventListener("click", () => {
   if (currentIndex > 0) {
     currentIndex--;
-    updateSlider(currentIndex);
+    slideTo(currentIndex);
   } else {
     currentIndex = TOTAL_OTHER_PRODUCTS - VISIBLE_OTHER_PRODUCTS;
     updateSlider(currentIndex, false);

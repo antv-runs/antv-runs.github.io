@@ -464,7 +464,6 @@ button {
 .other-products__item {
   cursor: pointer;
   max-width: 295px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .other-products__item:hover {
   transform: translateY(-4px);
@@ -493,6 +492,9 @@ button {
   width: max-content;
   gap: 20px;
   margin-top: 62px;
+}
+.other-products__list.is-animated {
+  transition: transform 0.5s ease-in-out;
 }
 .other-products__prev, .other-products__next {
   position: absolute;
