@@ -330,6 +330,9 @@ button {
   &__item {
     cursor: pointer;
     max-width: 295px;
+    transition:
+      background-color 0.25s ease,
+      transform 0.2s ease;
 
     &:hover {
       transform: translateY(-4px);

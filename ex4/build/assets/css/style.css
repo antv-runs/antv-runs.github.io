@@ -464,6 +464,7 @@ button {
 .other-products__item {
   cursor: pointer;
   max-width: 295px;
+  transition: background-color 0.25s ease, transform 0.2s ease;
 }
 .other-products__item:hover {
   transform: translateY(-4px);
