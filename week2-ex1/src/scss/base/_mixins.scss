@@ -12,6 +12,10 @@
   height: $height;
 
   background: url($url) no-repeat center / contain;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 @mixin icon-mask(

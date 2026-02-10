@@ -178,12 +178,23 @@ img {
   margin: 0 auto;
 }
 
+.header {
+  margin: 0 auto;
+  width: 960px;
+  padding: 0 10px;
+}
 .header__subtext {
+  font-size: 12px;
   line-height: 40px;
+  padding-left: 5px;
 }
 .header__content {
   display: flex;
   justify-content: space-between;
+  padding: 0 10px;
+}
+.header__images {
+  padding-top: 10px;
 }
 .header__contact {
   display: flex;
@@ -213,12 +224,71 @@ img {
 .header__hours {
   line-height: 1.5;
 }
+.header__holiday {
+  color: #f0831e;
+}
 
-.links__list {
+.links {
   display: flex;
+  align-items: center;
+  height: 55px;
+  border-top: 1px solid #ccc6c2;
+  border-bottom: 1px solid #ccc6c2;
+}
+.links__list {
+  width: 960px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  font-size: 15px;
+  line-height: 40px;
+  letter-spacing: -1px;
+  color: #66402b;
+  font-family: "Hira Kaku Std";
+}
+.links__item {
+  cursor: pointer;
+  padding: 0 10px;
+  transition: all 0.3s ease;
+  position: relative;
+  flex: 1;
+  text-align: center;
 }
 .links__item ul {
   background: #ffc472;
+  display: none;
+  position: absolute;
+  z-index: 1000;
+}
+.links__item::after {
+  content: "";
+  position: absolute;
+  background-color: #878787;
+  width: 1px;
+  height: 23px;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+.links__item:first-child::before {
+  content: "";
+  position: absolute;
+  background-color: #878787;
+  width: 1px;
+  height: 23px;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+.links__label:hover {
+  background-color: #fe9407;
+  border-radius: 3px;
+  color: #fff;
+}
+
+.banner {
+  height: 385px;
 }
 
 .footer {
@@ -232,7 +302,7 @@ img {
 }
 .footer__content {
   display: flex;
-  max-width: 960px;
+  width: 960px;
   margin: 0 auto;
 }
 .footer__info {
@@ -249,9 +319,23 @@ img {
   height: 201px;
   background-color: #ffffff;
 }
+.footer__menu-title {
+  position: relative;
+  padding-left: 15px;
+}
+.footer__menu-title::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background: url("../images/icn_dot.svg") no-repeat center/contain;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
 .footer__address {
   font-size: 12px;
-  letter-spacing: -1px;
+  letter-spacing: 1px;
   line-height: 18px;
 }
 .footer__telephone {
@@ -305,6 +389,9 @@ img {
   list-style: none;
 }
 .c-list-arrow a {
+  letter-spacing: -1px;
+  line-height: 26px;
+  color: #66402b;
   position: relative;
   display: inline-block;
   padding-left: 14px;
