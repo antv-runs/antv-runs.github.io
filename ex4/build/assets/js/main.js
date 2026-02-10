@@ -29,7 +29,6 @@ firstClones.forEach((clone) =>
 lastClones.forEach((clone) => otherProducts.appendChild(clone));
 
 let currentIndex = VISIBLE_OTHER_PRODUCTS;
-// updateSlider(currentIndex, false);
 
 productTabs.forEach((tab) => {
   tab.addEventListener("click", () => {
