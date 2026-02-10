@@ -1,13 +1,176 @@
 <!doctype html>
-<html lang="vi">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <title>Gulp Test</title>
+    <title>Week 2 - Ex1</title>
     <link rel="stylesheet" href="assets/css/style.css" />
+    <style type="text/css" media="print">
+      BODY {
+        display: none;
+        visibility: hidden;
+      }
+    </style>
   </head>
   <body>
-    <div class="header">Hello Gulp + SCSS</div>
-    <div>hihi</div>
+    <div class="container">
+      <header class="header">
+        <p class="header__subtext">
+          滋賀県草津市のエステ・発毛・育毛の専門家がいるサロンです。
+        </p>
+
+        <div class="header__content">
+          <div class="header__images">
+            <img
+              class="header__image"
+              src="./assets/images/pic_logo.svg"
+              alt="Logo"
+            />
+            <img
+              class="header__image"
+              src="./assets/images/pic_hair-cunic-acti.jpg"
+              alt="Hair Cunic acti"
+            />
+          </div>
+
+          <div class="header__contact">
+            <p class="header__address">滋賀県草津市大路1丁目8-1 南洋軒ビル6F</p>
+            <p class="header__telephone">077-566-1070</p>
+            <p class="header__hours">営業時間　11:00～21:00</p>
+            <p class="header__hours">※入店・予約受付　19:30まで</p>
+            <p class="header__holiday">定休日　火曜日</p>
+          </div>
+        </div>
+      </header>
+
+      <nav class="links">
+        <ul class="links__list">
+          <li class="links__item">HOME</li>
+
+          <li class="links__item">店舗紹介</li>
+
+          <li class="links__item">
+            エステ
+            <ul>
+              <li>フェイシャル</li>
+              <li>ダイエット</li>
+              <li>脱毛</li>
+              <li>美肌再生プログラム</li>
+            </ul>
+          </li>
+
+          <li class="links__item">
+            ヘアクリニック
+            <ul>
+              <li>発毛</li>
+              <li>症例</li>
+            </ul>
+          </li>
+
+          <li class="links__item">よくあるご質問　</li>
+
+          <li class="links__item">お客様の声</li>
+
+          <li class="links__item">アクセス</li>
+        </ul>
+      </nav>
+      <div class="banner">
+        <img src="./assets/images/bg_banner.png" alt="Banner" />
+      </div>
+      <div class="content">
+        <div class="content-left">
+          <section class="content-left__intro">
+            <h3>コンセプト</h3>
+            <figure>
+              <img src="./assets/images/pic_counter.jpg" alt="Counter" />
+
+              <figcaption>
+                <p>
+                  Feminine（フェミニン）では、フェイシャル・ボディトリートメントを通して「女性らしく」をテーマに皆様の美（ビューティー）をサポートします。
+                </p>
+
+                <p>下記、安心のお約束を致します。</p>
+              </figcaption>
+            </figure>
+          </section>
+
+          <section class="content-left__services">
+            <h3></h3>
+            <ul>
+              <li></li>
+            </ul>
+          </section>
+
+          <section class="content-left__more-info">
+            <div>
+              <h3>新着情報</h3>
+
+              <button>一覧へ</button>
+            </div>
+
+            <ul>
+              <li>2014/○○/××　テキストが入ります。</li>
+              <li>2014/○○/××　テキストが入ります。</li>
+            </ul>
+          </section>
+        </div>
+
+        <div class="content-right"></div>
+      </div>
+
+      <footer class="footer">
+        <div class="footer__content">
+          <figure class="footer__logo">
+            <img
+              class="footer__image"
+              src="./assets/images/pic_logo.svg"
+              alt="Logo"
+            />
+            <figcaption>
+              <p class="footer__address">
+                〒525-0032　滋賀県草津市大路1丁目8-1南洋軒ビル6F
+              </p>
+              <p class="footer__address">草津駅東口より徒歩2分</p>
+              <p class="footer__address">
+                営業時間　11:00～21:00（※入店・予約受付　19：30まで）
+              </p>
+              <div class="footer__telephone">
+                <button class="footer__reservation-btn">予約制</button>
+                <p class="footer__phone-no">077-566-1070</p>
+              </div>
+            </figcaption>
+          </figure>
+
+          <ul class="footer__common">
+            <li><a href="#">HOME</a></li>
+            <li><a href="#">店舗紹介</a></li>
+            <li><a href="#">よくあるご質問</a></li>
+            <li><a href="#">お客様の声</a></li>
+            <li><a href="#">アクセス</a></li>
+            <li><a href="#">採用情報</a></li>
+            <li><a href="#">キャンペーン</a></li>
+            <li><a href="#">新着情報</a></li>
+          </ul>
+
+          <div class="footer__menu">
+            <p class="footer__menu-title">取り扱いメニュー</p>
+            <ul class="footer__menu-list">
+              <li><a href="#">フェイシャル</a></li>
+              <li><a href="#">ダイエット</a></li>
+              <li><a href="#">脱毛</a></li>
+              <li><a href="#">美肌再生プログラム</a></li>
+              <li><a href="#">アクティについて</a></li>
+              <li><a href="#">発毛</a></li>
+              <li><a href="#">症例</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer__sub-text">
+          <p>Copyright　Feminine（フェミニン）　All Rights Reserved.</p>
+        </div>
+      </footer>
+    </div>
+
     <script src="assets/js/main.js"></script>
   </body>
 </html>

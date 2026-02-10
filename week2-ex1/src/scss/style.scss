@@ -1,14 +1,207 @@
 @use "base/reset";
 @use "base/variables" as v;
 @use "components/button";
+@use "base/fonts";
+@use "base/mixins" as *;
 
 body {
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
+  font-family: "Meiryo";
+  font-size: 13px;
+  line-height: 24px;
+  color: #66402b;
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.container {
+  width: 1300px;
+  border-top: 4px solid #f0831e;
+  margin: 0 auto;
 }
 
 .header {
-  background: v.$primary-color;
-  color: #fff;
-  padding: 20px;
+
+  &__subtext {
+    line-height: 40px;
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__contact {
+    display: flex;
+    flex-direction: column;
+    align-items:flex-end;
+    font-size: 12px;
+    line-height: 40px;
+  }
+
+  &__telephone {
+    position: relative;
+    font-size: 28px;
+    color: #f0831e;
+    padding-left: 30px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+
+      width: 24px;
+      height: 24px;
+      background: url("../images/icn_phone.svg");
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+  }
+
+  &__hours {
+    line-height: 1.5; // 18/12
+  }
+}
+
+.links {
+  
+  &__list {
+    display: flex;
+
+  }
+
+  &__item {
+
+
+    ul {
+      background: #ffc472;
+    }
+  }
+
+
+}
+
+.footer {
+  max-width: 1300px;
+  height: 300px;
+  font-size: 13px;
+  background-color: #fdf1e3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &__content {
+    display: flex;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  &__info {
+    width: 400px;
+  }
+
+  &__common {
+    width: 310px;
+    border: 2px solid #e7d3c1;
+    padding: 30px 20px;
+  }
+
+  &__menu {
+    opacity: 0.702;
+    width: 200px;
+    height: 201px;
+    background-color: #ffffff;
+  }
+
+  &__menu-title {
+
+    &::before {
+
+    }
+  }
+  
+  &__address {
+    font-size: 12px;
+    letter-spacing: -1px;
+    line-height: 18px;
+  }
+
+  &__telephone {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  &__reservation-btn {
+    height: 20px;
+    width: 60px;
+    background-color: #f08420;
+    border: none;
+    color: white;
+    border-radius: 2px;
+    font-size: 12px;
+    font-family: "Hira Kaku Std";
+  }
+
+  &__phone-no {
+    font-size: 23px;
+    letter-spacing: -1px;
+    line-height: 32px;
+    color: #f0831e;
+    font-family: "Century Gothic";
+    position: relative;
+    padding-left: 30px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+
+      width: 24px;
+      height: 24px;
+      background: url("../images/icn_phone.svg");
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+  }
+
+  &__sub-text {
+    height: 30px;
+    background-color: #f88e01;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Hira Kaku Std";
+    color: white;
+    line-height: 40px;
+  }
+}
+
+.c-list-arrow {
+  li {
+    list-style: none;
+  }
+
+  a {
+    position: relative;
+    display: inline-block;
+    padding-left: 14px;
+    font-size: 14px;
+    line-height: 26px;
+    
+    &::before {
+      @include icon-bg(v.$icn-arrow, 10px, 10px);
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
 }

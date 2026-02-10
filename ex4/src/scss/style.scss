@@ -106,12 +106,12 @@ button {
   &__filter-stars {
     display: flex;
     align-items: center;
+    gap: 5px;
     padding: 8px 16px;
-    gap: 2px;
   }
 
   &__filter-star {
-    width: 10px;
+    width: 18px;
     aspect-ratio: 22/21;
     flex-shrink: 0;
 
@@ -331,8 +331,8 @@ button {
     cursor: pointer;
     max-width: 295px;
     transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
+      background-color 0.25s ease,
+      transform 0.2s ease;
 
     &:hover {
       transform: translateY(-4px);
@@ -368,6 +368,10 @@ button {
     width: max-content;
     gap: 20px;
     margin-top: 62px;
+
+    &.is-animated {
+      transition: transform 0.5s ease-in-out;
+    }
   }
 
   &__prev,
@@ -457,6 +461,7 @@ button {
   }
 
   &__star {
+    width: 18px;
     aspect-ratio: 22/21;
     flex-shrink: 0;
 
