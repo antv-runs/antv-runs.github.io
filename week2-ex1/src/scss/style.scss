@@ -24,14 +24,24 @@ img {
 }
 
 .header {
+  margin: 0 auto;
+  width: 960px;
+  padding: 0 10px;
 
   &__subtext {
+    font-size: 12px;
     line-height: 40px;
+    padding-left: 5px;
   }
 
   &__content {
     display: flex;
     justify-content: space-between;
+    padding: 0 10px;
+  }
+
+  &__images {
+    padding-top: 10px;
   }
 
   &__contact {
@@ -66,24 +76,87 @@ img {
   &__hours {
     line-height: 1.5; // 18/12
   }
+
+  &__holiday {
+    color: #f0831e;
+  }
 }
 
 .links {
+  display: flex;
+  align-items: center;
+  height: 55px;
+  border-top: 1px solid #ccc6c2;
+  border-bottom: 1px solid #ccc6c2;
   
   &__list {
+    width: 960px;
+    margin: 0 auto;
     display: flex;
+    justify-content: center;
+    align-content: center;
 
+    font-size: 15px;
+    line-height: 40px;
+    letter-spacing: -1px;
+    color: #66402b;
+    font-family: "Hira Kaku Std";
+    // text-align: center;
   }
 
   &__item {
-
+    cursor: pointer;
+    padding: 0 10px;
+    transition: all 0.3s ease;
+    position: relative;
+    flex: 1;
+    text-align: center;
 
     ul {
       background: #ffc472;
+      display: none;
+      position: absolute;
+      z-index: 1000;
+    }
+
+    // &:hover {
+    //   background-color: #fe9407;
+    //   border-radius: 3px;
+    //   color: #fff;
+    // }
+
+    &::after {
+      content: "";
+      position: absolute;
+      background-color: #878787;
+      width: 1px;
+      height: 23px;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+    }
+
+    &:first-child::before {
+      content: "";
+      position: absolute;
+      background-color: #878787;
+      width: 1px;
+      height: 23px;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
     }
   }
 
+  &__label:hover {
+    background-color: #fe9407;
+    border-radius: 3px;
+    color: #fff;
+  }
+}
 
+.banner {
+  height: 385px;
 }
 
 .footer {
@@ -97,7 +170,7 @@ img {
 
   &__content {
     display: flex;
-    max-width: 960px;
+    width: 960px;
     margin: 0 auto;
   }
 
@@ -119,15 +192,17 @@ img {
   }
 
   &__menu-title {
+    position: relative;
+    padding-left: 15px;
 
     &::before {
-
+      @include icon-bg(v.$icn-dot, 12px, 12px);
     }
   }
   
   &__address {
     font-size: 12px;
-    letter-spacing: -1px;
+    letter-spacing: 1px;
     line-height: 18px;
   }
 
@@ -190,6 +265,9 @@ img {
   }
 
   a {
+    letter-spacing: -1px;
+    line-height: 26px;
+    color: #66402b;
     position: relative;
     display: inline-block;
     padding-left: 14px;
@@ -198,10 +276,6 @@ img {
     
     &::before {
       @include icon-bg(v.$icn-arrow, 10px, 10px);
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
     }
   }
 }
