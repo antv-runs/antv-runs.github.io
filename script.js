@@ -61,6 +61,13 @@ const exercises = [
       "Bài tập (Docs)": "https://docs.google.com/document/d/1xGnF0cNXlnCE_vhDiqpsyQC8mZ1g4FqrsQfwn9-f9AY/edit?usp=sharing",
     },
   },
+  {
+    category: "PHP",
+    name: "Bài tập Laravel",
+    links: {
+      "Shop Admin": "https://github.com/antv-runs/php-training/tree/main/shop-admin",
+    },
+  },
 ];
 
 const container = document.getElementById("exercise-list");
