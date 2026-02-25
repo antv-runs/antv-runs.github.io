@@ -63,9 +63,16 @@ const exercises = [
   },
   {
     category: "PHP",
-    name: "Bài tập Laravel",
+    name: "Bài tập Laravel Blade",
     links: {
       "Shop Admin": "https://github.com/antv-runs/php-training/tree/main/shop-admin",
+    },
+  },
+  {
+    category: "PHP",
+    name: "Bài tập Laravel RESTful API",
+    links: {
+      "Shop Admin API": "https://github.com/antv-runs/php-training/tree/main/shop-admin-api",
     },
   },
 ];
