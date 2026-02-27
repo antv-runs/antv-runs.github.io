@@ -56,23 +56,30 @@ const exercises = [
   },
   {
     category: "PHP",
-    name: "Tuần 1 ngày 1 - Tìm hiểu MVC",
+    name: "Tuần 1 ngày 1",
     links: {
-      "Bài tập (Docs)": "https://docs.google.com/document/d/1xGnF0cNXlnCE_vhDiqpsyQC8mZ1g4FqrsQfwn9-f9AY/edit?usp=sharing",
+      "Tìm hiểu MVC (Docs)": "https://docs.google.com/document/d/1xGnF0cNXlnCE_vhDiqpsyQC8mZ1g4FqrsQfwn9-f9AY/edit?usp=sharing",
     },
   },
   {
     category: "PHP",
-    name: "Bài tập Laravel Blade",
+    name: "Tuần 1 ngày 2",
     links: {
-      "Shop Admin": "https://github.com/antv-runs/php-training/tree/main/shop-admin",
+      "MVC với PHP thuần": "https://github.com/antv-runs/php-training/tree/main/week1-day2/src",
     },
   },
   {
     category: "PHP",
-    name: "Bài tập Laravel RESTful API",
+    name: "Tuần 1 ngày 3->5",
     links: {
-      "Shop Admin API": "https://github.com/antv-runs/php-training/tree/main/shop-admin-api",
+      "Bài tập Laravel Blade (Shop Admin)": "https://github.com/antv-runs/php-training/tree/main/shop-admin",
+    },
+  },
+  {
+    category: "PHP",
+    name: "Tuần 2",
+    links: {
+      "Bài tập Laravel RESTful API (Shop Admin API)": "https://github.com/antv-runs/php-training/tree/main/shop-admin-api",
     },
   },
 ];
