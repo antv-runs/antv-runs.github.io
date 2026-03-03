@@ -77,9 +77,12 @@ const exercises = [
   },
   {
     category: "PHP",
-    name: "Tuần 2",
+    name: "Tuần 2 - Laravel RESTful API (Shop Admin API)",
     links: {
-      "Bài tập Laravel RESTful API (Shop Admin API)": "https://github.com/antv-runs/php-training/tree/main/shop-admin-api",
+      "Source code": "https://github.com/antv-runs/shop-admin-api",
+      "Postman Documentation": "https://documenter.getpostman.com/view/52643477/2sBXcKAcwh",
+      "Deploy": "https://api.vanannek.blog/api/documentation",
+      "Deploy Dự phòng": "https://carefree-ambition-production-a2df.up.railway.app/api/documentation",
     },
   },
 ];
