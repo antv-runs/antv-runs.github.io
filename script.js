@@ -81,8 +81,8 @@ const exercises = [
     links: {
       "Source code": "https://github.com/antv-runs/shop-admin-api",
       "Postman Documentation": "https://documenter.getpostman.com/view/52643477/2sBXcKAcwh",
-      "Deploy": "https://api.vanannek.blog/api/documentation",
-      "Deploy Dự phòng": "https://carefree-ambition-production-a2df.up.railway.app/api/documentation",
+      "Deploy (VPS)": "https://api-laravel.vanannek.blog/api/documentation",
+      "Deploy (Railway)": "https://api.vanannek.blog/api/documentation",
     },
   },
 ];
