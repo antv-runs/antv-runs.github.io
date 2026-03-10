@@ -70,19 +70,12 @@ const exercises = [
   },
   {
     category: "PHP",
-    name: "Tuần 1 ngày 3->5",
+    name: "Tuần 1 ngày 3->5 (Blade), Tuần 2, Tuần 3",
     links: {
-      "Bài tập Laravel Blade (Shop Admin)": "https://github.com/antv-runs/php-training/tree/main/shop-admin",
-    },
-  },
-  {
-    category: "PHP",
-    name: "Tuần 2 - Laravel RESTful API (Shop Admin API)",
-    links: {
-      "Source code": "https://github.com/antv-runs/shop-admin-api",
+      "Source code": "https://github.com/antv-runs/shop-admin",
       "Postman Documentation": "https://documenter.getpostman.com/view/52643477/2sBXcKAcwh",
-      "Deploy (VPS)": "https://api-laravel.vanannek.blog/api/documentation",
-      "Deploy (Railway)": "https://api.vanannek.blog/api/documentation",
+      "Blade (Deploy)": "https://api.vanannek.blog",
+      "RESTful API (Deploy)": "https://api.vanannek.blog/api/documentation",
     },
   },
 ];
