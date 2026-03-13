@@ -7,16 +7,262 @@
     <link rel="stylesheet" href="~/css/style.css" />
   </head>
   <body>
-    <div class="container" style="padding: 32px 0 60px">
-      <h1 style="font-size: 36px; margin-bottom: 12px">Cart</h1>
-      <p style="margin-bottom: 24px; color: rgba(0, 0, 0, 0.7)">
-        Review selected products, update quantity, and continue to checkout.
-      </p>
+    <p class="sub-header">
+      Sign up and get 20% off to your first order.
+      <span>Sign Up Now</span>
+    </p>
 
-      <nav aria-label="Flow navigation" style="display: flex; gap: 12px">
-        <a href="product.html">Previous: Product Detail</a>
-        <a href="checkout.html">Next: Checkout</a>
-      </nav>
+    <div class="container">
+      <header>
+        <p class="logo">SHOP.CO</p>
+
+        <nav class="header-links" aria-label="Main navigation">
+          <ul>
+            <li><a href="#">Shop <img src="~/images/icn_arrow-down.png" alt="Expand" /></a></li>
+            <li><a href="#">On Sale</a></li>
+            <li><a href="#">New Arrivals</a></li>
+            <li><a href="#">Brands</a></li>
+          </ul>
+        </nav>
+
+        <form action="#" class="header-search">
+          <input
+            type="text"
+            placeholder="Search for products..."
+            aria-label="Search for products"
+          />
+          <button type="button" aria-label="Search products">
+            <img src="~/images/icn_search.png" alt="Search" />
+          </button>
+        </form>
+
+        <div class="header-icon">
+          <button type="button" aria-label="Cart">
+            <img src="~/images/icn_cart.png" alt="Cart" />
+          </button>
+          <button type="button" aria-label="Profile">
+            <img src="~/images/icn_user.png" alt="Profile" />
+          </button>
+        </div>
+      </header>
+
+      <main class="cart-page">
+        <ul class="cart-page__breadcrumb" aria-label="Breadcrumb">
+          <li><a href="index.html">Home</a></li>
+          <li>Cart</li>
+        </ul>
+
+        <h1 class="cart-page__title">Your Cart</h1>
+
+        <section class="cart-page__layout" aria-label="Cart summary">
+          <div class="cart-items">
+            <article class="cart-item">
+              <img class="cart-item__image" src="~/images/pic_t_shirt.png" alt="Gradient Graphic T-shirt" />
+              <div class="cart-item__content">
+                <div class="cart-item__head">
+                  <h2 class="cart-item__name">Gradient Graphic T-shirt</h2>
+                  <button class="cart-item__remove" type="button" aria-label="Remove item">Remove</button>
+                </div>
+                <p class="cart-item__meta">Size: Large</p>
+                <p class="cart-item__meta">Color: White</p>
+                <div class="cart-item__foot">
+                  <p class="cart-item__price">$145</p>
+                  <div class="cart-item__quantity" aria-label="Quantity controls">
+                    <button type="button" aria-label="Decrease quantity">
+                      <img src="~/images/icn_minus.png" alt="Minus" />
+                    </button>
+                    <input type="text" value="1" aria-label="Quantity" />
+                    <button type="button" aria-label="Increase quantity">
+                      <img src="~/images/icn_plus.png" alt="Plus" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="cart-item">
+              <img class="cart-item__image" src="~/images/pic_polo_blue.png" alt="Polo with Contrast Trims" />
+              <div class="cart-item__content">
+                <div class="cart-item__head">
+                  <h2 class="cart-item__name">Polo with Contrast Trims</h2>
+                  <button class="cart-item__remove" type="button" aria-label="Remove item">Remove</button>
+                </div>
+                <p class="cart-item__meta">Size: Medium</p>
+                <p class="cart-item__meta">Color: Navy Blue</p>
+                <div class="cart-item__foot">
+                  <p class="cart-item__price">$212</p>
+                  <div class="cart-item__quantity" aria-label="Quantity controls">
+                    <button type="button" aria-label="Decrease quantity">
+                      <img src="~/images/icn_minus.png" alt="Minus" />
+                    </button>
+                    <input type="text" value="1" aria-label="Quantity" />
+                    <button type="button" aria-label="Increase quantity">
+                      <img src="~/images/icn_plus.png" alt="Plus" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="cart-item">
+              <img class="cart-item__image" src="~/images/pic_t_shirt_black.png" alt="Black Striped T-shirt" />
+              <div class="cart-item__content">
+                <div class="cart-item__head">
+                  <h2 class="cart-item__name">Black Striped T-shirt</h2>
+                  <button class="cart-item__remove" type="button" aria-label="Remove item">Remove</button>
+                </div>
+                <p class="cart-item__meta">Size: Small</p>
+                <p class="cart-item__meta">Color: Black</p>
+                <div class="cart-item__foot">
+                  <p class="cart-item__price">$120</p>
+                  <div class="cart-item__quantity" aria-label="Quantity controls">
+                    <button type="button" aria-label="Decrease quantity">
+                      <img src="~/images/icn_minus.png" alt="Minus" />
+                    </button>
+                    <input type="text" value="1" aria-label="Quantity" />
+                    <button type="button" aria-label="Increase quantity">
+                      <img src="~/images/icn_plus.png" alt="Plus" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <aside class="cart-summary" aria-label="Order summary">
+            <h2 class="cart-summary__title">Order Summary</h2>
+
+            <dl class="cart-summary__rows">
+              <div class="cart-summary__row">
+                <dt>Subtotal</dt>
+                <dd>$477</dd>
+              </div>
+              <div class="cart-summary__row">
+                <dt>Discount (-20%)</dt>
+                <dd class="cart-summary__discount">-$95</dd>
+              </div>
+              <div class="cart-summary__row">
+                <dt>Delivery Fee</dt>
+                <dd>$15</dd>
+              </div>
+            </dl>
+
+            <div class="cart-summary__total">
+              <p>Total</p>
+              <p>$397</p>
+            </div>
+
+            <form class="cart-summary__coupon" action="#">
+              <input type="text" placeholder="Add promo code" aria-label="Promo code" />
+              <button type="button">Apply</button>
+            </form>
+
+            <a class="cart-summary__checkout" href="checkout.html">Go to Checkout</a>
+          </aside>
+        </section>
+      </main>
+
+      <div class="footer-form">
+        <p>STAY UPTO DATE ABOUT OUR LATEST OFFERS</p>
+        <form action="#">
+          <div class="footer-form__input">
+            <figure>
+              <img src="~/images/icn_mail.png" alt="Mail" />
+            </figure>
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              aria-label="Email address"
+            />
+          </div>
+          <button class="footer-form__button" type="button">
+            Subscribe to Newsletter
+          </button>
+        </form>
+      </div>
     </div>
+
+    <footer class="footer">
+      <div class="footer-main">
+        <div class="footer-main__content">
+          <div class="footer-main__info">
+            <p class="footer-main__logo">SHOP.CO</p>
+            <p class="footer-main__description">
+              We have clothes that suits your style and which you're proud to
+              wear. From women to men.
+            </p>
+            <div class="footer-main__socials">
+              <figure>
+                <img src="~/images/icn_twiter.png" alt="Twitter" />
+              </figure>
+              <figure class="icon-fb">
+                <img src="~/images/icn_fb.png" alt="Facebook" />
+              </figure>
+              <figure>
+                <img src="~/images/icn_instagram.png" alt="Instagram" />
+              </figure>
+              <figure>
+                <img src="~/images/icn_github.png" alt="Github" />
+              </figure>
+            </div>
+          </div>
+
+          <div class="footer-main__links">
+            <ul>
+              <h4>Company</h4>
+              <li>About</li>
+              <li>Features</li>
+              <li>Works</li>
+              <li>Career</li>
+            </ul>
+
+            <ul>
+              <h4>Help</h4>
+              <li>Customer Support</li>
+              <li>Delivery Details</li>
+              <li>Terms & Conditions</li>
+              <li>Privacy Policy</li>
+            </ul>
+
+            <ul>
+              <h4>FAQ</h4>
+              <li>Account</li>
+              <li>Manage Deliveries</li>
+              <li>Orders</li>
+              <li>Payments</li>
+            </ul>
+
+            <ul>
+              <h4>Resources</h4>
+              <li>Free eBooks</li>
+              <li>Development Tutorial</li>
+              <li>How to - Blog</li>
+              <li>Youtube Playlist</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-main__copyright">
+          <p>Shop.co © 2000-2023, All Rights Reserved</p>
+          <div class="footer-main__copyright-logo">
+            <figure>
+              <img src="~/images/icn_visa.png" alt="Visa" />
+            </figure>
+            <figure>
+              <img src="~/images/icn_mastercard.png" alt="Mastercard" />
+            </figure>
+            <figure>
+              <img src="~/images/icn_paypal.png" alt="PayPal" />
+            </figure>
+            <figure>
+              <img src="~/images/icn_apay.png" alt="Apple Pay" />
+            </figure>
+            <figure>
+              <img src="~/images/icn_gpay.png" alt="Google Pay" />
+            </figure>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
