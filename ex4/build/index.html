@@ -2,11 +2,146 @@
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ex4 - UI Only</title>
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
   <body>
+    <p class="sub-header">
+      Sign up and get 20% off to your first order.
+      <span>Sign Up Now</span>
+    </p>
+
     <div class="container">
+      <header>
+        <p class="logo">SHOP.CO</p>
+
+        <nav class="header-links" aria-label="Main navigation">
+          <ul id="nav-categories"></ul>
+        </nav>
+
+        <form action="#" class="header-search">
+          <input
+            type="text"
+            placeholder="Search for products..."
+            aria-label="Search for products"
+          />
+          <button type="button" aria-label="Search products">
+            <img src="./assets/images/icn_search.png" alt="Search" />
+          </button>
+        </form>
+
+        <div class="header-icon">
+          <button type="button" aria-label="Cart">
+            <img src="./assets/images/icn_cart.png" alt="Cart" />
+          </button>
+          <button type="button" aria-label="Profile">
+            <img src="./assets/images/icn_user.png" alt="Profile" />
+          </button>
+        </div>
+      </header>
+
+      <section class="product-overview">
+        <ul
+          id="breadcrumb-list"
+          class="product-overview__link"
+          aria-label="Breadcrumb"
+        ></ul>
+
+        <div class="product-overview__details">
+          <div class="product-overview__images">
+            <div
+              id="product-thumbnails"
+              class="product-overview__images-wrapper"
+            ></div>
+
+            <div class="image-wrapper-main">
+              <img
+                id="product-main-image"
+                src="./assets/images/pic_t-shirt-main-1.png"
+                alt="Product image"
+              />
+            </div>
+          </div>
+
+          <div class="product-overview__info">
+            <h1 id="product-title">Loading product...</h1>
+
+            <div class="product-overview__rating">
+              <div id="product-rating-stars"></div>
+              <p id="product-rating-text">0/<span>5</span></p>
+            </div>
+
+            <div class="product-overview__price">
+              <p
+                id="product-price-current"
+                class="product-overview__price-current"
+              >
+                $0
+              </p>
+              <p id="product-price-old" class="product-overview__price-old">
+                $0
+              </p>
+              <p
+                id="product-price-discount"
+                class="product-overview__price-discount"
+              >
+                -0%
+              </p>
+            </div>
+
+            <p
+              id="product-description"
+              class="product-overview__description"
+            ></p>
+
+            <div class="product-overview__choose">
+              <p>Select Colors</p>
+              <div
+                id="product-color-options"
+                class="product-overview__choose-colors"
+              ></div>
+            </div>
+
+            <div class="product-overview__size">
+              <p>Choose Size</p>
+              <div
+                id="product-size-options"
+                class="product-overview__size-options"
+              ></div>
+            </div>
+
+            <div class="product-overview__actions">
+              <form action="#">
+                <button
+                  class="quantity-button-minus"
+                  type="button"
+                  aria-label="Decrease quantity"
+                >
+                  <img src="./assets/images/icn_minus.png" alt="Minus" />
+                </button>
+                <input
+                  id="quantity-input"
+                  type="text"
+                  value="1"
+                  aria-label="Quantity"
+                />
+                <button
+                  class="quantity-button-plus"
+                  type="button"
+                  aria-label="Increase quantity"
+                >
+                  <img src="./assets/images/icn_plus.png" alt="Plus" />
+                </button>
+              </form>
+              <button class="add-to-cart-button" type="button">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="products-tabs">
         <div class="tabs" aria-label="Product tabs">
           <button class="tabs__tab js-tabs__tab" data-tab="tc-details">
@@ -29,7 +164,7 @@
           id="tc-details"
           class="products-tabs__content js-products-tabs__content"
         >
-          Product Details
+          <div id="product-details-content">Product details are loading...</div>
         </section>
 
         <section
@@ -37,7 +172,9 @@
           class="reviews products-tabs__content js-products-tabs__content products-tabs__content--active"
         >
           <div class="reviews__header">
-            <h2 class="reviews__title">All Reviews<span>(451)</span></h2>
+            <h2 class="reviews__title">
+              All Reviews<span id="reviews-count">(0)</span>
+            </h2>
 
             <div class="reviews__actions">
               <div class="reviews__filter">
@@ -51,135 +188,52 @@
                   class="reviews__filter-dropdown"
                 >
                   <div
-                    class="reviews__filter-option js-reviews__filter-option"
+                    class="reviews__filter-option js-reviews__filter-option reviews__filter-option--active"
                     data-stars="All"
                   >
                     <p class="reviews__filter-stars">All Reviews</p>
                   </div>
                   <div
                     class="reviews__filter-option js-reviews__filter-option"
+                    data-stars="5"
+                  >
+                    <div class="reviews__filter-stars">5 stars</div>
+                  </div>
+                  <div
+                    class="reviews__filter-option js-reviews__filter-option"
                     data-stars="4"
                   >
-                    <div class="reviews__filter-stars">
-                      <svg
-                        class="reviews__filter-star reviews__filter-star--active"
-                        viewBox="0 0 22 21"
-                      >
-                        <path
-                          d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                        />
-                      </svg>
-
-                      <svg
-                        class="reviews__filter-star reviews__filter-star--active"
-                        viewBox="0 0 22 21"
-                      >
-                        <path
-                          d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                        />
-                      </svg>
-
-                      <svg
-                        class="reviews__filter-star reviews__filter-star--active"
-                        viewBox="0 0 22 21"
-                      >
-                        <path
-                          d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                        />
-                      </svg>
-
-                      <svg
-                        class="reviews__filter-star reviews__filter-star--active"
-                        viewBox="0 0 22 21"
-                      >
-                        <path
-                          d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                        />
-                      </svg>
-                    </div>
+                    <div class="reviews__filter-stars">4 stars</div>
                   </div>
-
                   <div
                     class="reviews__filter-option js-reviews__filter-option"
                     data-stars="3"
                   >
-                    <div class="reviews__filter-stars">
-                      <svg
-                        class="reviews__filter-star reviews__filter-star--active"
-                        viewBox="0 0 22 21"
-                      >
-                        <path
-                          d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                        />
-                      </svg>
-
-                      <svg
-                        class="reviews__filter-star reviews__filter-star--active"
-                        viewBox="0 0 22 21"
-                      >
-                        <path
-                          d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                        />
-                      </svg>
-
-                      <svg
-                        class="reviews__filter-star reviews__filter-star--active"
-                        viewBox="0 0 22 21"
-                      >
-                        <path
-                          d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                        />
-                      </svg>
-                    </div>
+                    <div class="reviews__filter-stars">3 stars</div>
                   </div>
-
                   <div
                     class="reviews__filter-option js-reviews__filter-option"
                     data-stars="2"
                   >
-                    <div class="reviews__filter-stars">
-                      <svg
-                        class="reviews__filter-star reviews__filter-star--active"
-                        viewBox="0 0 22 21"
-                      >
-                        <path
-                          d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                        />
-                      </svg>
-
-                      <svg
-                        class="reviews__filter-star reviews__filter-star--active"
-                        viewBox="0 0 22 21"
-                      >
-                        <path
-                          d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                        />
-                      </svg>
-                    </div>
+                    <div class="reviews__filter-stars">2 stars</div>
                   </div>
-
                   <div
                     class="reviews__filter-option js-reviews__filter-option"
                     data-stars="1"
                   >
-                    <div class="reviews__filter-stars">
-                      <svg
-                        class="reviews__filter-star reviews__filter-star--active"
-                        viewBox="0 0 22 21"
-                      >
-                        <path
-                          d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                        />
-                      </svg>
-                    </div>
+                    <div class="reviews__filter-stars">1 star</div>
                   </div>
                 </div>
               </div>
               <div class="reviews__action reviews__action--sort">
-                <select class="reviews__select" aria-label="Sort reviews">
+                <select
+                  id="reviews-sort-select"
+                  class="reviews__select"
+                  aria-label="Sort reviews"
+                >
                   <option value="latest">Latest</option>
                   <option value="oldest">Oldest</option>
-                  <option value="oldest Super">Oldest Super</option>
+                  <option value="highest">Highest Rating</option>
                 </select>
               </div>
               <button class="reviews__action reviews__action--write">
@@ -188,386 +242,12 @@
             </div>
           </div>
 
-          <ul class="reviews__list">
-            <li
-              class="reviews__item js-reviews__item review-card"
-              data-stars="4"
-            >
-              <div class="review-card__meta">
-                <div class="review-card__stars">
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 11 21"
-                  >
-                    <path
-                      d="M4.10115 20.4229L10.7369 16.731V0L7.53849 6.8872L0 7.80085L5.56174 12.971L4.10115 20.4229Z"
-                    />
-                  </svg>
-                </div>
-
-                <button
-                  class="review-card__more-btn"
-                  aria-label="More actions"
-                  aria-haspopup="menu"
-                ></button>
-              </div>
-
-              <p class="review-card__header">Samantha D.</p>
-              <p class="review-card__content">
-                "I absolutely love this t-shirt! The design is unique and the
-                fabric feels so comfortable. As a fellow designer, I appreciate
-                the attention to detail. It's become my favorite go-to shirt."
-              </p>
-              <p class="review-card__footer">Posted on August 14, 2023</p>
-            </li>
-
-            <li
-              class="reviews__item js-reviews__item review-card"
-              data-stars="4"
-            >
-              <div class="review-card__meta">
-                <div class="review-card__stars">
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-                </div>
-
-                <button
-                  class="review-card__more-btn"
-                  aria-label="More actions"
-                  aria-haspopup="menu"
-                ></button>
-              </div>
-
-              <p class="review-card__header">Alex M.</p>
-              <p class="review-card__content">
-                "The t-shirt exceeded my expectations! The colors are vibrant
-                and the print quality is top-notch. Being a UI/UX designer
-                myself, I'm quite picky about aesthetics, and this t-shirt
-                definitely gets a thumbs up from me."
-              </p>
-              <p class="review-card__footer">Posted on August 15, 2023</p>
-            </li>
-
-            <li
-              class="reviews__item js-reviews__item review-card"
-              data-stars="3"
-            >
-              <div class="review-card__meta">
-                <div class="review-card__stars">
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 11 21"
-                  >
-                    <path
-                      d="M4.10115 20.4229L10.7369 16.731V0L7.53849 6.8872L0 7.80085L5.56174 12.971L4.10115 20.4229Z"
-                    />
-                  </svg>
-                </div>
-
-                <button
-                  class="review-card__more-btn"
-                  aria-label="More actions"
-                  aria-haspopup="menu"
-                ></button>
-              </div>
-
-              <p class="review-card__header">Ethan R.</p>
-              <p class="review-card__content">
-                "This t-shirt is a must-have for anyone who appreciates good
-                design. The minimalistic yet stylish pattern caught my eye, and
-                the fit is perfect. I can see the designer's touch in every
-                aspect of this shirt."
-              </p>
-              <p class="review-card__footer">Posted on August 16, 2023</p>
-            </li>
-
-            <li
-              class="reviews__item js-reviews__item review-card"
-              data-stars="4"
-            >
-              <div class="review-card__meta">
-                <div class="review-card__stars">
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-                </div>
-
-                <button
-                  class="review-card__more-btn"
-                  aria-label="More actions"
-                  aria-haspopup="menu"
-                ></button>
-              </div>
-
-              <p class="review-card__header">Olivia P.</p>
-              <p class="review-card__content">
-                "As a UI/UX enthusiast, I value simplicity and functionality.
-                This t-shirt not only represents those principles but also feels
-                great to wear. It's evident that the designer poured their
-                creativity into making this t-shirt stand out."
-              </p>
-              <p class="review-card__footer">Posted on August 17, 2023</p>
-            </li>
-
-            <li
-              class="reviews__item js-reviews__item review-card"
-              data-stars="4"
-            >
-              <div class="review-card__meta">
-                <div class="review-card__stars">
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-                </div>
-
-                <button
-                  class="review-card__more-btn"
-                  aria-label="More actions"
-                  aria-haspopup="menu"
-                ></button>
-              </div>
-
-              <p class="review-card__header">Liam K.</p>
-              <p class="review-card__content">
-                "This t-shirt is a fusion of comfort and creativity. The fabric
-                is soft, and the design speaks volumes about the designer's
-                skill. It's like wearing a piece of art that reflects my passion
-                for both design and fashion."
-              </p>
-              <p class="review-card__footer">Posted on August 18, 2023</p>
-            </li>
-
-            <li
-              class="reviews__item js-reviews__item review-card"
-              data-stars="4"
-            >
-              <div class="review-card__meta">
-                <div class="review-card__stars">
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="review-card__star review-card__star--active"
-                    viewBox="0 0 11 21"
-                  >
-                    <path
-                      d="M4.10115 20.4229L10.7369 16.731V0L7.53849 6.8872L0 7.80085L5.56174 12.971L4.10115 20.4229Z"
-                    />
-                  </svg>
-                </div>
-
-                <button
-                  class="review-card__more-btn"
-                  aria-label="More actions"
-                  aria-haspopup="menu"
-                ></button>
-              </div>
-
-              <p class="review-card__header">Ava H.</p>
-              <p class="review-card__content">
-                "I'm not just wearing a t-shirt; I'm wearing a piece of design
-                philosophy. The intricate details and thoughtful layout of the
-                design make this shirt a conversation starter."
-              </p>
-              <p class="review-card__footer">Posted on August 19, 2023</p>
-            </li>
-          </ul>
+          <ul id="reviews-list" class="reviews__list"></ul>
 
           <div class="reviews__load-more-wrapper">
-            <button class="reviews__load-more">Load More Reviews</button>
+            <button id="reviews-load-more" class="reviews__load-more">
+              Load More Reviews
+            </button>
           </div>
         </section>
 
@@ -575,7 +255,7 @@
           id="tc-faqs"
           class="products-tabs__content js-products-tabs__content"
         >
-          FAQs
+          <ul id="product-faqs-list"></ul>
         </section>
       </section>
 
@@ -585,457 +265,118 @@
         <button class="other-products__prev js-other-products__prev"></button>
 
         <div class="other-products__viewport">
-          <ul class="other-products__list js-other-products__list">
-            <li class="other-products__item js-other-products__item">
-              <img
-                class="product-item__image"
-                src="./assets/images/pic_polo_blue.png"
-                alt="Polo blue"
-              />
-              <h3 class="product-item__title">Polo with Contrast Trims</h3>
-              <div class="product-item__rating">
-                <div class="product-item__stars">
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-                </div>
-                <p>4.0/5</p>
-              </div>
-              <div class="product-item__prices">
-                <p class="product-item__prices--discounted">$212</p>
-                <p class="product-item__prices--original">$242</p>
-                <p class="product-item__prices--percent">-20%</p>
-              </div>
-            </li>
-
-            <li class="other-products__item js-other-products__item">
-              <img
-                class="product-item__image"
-                src="./assets/images/pic_t_shirt.png"
-                alt="White T-Shirt"
-              />
-              <h3 class="product-item__title">Gradient Graphic T-shirt</h3>
-              <div class="product-item__rating">
-                <div class="product-item__stars">
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--half product-item__star--active"
-                    viewBox="0 0 11 21"
-                  >
-                    <path
-                      d="M4.10115 20.4229L10.7369 16.731V0L7.53849 6.8872L0 7.80085L5.56174 12.971L4.10115 20.4229Z"
-                    />
-                  </svg>
-                </div>
-                <p class="review-card__rating-text">3.5/5</p>
-              </div>
-              <div class="product-item__prices">
-                <p class="product-item__prices--discounted">$145</p>
-              </div>
-            </li>
-
-            <li class="other-products__item js-other-products__item">
-              <img
-                class="product-item__image"
-                src="./assets/images/pic_polo_tipping.png"
-                alt="Tipping polo"
-              />
-              <h3 class="product-item__title">Polo with Tipping Details</h3>
-              <div class="product-item__rating">
-                <div class="product-item__stars">
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--half product-item__star--active"
-                    viewBox="0 0 11 21"
-                  >
-                    <path
-                      d="M4.10115 20.4229L10.7369 16.731V0L7.53849 6.8872L0 7.80085L5.56174 12.971L4.10115 20.4229Z"
-                    />
-                  </svg>
-                </div>
-                <p>4.5/5</p>
-              </div>
-              <div class="product-item__prices">
-                <p class="product-item__prices--discounted">$180</p>
-              </div>
-            </li>
-
-            <li class="other-products__item">
-              <img
-                class="product-item__image"
-                src="./assets/images/pic_t_shirt_black.png"
-                alt="Black T-Shirt"
-              />
-              <h3 class="product-item__title">Black Striped T-shirt</h3>
-              <div class="product-item__rating">
-                <div class="product-item__stars">
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--half product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-                </div>
-                <p>5.0/5</p>
-              </div>
-              <div class="product-item__prices">
-                <p class="product-item__prices--discounted">$120</p>
-                <p class="product-item__prices--original">$150</p>
-                <p class="product-item__prices--percent">-30%</p>
-              </div>
-            </li>
-
-            <li class="other-products__item">
-              <img
-                class="product-item__image"
-                src="./assets/images/pic_polo_blue.png"
-                alt="Polo blue"
-              />
-              <h3 class="product-item__title">Polo with Contrast Trims</h3>
-              <div class="product-item__rating">
-                <div class="product-item__stars">
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--half product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-                </div>
-                <p>4.0/5</p>
-              </div>
-              <div class="product-item__prices">
-                <p class="product-item__prices--discounted">$212</p>
-                <p class="product-item__prices--original">$242</p>
-                <p class="product-item__prices--percent">-20%</p>
-              </div>
-            </li>
-
-            <li class="other-products__item">
-              <img
-                class="product-item__image"
-                src="./assets/images/pic_t_shirt.png"
-                alt="White T-Shirt"
-              />
-              <h3 class="product-item__title">Gradient Graphic T-shirt</h3>
-              <div class="product-item__rating">
-                <div class="product-item__stars">
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--half product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--half product-item__star--active"
-                    viewBox="0 0 11 21"
-                  >
-                    <path
-                      d="M4.10115 20.4229L10.7369 16.731V0L7.53849 6.8872L0 7.80085L5.56174 12.971L4.10115 20.4229Z"
-                    />
-                  </svg>
-                </div>
-                <p>3.5/5</p>
-              </div>
-              <div class="product-item__prices">
-                <p class="product-item__prices--discounted">$145</p>
-              </div>
-            </li>
-
-            <li class="other-products__item">
-              <img
-                class="product-item__image"
-                src="./assets/images/pic_polo_tipping.png"
-                alt="Tipping polo"
-              />
-              <h3 class="product-item__title">Polo with Tipping Details</h3>
-              <div class="product-item__rating">
-                <div class="product-item__stars">
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--half product-item__star--active"
-                    viewBox="0 0 11 21"
-                  >
-                    <path
-                      d="M4.10115 20.4229L10.7369 16.731V0L7.53849 6.8872L0 7.80085L5.56174 12.971L4.10115 20.4229Z"
-                    />
-                  </svg>
-                </div>
-                <p>4.5/5</p>
-              </div>
-              <div class="product-item__prices">
-                <p class="product-item__prices--discounted">$180</p>
-              </div>
-            </li>
-
-            <li class="other-products__item">
-              <img
-                class="product-item__image"
-                src="./assets/images/pic_t_shirt_black.png"
-                alt="Black T-Shirt"
-              />
-              <h3 class="product-item__title">Black Striped T-shirt</h3>
-              <div class="product-item__rating">
-                <div class="product-item__stars">
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--active"
-                    viewBox="0 0 22 21"
-                  >
-                    <path
-                      d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L5.72205e-05 7.80085L7.53855 6.8872L10.737 0Z"
-                    />
-                  </svg>
-
-                  <svg
-                    class="product-item__star product-item__star--half product-item__star--active"
-                    viewBox="0 0 11 21"
-                  >
-                    <path
-                      d="M4.10115 20.4229L10.7369 16.731V0L7.53849 6.8872L0 7.80085L5.56174 12.971L4.10115 20.4229Z"
-                    />
-                  </svg>
-                </div>
-                <p>5.0/5</p>
-              </div>
-              <div class="product-item__prices">
-                <p class="product-item__prices--discounted">$120</p>
-                <p class="product-item__prices--original">$150</p>
-                <p class="product-item__prices--percent">-30%</p>
-              </div>
-            </li>
-          </ul>
+          <ul
+            id="other-products-list"
+            class="other-products__list js-other-products__list"
+          ></ul>
         </div>
 
         <button class="other-products__next js-other-products__next"></button>
       </section>
+
+      <div class="footer-form">
+        <p>STAY UPTO DATE ABOUT OUR LATEST OFFERS</p>
+        <form action="#">
+          <div class="footer-form__input">
+            <figure>
+              <img src="./assets/images/icn_mail.png" alt="Mail" />
+            </figure>
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              aria-label="Email address"
+            />
+          </div>
+          <button class="footer-form__button" type="button">
+            Subscribe to Newsletter
+          </button>
+        </form>
+      </div>
     </div>
 
-    <script src="./assets/js/data.js"></script>
-    <script src="./assets/js/reviews.js"></script>
-    <script src="./assets/js/main.js"></script>
+    <footer class="footer">
+      <div class="footer-main">
+        <div class="footer-main__content">
+          <div class="footer-main__info">
+            <p class="footer-main__logo">SHOP.CO</p>
+            <p class="footer-main__description">
+              We have clothes that suits your style and which you're proud to
+              wear. From women to men.
+            </p>
+            <div class="footer-main__socials">
+              <figure>
+                <img src="./assets/images/icn_twiter.png" alt="Twitter" />
+              </figure>
+              <figure class="icon-fb">
+                <img src="./assets/images/icn_fb.png" alt="Facebook" />
+              </figure>
+              <figure>
+                <img src="./assets/images/icn_instagram.png" alt="Instagram" />
+              </figure>
+              <figure>
+                <img src="./assets/images/icn_github.png" alt="Github" />
+              </figure>
+            </div>
+          </div>
+
+          <div class="footer-main__links">
+            <ul>
+              <h4>Company</h4>
+              <li>About</li>
+              <li>Features</li>
+              <li>Works</li>
+              <li>Career</li>
+            </ul>
+
+            <ul>
+              <h4>Help</h4>
+              <li>Customer Support</li>
+              <li>Delivery Details</li>
+              <li>Terms & Conditions</li>
+              <li>Privacy Policy</li>
+            </ul>
+
+            <ul>
+              <h4>FAQ</h4>
+              <li>Account</li>
+              <li>Manage Deliveries</li>
+              <li>Orders</li>
+              <li>Payments</li>
+            </ul>
+
+            <ul>
+              <h4>Resources</h4>
+              <li>Free eBooks</li>
+              <li>Development Tutorial</li>
+              <li>How to - Blog</li>
+              <li>Youtube Playlist</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-main__copyright">
+          <p>Shop.co © 2000-2023, All Rights Reserved</p>
+          <div class="footer-main__copyright-logo">
+            <figure>
+              <img src="./assets/images/icn_visa.png" alt="Visa" />
+            </figure>
+            <figure>
+              <img src="./assets/images/icn_mastercard.png" alt="Mastercard" />
+            </figure>
+            <figure>
+              <img src="./assets/images/icn_paypal.png" alt="PayPal" />
+            </figure>
+            <figure>
+              <img src="./assets/images/icn_apay.png" alt="Apple Pay" />
+            </figure>
+            <figure>
+              <img src="./assets/images/icn_gpay.png" alt="Google Pay" />
+            </figure>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="./assets/js/main.js"></script>
   </body>
 </html>
