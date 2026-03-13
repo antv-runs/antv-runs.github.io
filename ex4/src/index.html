@@ -7,61 +7,415 @@
     <link rel="stylesheet" href="~/css/style.css" />
   </head>
   <body>
+    <p class="sub-header">
+      Sign up and get 20% off to your first order.
+      <span>Sign Up Now</span>
+    </p>
+
     <div class="container">
-      <header style="padding: 24px 0 16px">
+      <header>
         <p class="logo">SHOP.CO</p>
+
+        <nav class="header-links" aria-label="Main navigation">
+          <ul id="nav-categories"></ul>
+        </nav>
+
+        <form action="#" class="header-search">
+          <input
+            type="text"
+            placeholder="Search for products..."
+            aria-label="Search for products"
+          />
+          <button type="button" aria-label="Search products">
+            <img src="~/images/icn_search.png" alt="Search" />
+          </button>
+        </form>
+
+        <div class="header-icon">
+          <button type="button" aria-label="Cart">
+            <img src="~/images/icn_cart.png" alt="Cart" />
+          </button>
+          <button type="button" aria-label="Profile">
+            <img src="~/images/icn_user.png" alt="Profile" />
+          </button>
+        </div>
       </header>
 
-      <main style="padding-bottom: 60px">
-        <section style="margin-bottom: 24px">
-          <h1 style="font-size: 36px; margin-bottom: 12px">Product List</h1>
-          <p style="color: rgba(0, 0, 0, 0.7)">
-            Browse products and choose one to see full details.
-          </p>
+      <main class="catalog" aria-label="Product catalog">
+        <ul class="catalog__breadcrumb" aria-label="Breadcrumb">
+          <li><a href="index.html">Home</a></li>
+          <li>Casual</li>
+        </ul>
+
+        <section class="catalog__layout">
+          <aside class="catalog-filters" aria-label="Product filters">
+            <div class="catalog-filters__header">
+              <h2 class="catalog-filters__title">Filters</h2>
+            </div>
+
+            <section class="catalog-filters__section">
+              <h3 class="catalog-filters__label">Category</h3>
+              <ul class="catalog-filters__list">
+                <li>T-shirts</li>
+                <li>Shorts</li>
+                <li>Shirts</li>
+                <li>Hoodie</li>
+                <li>Jeans</li>
+              </ul>
+            </section>
+
+            <section class="catalog-filters__section">
+              <h3 class="catalog-filters__label">Price</h3>
+              <div
+                class="catalog-filters__range"
+                aria-label="Price range slider"
+              >
+                <input
+                  type="range"
+                  min="50"
+                  max="200"
+                  value="50"
+                  aria-label="Minimum price"
+                />
+                <input
+                  type="range"
+                  min="50"
+                  max="200"
+                  value="200"
+                  aria-label="Maximum price"
+                />
+              </div>
+              <div class="catalog-filters__range-values">
+                <span>$50</span>
+                <span>$200</span>
+              </div>
+            </section>
+
+            <section class="catalog-filters__section">
+              <h3 class="catalog-filters__label">Colors</h3>
+              <div class="catalog-filters__colors">
+                <button
+                  type="button"
+                  class="catalog-filters__color catalog-filters__color--green"
+                  aria-label="Green"
+                ></button>
+                <button
+                  type="button"
+                  class="catalog-filters__color catalog-filters__color--red"
+                  aria-label="Red"
+                ></button>
+                <button
+                  type="button"
+                  class="catalog-filters__color catalog-filters__color--yellow"
+                  aria-label="Yellow"
+                ></button>
+                <button
+                  type="button"
+                  class="catalog-filters__color catalog-filters__color--orange"
+                  aria-label="Orange"
+                ></button>
+                <button
+                  type="button"
+                  class="catalog-filters__color catalog-filters__color--cyan"
+                  aria-label="Cyan"
+                ></button>
+                <button
+                  type="button"
+                  class="catalog-filters__color catalog-filters__color--blue catalog-filters__color--active"
+                  aria-label="Blue"
+                ></button>
+                <button
+                  type="button"
+                  class="catalog-filters__color catalog-filters__color--purple"
+                  aria-label="Purple"
+                ></button>
+                <button
+                  type="button"
+                  class="catalog-filters__color catalog-filters__color--pink"
+                  aria-label="Pink"
+                ></button>
+                <button
+                  type="button"
+                  class="catalog-filters__color catalog-filters__color--white"
+                  aria-label="White"
+                ></button>
+                <button
+                  type="button"
+                  class="catalog-filters__color catalog-filters__color--black"
+                  aria-label="Black"
+                ></button>
+              </div>
+            </section>
+
+            <section class="catalog-filters__section">
+              <h3 class="catalog-filters__label">Size</h3>
+              <div class="catalog-filters__sizes">
+                <button type="button">XX-Small</button>
+                <button type="button">X-Small</button>
+                <button type="button">Small</button>
+                <button type="button">Medium</button>
+                <button type="button" class="catalog-filters__size--active">
+                  Large
+                </button>
+                <button type="button">X-Large</button>
+                <button type="button">XX-Large</button>
+                <button type="button">3X-Large</button>
+              </div>
+            </section>
+
+            <section class="catalog-filters__section">
+              <h3 class="catalog-filters__label">Dress Style</h3>
+              <ul class="catalog-filters__list">
+                <li>Casual</li>
+                <li>Formal</li>
+                <li>Party</li>
+                <li>Gym</li>
+              </ul>
+            </section>
+
+            <button class="catalog-filters__apply" type="button">
+              Apply Filter
+            </button>
+          </aside>
+
+          <section class="catalog-products" aria-label="Product list">
+            <div class="catalog-products__header">
+              <h1 class="catalog-products__title">Casual</h1>
+              <div class="catalog-products__meta">
+                <p>Showing 1-10 of 100 Products</p>
+                <p>Sort by: <strong>Most Popular</strong></p>
+              </div>
+            </div>
+
+            <div class="catalog-products__grid">
+              <article class="product-tile">
+                <div class="product-tile__image-link">
+                  <img
+                    src="~/assets/images/products/product1.png"
+                    alt="Gradient Graphic T-shirt"
+                    class="product-tile__image"
+                  />
+                </div>
+                <h2 class="product-tile__title">
+                  <a href="product.html">Gradient Graphic T-shirt</a>
+                </h2>
+                <p class="product-tile__rating">4.5/5</p>
+                <p class="product-tile__price">$145</p>
+              </article>
+
+              <article class="product-tile">
+                <div class="product-tile__image-link">
+                  <img
+                    src="~/assets/images/products/product2.png"
+                    alt="Polo with Tipping Details"
+                    class="product-tile__image"
+                  />
+                </div>
+                <h2 class="product-tile__title">
+                  <a href="product.html">Polo with Tipping Details</a>
+                </h2>
+                <p class="product-tile__rating">4.5/5</p>
+                <p class="product-tile__price">$180</p>
+              </article>
+
+              <article class="product-tile">
+                <div class="product-tile__image-link">
+                  <img
+                    src="~/assets/images/products/product3.png"
+                    alt="Black Striped T-shirt"
+                    class="product-tile__image"
+                  />
+                </div>
+                <h2 class="product-tile__title">
+                  <a href="product.html">Black Striped T-shirt</a>
+                </h2>
+                <p class="product-tile__rating">5.0/5</p>
+                <p class="product-tile__price product-tile__price--discount">
+                  $120
+                  <span>$150</span>
+                </p>
+              </article>
+
+              <article class="product-tile">
+                <div class="product-tile__image-link">
+                  <img
+                    src="~/assets/images/products/product4.png"
+                    alt="Skinny Fit Jeans"
+                    class="product-tile__image"
+                  />
+                </div>
+                <h2 class="product-tile__title">
+                  <a href="product.html">Skinny Fit Jeans</a>
+                </h2>
+                <p class="product-tile__rating">3.5/5</p>
+                <p class="product-tile__price">$240</p>
+              </article>
+
+              <article class="product-tile">
+                <div class="product-tile__image-link">
+                  <img
+                    src="~/assets/images/products/product5.png"
+                    alt="Checkered Shirt"
+                    class="product-tile__image"
+                  />
+                </div>
+                <h2 class="product-tile__title">
+                  <a href="product.html">Checkered Shirt</a>
+                </h2>
+                <p class="product-tile__rating">4.5/5</p>
+                <p class="product-tile__price">$180</p>
+              </article>
+
+              <article class="product-tile">
+                <div class="product-tile__image-link">
+                  <img
+                    src="~/assets/images/products/product6.png"
+                    alt="Sleeve Striped T-shirt"
+                    class="product-tile__image"
+                  />
+                </div>
+                <h2 class="product-tile__title">
+                  <a href="product.html">Sleeve Striped T-shirt</a>
+                </h2>
+                <p class="product-tile__rating">4.5/5</p>
+                <p class="product-tile__price">$130</p>
+              </article>
+            </div>
+
+            <nav class="catalog-pagination" aria-label="Catalog pagination">
+              <button class="catalog-pagination__button" type="button">
+                Previous
+              </button>
+              <div class="catalog-pagination__numbers">
+                <button
+                  type="button"
+                  class="catalog-pagination__number catalog-pagination__number--active"
+                >
+                  1
+                </button>
+                <button type="button" class="catalog-pagination__number">
+                  2
+                </button>
+                <button type="button" class="catalog-pagination__number">
+                  3
+                </button>
+                <button type="button" class="catalog-pagination__number">
+                  4
+                </button>
+                <span>...</span>
+                <button type="button" class="catalog-pagination__number">
+                  9
+                </button>
+              </div>
+              <button class="catalog-pagination__button" type="button">
+                Next
+              </button>
+            </nav>
+          </section>
         </section>
-
-        <section
-          style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 28px"
-          aria-label="Product list"
-        >
-          <article style="border: 1px solid #e8e8e8; border-radius: 14px; padding: 16px">
-            <img
-              src="~/images/pic_t_shirt.png"
-              alt="Gradient Graphic T-shirt"
-              style="width: 100%; border-radius: 10px; margin-bottom: 12px"
-            />
-            <h2 style="font-size: 18px; margin-bottom: 8px">Gradient Graphic T-shirt</h2>
-            <p style="margin-bottom: 14px">$145</p>
-            <a href="product.html">View Product Detail</a>
-          </article>
-
-          <article style="border: 1px solid #e8e8e8; border-radius: 14px; padding: 16px">
-            <img
-              src="~/images/pic_polo_blue.png"
-              alt="Polo with Contrast Trims"
-              style="width: 100%; border-radius: 10px; margin-bottom: 12px"
-            />
-            <h2 style="font-size: 18px; margin-bottom: 8px">Polo with Contrast Trims</h2>
-            <p style="margin-bottom: 14px">$212</p>
-            <a href="product.html">View Product Detail</a>
-          </article>
-
-          <article style="border: 1px solid #e8e8e8; border-radius: 14px; padding: 16px">
-            <img
-              src="~/images/pic_t_shirt_black.png"
-              alt="Black Striped T-shirt"
-              style="width: 100%; border-radius: 10px; margin-bottom: 12px"
-            />
-            <h2 style="font-size: 18px; margin-bottom: 8px">Black Striped T-shirt</h2>
-            <p style="margin-bottom: 14px">$120</p>
-            <a href="product.html">View Product Detail</a>
-          </article>
-        </section>
-
-        <nav aria-label="Flow navigation" style="display: flex; gap: 12px">
-          <a href="product.html">Next: Product Detail</a>
-        </nav>
       </main>
+
+      <div class="footer-form">
+        <p>STAY UPTO DATE ABOUT OUR LATEST OFFERS</p>
+        <form action="#">
+          <div class="footer-form__input">
+            <figure>
+              <img src="~/images/icn_mail.png" alt="Mail" />
+            </figure>
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              aria-label="Email address"
+            />
+          </div>
+          <button class="footer-form__button" type="button">
+            Subscribe to Newsletter
+          </button>
+        </form>
+      </div>
     </div>
+
+    <footer class="footer">
+      <div class="footer-main">
+        <div class="footer-main__content">
+          <div class="footer-main__info">
+            <p class="footer-main__logo">SHOP.CO</p>
+            <p class="footer-main__description">
+              We have clothes that suits your style and which you're proud to
+              wear. From women to men.
+            </p>
+            <div class="footer-main__socials">
+              <figure>
+                <img src="~/images/icn_twiter.png" alt="Twitter" />
+              </figure>
+              <figure class="icon-fb">
+                <img src="~/images/icn_fb.png" alt="Facebook" />
+              </figure>
+              <figure>
+                <img src="~/images/icn_instagram.png" alt="Instagram" />
+              </figure>
+              <figure>
+                <img src="~/images/icn_github.png" alt="Github" />
+              </figure>
+            </div>
+          </div>
+
+          <div class="footer-main__links">
+            <ul>
+              <h4>Company</h4>
+              <li>About</li>
+              <li>Features</li>
+              <li>Works</li>
+              <li>Career</li>
+            </ul>
+
+            <ul>
+              <h4>Help</h4>
+              <li>Customer Support</li>
+              <li>Delivery Details</li>
+              <li>Terms & Conditions</li>
+              <li>Privacy Policy</li>
+            </ul>
+
+            <ul>
+              <h4>FAQ</h4>
+              <li>Account</li>
+              <li>Manage Deliveries</li>
+              <li>Orders</li>
+              <li>Payments</li>
+            </ul>
+
+            <ul>
+              <h4>Resources</h4>
+              <li>Free eBooks</li>
+              <li>Development Tutorial</li>
+              <li>How to - Blog</li>
+              <li>Youtube Playlist</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-main__copyright">
+          <p>Shop.co © 2000-2023, All Rights Reserved</p>
+          <div class="footer-main__copyright-logo">
+            <figure>
+              <img src="~/images/icn_visa.png" alt="Visa" />
+            </figure>
+            <figure>
+              <img src="~/images/icn_mastercard.png" alt="Mastercard" />
+            </figure>
+            <figure>
+              <img src="~/images/icn_paypal.png" alt="PayPal" />
+            </figure>
+            <figure>
+              <img src="~/images/icn_apay.png" alt="Apple Pay" />
+            </figure>
+            <figure>
+              <img src="~/images/icn_gpay.png" alt="Google Pay" />
+            </figure>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
