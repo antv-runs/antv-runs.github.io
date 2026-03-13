@@ -1,0 +1,228 @@
+export const mockCategories = [
+  {
+    id: "cat_shop",
+    name: "Shop",
+    href: "#",
+    hasChildren: true,
+  },
+  {
+    id: "cat_sale",
+    name: "On Sale",
+    href: "#",
+    hasChildren: false,
+  },
+  {
+    id: "cat_new",
+    name: "New Arrivals",
+    href: "#",
+    hasChildren: false,
+  },
+  {
+    id: "cat_brands",
+    name: "Brands",
+    href: "#",
+    hasChildren: false,
+  },
+];
+
+export const mockProducts = [
+  {
+    id: "p001",
+    name: "One Life Graphic T-shirt",
+    categoryId: "cat_shop",
+    breadcrumb: ["Home", "Shop", "Men", "T-shirts"],
+    description:
+      "This graphic t-shirt which is perfect for any occasion. Crafted from a soft and breathable fabric, it offers superior comfort and style.",
+    details:
+      "Premium cotton fabric, relaxed fit, and long-lasting print quality made for everyday comfort.",
+    faqs: [
+      {
+        question: "What material is this product made of?",
+        answer: "Made with 100% breathable cotton.",
+      },
+      {
+        question: "Can I exchange size?",
+        answer: "Yes, size exchange is supported within 7 days.",
+      },
+    ],
+    rating: 4.5,
+    reviewCount: 451,
+    price: {
+      current: 260,
+      original: 300,
+      discountPercent: 40,
+      currency: "USD",
+    },
+    images: [
+      {
+        id: "p001_img_1",
+        url: "~/images/pic_t-shirt-main-1.png",
+        alt: "Product preview 1",
+      },
+      {
+        id: "p001_img_2",
+        url: "~/images/pic_t-shirt-main-2.png",
+        alt: "Product preview 2",
+      },
+      {
+        id: "p001_img_3",
+        url: "~/images/pic_t-shirt-main-3.png",
+        alt: "Product preview 3",
+      },
+    ],
+    variants: {
+      colors: [
+        { id: "brown", name: "Brown", colorCode: "#4F4631" },
+        { id: "green", name: "Green", colorCode: "#314F4A" },
+        { id: "purple", name: "Purple", colorCode: "#31344F" },
+      ],
+      sizes: [
+        { id: "small", name: "Small", inStock: true },
+        { id: "medium", name: "Medium", inStock: true },
+        { id: "large", name: "Large", inStock: true },
+        { id: "x-large", name: "X-Large", inStock: true },
+      ],
+    },
+    stock: {
+      inStock: true,
+      quantity: 50,
+    },
+    relatedProductIds: ["p002", "p003", "p004", "p005"],
+  },
+  {
+    id: "p002",
+    name: "Polo with Contrast Trims",
+    categoryId: "cat_shop",
+    rating: 4.0,
+    reviewCount: 112,
+    price: {
+      current: 212,
+      original: 242,
+      discountPercent: 20,
+      currency: "USD",
+    },
+    thumbnail: "~/images/pic_polo_blue.png",
+    thumbnailAlt: "Polo blue",
+  },
+  {
+    id: "p003",
+    name: "Gradient Graphic T-shirt",
+    categoryId: "cat_shop",
+    rating: 3.5,
+    reviewCount: 93,
+    price: {
+      current: 145,
+      original: null,
+      discountPercent: null,
+      currency: "USD",
+    },
+    thumbnail: "~/images/pic_t_shirt.png",
+    thumbnailAlt: "White T-Shirt",
+  },
+  {
+    id: "p004",
+    name: "Polo with Tipping Details",
+    categoryId: "cat_shop",
+    rating: 4.5,
+    reviewCount: 144,
+    price: {
+      current: 180,
+      original: null,
+      discountPercent: null,
+      currency: "USD",
+    },
+    thumbnail: "~/images/pic_polo_tipping.png",
+    thumbnailAlt: "Tipping polo",
+  },
+  {
+    id: "p005",
+    name: "Black Striped T-shirt",
+    categoryId: "cat_shop",
+    rating: 5.0,
+    reviewCount: 210,
+    price: {
+      current: 120,
+      original: 150,
+      discountPercent: 30,
+      currency: "USD",
+    },
+    thumbnail: "~/images/pic_t_shirt_black.png",
+    thumbnailAlt: "Black T-Shirt",
+  },
+];
+
+export const mockReviews = [
+  {
+    id: "r001",
+    productId: "p001",
+    ratingStar: 4.5,
+    isVerified: true,
+    name: "Samantha D.",
+    desc: "I absolutely love this t-shirt! The design is unique and the fabric feels so comfortable.",
+    date: "2023-08-14T00:00:00.000Z",
+  },
+  {
+    id: "r002",
+    productId: "p001",
+    ratingStar: 4,
+    isVerified: true,
+    name: "Alex M.",
+    desc: "The t-shirt exceeded my expectations! The colors are vibrant and the print quality is top-notch.",
+    date: "2023-08-15T00:00:00.000Z",
+  },
+  {
+    id: "r003",
+    productId: "p001",
+    ratingStar: 3.5,
+    isVerified: true,
+    name: "Ethan R.",
+    desc: "The fit is perfect and the minimalistic style is great for daily wear.",
+    date: "2023-08-16T00:00:00.000Z",
+  },
+  {
+    id: "r004",
+    productId: "p001",
+    ratingStar: 4,
+    isVerified: true,
+    name: "Olivia P.",
+    desc: "Simple, functional, and very comfortable.",
+    date: "2023-08-17T00:00:00.000Z",
+  },
+  {
+    id: "r005",
+    productId: "p001",
+    ratingStar: 4,
+    isVerified: true,
+    name: "Liam K.",
+    desc: "The fabric is soft and the overall look is premium.",
+    date: "2023-08-18T00:00:00.000Z",
+  },
+  {
+    id: "r006",
+    productId: "p001",
+    ratingStar: 4.5,
+    isVerified: true,
+    name: "Ava H.",
+    desc: "Thoughtful design details make this a conversation starter.",
+    date: "2023-08-19T00:00:00.000Z",
+  },
+  {
+    id: "r007",
+    productId: "p001",
+    ratingStar: 5,
+    isVerified: false,
+    name: "Noah T.",
+    desc: "Amazing quality for the price.",
+    date: "2023-08-20T00:00:00.000Z",
+  },
+  {
+    id: "r008",
+    productId: "p001",
+    ratingStar: 2,
+    isVerified: true,
+    name: "Mia L.",
+    desc: "Design is nice but the fit was not for me.",
+    date: "2023-08-21T00:00:00.000Z",
+  },
+];
+

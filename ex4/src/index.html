@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product List</title>
+    <link rel="stylesheet" href="~/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header style="padding: 24px 0 16px">
+        <p class="logo">SHOP.CO</p>
+      </header>
+
+      <main style="padding-bottom: 60px">
+        <section style="margin-bottom: 24px">
+          <h1 style="font-size: 36px; margin-bottom: 12px">Product List</h1>
+          <p style="color: rgba(0, 0, 0, 0.7)">
+            Browse products and choose one to see full details.
+          </p>
+        </section>
+
+        <section
+          style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 28px"
+          aria-label="Product list"
+        >
+          <article style="border: 1px solid #e8e8e8; border-radius: 14px; padding: 16px">
+            <img
+              src="~/images/pic_t_shirt.png"
+              alt="Gradient Graphic T-shirt"
+              style="width: 100%; border-radius: 10px; margin-bottom: 12px"
+            />
+            <h2 style="font-size: 18px; margin-bottom: 8px">Gradient Graphic T-shirt</h2>
+            <p style="margin-bottom: 14px">$145</p>
+            <a href="product.html">View Product Detail</a>
+          </article>
+
+          <article style="border: 1px solid #e8e8e8; border-radius: 14px; padding: 16px">
+            <img
+              src="~/images/pic_polo_blue.png"
+              alt="Polo with Contrast Trims"
+              style="width: 100%; border-radius: 10px; margin-bottom: 12px"
+            />
+            <h2 style="font-size: 18px; margin-bottom: 8px">Polo with Contrast Trims</h2>
+            <p style="margin-bottom: 14px">$212</p>
+            <a href="product.html">View Product Detail</a>
+          </article>
+
+          <article style="border: 1px solid #e8e8e8; border-radius: 14px; padding: 16px">
+            <img
+              src="~/images/pic_t_shirt_black.png"
+              alt="Black Striped T-shirt"
+              style="width: 100%; border-radius: 10px; margin-bottom: 12px"
+            />
+            <h2 style="font-size: 18px; margin-bottom: 8px">Black Striped T-shirt</h2>
+            <p style="margin-bottom: 14px">$120</p>
+            <a href="product.html">View Product Detail</a>
+          </article>
+        </section>
+
+        <nav aria-label="Flow navigation" style="display: flex; gap: 12px">
+          <a href="product.html">Next: Product Detail</a>
+        </nav>
+      </main>
+    </div>
+  </body>
+</html>

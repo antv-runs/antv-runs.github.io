@@ -157,3 +157,4 @@ export function renderRelatedProducts(container, relatedProducts, helpers, onSel
     });
   });
 }
+

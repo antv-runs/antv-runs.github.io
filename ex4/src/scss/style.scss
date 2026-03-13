@@ -1,9 +1,9 @@
-@use "base/reset";
-@use "base/variables" as v;
-@use "components/button";
-@use "components/bai4-layout";
-@use "base/fonts";
-@use "base/mixins" as *;
+@use "~/scss/base/reset";
+@use "~/scss/base/variables" as v;
+@use "~/scss/components/button";
+@use "~/scss/components/bai4-layout";
+@use "~/scss/base/fonts";
+@use "~/scss/base/mixins" as *;
 
 body,
 button {
