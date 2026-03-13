@@ -23,7 +23,7 @@ const paths = {
     scssEntry: "src/scss/style.scss",
     js: "src/assets/js/**/*.js",
     images: "src/assets/images/**/*.{png,jpg,jpeg,webp,svg,gif,avif,ico}",
-    fonts: "src/assets/fonts/**/*",
+    fonts: "src/assets/fonts/**/*.{woff,woff2,ttf,otf,eot}",
     data: "src/assets/data/**/*",
   },
   out: {
@@ -102,6 +102,45 @@ function createImageSizeVerifier() {
 
       console.log(
         `[images:verify] ${file.relative} OK (${destinationSize} bytes)`,
+      );
+      callback(null, file);
+    },
+  });
+}
+
+function createFontCopyLogger() {
+  return new Transform({
+    objectMode: true,
+    transform(file, _encoding, callback) {
+      const relativePath = path.relative(process.cwd(), file.path);
+      const size = Buffer.isBuffer(file.contents) ? file.contents.length : 0;
+      console.log(`[fonts:copy] ${relativePath} (${size} bytes)`);
+      callback(null, file);
+    },
+  });
+}
+
+function createFontSizeVerifier() {
+  return new Transform({
+    objectMode: true,
+    transform(file, _encoding, callback) {
+      const sourcePath = path.resolve("src/assets/fonts", file.relative);
+      const destinationPath = path.resolve(paths.out.fonts, file.relative);
+
+      const sourceSize = fs.statSync(sourcePath).size;
+      const destinationSize = fs.statSync(destinationPath).size;
+
+      if (sourceSize !== destinationSize) {
+        callback(
+          new Error(
+            `[fonts:verify] Size mismatch for ${file.relative}: src=${sourceSize}, dest=${destinationSize}`,
+          ),
+        );
+        return;
+      }
+
+      console.log(
+        `[fonts:verify] ${file.relative} OK (${destinationSize} bytes)`,
       );
       callback(null, file);
     },
@@ -223,7 +262,12 @@ export function images() {
 }
 
 export function fonts() {
-  return gulp.src(paths.src.fonts).pipe(gulp.dest(paths.out.fonts));
+  // Gulp 5 defaults to text encoding; force binary mode for non-text assets.
+  return gulp
+    .src(paths.src.fonts, { encoding: false })
+    .pipe(createFontCopyLogger())
+    .pipe(gulp.dest(paths.out.fonts))
+    .pipe(createFontSizeVerifier());
 }
 
 function dataTask({ dev }) {
