@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="shop-api-base-url" content="http://localhost:8000" />
     <title>Product Detail</title>
     <link rel="stylesheet" href="~/css/style.css" />
   </head>
@@ -52,7 +53,7 @@
           <div class="product-overview__images">
             <div
               id="product-thumbnails"
-              class="product-overview__images-wrapper js-product-thumbnails"
+              class="product-overview__images-wrapper js-product-thumbnails js-product-gallery"
             ></div>
 
             <div class="image-wrapper-main">
@@ -66,26 +67,36 @@
           </div>
 
           <div class="product-overview__info">
-            <h1 id="product-title" class="js-product-title">Loading product...</h1>
+            <h1 id="product-title" class="js-product-title">
+              Loading product...
+            </h1>
 
             <div class="product-overview__rating">
-              <div id="product-rating-stars" class="js-product-rating-stars"></div>
-              <p id="product-rating-text" class="js-product-rating-text">0/<span>5</span></p>
+              <div
+                id="product-rating-stars"
+                class="js-product-rating-stars"
+              ></div>
+              <p id="product-rating-text" class="js-product-rating-text">
+                0/<span>5</span>
+              </p>
             </div>
 
             <div class="product-overview__price">
               <p
                 id="product-price-current"
-                class="product-overview__price-current js-product-price-current"
+                class="product-overview__price-current js-product-price-current js-product-price"
               >
                 $0
               </p>
-              <p id="product-price-old" class="product-overview__price-old js-product-price-old">
+              <p
+                id="product-price-old"
+                class="product-overview__price-old js-product-price-old js-product-original-price"
+              >
                 $0
               </p>
               <p
                 id="product-price-discount"
-                class="product-overview__price-discount js-product-price-discount"
+                class="product-overview__price-discount js-product-price-discount js-product-discount"
               >
                 -0%
               </p>
@@ -167,7 +178,9 @@
           data-tab-content="tc-details"
           class="products-tabs__content js-products-tabs__content"
         >
-          <div id="product-details-content" class="js-product-details-content">Product details are loading...</div>
+          <div id="product-details-content" class="js-product-details-content">
+            Product details are loading...
+          </div>
         </section>
 
         <section
@@ -177,7 +190,9 @@
         >
           <div class="reviews__header">
             <h2 class="reviews__title">
-              All Reviews<span id="reviews-count" class="js-reviews-count">(0)</span>
+              All Reviews<span id="reviews-count" class="js-reviews-count"
+                >(0)</span
+              >
             </h2>
 
             <div class="reviews__actions">
@@ -249,7 +264,10 @@
           <ul id="reviews-list" class="reviews__list js-reviews-list"></ul>
 
           <div class="reviews__load-more-wrapper">
-            <button id="reviews-load-more" class="reviews__load-more js-reviews-load-more">
+            <button
+              id="reviews-load-more"
+              class="reviews__load-more js-reviews-load-more"
+            >
               Load More Reviews
             </button>
           </div>
@@ -264,15 +282,15 @@
         </section>
       </section>
 
-      <section class="other-products">
+      <section class="other-products js-related-products">
         <h2 class="other-products__title">You Might Also Like</h2>
 
         <button class="other-products__prev js-other-products__prev"></button>
 
-        <div class="other-products__viewport">
+        <div class="other-products__viewport js-related-viewport">
           <ul
             id="other-products-list"
-            class="other-products__list js-other-products__list"
+            class="other-products__list js-other-products__list js-related-track"
           ></ul>
         </div>
 

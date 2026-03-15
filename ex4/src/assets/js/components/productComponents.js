@@ -15,7 +15,12 @@ export function renderCategories(container, categories) {
 export function renderBreadcrumb(container, product) {
   const breadcrumb = Array.isArray(product.breadcrumb)
     ? product.breadcrumb
-    : ["Home", "Shop", product.name || "Product"];
+    : [
+        "Home",
+        "Shop",
+        product.category?.name || "Catalog",
+        product.name || "Product",
+      ];
 
   container.innerHTML = breadcrumb.map((crumb) => `<li>${crumb}</li>`).join("");
 }
@@ -36,26 +41,34 @@ export function renderImageGallery(thumbnailsContainer, mainImage, product) {
   }
 
   const [firstImage] = images;
-  mainImage.src = firstImage.url;
-  mainImage.alt = firstImage.alt;
+  mainImage.src = firstImage.url || firstImage.image_url;
+  mainImage.alt = firstImage.alt || firstImage.alt_text;
 
   thumbnailsContainer.innerHTML = images
     .map((image, index) => {
-      return `<div class="image-wrapper"><img class="js-product-thumbnail" data-image-index="${index}" src="${image.url}" alt="${image.alt}" /></div>`;
+      const imageUrl = image.url || image.image_url;
+      const imageAlt = image.alt || image.alt_text;
+      return `<div class="image-wrapper"><img class="js-product-thumbnail" data-image-index="${index}" src="${imageUrl}" alt="${imageAlt}" /></div>`;
     })
     .join("");
 
-  thumbnailsContainer.querySelectorAll(".js-product-thumbnail").forEach((thumb) => {
-    thumb.addEventListener("click", () => {
-      const imageIndex = Number(thumb.dataset.imageIndex);
-      const selectedImage = images[imageIndex];
-      mainImage.src = selectedImage.url;
-      mainImage.alt = selectedImage.alt;
+  thumbnailsContainer
+    .querySelectorAll(".js-product-thumbnail")
+    .forEach((thumb) => {
+      thumb.addEventListener("click", () => {
+        const imageIndex = Number(thumb.dataset.imageIndex);
+        const selectedImage = images[imageIndex];
+        mainImage.src = selectedImage.url || selectedImage.image_url;
+        mainImage.alt = selectedImage.alt || selectedImage.alt_text;
+      });
     });
-  });
 }
 
 export function renderProductInfo(dom, product, helpers) {
+  const pricing = product.pricing || product.price || {};
+  const hasDiscount =
+    pricing.original && pricing.current && pricing.original > pricing.current;
+
   setText(dom.productTitle, product.name);
   dom.productRatingStars.innerHTML = helpers.renderStars(
     product.rating || 0,
@@ -65,25 +78,28 @@ export function renderProductInfo(dom, product, helpers) {
 
   setText(
     dom.productPriceCurrent,
-    helpers.formatPrice(product.price.current, product.price.currency),
+    helpers.formatPrice(pricing.current || 0, pricing.currency || "USD"),
   );
 
-  if (product.price.original) {
+  if (hasDiscount) {
     setText(
       dom.productPriceOld,
-      helpers.formatPrice(product.price.original, product.price.currency),
+      helpers.formatPrice(pricing.original, pricing.currency || "USD"),
     );
   } else {
     setText(dom.productPriceOld, "");
   }
 
-  if (product.price.discountPercent) {
-    setText(dom.productPriceDiscount, `-${product.price.discountPercent}%`);
+  if (pricing.discountPercent) {
+    setText(dom.productPriceDiscount, `-${pricing.discountPercent}%`);
   } else {
     setText(dom.productPriceDiscount, "");
   }
 
-  setText(dom.productDescription, product.description || "No description available.");
+  setText(
+    dom.productDescription,
+    product.description || "No description available.",
+  );
   setText(dom.productDetailsContent, product.details || "No detail available.");
 }
 
@@ -94,11 +110,18 @@ export function renderFaqs(listEl, faqs = []) {
   }
 
   listEl.innerHTML = faqs
-    .map((faq) => `<li><strong>${faq.question}</strong><p>${faq.answer}</p></li>`)
+    .map(
+      (faq) => `<li><strong>${faq.question}</strong><p>${faq.answer}</p></li>`,
+    )
     .join("");
 }
 
-export function renderColorOptions(container, colors, selectedColorId, onSelect) {
+export function renderColorOptions(
+  container,
+  colors,
+  selectedColorId,
+  onSelect,
+) {
   container.innerHTML = colors
     .map((color) => {
       const isActive = color.id === selectedColorId ? " is-active" : "";
@@ -129,10 +152,20 @@ export function renderSizeOptions(container, sizes, selectedSizeId, onSelect) {
   });
 }
 
-export function renderRelatedProducts(container, relatedProducts, helpers, onSelectProduct) {
+export function renderRelatedProducts(
+  container,
+  relatedProducts,
+  helpers,
+  onSelectProduct,
+) {
   container.innerHTML = relatedProducts
     .map((product) => {
-      return `<li class="other-products__item js-other-products__item" data-product-id="${product.id}">
+      const pricing = product.pricing || product.price || {};
+      const hasDiscount =
+        pricing.original &&
+        pricing.current &&
+        pricing.original > pricing.current;
+      return `<li class="other-products__item js-other-products__item js-related-item" data-product-id="${product.id}">
         <img class="product-item__image" src="${product.thumbnail}" alt="${product.thumbnailAlt}" />
         <h3 class="product-item__title">${product.name}</h3>
         <div class="product-item__rating">
@@ -140,9 +173,9 @@ export function renderRelatedProducts(container, relatedProducts, helpers, onSel
           <p>${product.rating}/5</p>
         </div>
         <div class="product-item__prices">
-          <p class="product-item__prices--discounted">${helpers.formatPrice(product.price.current, product.price.currency)}</p>
-          ${product.price.original ? `<p class="product-item__prices--original">${helpers.formatPrice(product.price.original, product.price.currency)}</p>` : ""}
-          ${product.price.discountPercent ? `<p class="product-item__prices--percent">-${product.price.discountPercent}%</p>` : ""}
+          <p class="product-item__prices--discounted">${helpers.formatPrice(pricing.current || 0, pricing.currency || "USD")}</p>
+          ${hasDiscount ? `<p class="product-item__prices--original">${helpers.formatPrice(pricing.original, pricing.currency || "USD")}</p>` : ""}
+          ${pricing.discountPercent ? `<p class="product-item__prices--percent">-${pricing.discountPercent}%</p>` : ""}
         </div>
       </li>`;
     })
@@ -157,4 +190,3 @@ export function renderRelatedProducts(container, relatedProducts, helpers, onSel
     });
   });
 }
-

@@ -1567,6 +1567,7 @@ button {
 .other-products__item {
   cursor: pointer;
   max-width: 295px;
+  flex: 0 0 auto;
   transition: background-color 0.25s ease, transform 0.2s ease;
 }
 .other-products__item:hover {
@@ -1589,7 +1590,18 @@ button {
   font-family: "IntegralCF";
 }
 .other-products__viewport {
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  touch-action: pan-x;
+  cursor: grab;
+}
+.other-products__viewport::-webkit-scrollbar {
+  display: none;
+}
+.other-products__viewport.is-dragging {
+  cursor: grabbing;
+  user-select: none;
 }
 .other-products__list {
   display: flex;
