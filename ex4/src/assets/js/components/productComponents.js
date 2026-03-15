@@ -41,11 +41,11 @@ export function renderImageGallery(thumbnailsContainer, mainImage, product) {
 
   thumbnailsContainer.innerHTML = images
     .map((image, index) => {
-      return `<div class="image-wrapper"><img data-image-index="${index}" src="${image.url}" alt="${image.alt}" /></div>`;
+      return `<div class="image-wrapper"><img class="js-product-thumbnail" data-image-index="${index}" src="${image.url}" alt="${image.alt}" /></div>`;
     })
     .join("");
 
-  thumbnailsContainer.querySelectorAll("img").forEach((thumb) => {
+  thumbnailsContainer.querySelectorAll(".js-product-thumbnail").forEach((thumb) => {
     thumb.addEventListener("click", () => {
       const imageIndex = Number(thumb.dataset.imageIndex);
       const selectedImage = images[imageIndex];
@@ -102,11 +102,11 @@ export function renderColorOptions(container, colors, selectedColorId, onSelect)
   container.innerHTML = colors
     .map((color) => {
       const isActive = color.id === selectedColorId ? " is-active" : "";
-      return `<button class="color-option${isActive}" type="button" style="background-color: ${color.colorCode};" aria-label="${color.name}" data-color-id="${color.id}"></button>`;
+      return `<button class="color-option js-color-option${isActive}" type="button" style="background-color: ${color.colorCode};" aria-label="${color.name}" data-color-id="${color.id}"></button>`;
     })
     .join("");
 
-  container.querySelectorAll(".color-option").forEach((option) => {
+  container.querySelectorAll(".js-color-option").forEach((option) => {
     option.addEventListener("click", () => {
       onSelect(option.dataset.colorId);
     });
@@ -118,11 +118,11 @@ export function renderSizeOptions(container, sizes, selectedSizeId, onSelect) {
     .map((size) => {
       const isActive = size.id === selectedSizeId ? " is-active" : "";
       const disabled = size.inStock ? "" : " disabled";
-      return `<button class="size-option${isActive}" type="button" data-size-id="${size.id}"${disabled}>${size.name}</button>`;
+      return `<button class="size-option js-size-option${isActive}" type="button" data-size-id="${size.id}"${disabled}>${size.name}</button>`;
     })
     .join("");
 
-  container.querySelectorAll(".size-option").forEach((option) => {
+  container.querySelectorAll(".js-size-option").forEach((option) => {
     option.addEventListener("click", () => {
       onSelect(option.dataset.sizeId);
     });
@@ -132,7 +132,7 @@ export function renderSizeOptions(container, sizes, selectedSizeId, onSelect) {
 export function renderRelatedProducts(container, relatedProducts, helpers, onSelectProduct) {
   container.innerHTML = relatedProducts
     .map((product) => {
-      return `<li class="other-products__item" data-product-id="${product.id}">
+      return `<li class="other-products__item js-other-products__item" data-product-id="${product.id}">
         <img class="product-item__image" src="${product.thumbnail}" alt="${product.thumbnailAlt}" />
         <h3 class="product-item__title">${product.name}</h3>
         <div class="product-item__rating">
@@ -148,7 +148,7 @@ export function renderRelatedProducts(container, relatedProducts, helpers, onSel
     })
     .join("");
 
-  container.querySelectorAll(".other-products__item").forEach((item) => {
+  container.querySelectorAll(".js-other-products__item").forEach((item) => {
     item.addEventListener("click", () => {
       const nextProductId = item.dataset.productId;
       if (nextProductId) {

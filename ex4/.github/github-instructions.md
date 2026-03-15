@@ -71,3 +71,55 @@ When adding new features:
 - Coordinate everything in pages
 
 The goal is to keep the codebase modular, maintainable, and easy to scale.
+
+7. CSS and JavaScript classes must be separated.
+
+Any class used by JavaScript must start with the prefix js-
+
+Styling classes must NOT be used for JavaScript selectors
+
+JavaScript should only query elements using classes that start with js-
+
+Example:
+
+HTML
+
+<button class="btn btn-primary js-add-to-cart">
+Add to cart
+</button>
+
+CSS
+
+.btn {
+padding: 12px;
+}
+
+JavaScript
+
+document.querySelector(".js-add-to-cart")
+
+1. Use semantic tags (header, section, main, footer)
+2. Only one h1 per page
+3. Avoid unnecessary div nesting
+4. Use ul/li for lists
+5. Images must have alt
+6. Use figure for images with captions
+7. Use a for navigation actions
+
+CSS
+
+1. Do not set fixed width/height on body
+2. Use margin for spacing between blocks
+3. Use padding for inner spacing
+4. Use flexbox with display:flex
+5. Use gap instead of margin for flex spacing
+6. Line-height should be between 1 and 1.5
+7. Avoid inline CSS
+8. Use SVG for icons
+
+JS
+
+1. Use js- prefix for JS hooks
+2. Separate CSS class and JS class
+3. Render dynamic data via JS
+4. Use English comments only

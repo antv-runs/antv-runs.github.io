@@ -30,30 +30,30 @@ const state = {
 };
 
 const dom = {
-  navCategories: document.getElementById("nav-categories"),
-  breadcrumbList: document.getElementById("breadcrumb-list"),
-  productThumbnails: document.getElementById("product-thumbnails"),
-  productMainImage: document.getElementById("product-main-image"),
-  productTitle: document.getElementById("product-title"),
-  productRatingStars: document.getElementById("product-rating-stars"),
-  productRatingText: document.getElementById("product-rating-text"),
-  productPriceCurrent: document.getElementById("product-price-current"),
-  productPriceOld: document.getElementById("product-price-old"),
-  productPriceDiscount: document.getElementById("product-price-discount"),
-  productDescription: document.getElementById("product-description"),
-  productColorOptions: document.getElementById("product-color-options"),
-  productSizeOptions: document.getElementById("product-size-options"),
-  quantityInput: document.getElementById("quantity-input"),
-  productDetailsContent: document.getElementById("product-details-content"),
-  productFaqsList: document.getElementById("product-faqs-list"),
-  reviewsCount: document.getElementById("reviews-count"),
-  reviewsList: document.getElementById("reviews-list"),
-  reviewsSortSelect: document.getElementById("reviews-sort-select"),
-  reviewsLoadMore: document.getElementById("reviews-load-more"),
-  reviewsFilterBtn: document.getElementById("btn-filter-by-stars"),
-  reviewsFilterDropdown: document.getElementById("dropdown-filter-by-stars"),
+  navCategories: document.querySelector(".js-nav-categories"),
+  breadcrumbList: document.querySelector(".js-breadcrumb-list"),
+  productThumbnails: document.querySelector(".js-product-thumbnails"),
+  productMainImage: document.querySelector(".js-product-main-image"),
+  productTitle: document.querySelector(".js-product-title"),
+  productRatingStars: document.querySelector(".js-product-rating-stars"),
+  productRatingText: document.querySelector(".js-product-rating-text"),
+  productPriceCurrent: document.querySelector(".js-product-price-current"),
+  productPriceOld: document.querySelector(".js-product-price-old"),
+  productPriceDiscount: document.querySelector(".js-product-price-discount"),
+  productDescription: document.querySelector(".js-product-description"),
+  productColorOptions: document.querySelector(".js-product-color-options"),
+  productSizeOptions: document.querySelector(".js-product-size-options"),
+  quantityInput: document.querySelector(".js-quantity-input"),
+  productDetailsContent: document.querySelector(".js-product-details-content"),
+  productFaqsList: document.querySelector(".js-product-faqs-list"),
+  reviewsCount: document.querySelector(".js-reviews-count"),
+  reviewsList: document.querySelector(".js-reviews-list"),
+  reviewsSortSelect: document.querySelector(".js-reviews-sort-select"),
+  reviewsLoadMore: document.querySelector(".js-reviews-load-more"),
+  reviewsFilterBtn: document.querySelector(".js-btn-filter-by-stars"),
+  reviewsFilterDropdown: document.querySelector(".js-dropdown-filter-by-stars"),
   reviewsFilterOptions: document.querySelectorAll(".js-reviews__filter-option"),
-  otherProductsList: document.getElementById("other-products-list"),
+  otherProductsList: document.querySelector(".js-other-products__list"),
   otherProductsPrev: document.querySelector(".js-other-products__prev"),
   otherProductsNext: document.querySelector(".js-other-products__next"),
   productTabs: document.querySelectorAll(".js-tabs__tab"),
@@ -120,7 +120,9 @@ function getCurrentRelatedProducts(product) {
 function bindStaticEvents() {
   dom.productTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      dom.productTabs.forEach((item) => item.classList.remove("tabs__tab--active"));
+      dom.productTabs.forEach((item) =>
+        item.classList.remove("tabs__tab--active"),
+      );
       dom.productTabContents.forEach((content) =>
         content.classList.remove("products-tabs__content--active"),
       );
@@ -128,7 +130,9 @@ function bindStaticEvents() {
       tab.classList.add("tabs__tab--active");
 
       const tabId = tab.dataset.tab;
-      const target = document.getElementById(tabId);
+      const target = document.querySelector(
+        `.js-products-tabs__content[data-tab-content="${tabId}"]`,
+      );
       if (target) {
         target.classList.add("products-tabs__content--active");
       }
@@ -137,11 +141,15 @@ function bindStaticEvents() {
 
   dom.reviewsFilterBtn.addEventListener("click", (event) => {
     event.stopPropagation();
-    dom.reviewsFilterDropdown.classList.toggle("reviews__filter-dropdown--show");
+    dom.reviewsFilterDropdown.classList.toggle(
+      "reviews__filter-dropdown--show",
+    );
   });
 
   document.addEventListener("click", () => {
-    dom.reviewsFilterDropdown.classList.remove("reviews__filter-dropdown--show");
+    dom.reviewsFilterDropdown.classList.remove(
+      "reviews__filter-dropdown--show",
+    );
   });
 
   dom.reviewsFilterOptions.forEach((option) => {
@@ -153,7 +161,9 @@ function bindStaticEvents() {
         item.classList.remove("reviews__filter-option--active"),
       );
       option.classList.add("reviews__filter-option--active");
-      dom.reviewsFilterDropdown.classList.remove("reviews__filter-dropdown--show");
+      dom.reviewsFilterDropdown.classList.remove(
+        "reviews__filter-dropdown--show",
+      );
       renderReviewsSection();
     });
   });
@@ -169,8 +179,8 @@ function bindStaticEvents() {
     renderReviewsSection();
   });
 
-  const minusButton = document.querySelector(".quantity-button-minus");
-  const plusButton = document.querySelector(".quantity-button-plus");
+  const minusButton = document.querySelector(".js-quantity-button-minus");
+  const plusButton = document.querySelector(".js-quantity-button-plus");
 
   minusButton.addEventListener("click", () => {
     const current = normalizeQuantity(dom.quantityInput.value);
@@ -187,7 +197,9 @@ function bindStaticEvents() {
   });
 
   dom.quantityInput.addEventListener("blur", () => {
-    dom.quantityInput.value = String(normalizeQuantity(dom.quantityInput.value));
+    dom.quantityInput.value = String(
+      normalizeQuantity(dom.quantityInput.value),
+    );
   });
 
   dom.otherProductsPrev.addEventListener("click", () => {
@@ -252,10 +264,15 @@ function paintProduct(product) {
   }
 
   const repaintSizes = () => {
-    renderSizeOptions(dom.productSizeOptions, sizes, state.selectedSizeId, (sizeId) => {
-      state.selectedSizeId = sizeId;
-      repaintSizes();
-    });
+    renderSizeOptions(
+      dom.productSizeOptions,
+      sizes,
+      state.selectedSizeId,
+      (sizeId) => {
+        state.selectedSizeId = sizeId;
+        repaintSizes();
+      },
+    );
   };
 
   repaintSizes();
@@ -276,11 +293,16 @@ async function loadSelectedProduct(productId) {
   paintProduct(product);
 
   const relatedProducts = getCurrentRelatedProducts(product);
-  renderRelatedProducts(dom.otherProductsList, relatedProducts, helpers, async (nextProductId) => {
-    if (nextProductId !== state.selectedProductId) {
-      await loadSelectedProduct(nextProductId);
-    }
-  });
+  renderRelatedProducts(
+    dom.otherProductsList,
+    relatedProducts,
+    helpers,
+    async (nextProductId) => {
+      if (nextProductId !== state.selectedProductId) {
+        await loadSelectedProduct(nextProductId);
+      }
+    },
+  );
 
   await loadReviews(product.id);
 }

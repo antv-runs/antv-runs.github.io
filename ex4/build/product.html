@@ -17,7 +17,7 @@
         <p class="logo">SHOP.CO</p>
 
         <nav class="header-links" aria-label="Main navigation">
-          <ul id="nav-categories"></ul>
+          <ul id="nav-categories" class="js-nav-categories"></ul>
         </nav>
 
         <form action="#" class="header-search">
@@ -44,7 +44,7 @@
       <section class="product-overview">
         <ul
           id="breadcrumb-list"
-          class="product-overview__link"
+          class="product-overview__link js-breadcrumb-list"
           aria-label="Breadcrumb"
         ></ul>
 
@@ -52,12 +52,13 @@
           <div class="product-overview__images">
             <div
               id="product-thumbnails"
-              class="product-overview__images-wrapper"
+              class="product-overview__images-wrapper js-product-thumbnails"
             ></div>
 
             <div class="image-wrapper-main">
               <img
                 id="product-main-image"
+                class="js-product-main-image"
                 src="./assets/images/pic_t-shirt-main-1.png"
                 alt="Product image"
               />
@@ -65,26 +66,26 @@
           </div>
 
           <div class="product-overview__info">
-            <h1 id="product-title">Loading product...</h1>
+            <h1 id="product-title" class="js-product-title">Loading product...</h1>
 
             <div class="product-overview__rating">
-              <div id="product-rating-stars"></div>
-              <p id="product-rating-text">0/<span>5</span></p>
+              <div id="product-rating-stars" class="js-product-rating-stars"></div>
+              <p id="product-rating-text" class="js-product-rating-text">0/<span>5</span></p>
             </div>
 
             <div class="product-overview__price">
               <p
                 id="product-price-current"
-                class="product-overview__price-current"
+                class="product-overview__price-current js-product-price-current"
               >
                 $0
               </p>
-              <p id="product-price-old" class="product-overview__price-old">
+              <p id="product-price-old" class="product-overview__price-old js-product-price-old">
                 $0
               </p>
               <p
                 id="product-price-discount"
-                class="product-overview__price-discount"
+                class="product-overview__price-discount js-product-price-discount"
               >
                 -0%
               </p>
@@ -92,14 +93,14 @@
 
             <p
               id="product-description"
-              class="product-overview__description"
+              class="product-overview__description js-product-description"
             ></p>
 
             <div class="product-overview__choose">
               <p>Select Colors</p>
               <div
                 id="product-color-options"
-                class="product-overview__choose-colors"
+                class="product-overview__choose-colors js-product-color-options"
               ></div>
             </div>
 
@@ -107,14 +108,14 @@
               <p>Choose Size</p>
               <div
                 id="product-size-options"
-                class="product-overview__size-options"
+                class="product-overview__size-options js-product-size-options"
               ></div>
             </div>
 
             <div class="product-overview__actions">
               <form action="#">
                 <button
-                  class="quantity-button-minus"
+                  class="quantity-button-minus js-quantity-button-minus"
                   type="button"
                   aria-label="Decrease quantity"
                 >
@@ -122,12 +123,13 @@
                 </button>
                 <input
                   id="quantity-input"
+                  class="js-quantity-input"
                   type="text"
                   value="1"
                   aria-label="Quantity"
                 />
                 <button
-                  class="quantity-button-plus"
+                  class="quantity-button-plus js-quantity-button-plus"
                   type="button"
                   aria-label="Increase quantity"
                 >
@@ -162,30 +164,32 @@
 
         <section
           id="tc-details"
+          data-tab-content="tc-details"
           class="products-tabs__content js-products-tabs__content"
         >
-          <div id="product-details-content">Product details are loading...</div>
+          <div id="product-details-content" class="js-product-details-content">Product details are loading...</div>
         </section>
 
         <section
           id="tc-reviews"
+          data-tab-content="tc-reviews"
           class="reviews products-tabs__content js-products-tabs__content products-tabs__content--active"
         >
           <div class="reviews__header">
             <h2 class="reviews__title">
-              All Reviews<span id="reviews-count">(0)</span>
+              All Reviews<span id="reviews-count" class="js-reviews-count">(0)</span>
             </h2>
 
             <div class="reviews__actions">
               <div class="reviews__filter">
                 <button
                   id="btn-filter-by-stars"
-                  class="reviews__action reviews__action--filter"
+                  class="reviews__action reviews__action--filter js-btn-filter-by-stars"
                 ></button>
 
                 <div
                   id="dropdown-filter-by-stars"
-                  class="reviews__filter-dropdown"
+                  class="reviews__filter-dropdown js-dropdown-filter-by-stars"
                 >
                   <div
                     class="reviews__filter-option js-reviews__filter-option reviews__filter-option--active"
@@ -228,7 +232,7 @@
               <div class="reviews__action reviews__action--sort">
                 <select
                   id="reviews-sort-select"
-                  class="reviews__select"
+                  class="reviews__select js-reviews-sort-select"
                   aria-label="Sort reviews"
                 >
                   <option value="latest">Latest</option>
@@ -242,10 +246,10 @@
             </div>
           </div>
 
-          <ul id="reviews-list" class="reviews__list"></ul>
+          <ul id="reviews-list" class="reviews__list js-reviews-list"></ul>
 
           <div class="reviews__load-more-wrapper">
-            <button id="reviews-load-more" class="reviews__load-more">
+            <button id="reviews-load-more" class="reviews__load-more js-reviews-load-more">
               Load More Reviews
             </button>
           </div>
@@ -253,9 +257,10 @@
 
         <section
           id="tc-faqs"
+          data-tab-content="tc-faqs"
           class="products-tabs__content js-products-tabs__content"
         >
-          <ul id="product-faqs-list"></ul>
+          <ul id="product-faqs-list" class="js-product-faqs-list"></ul>
         </section>
       </section>
 
