@@ -17,6 +17,7 @@ import { formatPrice, formatDate } from "../utils/formatters.js";
 import { setText, normalizeQuantity } from "../utils/domUtils.js";
 import { renderStars } from "../utils/ratingUtils.js";
 import { getQueryParam } from "../utils/queryParams.js";
+import { CART_STORAGE_KEY } from "../constants/storageKeys.js";
 
 const state = {
   categories: [],
@@ -63,6 +64,8 @@ const dom = {
   otherProductsNext: document.querySelector(".js-other-products__next"),
   productTabs: document.querySelectorAll(".js-tabs__tab"),
   productTabContents: document.querySelectorAll(".js-products-tabs__content"),
+  addToCartButton: document.querySelector(".js-add-to-cart"),
+  cartButton: document.querySelector(".js-cart-button"),
 };
 
 let relatedProductsCarousel = null;
@@ -153,7 +156,90 @@ function resetProductSections(message) {
   setText(dom.reviewsCount, "(0)");
 }
 
+function getStoredCartItems() {
+  try {
+    const rawValue = localStorage.getItem(CART_STORAGE_KEY);
+    if (!rawValue) {
+      return [];
+    }
+
+    const parsedValue = JSON.parse(rawValue);
+    if (!Array.isArray(parsedValue)) {
+      return [];
+    }
+
+    return parsedValue
+      .map((item) => ({
+        id: String(item?.id || "").trim(),
+        quantity: Math.max(1, Number(item?.quantity) || 1),
+      }))
+      .filter((item) => item.id);
+  } catch {
+    return [];
+  }
+}
+
+function persistCartItems(items) {
+  const serializableItems = items.map((item) => ({
+    id: String(item.id),
+    quantity: Math.max(1, Number(item.quantity) || 1),
+  }));
+
+  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(serializableItems));
+}
+
+function toCartItem(product, quantity) {
+  return {
+    id: String(product.id),
+    quantity,
+  };
+}
+
+function addProductToCart(product, quantityToAdd = 1) {
+  if (!product?.id) {
+    return;
+  }
+
+  const quantity = Math.max(1, Number(quantityToAdd) || 1);
+  const cartItems = getStoredCartItems();
+  const existingItem = cartItems.find(
+    (item) => String(item.id) === String(product.id),
+  );
+
+  if (existingItem) {
+    existingItem.quantity = Math.max(
+      1,
+      Number(existingItem.quantity || 0) + quantity,
+    );
+  } else {
+    cartItems.push(toCartItem(product, quantity));
+  }
+
+  persistCartItems(cartItems);
+}
+
+function triggerAddToCartFeedback(button) {
+  if (!button) {
+    return;
+  }
+
+  button.classList.remove("is-added");
+  button.offsetWidth;
+  button.classList.add("is-added");
+
+  const clearFeedback = () => {
+    button.classList.remove("is-added");
+  };
+
+  button.addEventListener("animationend", clearFeedback, { once: true });
+  window.setTimeout(clearFeedback, 320);
+}
+
 function bindStaticEvents() {
+  dom.cartButton?.addEventListener("click", () => {
+    window.location.href = "cart.html";
+  });
+
   dom.productTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       dom.productTabs.forEach((item) => {
@@ -313,6 +399,18 @@ function mountRelatedProductsCarousel() {
   });
 }
 
+function bindAddToCart(product) {
+  if (!dom.addToCartButton) {
+    return;
+  }
+
+  dom.addToCartButton.onclick = () => {
+    const quantity = normalizeQuantity(dom.quantityInput?.value || "1");
+    addProductToCart(product, quantity);
+    triggerAddToCartFeedback(dom.addToCartButton);
+  };
+}
+
 async function loadSelectedProduct(productId) {
   state.selectedProductId = String(productId);
   setText(dom.productTitle, "Loading product...");
@@ -329,6 +427,7 @@ async function loadSelectedProduct(productId) {
 
     syncProductUrl(product.id);
     paintProduct(product);
+    bindAddToCart(product);
 
     const relatedProducts = getCurrentRelatedProducts(product);
     renderRelatedProducts(

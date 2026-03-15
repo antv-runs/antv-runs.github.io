@@ -18,7 +18,11 @@
 
         <nav class="header-links" aria-label="Main navigation">
           <ul>
-            <li><a href="#">Shop <img src="./assets/images/icn_arrow-down.png" alt="Expand" /></a></li>
+            <li>
+              <a href="#"
+                >Shop <img src="./assets/images/icn_arrow-down.png" alt="Expand"
+              /></a>
+            </li>
             <li><a href="#">On Sale</a></li>
             <li><a href="#">New Arrivals</a></li>
             <li><a href="#">Brands</a></li>
@@ -55,19 +59,32 @@
         <h1 class="cart-page__title">Your Cart</h1>
 
         <section class="cart-page__layout" aria-label="Cart summary">
-          <div class="cart-items">
+          <div class="cart-items js-cart-items">
             <article class="cart-item">
-              <img class="cart-item__image" src="./assets/images/pic_t_shirt.png" alt="Gradient Graphic T-shirt" />
+              <img
+                class="cart-item__image"
+                src="./assets/images/pic_t_shirt.png"
+                alt="Gradient Graphic T-shirt"
+              />
               <div class="cart-item__content">
                 <div class="cart-item__head">
                   <h2 class="cart-item__name">Gradient Graphic T-shirt</h2>
-                  <button class="cart-item__remove" type="button" aria-label="Remove item">Remove</button>
+                  <button
+                    class="cart-item__remove"
+                    type="button"
+                    aria-label="Remove item"
+                  >
+                    Remove
+                  </button>
                 </div>
                 <p class="cart-item__meta">Size: Large</p>
                 <p class="cart-item__meta">Color: White</p>
                 <div class="cart-item__foot">
                   <p class="cart-item__price">$145</p>
-                  <div class="cart-item__quantity" aria-label="Quantity controls">
+                  <div
+                    class="cart-item__quantity"
+                    aria-label="Quantity controls"
+                  >
                     <button type="button" aria-label="Decrease quantity">
                       <img src="./assets/images/icn_minus.png" alt="Minus" />
                     </button>
@@ -81,17 +98,30 @@
             </article>
 
             <article class="cart-item">
-              <img class="cart-item__image" src="./assets/images/pic_polo_blue.png" alt="Polo with Contrast Trims" />
+              <img
+                class="cart-item__image"
+                src="./assets/images/pic_polo_blue.png"
+                alt="Polo with Contrast Trims"
+              />
               <div class="cart-item__content">
                 <div class="cart-item__head">
                   <h2 class="cart-item__name">Polo with Contrast Trims</h2>
-                  <button class="cart-item__remove" type="button" aria-label="Remove item">Remove</button>
+                  <button
+                    class="cart-item__remove"
+                    type="button"
+                    aria-label="Remove item"
+                  >
+                    Remove
+                  </button>
                 </div>
                 <p class="cart-item__meta">Size: Medium</p>
                 <p class="cart-item__meta">Color: Navy Blue</p>
                 <div class="cart-item__foot">
                   <p class="cart-item__price">$212</p>
-                  <div class="cart-item__quantity" aria-label="Quantity controls">
+                  <div
+                    class="cart-item__quantity"
+                    aria-label="Quantity controls"
+                  >
                     <button type="button" aria-label="Decrease quantity">
                       <img src="./assets/images/icn_minus.png" alt="Minus" />
                     </button>
@@ -105,17 +135,30 @@
             </article>
 
             <article class="cart-item">
-              <img class="cart-item__image" src="./assets/images/pic_t_shirt_black.png" alt="Black Striped T-shirt" />
+              <img
+                class="cart-item__image"
+                src="./assets/images/pic_t_shirt_black.png"
+                alt="Black Striped T-shirt"
+              />
               <div class="cart-item__content">
                 <div class="cart-item__head">
                   <h2 class="cart-item__name">Black Striped T-shirt</h2>
-                  <button class="cart-item__remove" type="button" aria-label="Remove item">Remove</button>
+                  <button
+                    class="cart-item__remove"
+                    type="button"
+                    aria-label="Remove item"
+                  >
+                    Remove
+                  </button>
                 </div>
                 <p class="cart-item__meta">Size: Small</p>
                 <p class="cart-item__meta">Color: Black</p>
                 <div class="cart-item__foot">
                   <p class="cart-item__price">$120</p>
-                  <div class="cart-item__quantity" aria-label="Quantity controls">
+                  <div
+                    class="cart-item__quantity"
+                    aria-label="Quantity controls"
+                  >
                     <button type="button" aria-label="Decrease quantity">
                       <img src="./assets/images/icn_minus.png" alt="Minus" />
                     </button>
@@ -135,29 +178,35 @@
             <dl class="cart-summary__rows">
               <div class="cart-summary__row">
                 <dt>Subtotal</dt>
-                <dd>$477</dd>
+                <dd class="js-cart-subtotal">$0</dd>
               </div>
               <div class="cart-summary__row">
                 <dt>Discount (-20%)</dt>
-                <dd class="cart-summary__discount">-$95</dd>
+                <dd class="cart-summary__discount js-cart-discount">$0</dd>
               </div>
               <div class="cart-summary__row">
                 <dt>Delivery Fee</dt>
-                <dd>$15</dd>
+                <dd class="js-cart-delivery">$0</dd>
               </div>
             </dl>
 
             <div class="cart-summary__total">
               <p>Total</p>
-              <p>$397</p>
+              <p class="js-cart-total">$0</p>
             </div>
 
             <form class="cart-summary__coupon" action="#">
-              <input type="text" placeholder="Add promo code" aria-label="Promo code" />
+              <input
+                type="text"
+                placeholder="Add promo code"
+                aria-label="Promo code"
+              />
               <button type="button">Apply</button>
             </form>
 
-            <a class="cart-summary__checkout" href="checkout.html">Go to Checkout</a>
+            <a class="cart-summary__checkout" href="checkout.html"
+              >Go to Checkout</a
+            >
           </aside>
         </section>
       </main>
@@ -264,5 +313,7 @@
         </div>
       </div>
     </footer>
+
+    <script type="module" src="./assets/js/pages/cartPage.js"></script>
   </body>
 </html>
