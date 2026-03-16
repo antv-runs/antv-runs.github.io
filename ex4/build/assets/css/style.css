@@ -174,15 +174,13 @@ header .header-menu-toggle {
   display: none;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 19px;
+  height: 15px;
   border: none;
-  background: transparent;
+  background: url("../images/icn_menu.svg") no-repeat center;
+  background-size: contain;
   cursor: pointer;
   color: #000;
-}
-header .header-menu-toggle svg {
-  display: block;
 }
 header .header-links ul {
   display: flex;
@@ -224,10 +222,12 @@ header .header-search input:focus {
 header .header-search__button,
 header .header-search button {
   order: 1;
-  background-color: transparent;
+  width: 21px;
+  height: 21px;
+  background: url("../images/icn_search.svg") no-repeat center;
+  background-size: contain;
   border: none;
   cursor: pointer;
-  color: rgba(0, 0, 0, 0.4);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -245,6 +245,18 @@ header .header-icon button {
   align-items: center;
   justify-content: center;
   color: #000;
+}
+header .header-icon__cart {
+  width: 23px;
+  height: 21px;
+  background: url("../images/icn_cart.svg") no-repeat center;
+  background-size: contain;
+}
+header .header-icon__profile {
+  width: 21px;
+  height: 21px;
+  background: url("../images/icn_profile.svg") no-repeat center;
+  background-size: contain;
 }
 
 .product-overview {
@@ -1189,13 +1201,13 @@ header .header-icon button {
   line-height: 1.2;
 }
 .cart-item__remove {
+  width: 18px;
+  height: 20px;
   border: none;
-  background: transparent;
-  color: #ff3333;
-  font-size: 14px;
-  font-weight: 500;
+  background: url("../images/icn_trash.svg") no-repeat center;
+  background-size: contain;
   cursor: pointer;
-  white-space: nowrap;
+  flex-shrink: 0;
 }
 .cart-item__meta {
   font-size: 14px;
@@ -1373,10 +1385,13 @@ header .header-icon button {
   font-weight: 500;
   cursor: pointer;
 }
-.cart-summary__checkout-icon {
+.cart-summary__checkout::after {
+  content: "";
   width: 20px;
   height: 20px;
   flex-shrink: 0;
+  background: url("../images/icn_arrow_right.svg") no-repeat center;
+  background-size: contain;
 }
 
 @media (max-width: 992px) {

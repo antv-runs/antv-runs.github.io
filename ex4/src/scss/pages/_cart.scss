@@ -99,13 +99,13 @@
   }
 
   &__remove {
+    width: 18px;
+    height: 20px;
     border: none;
-    background: transparent;
-    color: #ff3333;
-    font-size: 14px;
-    font-weight: 500;
+    background: url("~/images/icn_trash.svg") no-repeat center;
+    background-size: contain;
     cursor: pointer;
-    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   &__meta {
@@ -322,10 +322,13 @@
     font-weight: 500;
     cursor: pointer;
 
-    &-icon {
+    &::after {
+      content: "";
       width: 20px;
       height: 20px;
       flex-shrink: 0;
+      background: url("~/images/icn_arrow_right.svg") no-repeat center;
+      background-size: contain;
     }
   }
 }

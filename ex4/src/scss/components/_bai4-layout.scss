@@ -33,16 +33,13 @@ header {
     display: none;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 19px;
+    height: 15px;
     border: none;
-    background: transparent;
+    background: url("~/images/icn_menu.svg") no-repeat center;
+    background-size: contain;
     cursor: pointer;
     color: #000;
-
-    svg {
-      display: block;
-    }
   }
 
   .header-links ul {
@@ -90,10 +87,12 @@ header {
     &__button,
     button {
       order: 1;
-      background-color: transparent;
+      width: 21px;
+      height: 21px;
+      background: url("~/images/icn_search.svg") no-repeat center;
+      background-size: contain;
       border: none;
       cursor: pointer;
-      color: rgba(0, 0, 0, 0.4);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -113,6 +112,20 @@ header {
       align-items: center;
       justify-content: center;
       color: #000;
+    }
+
+    &__cart {
+      width: 23px;
+      height: 21px;
+      background: url("~/images/icn_cart.svg") no-repeat center;
+      background-size: contain;
+    }
+
+    &__profile {
+      width: 21px;
+      height: 21px;
+      background: url("~/images/icn_profile.svg") no-repeat center;
+      background-size: contain;
     }
   }
 }
