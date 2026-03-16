@@ -1,8 +1,11 @@
-@use "base/reset";
-@use "base/variables" as v;
-@use "components/button";
-@use "base/fonts";
-@use "base/mixins" as *;
+@use "~/scss/base/reset";
+@use "~/scss/base/variables" as v;
+@use "~/scss/components/button";
+@use "~/scss/components/bai4-layout";
+@use "~/scss/pages/catalog";
+@use "~/scss/pages/cart";
+@use "~/scss/base/fonts";
+@use "~/scss/base/mixins" as *;
 
 body,
 button {
@@ -330,6 +333,7 @@ button {
   &__item {
     cursor: pointer;
     max-width: 295px;
+    flex: 0 0 auto;
     transition:
       background-color 0.25s ease,
       transform 0.2s ease;
@@ -360,7 +364,20 @@ button {
   }
 
   &__viewport {
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    touch-action: pan-x;
+    cursor: grab;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &.is-dragging {
+      cursor: grabbing;
+      user-select: none;
+    }
   }
 
   &__list {

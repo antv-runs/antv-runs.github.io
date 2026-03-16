@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="shop-api-base-url" content="https://api.vanannek.blog" />
+    <title>Product Detail</title>
+    <link rel="stylesheet" href="~/css/style.css" />
+  </head>
+  <body>
+    <p class="sub-header">
+      Sign up and get 20% off to your first order.
+      <span>Sign Up Now</span>
+    </p>
+
+    <div class="container">
+      <header>
+        <p class="logo">SHOP.CO</p>
+
+        <nav class="header-links" aria-label="Main navigation">
+          <ul id="nav-categories" class="js-nav-categories"></ul>
+        </nav>
+
+        <form action="#" class="header-search">
+          <input
+            type="text"
+            placeholder="Search for products..."
+            aria-label="Search for products"
+          />
+          <button type="button" aria-label="Search products">
+            <img src="~/images/icn_search.png" alt="Search" />
+          </button>
+        </form>
+
+        <div class="header-icon">
+          <button type="button" aria-label="Cart" class="js-cart-button">
+            <img src="~/images/icn_cart.png" alt="Cart" />
+          </button>
+          <button type="button" aria-label="Profile">
+            <img src="~/images/icn_user.png" alt="Profile" />
+          </button>
+        </div>
+      </header>
+
+      <section class="product-overview">
+        <ul
+          id="breadcrumb-list"
+          class="product-overview__link js-breadcrumb-list"
+          aria-label="Breadcrumb"
+        ></ul>
+
+        <div class="product-overview__details">
+          <div class="product-overview__images">
+            <div
+              id="product-thumbnails"
+              class="product-overview__images-wrapper js-product-thumbnails js-product-gallery"
+            ></div>
+
+            <div class="image-wrapper-main">
+              <img
+                id="product-main-image"
+                class="js-product-main-image"
+                src="~/images/pic_t-shirt-main-1.png"
+                alt="Product image"
+              />
+            </div>
+          </div>
+
+          <div class="product-overview__info">
+            <h1 id="product-title" class="js-product-title">
+              Loading product...
+            </h1>
+
+            <div class="product-overview__rating">
+              <div
+                id="product-rating-stars"
+                class="js-product-rating-stars"
+              ></div>
+              <p id="product-rating-text" class="js-product-rating-text">
+                0/<span>5</span>
+              </p>
+            </div>
+
+            <div class="product-overview__price">
+              <p
+                id="product-price-current"
+                class="product-overview__price-current js-product-price-current js-product-price"
+              >
+                $0
+              </p>
+              <p
+                id="product-price-old"
+                class="product-overview__price-old js-product-price-old js-product-original-price"
+              >
+                $0
+              </p>
+              <p
+                id="product-price-discount"
+                class="product-overview__price-discount js-product-price-discount js-product-discount"
+              >
+                -0%
+              </p>
+            </div>
+
+            <p
+              id="product-description"
+              class="product-overview__description js-product-description"
+            ></p>
+
+            <div class="product-overview__choose">
+              <p>Select Colors</p>
+              <div
+                id="product-color-options"
+                class="product-overview__choose-colors js-product-color-options"
+              ></div>
+            </div>
+
+            <div class="product-overview__size">
+              <p>Choose Size</p>
+              <div
+                id="product-size-options"
+                class="product-overview__size-options js-product-size-options"
+              ></div>
+            </div>
+
+            <div class="product-overview__actions">
+              <form action="#">
+                <button
+                  class="quantity-button-minus js-quantity-button-minus"
+                  type="button"
+                  aria-label="Decrease quantity"
+                >
+                  <img src="~/images/icn_minus.png" alt="Minus" />
+                </button>
+                <input
+                  id="quantity-input"
+                  class="js-quantity-input"
+                  type="text"
+                  value="1"
+                  aria-label="Quantity"
+                />
+                <button
+                  class="quantity-button-plus js-quantity-button-plus"
+                  type="button"
+                  aria-label="Increase quantity"
+                >
+                  <img src="~/images/icn_plus.png" alt="Plus" />
+                </button>
+              </form>
+              <button class="add-to-cart-button js-add-to-cart" type="button">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="products-tabs">
+        <div class="tabs" aria-label="Product tabs">
+          <button class="tabs__tab js-tabs__tab" data-tab="tc-details">
+            Product Details
+          </button>
+
+          <button
+            class="tabs__tab js-tabs__tab tabs__tab--active"
+            data-tab="tc-reviews"
+          >
+            Rating & Reviews
+          </button>
+
+          <button class="tabs__tab js-tabs__tab" data-tab="tc-faqs">
+            FAQs
+          </button>
+        </div>
+
+        <section
+          id="tc-details"
+          data-tab-content="tc-details"
+          class="products-tabs__content js-products-tabs__content"
+        >
+          <div id="product-details-content" class="js-product-details-content">
+            Product details are loading...
+          </div>
+        </section>
+
+        <section
+          id="tc-reviews"
+          data-tab-content="tc-reviews"
+          class="reviews products-tabs__content js-products-tabs__content products-tabs__content--active"
+        >
+          <div class="reviews__header">
+            <h2 class="reviews__title">
+              All Reviews<span id="reviews-count" class="js-reviews-count"
+                >(0)</span
+              >
+            </h2>
+
+            <div class="reviews__actions">
+              <div class="reviews__filter">
+                <button
+                  id="btn-filter-by-stars"
+                  class="reviews__action reviews__action--filter js-btn-filter-by-stars"
+                ></button>
+
+                <div
+                  id="dropdown-filter-by-stars"
+                  class="reviews__filter-dropdown js-dropdown-filter-by-stars"
+                >
+                  <div
+                    class="reviews__filter-option js-reviews__filter-option reviews__filter-option--active"
+                    data-stars="All"
+                  >
+                    <p class="reviews__filter-stars">All Reviews</p>
+                  </div>
+                  <div
+                    class="reviews__filter-option js-reviews__filter-option"
+                    data-stars="5"
+                  >
+                    <div class="reviews__filter-stars">5 stars</div>
+                  </div>
+                  <div
+                    class="reviews__filter-option js-reviews__filter-option"
+                    data-stars="4"
+                  >
+                    <div class="reviews__filter-stars">4 stars</div>
+                  </div>
+                  <div
+                    class="reviews__filter-option js-reviews__filter-option"
+                    data-stars="3"
+                  >
+                    <div class="reviews__filter-stars">3 stars</div>
+                  </div>
+                  <div
+                    class="reviews__filter-option js-reviews__filter-option"
+                    data-stars="2"
+                  >
+                    <div class="reviews__filter-stars">2 stars</div>
+                  </div>
+                  <div
+                    class="reviews__filter-option js-reviews__filter-option"
+                    data-stars="1"
+                  >
+                    <div class="reviews__filter-stars">1 star</div>
+                  </div>
+                </div>
+              </div>
+              <div class="reviews__action reviews__action--sort">
+                <select
+                  id="reviews-sort-select"
+                  class="reviews__select js-reviews-sort-select"
+                  aria-label="Sort reviews"
+                >
+                  <option value="latest">Latest</option>
+                  <option value="oldest">Oldest</option>
+                  <option value="highest">Highest Rating</option>
+                </select>
+              </div>
+              <button class="reviews__action reviews__action--write">
+                Write a Review
+              </button>
+            </div>
+          </div>
+
+          <ul id="reviews-list" class="reviews__list js-reviews-list"></ul>
+
+          <div class="reviews__load-more-wrapper">
+            <button
+              id="reviews-load-more"
+              class="reviews__load-more js-reviews-load-more"
+            >
+              Load More Reviews
+            </button>
+          </div>
+        </section>
+
+        <section
+          id="tc-faqs"
+          data-tab-content="tc-faqs"
+          class="products-tabs__content js-products-tabs__content"
+        >
+          <ul id="product-faqs-list" class="js-product-faqs-list"></ul>
+        </section>
+      </section>
+
+      <section class="other-products js-related-products">
+        <h2 class="other-products__title">You Might Also Like</h2>
+
+        <button class="other-products__prev js-other-products__prev"></button>
+
+        <div class="other-products__viewport js-related-viewport">
+          <ul
+            id="other-products-list"
+            class="other-products__list js-other-products__list js-related-track"
+          ></ul>
+        </div>
+
+        <button class="other-products__next js-other-products__next"></button>
+      </section>
+
+      <div class="footer-form">
+        <p>STAY UPTO DATE ABOUT OUR LATEST OFFERS</p>
+        <form action="#">
+          <div class="footer-form__input">
+            <figure>
+              <img src="~/images/icn_mail.png" alt="Mail" />
+            </figure>
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              aria-label="Email address"
+            />
+          </div>
+          <button class="footer-form__button" type="button">
+            Subscribe to Newsletter
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-main">
+        <div class="footer-main__content">
+          <div class="footer-main__info">
+            <p class="footer-main__logo">SHOP.CO</p>
+            <p class="footer-main__description">
+              We have clothes that suits your style and which you're proud to
+              wear. From women to men.
+            </p>
+            <div class="footer-main__socials">
+              <figure>
+                <img src="~/images/icn_twiter.png" alt="Twitter" />
+              </figure>
+              <figure class="icon-fb">
+                <img src="~/images/icn_fb.png" alt="Facebook" />
+              </figure>
+              <figure>
+                <img src="~/images/icn_instagram.png" alt="Instagram" />
+              </figure>
+              <figure>
+                <img src="~/images/icn_github.png" alt="Github" />
+              </figure>
+            </div>
+          </div>
+
+          <div class="footer-main__links">
+            <ul>
+              <h4>Company</h4>
+              <li>About</li>
+              <li>Features</li>
+              <li>Works</li>
+              <li>Career</li>
+            </ul>
+
+            <ul>
+              <h4>Help</h4>
+              <li>Customer Support</li>
+              <li>Delivery Details</li>
+              <li>Terms & Conditions</li>
+              <li>Privacy Policy</li>
+            </ul>
+
+            <ul>
+              <h4>FAQ</h4>
+              <li>Account</li>
+              <li>Manage Deliveries</li>
+              <li>Orders</li>
+              <li>Payments</li>
+            </ul>
+
+            <ul>
+              <h4>Resources</h4>
+              <li>Free eBooks</li>
+              <li>Development Tutorial</li>
+              <li>How to - Blog</li>
+              <li>Youtube Playlist</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-main__copyright">
+          <p>Shop.co © 2000-2023, All Rights Reserved</p>
+          <div class="footer-main__copyright-logo">
+            <figure>
+              <img src="~/images/icn_visa.png" alt="Visa" />
+            </figure>
+            <figure>
+              <img src="~/images/icn_mastercard.png" alt="Mastercard" />
+            </figure>
+            <figure>
+              <img src="~/images/icn_paypal.png" alt="PayPal" />
+            </figure>
+            <figure>
+              <img src="~/images/icn_apay.png" alt="Apple Pay" />
+            </figure>
+            <figure>
+              <img src="~/images/icn_gpay.png" alt="Google Pay" />
+            </figure>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <div class="container" style="margin-bottom: 40px">
+      <nav aria-label="Flow navigation" style="display: flex; gap: 12px">
+        <a href="index.html">Previous: Product List</a>
+        <a href="cart.html">Next: Cart</a>
+      </nav>
+    </div>
+
+    <script type="module" src="~/js/pages/productDetailPage.js"></script>
+  </body>
+</html>

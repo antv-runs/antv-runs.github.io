@@ -58,14 +58,16 @@ const exercises = [
     category: "PHP",
     name: "Tuần 1 ngày 1",
     links: {
-      "Tìm hiểu MVC (Docs)": "https://docs.google.com/document/d/1xGnF0cNXlnCE_vhDiqpsyQC8mZ1g4FqrsQfwn9-f9AY/edit?usp=sharing",
+      "Tìm hiểu MVC (Docs)":
+        "https://docs.google.com/document/d/1xGnF0cNXlnCE_vhDiqpsyQC8mZ1g4FqrsQfwn9-f9AY/edit?usp=sharing",
     },
   },
   {
     category: "PHP",
     name: "Tuần 1 ngày 2",
     links: {
-      "MVC với PHP thuần": "https://github.com/antv-runs/php-training/tree/main/week1-day2/src",
+      "MVC với PHP thuần":
+        "https://github.com/antv-runs/php-training/tree/main/week1-day2/src",
     },
   },
   {
@@ -73,9 +75,18 @@ const exercises = [
     name: "Tuần 1 ngày 3->5 (Blade), Tuần 2, Tuần 3",
     links: {
       "Source code": "https://github.com/antv-runs/shop-admin",
-      "Postman Documentation": "https://documenter.getpostman.com/view/52643477/2sBXcKAcwh",
+      "Postman Documentation":
+        "https://documenter.getpostman.com/view/52643477/2sBXcKAcwh",
       "Blade (Deploy)": "https://api.vanannek.blog",
       "RESTful API (Deploy)": "https://api.vanannek.blog/api/documentation",
+    },
+  },
+  {
+    category: "HTML + PHP",
+    name: "Shop quần áo",
+    links: {
+      "Source code": "https://github.com/antv-runs/antv-runs.github.io/ex4",
+      Deploy: "https://antv-runs.github.io/ex4/build/",
     },
   },
 ];
@@ -96,13 +107,12 @@ container.innerHTML = Object.entries(grouped)
         .map((item) => {
           const links = Object.entries(item.links)
             .map(
-              ([label, url]) =>
-                `<a target="_blank" href="${url}">${label}</a>`
+              ([label, url]) => `<a target="_blank" href="${url}">${label}</a>`,
             )
             .join(", ");
           return `<p>- ${item.name}: ${links}.</p>`;
         })
         .join("")}
-    `
+    `,
   )
   .join("");
