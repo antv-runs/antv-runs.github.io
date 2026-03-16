@@ -275,61 +275,105 @@
     <footer class="footer">
       <div class="footer-main">
         <div class="footer-main__content">
-          <div class="footer-main__info">
+          <section class="footer-main__info" aria-label="Brand information">
             <p class="footer-main__logo">SHOP.CO</p>
             <p class="footer-main__description">
               We have clothes that suits your style and which you're proud to
               wear. From women to men.
             </p>
-            <div class="footer-main__socials">
-              <figure>
-                <img src="~/images/icn_twiter.svg" alt="Twitter" />
-              </figure>
-              <figure class="icon-fb">
-                <img src="~/images/icn_fb.svg" alt="Facebook" />
-              </figure>
-              <figure>
-                <img src="~/images/icn_instagram.svg" alt="Instagram" />
-              </figure>
-              <figure>
-                <img src="~/images/icn_github.svg" alt="Github" />
-              </figure>
-            </div>
-          </div>
-
-          <div class="footer-main__links">
-            <ul>
-              <h4>Company</h4>
-              <li>About</li>
-              <li>Features</li>
-              <li>Works</li>
-              <li>Career</li>
+            <ul class="footer-main__socials" aria-label="Social links">
+              <li>
+                <a href="#" aria-label="Twitter">
+                  <span class="footer-main__social-label">Twitter</span>
+                  <img
+                    src="~/images/icn_twiter.svg"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </a>
+              </li>
+              <li>
+                <a href="#" class="icon-fb" aria-label="Facebook">
+                  <span class="footer-main__social-label">Facebook</span>
+                  <img src="~/images/icn_fb.svg" alt="" aria-hidden="true" />
+                </a>
+              </li>
+              <li>
+                <a href="#" aria-label="Instagram">
+                  <span class="footer-main__social-label">Instagram</span>
+                  <img
+                    src="~/images/icn_instagram.svg"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </a>
+              </li>
+              <li>
+                <a href="#" aria-label="Github">
+                  <span class="footer-main__social-label">Github</span>
+                  <img
+                    src="~/images/icn_github.svg"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </a>
+              </li>
             </ul>
+          </section>
 
-            <ul>
-              <h4>Help</h4>
-              <li>Customer Support</li>
-              <li>Delivery Details</li>
-              <li>Terms & Conditions</li>
-              <li>Privacy Policy</li>
-            </ul>
+          <nav class="footer-main__links" aria-label="Footer navigation">
+            <section
+              class="footer-main__section"
+              aria-labelledby="footer-company-title"
+            >
+              <h4 id="footer-company-title">Company</h4>
+              <ul>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">Works</a></li>
+                <li><a href="#">Career</a></li>
+              </ul>
+            </section>
 
-            <ul>
-              <h4>FAQ</h4>
-              <li>Account</li>
-              <li>Manage Deliveries</li>
-              <li>Orders</li>
-              <li>Payments</li>
-            </ul>
+            <section
+              class="footer-main__section"
+              aria-labelledby="footer-help-title"
+            >
+              <h4 id="footer-help-title">Help</h4>
+              <ul>
+                <li><a href="#">Customer Support</a></li>
+                <li><a href="#">Delivery Details</a></li>
+                <li><a href="#">Terms &amp; Conditions</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+              </ul>
+            </section>
 
-            <ul>
-              <h4>Resources</h4>
-              <li>Free eBooks</li>
-              <li>Development Tutorial</li>
-              <li>How to - Blog</li>
-              <li>Youtube Playlist</li>
-            </ul>
-          </div>
+            <section
+              class="footer-main__section"
+              aria-labelledby="footer-faq-title"
+            >
+              <h4 id="footer-faq-title">FAQ</h4>
+              <ul>
+                <li><a href="#">Account</a></li>
+                <li><a href="#">Manage Deliveries</a></li>
+                <li><a href="#">Orders</a></li>
+                <li><a href="#">Payments</a></li>
+              </ul>
+            </section>
+
+            <section
+              class="footer-main__section"
+              aria-labelledby="footer-resources-title"
+            >
+              <h4 id="footer-resources-title">Resources</h4>
+              <ul>
+                <li><a href="#">Free eBooks</a></li>
+                <li><a href="#">Development Tutorial</a></li>
+                <li><a href="#">How to - Blog</a></li>
+                <li><a href="#">Youtube Playlist</a></li>
+              </ul>
+            </section>
+          </nav>
         </div>
 
         <div class="footer-main__copyright">
