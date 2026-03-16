@@ -284,18 +284,28 @@
   }
 
   &__checkout {
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
     width: 100%;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 62px;
-    background-color: #000;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 500;
     padding: 16px 20px;
+
+    border: none;
+    border-radius: 62px;
+    background: #000;
+    color: #fff;
+
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+
+    &-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
   }
 }
 
@@ -375,11 +385,11 @@
 
     &__total {
       p:first-child {
-        font-size: 18px;
+        font-size: 20px;
       }
 
       p:last-child {
-        font-size: 26px;
+        font-size: 24px;
       }
     }
 
