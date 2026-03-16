@@ -1,5 +1,54 @@
 import { setText } from "../utils/domUtils.js";
 
+function createCatalogImagePlaceholder(productName) {
+  const safeProductName = String(productName || "Product").trim() || "Product";
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-label="${safeProductName}"><rect width="320" height="320" fill="#f2f0f1"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#6b7280" font-family="Arial, sans-serif" font-size="24">${safeProductName}</text></svg>`;
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
+function createCatalogProductUrl(productId) {
+  return `product.html?id=${encodeURIComponent(productId)}`;
+}
+
+export function renderCatalogProducts(container, products, helpers) {
+  container.innerHTML = products
+    .map((product) => {
+      const pricing = product.pricing || product.price || {};
+      const currentPrice = Number(pricing.current || 0);
+      const originalPrice =
+        pricing.original === null || pricing.original === undefined
+          ? null
+          : Number(pricing.original);
+      const hasComparePrice =
+        originalPrice !== null && Number.isFinite(originalPrice) && originalPrice > currentPrice;
+      const productUrl = createCatalogProductUrl(product.id);
+      const productImage = product.thumbnail || createCatalogImagePlaceholder(product.name);
+      const ratingValue = Number(product.rating || 0);
+
+      return `<article class="product-tile js-product-card" data-product-id="${product.id}">
+        <a class="product-tile__image-link js-product-link" href="${productUrl}" data-product-id="${product.id}" aria-label="View ${product.name}">
+          <img src="${productImage}" alt="${product.name}" class="product-tile__image" />
+        </a>
+        <h2 class="product-tile__title">
+          <a class="js-product-link" href="${productUrl}" data-product-id="${product.id}">${product.name}</a>
+        </h2>
+        <div class="product-tile__rating" aria-label="Rating ${ratingValue} out of 5">
+          <span>${helpers.renderStars(ratingValue, "product-item__star")}</span>
+          <span>${ratingValue.toFixed(1)}/5</span>
+        </div>
+        <p class="product-tile__price${hasComparePrice ? " product-tile__price--discount" : ""}">
+          ${helpers.formatPrice(currentPrice, pricing.currency || "USD")}
+          ${hasComparePrice ? `<span>${helpers.formatPrice(originalPrice, pricing.currency || "USD")}</span>` : ""}
+        </p>
+      </article>`;
+    })
+    .join("");
+}
+
+export function renderCatalogEmptyState(container, message) {
+  container.innerHTML = `<p class="catalog-products__empty">${message}</p>`;
+}
+
 export function renderCategories(container, categories) {
   container.innerHTML = categories
     .map((category) => {

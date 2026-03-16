@@ -472,7 +472,7 @@ export async function initProductDetailPage() {
   }
 
   if (productsResult.status === "fulfilled") {
-    state.products = productsResult.value;
+    state.products = productsResult.value.products;
   } else {
     console.error("Failed to load products list.", productsResult.reason);
     state.products = [];
