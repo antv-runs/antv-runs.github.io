@@ -1,6 +1,6 @@
 import { mockProducts } from "../../data/data.js";
 
-const DEFAULT_API_ORIGIN = "http://localhost:8000";
+const DEFAULT_API_ORIGIN = "https://api.vanannek.blog";
 
 function clone(data) {
   return JSON.parse(JSON.stringify(data));
