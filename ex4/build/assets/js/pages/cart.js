@@ -13,6 +13,7 @@ const dom = {
   discount: document.querySelector(".js-cart-discount"),
   delivery: document.querySelector(".js-cart-delivery"),
   total: document.querySelector(".js-cart-total"),
+  checkoutButton: document.querySelector(".js-cart-checkout"),
 };
 
 function getStoredCart() {
@@ -206,6 +207,10 @@ function bindCartEvents() {
     if (plusButton) {
       updateCartItemQuantity(productId, 1);
     }
+  });
+
+  dom.checkoutButton?.addEventListener("click", () => {
+    window.location.href = "checkout.html";
   });
 }
 

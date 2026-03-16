@@ -248,6 +248,9 @@
 
   &__checkout {
     display: block;
+    width: 100%;
+    border: none;
+    cursor: pointer;
     text-align: center;
     text-decoration: none;
     border-radius: 62px;

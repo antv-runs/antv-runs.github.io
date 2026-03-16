@@ -1,33 +1,8 @@
 import { mockProducts } from "../../data/data.js";
-
-const DEFAULT_API_ORIGIN = "https://api.vanannek.blog";
+import { getApiOrigin, requestJson } from "./httpClient.js";
 
 function clone(data) {
   return JSON.parse(JSON.stringify(data));
-}
-
-function getApiOrigin() {
-  const configuredOrigin = document
-    .querySelector('meta[name="shop-api-base-url"]')
-    ?.getAttribute("content")
-    ?.trim();
-
-  if (configuredOrigin) {
-    return configuredOrigin;
-  }
-
-  if (window.location.port === "8000") {
-    return window.location.origin;
-  }
-
-  return DEFAULT_API_ORIGIN;
-}
-
-function buildApiUrl(path) {
-  return new URL(
-    path.replace(/^\//, ""),
-    `${getApiOrigin().replace(/\/$/, "")}/`,
-  );
 }
 
 function normalizeImageUrl(imageUrl) {
@@ -142,21 +117,6 @@ function normalizeProduct(product) {
   };
 }
 
-async function requestJson(path) {
-  const response = await fetch(buildApiUrl(path), {
-    headers: {
-      Accept: "application/json",
-    },
-  });
-
-  if (!response.ok) {
-    const error = new Error(`Request failed with status ${response.status}`);
-    error.status = response.status;
-    throw error;
-  }
-
-  return response.json();
-}
 
 function getCollectionItems(payload) {
   if (Array.isArray(payload)) {
