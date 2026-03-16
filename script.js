@@ -85,7 +85,8 @@ const exercises = [
     category: "HTML + PHP",
     name: "Shop quần áo",
     links: {
-      "Source code": "https://github.com/antv-runs/antv-runs.github.io/ex4",
+      "Source code":
+        "https://github.com/antv-runs/antv-runs.github.io/tree/main/ex4",
       Deploy: "https://antv-runs.github.io/ex4/build/",
     },
   },
