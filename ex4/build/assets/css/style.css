@@ -153,6 +153,7 @@ table {
 .sub-header span {
   font-weight: 500;
   text-decoration: underline;
+  cursor: pointer;
 }
 
 header {
@@ -1015,16 +1016,35 @@ header .header-icon button {
 }
 .cart-page__breadcrumb {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 12px;
   margin-bottom: 24px;
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
   color: rgba(0, 0, 0, 0.6);
+}
+.cart-page__breadcrumb li {
+  display: inline-flex;
+  align-items: center;
 }
 .cart-page__breadcrumb a {
   text-decoration: none;
   color: inherit;
 }
-.cart-page__breadcrumb li:last-child {
+.cart-page__breadcrumb li[aria-current=page] {
   color: #000;
+}
+.cart-page__breadcrumb li + li::before {
+  content: "";
+  width: 6px;
+  height: 10px;
+  margin-right: 12px;
+  flex: 0 0 auto;
+  background-color: currentColor;
+  -webkit-mask: url("../images/icn_breadcrumb_next.svg") no-repeat center/contain;
+  mask: url("../images/icn_breadcrumb_next.svg") no-repeat center/contain;
 }
 .cart-page__title {
   font-family: "IntegralCF", sans-serif;
@@ -1203,15 +1223,28 @@ header .header-icon button {
   gap: 12px;
   margin-bottom: 20px;
 }
-.cart-summary__coupon input {
+.cart-summary__coupon .coupon-input {
+  position: relative;
+  flex: 1;
+}
+.cart-summary__coupon .coupon-input figure {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.cart-summary__coupon .coupon-input input {
   flex: 1;
   border: none;
   background-color: #f0f0f0;
   border-radius: 62px;
-  padding: 14px 20px;
+  padding: 15px 20px 15px 45px;
   font-size: 16px;
 }
-.cart-summary__coupon input:focus {
+.cart-summary__coupon .coupon-input input:focus {
   outline: none;
 }
 .cart-summary__coupon button {
@@ -1248,6 +1281,13 @@ header .header-icon button {
   .cart-page {
     margin-bottom: 56px;
   }
+  .cart-page__breadcrumb {
+    gap: 8px;
+    font-size: 14px;
+  }
+  .cart-page__breadcrumb li + li::before {
+    margin-right: 8px;
+  }
   .cart-page__title {
     font-size: 32px;
   }
@@ -1255,15 +1295,32 @@ header .header-icon button {
   .cart-summary {
     padding: 16px;
   }
+  .cart-item {
+    align-items: flex-start;
+  }
   .cart-item__image {
     width: 100px;
     height: 100px;
   }
+  .cart-item__head {
+    align-items: flex-start;
+  }
   .cart-item__name {
     font-size: 18px;
   }
+  .cart-item__remove {
+    align-self: flex-start;
+  }
   .cart-item__price {
     font-size: 20px;
+  }
+  .cart-item__foot {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+  }
+  .cart-item__quantity {
+    width: auto;
   }
   .cart-summary__row dt,
   .cart-summary__row dd {
