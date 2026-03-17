@@ -125,7 +125,6 @@ function normalizeProduct(product) {
   };
 }
 
-
 function getCollectionItems(payload) {
   if (Array.isArray(payload)) {
     return payload;
@@ -155,6 +154,11 @@ function buildProductsQueryString(params = {}) {
   const supportedParams = [
     ["search", params.search],
     ["category_id", params.category_id],
+    ["min_price", params.min_price],
+    ["max_price", params.max_price],
+    ["colors", params.colors],
+    ["sizes", params.sizes],
+    ["style", params.style],
     ["status", params.status],
     ["page", params.page],
     ["per_page", params.per_page],
@@ -174,7 +178,9 @@ function buildProductsQueryString(params = {}) {
 
 function buildPaginationFromMeta(meta = {}, fallbackCount = 0, params = {}) {
   const requestedPage = Number(params.page || 1);
-  const requestedPerPage = Number(params.per_page || meta.per_page || fallbackCount || 15);
+  const requestedPerPage = Number(
+    params.per_page || meta.per_page || fallbackCount || 15,
+  );
 
   return {
     page: Number(meta.current_page || requestedPage),
@@ -195,7 +201,9 @@ function buildProductsResult(payload, params = {}) {
 }
 
 function filterMockProducts(products, params = {}) {
-  const normalizedSearch = String(params.search || "").trim().toLowerCase();
+  const normalizedSearch = String(params.search || "")
+    .trim()
+    .toLowerCase();
   const normalizedCategoryId =
     params.category_id === undefined || params.category_id === null
       ? null
@@ -204,7 +212,9 @@ function filterMockProducts(products, params = {}) {
   return products.filter((product) => {
     const matchesSearch =
       !normalizedSearch ||
-      String(product.name || "").toLowerCase().includes(normalizedSearch);
+      String(product.name || "")
+        .toLowerCase()
+        .includes(normalizedSearch);
     const matchesCategory =
       !normalizedCategoryId ||
       String(product.category?.id || "") === normalizedCategoryId;

@@ -465,7 +465,7 @@ export async function initProductDetailPage() {
   ]);
 
   if (categoriesResult.status === "fulfilled") {
-    state.categories = categoriesResult.value;
+    state.categories = categoriesResult.value.categories || [];
     renderCategories(dom.navCategories, state.categories);
   } else {
     console.error("Failed to load categories.", categoriesResult.reason);
