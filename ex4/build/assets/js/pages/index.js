@@ -446,8 +446,8 @@ async function fetchProducts(state) {
     const params = {
       search: state.searchKeyword || undefined,
       category_id: state.categoryId || undefined,
-      min_price: state.minPrice || undefined,
-      max_price: state.maxPrice || undefined,
+      min_price: state.minPrice !== null ? state.minPrice : undefined,
+      max_price: state.maxPrice !== null ? state.maxPrice : undefined,
       colors: state.colors?.length ? state.colors.join(",") : undefined,
       sizes: state.sizes?.length ? state.sizes.join(",") : undefined,
       style: state.dressStyle || undefined,
@@ -609,12 +609,12 @@ function bindFilterToggle(elements) {
   const closeFilters = () => {
     elements.filterSidebar.classList.remove("is-open");
     elements.filterToggle.setAttribute("aria-expanded", "false");
-    
+
     // Hide overlay
     if (elements.filtersOverlay) {
       elements.filtersOverlay.classList.remove("is-open");
     }
-    
+
     // Restore body scroll
     document.body.style.overflow = "";
   };
@@ -622,12 +622,12 @@ function bindFilterToggle(elements) {
   const openFilters = () => {
     elements.filterSidebar.classList.add("is-open");
     elements.filterToggle.setAttribute("aria-expanded", "true");
-    
+
     // Show overlay
     if (elements.filtersOverlay) {
       elements.filtersOverlay.classList.add("is-open");
     }
-    
+
     // Prevent body scroll
     document.body.style.overflow = "hidden";
   };
