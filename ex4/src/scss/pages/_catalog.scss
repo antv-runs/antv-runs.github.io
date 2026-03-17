@@ -6,20 +6,7 @@
   margin-bottom: 80px;
 
   &__breadcrumb {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 24px;
-    color: v.$color-muted;
-    font-size: 14px;
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    li:last-child {
-      color: #000;
-    }
+    @include m.breadcrumb(12px, 16px);
   }
 
   &__layout {
@@ -640,6 +627,10 @@
 @media (max-width: 768px) {
   .catalog {
     margin-bottom: 48px;
+
+    &__breadcrumb {
+      @include m.breadcrumb(8px, 14px);
+    }
 
     &__layout {
       grid-template-columns: 1fr;

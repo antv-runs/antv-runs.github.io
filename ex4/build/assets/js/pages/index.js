@@ -22,6 +22,7 @@ function createAppState() {
   return {
     searchKeyword: "",
     categoryId: null,
+    categoryName: null,
     currentPage: 1,
     lastPage: 1,
     totalCount: 0,
@@ -33,6 +34,8 @@ function getPageElements() {
   return {
     searchForm: document.querySelector(".js-search-form"),
     searchInput: document.querySelector(".js-search-input"),
+    breadcrumb: document.querySelector(".catalog__breadcrumb"),
+    catalogTitle: document.querySelector(".catalog-products__title"),
     productList: document.querySelector(".js-product-list"),
     productCount: document.querySelector(".js-product-count"),
     filterSidebar: document.querySelector(".js-catalog-filters"),
@@ -49,6 +52,40 @@ function getPageElements() {
     paginationNext: document.querySelector(".js-pagination-next"),
     paginationNumbers: document.querySelector(".js-pagination-numbers"),
   };
+}
+
+function createBreadcrumbListItem(content, isCurrentPage = false) {
+  const item = document.createElement("li");
+
+  if (isCurrentPage) {
+    item.setAttribute("aria-current", "page");
+    item.textContent = content;
+    return item;
+  }
+
+  const link = document.createElement("a");
+  link.href = "#";
+  link.textContent = content;
+  item.appendChild(link);
+
+  return item;
+}
+
+function updateCatalogHeader(elements, categoryName = null) {
+  const title = String(categoryName || "").trim() || "All Products";
+
+  if (elements.catalogTitle) {
+    elements.catalogTitle.textContent = title;
+  }
+
+  if (!elements.breadcrumb) {
+    return;
+  }
+
+  elements.breadcrumb.replaceChildren(
+    createBreadcrumbListItem("Home"),
+    createBreadcrumbListItem(title, true),
+  );
 }
 
 function renderCategoryItems(container, categories, selectedCategoryId) {
@@ -83,7 +120,7 @@ async function loadCategories(elements, state) {
   }
 
   try {
-    const response = await getCategories();
+    const response = await getCategories({ per_page: 5 });
     const categories = Array.isArray(response?.categories)
       ? response.categories
       : [];
@@ -120,6 +157,7 @@ function bindCategoryFilter(elements, state) {
     }
 
     state.categoryId = selectedCategoryId;
+    state.categoryName = categoryButton.textContent.trim() || null;
     state.currentPage = 1;
 
     elements.categoryList
@@ -130,6 +168,7 @@ function bindCategoryFilter(elements, state) {
         button.setAttribute("aria-pressed", String(isActive));
       });
 
+    updateCatalogHeader(elements, state.categoryName);
     handlePageLoad(elements, state);
   });
 }
@@ -578,6 +617,7 @@ export function initIndexPage() {
   bindCategoryFilter(elements, state);
   bindEvents(elements, state);
 
+  updateCatalogHeader(elements, state.categoryName);
   loadCategories(elements, state);
 
   // Load products on page load
