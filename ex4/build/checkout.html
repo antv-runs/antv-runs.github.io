@@ -1,1 +1,57 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Checkout</title><link rel="stylesheet" href="./assets/css/style.css"></head><body><div class="container checkout-page"><h1 class="checkout-page__title">Checkout</h1><p class="checkout-page__intro">Enter shipping details to complete your order.</p><form class="checkout-page__form js-checkout-form" action="#"><div class="checkout-page__fields"><label class="checkout-page__field"><span>Name</span> <input type="text" name="name" aria-label="Name" required></label> <label class="checkout-page__field"><span>Email</span> <input type="email" name="email" aria-label="Email" required></label> <label class="checkout-page__field"><span>Phone</span> <input type="tel" name="phone" aria-label="Phone" required></label> <label class="checkout-page__field"><span>Address</span> <textarea name="address" rows="4" aria-label="Address" required></textarea></label></div><button class="checkout-page__submit js-checkout-submit" type="submit">Place Order</button><p class="checkout-page__message js-checkout-message"></p></form><nav class="checkout-page__nav" aria-label="Flow navigation"><a href="cart.html">Previous: Cart</a></nav></div><script type="module" src="./assets/js/pages/checkoutPage.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
+  <body>
+    <div class="container checkout-page">
+      <h1 class="checkout-page__title">Checkout</h1>
+      <p class="checkout-page__intro">
+        Enter shipping details to complete your order.
+      </p>
+
+      <form class="checkout-page__form js-checkout-form" action="#">
+        <div class="checkout-page__fields">
+          <label class="checkout-page__field">
+            <span>Name</span>
+            <input type="text" name="name" aria-label="Name" required />
+          </label>
+
+          <label class="checkout-page__field">
+            <span>Email</span>
+            <input type="email" name="email" aria-label="Email" required />
+          </label>
+
+          <label class="checkout-page__field">
+            <span>Phone</span>
+            <input type="tel" name="phone" aria-label="Phone" required />
+          </label>
+
+          <label class="checkout-page__field">
+            <span>Address</span>
+            <textarea
+              name="address"
+              rows="4"
+              aria-label="Address"
+              required
+            ></textarea>
+          </label>
+        </div>
+
+        <button class="checkout-page__submit js-checkout-submit" type="submit">
+          Place Order
+        </button>
+        <p class="checkout-page__message js-checkout-message"></p>
+      </form>
+
+      <nav class="checkout-page__nav" aria-label="Flow navigation">
+        <a href="cart.html">Previous: Cart</a>
+      </nav>
+    </div>
+
+    <script type="module" src="./assets/js/pages/checkoutPage.js"></script>
+  </body>
+</html>
