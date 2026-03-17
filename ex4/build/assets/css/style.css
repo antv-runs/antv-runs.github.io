@@ -813,9 +813,23 @@ header .header-icon__profile {
   }
   .footer-form {
     padding: 24px 20px;
+    align-items: center;
+    text-align: center;
   }
   .footer-form p {
     font-size: 24px;
+    margin: 0 auto;
+  }
+  .footer-form form {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .footer-form__input {
+    width: 100%;
+  }
+  .footer-form__button {
+    width: 100%;
   }
   .footer-main {
     font-size: 14px;
@@ -1212,17 +1226,24 @@ header .header-icon__profile {
 }
 .cart-item__content {
   flex: 1;
+  min-width: 0;
 }
 .cart-item__head {
   display: flex;
   justify-content: space-between;
   gap: 12px;
   margin-bottom: 8px;
+  min-width: 0;
 }
 .cart-item__name {
   font-size: 20px;
   font-weight: 700;
   line-height: 1.2;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .cart-item__remove {
   width: 18px;

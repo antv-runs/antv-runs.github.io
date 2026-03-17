@@ -786,9 +786,26 @@ header {
 
   .footer-form {
     padding: 24px 20px;
+    align-items: center;
+    text-align: center;
 
     p {
       font-size: 24px;
+      margin: 0 auto;
+    }
+
+    form {
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    &__input {
+      width: 100%;
+    }
+
+    &__button {
+      width: 100%;
     }
   }
 
