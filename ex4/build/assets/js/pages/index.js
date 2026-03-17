@@ -2,6 +2,7 @@ import {
   renderCatalogEmptyState,
   renderCatalogProducts,
 } from "../components/productComponents.js";
+import { getCategories } from "../services/categoryService.js";
 import { getProducts } from "../services/productService.js";
 import { formatPrice } from "../utils/formatters.js";
 import { renderStars } from "../utils/ratingUtils.js";
@@ -42,11 +43,95 @@ function getPageElements() {
     priceRangeProgress: document.querySelector(".js-price-range-progress"),
     priceRangeMinValue: document.querySelector(".js-price-range-min-value"),
     priceRangeMaxValue: document.querySelector(".js-price-range-max-value"),
+    categoryList: document.querySelector(".js-category-list"),
     // Pagination elements
     paginationPrev: document.querySelector(".js-pagination-prev"),
     paginationNext: document.querySelector(".js-pagination-next"),
     paginationNumbers: document.querySelector(".js-pagination-numbers"),
   };
+}
+
+function renderCategoryItems(container, categories, selectedCategoryId) {
+  if (!container) {
+    return;
+  }
+
+  if (!Array.isArray(categories) || categories.length === 0) {
+    container.innerHTML =
+      '<li><button type="button" class="catalog-filters__item" disabled>No categories available</button></li>';
+    return;
+  }
+
+  container.innerHTML = categories
+    .map((category) => {
+      const categoryId = String(category.id || "").trim();
+      const isActive =
+        selectedCategoryId !== null &&
+        selectedCategoryId !== undefined &&
+        String(selectedCategoryId) === categoryId;
+      const activeClass = isActive ? " is-active" : "";
+      const label = String(category.name || "").trim() || "Unnamed category";
+
+      return `<li><button type="button" class="catalog-filters__item js-category-button${activeClass}" data-category-id="${categoryId}" aria-pressed="${isActive}">${label}</button></li>`;
+    })
+    .join("");
+}
+
+async function loadCategories(elements, state) {
+  if (!elements.categoryList) {
+    return;
+  }
+
+  try {
+    const response = await getCategories();
+    const categories = Array.isArray(response?.categories)
+      ? response.categories
+      : [];
+
+    if (categories.length === 0) {
+      console.warn("[API] No categories returned from API.");
+    }
+
+    renderCategoryItems(elements.categoryList, categories, state.categoryId);
+  } catch (error) {
+    console.warn("[API] Failed to fetch categories.", error);
+    renderCategoryItems(elements.categoryList, [], state.categoryId);
+  }
+}
+
+function bindCategoryFilter(elements, state) {
+  if (!elements.categoryList) {
+    return;
+  }
+
+  elements.categoryList.addEventListener("click", (event) => {
+    const categoryButton = event.target.closest("button[data-category-id]");
+
+    if (!categoryButton || !elements.categoryList.contains(categoryButton)) {
+      return;
+    }
+
+    const selectedCategoryId = String(
+      categoryButton.dataset.categoryId || "",
+    ).trim();
+
+    if (!selectedCategoryId || selectedCategoryId === state.categoryId) {
+      return;
+    }
+
+    state.categoryId = selectedCategoryId;
+    state.currentPage = 1;
+
+    elements.categoryList
+      .querySelectorAll("button[data-category-id]")
+      .forEach((button) => {
+        const isActive = button === categoryButton;
+        button.classList.toggle("is-active", isActive);
+        button.setAttribute("aria-pressed", String(isActive));
+      });
+
+    handlePageLoad(elements, state);
+  });
 }
 
 function bindPriceRangeSlider(elements) {
@@ -490,7 +575,10 @@ export function initIndexPage() {
   bindFilterToggle(elements);
   bindFilterAccordion(elements);
   bindPriceRangeSlider(elements);
+  bindCategoryFilter(elements, state);
   bindEvents(elements, state);
+
+  loadCategories(elements, state);
 
   // Load products on page load
   handlePageLoad(elements, state);
