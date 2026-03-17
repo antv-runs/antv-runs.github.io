@@ -20,9 +20,18 @@ export function renderCatalogProducts(container, products, helpers) {
           ? null
           : Number(pricing.original);
       const hasComparePrice =
-        originalPrice !== null && Number.isFinite(originalPrice) && originalPrice > currentPrice;
+        originalPrice !== null &&
+        Number.isFinite(originalPrice) &&
+        originalPrice > currentPrice;
+      const discountPercent = Number(
+        pricing.discountPercent ||
+          (hasComparePrice && originalPrice
+            ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100)
+            : 0),
+      );
       const productUrl = createCatalogProductUrl(product.id);
-      const productImage = product.thumbnail || createCatalogImagePlaceholder(product.name);
+      const productImage =
+        product.thumbnail || createCatalogImagePlaceholder(product.name);
       const ratingValue = Number(product.rating || 0);
 
       return `<article class="product-tile js-product-card" data-product-id="${product.id}">
@@ -36,9 +45,10 @@ export function renderCatalogProducts(container, products, helpers) {
           <span>${helpers.renderStars(ratingValue, "product-item__star")}</span>
           <span>${ratingValue.toFixed(1)}/5</span>
         </div>
-        <p class="product-tile__price${hasComparePrice ? " product-tile__price--discount" : ""}">
-          ${helpers.formatPrice(currentPrice, pricing.currency || "USD")}
-          ${hasComparePrice ? `<span>${helpers.formatPrice(originalPrice, pricing.currency || "USD")}</span>` : ""}
+        <p class="product-tile__price">
+          <span class="product-tile__price-current">${helpers.formatPrice(currentPrice, pricing.currency || "USD")}</span>
+          ${hasComparePrice ? `<span class="product-tile__price-original">${helpers.formatPrice(originalPrice, pricing.currency || "USD")}</span>` : ""}
+          ${hasComparePrice && discountPercent > 0 ? `<span class="product-tile__price-badge">-${discountPercent}%</span>` : ""}
         </p>
       </article>`;
     })
@@ -71,7 +81,36 @@ export function renderBreadcrumb(container, product) {
         product.name || "Product",
       ];
 
-  container.innerHTML = breadcrumb.map((crumb) => `<li>${crumb}</li>`).join("");
+  const getBreadcrumbHref = (label, index) => {
+    if (index === 0) {
+      return "/";
+    }
+
+    if (index === 1) {
+      return "/shop";
+    }
+
+    const slug = String(label || "")
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+
+    return slug ? `/shop/${slug}` : "/shop";
+  };
+
+  container.innerHTML = breadcrumb
+    .map((crumb, index) => {
+      const isLast = index === breadcrumb.length - 1;
+
+      if (isLast) {
+        return `<li aria-current="page">${crumb}</li>`;
+      }
+
+      const href = getBreadcrumbHref(crumb, index);
+      return `<li><a href="${href}">${crumb}</a></li>`;
+    })
+    .join("");
 }
 
 export function renderImageGallery(thumbnailsContainer, mainImage, product) {

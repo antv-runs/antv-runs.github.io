@@ -14,40 +14,61 @@
     </p>
 
     <div class="container">
-      <header>
+      <header class="site-header">
+        <button
+          class="header-menu-toggle"
+          type="button"
+          aria-label="Open menu"
+        ></button>
         <p class="logo">SHOP.CO</p>
 
         <nav class="header-links" aria-label="Main navigation">
-          <ul id="nav-categories" class="js-nav-categories"></ul>
+          <ul id="nav-categories" class="js-nav-categories">
+            <li>
+              <a href="#"
+                >Shop <img src="~/images/icn_arrow_down.svg" alt="Expand"
+              /></a>
+            </li>
+            <li><a href="#">On Sale</a></li>
+            <li><a href="#">New Arrivals</a></li>
+            <li><a href="#">Brands</a></li>
+          </ul>
         </nav>
 
-        <form action="#" class="header-search">
+        <form action="#" class="header-search js-search-form">
           <input
             type="text"
+            class="js-search-input"
             placeholder="Search for products..."
             aria-label="Search for products"
           />
-          <button type="button" aria-label="Search products">
-            <img src="~/images/icn_search.png" alt="Search" />
-          </button>
+          <button
+            class="header-search__button"
+            type="button"
+            aria-label="Search products"
+          ></button>
         </form>
 
         <div class="header-icon">
-          <button type="button" aria-label="Cart" class="js-cart-button">
-            <img src="~/images/icn_cart.png" alt="Cart" />
-          </button>
-          <button type="button" aria-label="Profile">
-            <img src="~/images/icn_user.png" alt="Profile" />
-          </button>
+          <button
+            class="header-icon__cart js-cart-button"
+            type="button"
+            aria-label="Cart"
+          ></button>
+          <button
+            class="header-icon__profile"
+            type="button"
+            aria-label="Profile"
+          ></button>
         </div>
       </header>
 
       <section class="product-overview">
-        <ul
+        <ol
           id="breadcrumb-list"
-          class="product-overview__link js-breadcrumb-list"
+          class="cart-page__breadcrumb product-breadcrumb js-breadcrumb-list"
           aria-label="Breadcrumb"
-        ></ul>
+        ></ol>
 
         <div class="product-overview__details">
           <div class="product-overview__images">
@@ -76,7 +97,10 @@
                 id="product-rating-stars"
                 class="js-product-rating-stars"
               ></div>
-              <p id="product-rating-text" class="js-product-rating-text">
+              <p
+                id="product-rating-text"
+                class="product-overview__rating-text js-product-rating-text"
+              >
                 0/<span>5</span>
               </p>
             </div>
@@ -129,23 +153,21 @@
                   class="quantity-button-minus js-quantity-button-minus"
                   type="button"
                   aria-label="Decrease quantity"
-                >
-                  <img src="~/images/icn_minus.png" alt="Minus" />
-                </button>
+                ></button>
                 <input
                   id="quantity-input"
-                  class="js-quantity-input"
-                  type="text"
+                  class="quantity-input js-quantity-input"
+                  type="number"
                   value="1"
+                  min="1"
+                  step="1"
                   aria-label="Quantity"
                 />
                 <button
                   class="quantity-button-plus js-quantity-button-plus"
                   type="button"
                   aria-label="Increase quantity"
-                >
-                  <img src="~/images/icn_plus.png" alt="Plus" />
-                </button>
+                ></button>
               </form>
               <button class="add-to-cart-button js-add-to-cart" type="button">
                 Add to Cart
@@ -190,16 +212,20 @@
         >
           <div class="reviews__header">
             <h2 class="reviews__title">
-              All Reviews<span id="reviews-count" class="js-reviews-count"
-                >(0)</span
-              >
+              All Reviews
+              <span id="reviews-count" class="js-reviews-count">(0)</span>
             </h2>
 
             <div class="reviews__actions">
               <div class="reviews__filter">
                 <button
+                  type="button"
                   id="btn-filter-by-stars"
                   class="reviews__action reviews__action--filter js-btn-filter-by-stars"
+                  aria-label="Filter reviews by star rating"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  aria-controls="dropdown-filter-by-stars"
                 ></button>
 
                 <div
@@ -255,7 +281,11 @@
                   <option value="highest">Highest Rating</option>
                 </select>
               </div>
-              <button class="reviews__action reviews__action--write">
+              <button
+                type="button"
+                class="reviews__action reviews__action--write"
+                aria-label="Write a review"
+              >
                 Write a Review
               </button>
             </div>
@@ -320,80 +350,120 @@
     <footer class="footer">
       <div class="footer-main">
         <div class="footer-main__content">
-          <div class="footer-main__info">
+          <section class="footer-main__info" aria-label="Brand information">
             <p class="footer-main__logo">SHOP.CO</p>
             <p class="footer-main__description">
               We have clothes that suits your style and which you're proud to
               wear. From women to men.
             </p>
-            <div class="footer-main__socials">
-              <figure>
-                <img src="~/images/icn_twiter.png" alt="Twitter" />
-              </figure>
-              <figure class="icon-fb">
-                <img src="~/images/icn_fb.png" alt="Facebook" />
-              </figure>
-              <figure>
-                <img src="~/images/icn_instagram.png" alt="Instagram" />
-              </figure>
-              <figure>
-                <img src="~/images/icn_github.png" alt="Github" />
-              </figure>
-            </div>
-          </div>
-
-          <div class="footer-main__links">
-            <ul>
-              <h4>Company</h4>
-              <li>About</li>
-              <li>Features</li>
-              <li>Works</li>
-              <li>Career</li>
+            <ul class="footer-main__socials" aria-label="Social links">
+              <li>
+                <a href="#" aria-label="Twitter">
+                  <img
+                    src="~/images/icn_twiter.svg"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </a>
+              </li>
+              <li>
+                <a href="#" class="icon-fb" aria-label="Facebook">
+                  <img src="~/images/icn_fb.svg" alt="" aria-hidden="true" />
+                </a>
+              </li>
+              <li>
+                <a href="#" aria-label="Instagram">
+                  <img
+                    src="~/images/icn_instagram.svg"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </a>
+              </li>
+              <li>
+                <a href="#" aria-label="Github">
+                  <img
+                    src="~/images/icn_github.svg"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </a>
+              </li>
             </ul>
+          </section>
 
-            <ul>
-              <h4>Help</h4>
-              <li>Customer Support</li>
-              <li>Delivery Details</li>
-              <li>Terms & Conditions</li>
-              <li>Privacy Policy</li>
-            </ul>
+          <nav class="footer-main__links" aria-label="Footer navigation">
+            <section
+              class="footer-main__section"
+              aria-labelledby="footer-company-title"
+            >
+              <h4 id="footer-company-title">Company</h4>
+              <ul>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">Works</a></li>
+                <li><a href="#">Career</a></li>
+              </ul>
+            </section>
 
-            <ul>
-              <h4>FAQ</h4>
-              <li>Account</li>
-              <li>Manage Deliveries</li>
-              <li>Orders</li>
-              <li>Payments</li>
-            </ul>
+            <section
+              class="footer-main__section"
+              aria-labelledby="footer-help-title"
+            >
+              <h4 id="footer-help-title">Help</h4>
+              <ul>
+                <li><a href="#">Customer Support</a></li>
+                <li><a href="#">Delivery Details</a></li>
+                <li><a href="#">Terms &amp; Conditions</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+              </ul>
+            </section>
 
-            <ul>
-              <h4>Resources</h4>
-              <li>Free eBooks</li>
-              <li>Development Tutorial</li>
-              <li>How to - Blog</li>
-              <li>Youtube Playlist</li>
-            </ul>
-          </div>
+            <section
+              class="footer-main__section"
+              aria-labelledby="footer-faq-title"
+            >
+              <h4 id="footer-faq-title">FAQ</h4>
+              <ul>
+                <li><a href="#">Account</a></li>
+                <li><a href="#">Manage Deliveries</a></li>
+                <li><a href="#">Orders</a></li>
+                <li><a href="#">Payments</a></li>
+              </ul>
+            </section>
+
+            <section
+              class="footer-main__section"
+              aria-labelledby="footer-resources-title"
+            >
+              <h4 id="footer-resources-title">Resources</h4>
+              <ul>
+                <li><a href="#">Free eBooks</a></li>
+                <li><a href="#">Development Tutorial</a></li>
+                <li><a href="#">How to - Blog</a></li>
+                <li><a href="#">Youtube Playlist</a></li>
+              </ul>
+            </section>
+          </nav>
         </div>
 
         <div class="footer-main__copyright">
           <p>Shop.co © 2000-2023, All Rights Reserved</p>
           <div class="footer-main__copyright-logo">
             <figure>
-              <img src="~/images/icn_visa.png" alt="Visa" />
+              <img src="~/images/icn_visa.svg" alt="Visa" />
             </figure>
             <figure>
-              <img src="~/images/icn_mastercard.png" alt="Mastercard" />
+              <img src="~/images/icn_mastercard.svg" alt="Mastercard" />
             </figure>
             <figure>
-              <img src="~/images/icn_paypal.png" alt="PayPal" />
+              <img src="~/images/icn_paypal.svg" alt="PayPal" />
             </figure>
             <figure>
-              <img src="~/images/icn_apay.png" alt="Apple Pay" />
+              <img src="~/images/icn_apay.svg" alt="Apple Pay" />
             </figure>
             <figure>
-              <img src="~/images/icn_gpay.png" alt="Google Pay" />
+              <img src="~/images/icn_gpay.svg" alt="Google Pay" />
             </figure>
           </div>
         </div>

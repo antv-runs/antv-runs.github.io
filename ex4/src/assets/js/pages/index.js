@@ -2,11 +2,30 @@ import {
   renderCatalogEmptyState,
   renderCatalogProducts,
 } from "../components/productComponents.js";
-import { getCatalogProducts } from "../services/productService.js";
+import { getProducts } from "../services/productService.js";
 import { formatPrice } from "../utils/formatters.js";
 import { renderStars } from "../utils/ratingUtils.js";
 
 const SEARCH_DEBOUNCE_DELAY = 300;
+const PRODUCTS_PER_PAGE = 9;
+
+/**
+ * STATE MANAGEMENT
+ * ================
+ * Single source of truth for UI state.
+ * Why? Prevents inconsistencies when multiple events (search, pagination) modify state.
+ * Ensures: same state values trigger same API params → reproducible behavior.
+ */
+function createAppState() {
+  return {
+    searchKeyword: "",
+    categoryId: null,
+    currentPage: 1,
+    lastPage: 1,
+    totalCount: 0,
+    perPage: 12,
+  };
+}
 
 function getPageElements() {
   return {
@@ -14,24 +33,37 @@ function getPageElements() {
     searchInput: document.querySelector(".js-search-input"),
     productList: document.querySelector(".js-product-list"),
     productCount: document.querySelector(".js-product-count"),
+    filterSidebar: document.querySelector(".js-catalog-filters"),
+    filterToggle: document.querySelector(".js-filter-toggle"),
+    filterClose: document.querySelector(".js-filter-close"),
+    // Pagination elements
+    paginationPrev: document.querySelector(
+      ".catalog-pagination__button:first-of-type",
+    ),
+    paginationNext: document.querySelector(
+      ".catalog-pagination__button:last-of-type",
+    ),
+    paginationNumbers: document.querySelector(".catalog-pagination__numbers"),
   };
 }
 
-function updateProductCount(element, count, searchTerm = "") {
+function updateProductCount(element, state, searchKeyword = "") {
   if (!element) {
     return;
   }
 
-  const label = count === 1 ? "product" : "products";
-  const trimmedSearchTerm = String(searchTerm || "").trim();
+  const { currentPage = 1, totalCount = 0, perPage = 12 } = state || {};
 
-  element.textContent = trimmedSearchTerm
-    ? `Showing ${count} ${label} for "${trimmedSearchTerm}"`
-    : `Showing ${count} ${label}`;
-}
+  const safePage = Math.max(1, Number(currentPage) || 1);
+  const safePerPage = Math.max(1, Number(perPage) || 12);
+  const safeTotalCount = Math.max(0, Number(totalCount) || 0);
+  const label = safeTotalCount === 1 ? "product" : "products";
+  const start = safeTotalCount === 0 ? 0 : (safePage - 1) * safePerPage + 1;
+  const end = Math.min(safePage * safePerPage, safeTotalCount);
+  const trimmedKeyword = String(searchKeyword || "").trim();
+  const suffix = trimmedKeyword ? ` for "${trimmedKeyword}"` : "";
 
-function navigateToProduct(productId) {
-  window.location.href = `product.html?id=${encodeURIComponent(productId)}`;
+  element.textContent = `Showing ${start}-${end} of ${safeTotalCount} ${label}${suffix}`;
 }
 
 function debounce(callback, delay) {
@@ -45,23 +77,151 @@ function debounce(callback, delay) {
   };
 }
 
-function createCatalogRenderer(elements) {
-  return (products, searchTerm = "") => {
-    updateProductCount(elements.productCount, products.length, searchTerm);
-
-    if (products.length === 0) {
-      renderCatalogEmptyState(elements.productList, "No products found");
-      return;
-    }
-
-    renderCatalogProducts(elements.productList, products, {
-      formatPrice,
-      renderStars,
+/**
+ * FETCH PRODUCTS
+ * ==============
+ * Calls API with current state values.
+ * Returns: { products, pagination } or null on error.
+ * Logs response structure for debugging.
+ */
+async function fetchProducts(state) {
+  try {
+    console.log("[API] Fetching products with params:", {
+      search: state.searchKeyword || "(empty)",
+      category_id: state.categoryId || "(empty)",
+      page: state.currentPage,
+      per_page: PRODUCTS_PER_PAGE,
     });
-  };
+
+    const response = await getProducts({
+      search: state.searchKeyword || undefined,
+      category_id: state.categoryId || undefined,
+      page: state.currentPage,
+      per_page: PRODUCTS_PER_PAGE,
+    });
+
+    // Log response structure for debugging
+    console.log("[API] Response structure:", {
+      productsCount: response.products?.length || 0,
+      paginationData: response.pagination,
+      hasLinks: !!response.links,
+    });
+
+    return response;
+  } catch (error) {
+    console.error("[API] Error fetching products:", error);
+    return null;
+  }
 }
 
-function bindProductNavigation(productList) {
+/**
+ * RENDER PRODUCTS
+ * ===============
+ * Updates product list and count.
+ */
+function renderProducts(elements, apiResponse, state) {
+  if (!elements.productList || !apiResponse) {
+    return;
+  }
+
+  const { products } = apiResponse;
+
+  updateProductCount(elements.productCount, state, state.searchKeyword);
+
+  if (products.length === 0) {
+    renderCatalogEmptyState(elements.productList, "No products found");
+    return;
+  }
+
+  renderCatalogProducts(elements.productList, products, {
+    formatPrice,
+    renderStars,
+  });
+}
+
+/**
+ * RENDER PAGINATION
+ * =================
+ * Updates pagination UI and button states.
+ * Generates page numbers with ellipsis for large page counts.
+ */
+function renderPagination(elements, state) {
+  const { currentPage, lastPage } = state;
+
+  if (!elements.paginationNumbers) {
+    return;
+  }
+
+  // Clear and rebuild page numbers
+  elements.paginationNumbers.innerHTML = "";
+
+  for (let i = 1; i <= lastPage; i++) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "catalog-pagination__number";
+    button.textContent = i;
+    button.dataset.page = i;
+
+    if (i === currentPage) {
+      button.classList.add("catalog-pagination__number--active");
+    }
+
+    elements.paginationNumbers.appendChild(button);
+
+    // Add ellipsis after 3rd page if many pages exist
+    if (i === 3 && lastPage > 4) {
+      const ellipsis = document.createElement("span");
+      ellipsis.textContent = "...";
+      elements.paginationNumbers.appendChild(ellipsis);
+      i = lastPage - 1; // Jump near the end
+    }
+  }
+
+  // Update button states
+  if (elements.paginationPrev) {
+    elements.paginationPrev.disabled = currentPage === 1;
+  }
+
+  if (elements.paginationNext) {
+    elements.paginationNext.disabled = currentPage === lastPage;
+  }
+}
+
+/**
+ * HANDLE PAGE LOAD
+ * ================
+ * Main function: Update state → Fetch API → Render UI.
+ * Called on: initial load, search, pagination.
+ */
+async function handlePageLoad(elements, state) {
+  const apiResponse = await fetchProducts(state);
+
+  if (apiResponse) {
+    const { pagination } = apiResponse;
+
+    // Update state from API response
+    state.currentPage = pagination.page || 1;
+    state.lastPage = pagination.lastPage || 1;
+    state.totalCount = pagination.total || 0;
+    state.perPage = Number(pagination.perPage || state.perPage || 12);
+
+    // Render UI
+    renderProducts(elements, apiResponse, state);
+    renderPagination(elements, state);
+  } else {
+    // Fallback: show error state
+    updateProductCount(elements.productCount, state, state.searchKeyword);
+    renderCatalogEmptyState(elements.productList, "Error loading products");
+    renderPagination(elements, state);
+  }
+}
+
+function bindProductNavigation(elements) {
+  const productList = elements.productList;
+  if (!productList) {
+    return;
+  }
+
   productList.addEventListener("click", (event) => {
     const productLink = event.target.closest(".js-product-link");
 
@@ -73,64 +233,162 @@ function bindProductNavigation(productList) {
 
     const { productId } = productLink.dataset;
     if (productId) {
-      navigateToProduct(productId);
+      window.location.href = `product.html?id=${encodeURIComponent(productId)}`;
     }
   });
 }
 
-function createProductLoader(elements) {
-  const renderCatalog = createCatalogRenderer(elements);
-  let activeRequestController = null;
+function bindFilterToggle(elements) {
+  if (
+    !elements.filterSidebar ||
+    !elements.filterToggle ||
+    !elements.filterClose
+  ) {
+    return;
+  }
 
-  return async (searchTerm = "") => {
-    if (activeRequestController) {
-      activeRequestController.abort();
-    }
-
-    activeRequestController = new AbortController();
-
-    try {
-      const products = await getCatalogProducts(searchTerm, {
-        signal: activeRequestController.signal,
-      });
-
-      renderCatalog(products, searchTerm);
-    } catch (error) {
-      if (error.name === "AbortError") {
-        return;
-      }
-
-      console.error("Failed to load catalog products.", error);
-      updateProductCount(elements.productCount, 0, searchTerm);
-      renderCatalogEmptyState(elements.productList, "No products found");
-    }
+  const closeFilters = () => {
+    elements.filterSidebar.classList.remove("is-open");
+    elements.filterToggle.setAttribute("aria-expanded", "false");
   };
+
+  const openFilters = () => {
+    elements.filterSidebar.classList.add("is-open");
+    elements.filterToggle.setAttribute("aria-expanded", "true");
+  };
+
+  elements.filterToggle.addEventListener("click", () => {
+    const isOpen = elements.filterSidebar.classList.contains("is-open");
+    if (isOpen) {
+      closeFilters();
+      return;
+    }
+
+    openFilters();
+  });
+
+  elements.filterClose.addEventListener("click", closeFilters);
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeFilters();
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 768) {
+      closeFilters();
+    }
+  });
+}
+
+/**
+ * BIND EVENTS
+ * ===========
+ * Attach event listeners for search, pagination, and filter toggle.
+ * All events update state → trigger handlePageLoad().
+ */
+function bindEvents(elements, state) {
+  // Search form submission
+  if (elements.searchForm) {
+    elements.searchForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const newSearchTerm = (elements.searchInput?.value || "").trim();
+
+      if (newSearchTerm !== state.searchKeyword) {
+        state.searchKeyword = newSearchTerm;
+        state.currentPage = 1; // Reset pagination on search
+        handlePageLoad(elements, state);
+      }
+    });
+  }
+
+  // Search input with debounce
+  if (elements.searchInput) {
+    const debouncedSearch = debounce((value) => {
+      const newSearchTerm = (value || "").trim();
+
+      if (newSearchTerm !== state.searchKeyword) {
+        state.searchKeyword = newSearchTerm;
+        state.currentPage = 1; // Reset pagination on search
+        handlePageLoad(elements, state);
+      }
+    }, SEARCH_DEBOUNCE_DELAY);
+
+    elements.searchInput.addEventListener("input", (event) => {
+      debouncedSearch(event.target.value);
+    });
+  }
+
+  // Pagination: Previous button
+  if (elements.paginationPrev) {
+    elements.paginationPrev.addEventListener("click", () => {
+      if (state.currentPage > 1) {
+        state.currentPage--;
+        handlePageLoad(elements, state);
+
+        // Scroll to top of product list
+        if (elements.productList) {
+          elements.productList.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    });
+  }
+
+  // Pagination: Next button
+  if (elements.paginationNext) {
+    elements.paginationNext.addEventListener("click", () => {
+      if (state.currentPage < state.lastPage) {
+        state.currentPage++;
+        handlePageLoad(elements, state);
+
+        // Scroll to top of product list
+        if (elements.productList) {
+          elements.productList.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    });
+  }
+
+  // Pagination: Page number clicks
+  if (elements.paginationNumbers) {
+    elements.paginationNumbers.addEventListener("click", (event) => {
+      const pageButton = event.target.closest(".catalog-pagination__number");
+
+      if (pageButton && pageButton.dataset.page) {
+        const newPage = Number(pageButton.dataset.page);
+
+        if (newPage !== state.currentPage) {
+          state.currentPage = newPage;
+          handlePageLoad(elements, state);
+
+          // Scroll to top of product list
+          if (elements.productList) {
+            elements.productList.scrollIntoView({ behavior: "smooth" });
+          }
+        }
+      }
+    });
+  }
 }
 
 export function initIndexPage() {
   const elements = getPageElements();
+  const state = createAppState();
 
+  // Validate required elements
   if (!elements.searchForm || !elements.searchInput || !elements.productList) {
+    console.error("[INIT] Required DOM elements not found");
     return;
   }
 
-  bindProductNavigation(elements.productList);
+  // Setup UI interactions
+  bindProductNavigation(elements);
+  bindFilterToggle(elements);
+  bindEvents(elements, state);
 
-  const loadProducts = createProductLoader(elements);
-  const debouncedSearch = debounce((searchTerm) => {
-    loadProducts(searchTerm);
-  }, SEARCH_DEBOUNCE_DELAY);
-
-  elements.searchForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    loadProducts(elements.searchInput.value);
-  });
-
-  elements.searchInput.addEventListener("input", (event) => {
-    debouncedSearch(event.target.value);
-  });
-
-  loadProducts();
+  // Load products on page load
+  handlePageLoad(elements, state);
 }
 
 document.addEventListener("DOMContentLoaded", () => {

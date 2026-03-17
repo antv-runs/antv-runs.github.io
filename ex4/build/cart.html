@@ -22,7 +22,7 @@
         <p class="logo">SHOP.CO</p>
 
         <nav class="header-links" aria-label="Main navigation">
-          <ul>
+          <ul id="nav-categories" class="js-nav-categories">
             <li>
               <a href="#"
                 >Shop <img src="./assets/images/icn_arrow_down.svg" alt="Expand"
@@ -34,9 +34,10 @@
           </ul>
         </nav>
 
-        <form action="#" class="header-search">
+        <form action="#" class="header-search js-search-form">
           <input
             type="text"
+            class="js-search-input"
             placeholder="Search for products..."
             aria-label="Search for products"
           />
@@ -49,7 +50,7 @@
 
         <div class="header-icon">
           <button
-            class="header-icon__cart"
+            class="header-icon__cart js-cart-button"
             type="button"
             aria-label="Cart"
           ></button>
@@ -256,7 +257,6 @@
             <ul class="footer-main__socials" aria-label="Social links">
               <li>
                 <a href="#" aria-label="Twitter">
-                  <span class="footer-main__social-label">Twitter</span>
                   <img
                     src="./assets/images/icn_twiter.svg"
                     alt=""
@@ -266,13 +266,11 @@
               </li>
               <li>
                 <a href="#" class="icon-fb" aria-label="Facebook">
-                  <span class="footer-main__social-label">Facebook</span>
                   <img src="./assets/images/icn_fb.svg" alt="" aria-hidden="true" />
                 </a>
               </li>
               <li>
                 <a href="#" aria-label="Instagram">
-                  <span class="footer-main__social-label">Instagram</span>
                   <img
                     src="./assets/images/icn_instagram.svg"
                     alt=""
@@ -282,7 +280,6 @@
               </li>
               <li>
                 <a href="#" aria-label="Github">
-                  <span class="footer-main__social-label">Github</span>
                   <img
                     src="./assets/images/icn_github.svg"
                     alt=""

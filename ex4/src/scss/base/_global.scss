@@ -1,0 +1,31 @@
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 10px auto 0;
+  padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin-top: 0;
+    padding: 0 16px;
+  }
+}

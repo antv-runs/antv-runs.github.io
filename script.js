@@ -87,7 +87,11 @@ const exercises = [
     links: {
       "Source code":
         "https://github.com/antv-runs/antv-runs.github.io/tree/main/ex4",
-      Deploy: "https://antv-runs.github.io/ex4/build/",
+      "Trang danh sách sản phẩm (chính)":
+        "https://antv-runs.github.io/ex4/build/",
+      "Trang chi tiết sản phẩm":
+        "https://antv-runs.github.io/ex4/build/product.html?id=1",
+      "Trang giỏ hàng": "https://antv-runs.github.io/ex4/build/cart.html",
     },
   },
 ];

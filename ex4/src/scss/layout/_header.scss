@@ -1,0 +1,194 @@
+@use "~/scss/abstracts/variables" as v;
+
+.sub-header {
+  background-color: v.$color-black;
+  color: v.$color-white;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 24px;
+
+  span {
+    font-weight: 500;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid v.$color-border;
+  margin-bottom: 24px;
+  min-width: 0;
+
+  .logo {
+    font-size: 32px;
+    font-weight: 700;
+    font-family: v.$font-family-display;
+    margin-bottom: 0;
+  }
+
+  .header-menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 19px;
+    height: 15px;
+    border: none;
+    background: url("~/images/icn_menu.svg") no-repeat center;
+    background-size: contain;
+    cursor: pointer;
+    color: v.$color-black;
+  }
+
+  .header-links ul {
+    display: flex;
+    gap: 24px;
+    font-size: 16px;
+    font-weight: 400;
+
+    a {
+      text-decoration: none;
+      color: v.$color-black;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+
+  .header-search {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: v.$color-surface;
+    border-radius: v.$radius-pill;
+    padding: 0 16px;
+
+    input {
+      width: 100%;
+      background-color: transparent;
+      border: none;
+      padding-top: 12px;
+      padding-bottom: 14px;
+      font-size: 16px;
+      font-weight: 400;
+      order: 2;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    &__button,
+    button {
+      order: 1;
+      width: 21px;
+      height: 21px;
+      min-width: 21px;
+      min-height: 21px;
+      flex: 0 0 21px;
+      background: url("~/images/icn_search.svg") no-repeat center;
+      background-size: contain;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .header-icon {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    flex: 0 0 auto;
+
+    button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: v.$color-black;
+      flex-shrink: 0;
+    }
+
+    &__cart {
+      width: 23px;
+      height: 21px;
+      background: url("~/images/icn_cart.svg") no-repeat center;
+      background-size: contain;
+    }
+
+    &__profile {
+      width: 21px;
+      height: 21px;
+      background: url("~/images/icn_profile.svg") no-repeat center;
+      background-size: contain;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  header {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .sub-header {
+    padding: 8px 0;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-wrap: nowrap;
+    gap: 12px;
+  }
+
+  header .header-menu-toggle {
+    display: inline-flex;
+  }
+
+  header .logo {
+    font-size: 24px;
+    margin-right: auto;
+  }
+
+  header .header-links {
+    display: none;
+  }
+
+  header .header-search {
+    flex: 0 0 auto;
+    min-width: 21px;
+    background-color: transparent;
+    border-radius: 0;
+    padding: 0;
+
+    input {
+      display: none;
+    }
+
+    button {
+      color: v.$color-black;
+      padding: 0;
+    }
+  }
+
+  header .header-icon {
+    gap: 10px;
+    flex: 0 0 auto;
+  }
+}

@@ -1,0 +1,41 @@
+@use "~/scss/abstracts/mixins" as m;
+@use "~/scss/abstracts/variables" as v;
+
+.btn {
+  @include m.button-base();
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  padding: 12px 24px;
+
+  &--primary {
+    background-color: v.$color-black;
+    color: v.$color-white;
+
+    &:hover {
+      background-color: #1a1a1a;
+    }
+  }
+
+  &--light {
+    background-color: v.$color-white;
+    color: v.$color-black;
+
+    &:hover {
+      background-color: #e0e0e0;
+    }
+  }
+
+  &--full {
+    width: 100%;
+  }
+}
+
+.add-to-cart-button,
+.catalog-filters__apply,
+.cart-summary__coupon button,
+.cart-summary__checkout,
+.reviews__action--write {
+  @include m.button-base(v.$color-black, v.$color-white);
+}

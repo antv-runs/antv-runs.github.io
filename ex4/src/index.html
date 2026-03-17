@@ -13,11 +13,25 @@
     </p>
 
     <div class="container">
-      <header>
+      <header class="site-header">
+        <button
+          class="header-menu-toggle"
+          type="button"
+          aria-label="Open menu"
+        ></button>
         <p class="logo">SHOP.CO</p>
 
         <nav class="header-links" aria-label="Main navigation">
-          <ul id="nav-categories"></ul>
+          <ul id="nav-categories" class="js-nav-categories">
+            <li>
+              <a href="#"
+                >Shop <img src="~/images/icn_arrow_down.svg" alt="Expand"
+              /></a>
+            </li>
+            <li><a href="#">On Sale</a></li>
+            <li><a href="#">New Arrivals</a></li>
+            <li><a href="#">Brands</a></li>
+          </ul>
         </nav>
 
         <form action="#" class="header-search js-search-form">
@@ -27,41 +41,55 @@
             placeholder="Search for products..."
             aria-label="Search for products"
           />
-          <button type="button" aria-label="Search products">
-            <img src="~/images/icn_search.png" alt="Search" />
-          </button>
+          <button
+            class="header-search__button"
+            type="button"
+            aria-label="Search products"
+          ></button>
         </form>
 
         <div class="header-icon">
-          <button type="button" aria-label="Cart">
-            <img src="~/images/icn_cart.png" alt="Cart" />
-          </button>
-          <button type="button" aria-label="Profile">
-            <img src="~/images/icn_user.png" alt="Profile" />
-          </button>
+          <button
+            class="header-icon__cart js-cart-button"
+            type="button"
+            aria-label="Cart"
+          ></button>
+          <button
+            class="header-icon__profile"
+            type="button"
+            aria-label="Profile"
+          ></button>
         </div>
       </header>
 
       <main class="catalog" aria-label="Product catalog">
-        <ul class="catalog__breadcrumb" aria-label="Breadcrumb">
-          <li><a href="index.html">Home</a></li>
-          <li>Casual</li>
-        </ul>
+        <ol class="catalog__breadcrumb" aria-label="Breadcrumb">
+          <li aria-current="page">Home</li>
+        </ol>
 
         <section class="catalog__layout">
-          <aside class="catalog-filters" aria-label="Product filters">
+          <aside
+            class="catalog-filters js-catalog-filters"
+            id="catalog-filters"
+            aria-label="Product filters"
+          >
             <div class="catalog-filters__header">
               <h2 class="catalog-filters__title">Filters</h2>
+              <button
+                class="catalog-filters__close js-filter-close"
+                type="button"
+                aria-label="Close filters"
+              ></button>
             </div>
 
             <section class="catalog-filters__section">
               <h3 class="catalog-filters__label">Category</h3>
               <ul class="catalog-filters__list">
-                <li>T-shirts</li>
-                <li>Shorts</li>
-                <li>Shirts</li>
-                <li>Hoodie</li>
-                <li>Jeans</li>
+                <li><a href="#">T-shirts</a></li>
+                <li><a href="#">Shorts</a></li>
+                <li><a href="#">Shirts</a></li>
+                <li><a href="#">Hoodie</a></li>
+                <li><a href="#">Jeans</a></li>
               </ul>
             </section>
 
@@ -167,10 +195,10 @@
             <section class="catalog-filters__section">
               <h3 class="catalog-filters__label">Dress Style</h3>
               <ul class="catalog-filters__list">
-                <li>Casual</li>
-                <li>Formal</li>
-                <li>Party</li>
-                <li>Gym</li>
+                <li><a href="#">Casual</a></li>
+                <li><a href="#">Formal</a></li>
+                <li><a href="#">Party</a></li>
+                <li><a href="#">Gym</a></li>
               </ul>
             </section>
 
@@ -182,17 +210,52 @@
           <section class="catalog-products" aria-label="Product list">
             <div class="catalog-products__header">
               <h1 class="catalog-products__title">Casual</h1>
-              <div class="catalog-products__meta">
-                <p class="js-product-count">Showing 0 products</p>
-                <p>Sort by: <strong>Most Popular</strong></p>
+              <div class="catalog-products__actions">
+                <button
+                  class="catalog-products__filter-toggle js-filter-toggle"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="catalog-filters"
+                ></button>
+                <p class="catalog-products__count js-product-count">
+                  Showing 0-0 of 0 products
+                </p>
+                <label class="catalog-products__sort" for="catalog-sort">
+                  <span>Sort by:</span>
+                  <select id="catalog-sort" class="js-sort-select">
+                    <option value="popular">Most Popular</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="rating">Top Rated</option>
+                  </select>
+                </label>
               </div>
             </div>
 
-            <div class="catalog-products__grid js-product-list" aria-live="polite"></div>
+            <div
+              class="catalog-products__grid js-product-list"
+              aria-live="polite"
+            ></div>
 
             <nav class="catalog-pagination" aria-label="Catalog pagination">
               <button class="catalog-pagination__button" type="button">
-                Previous
+                <svg
+                  width="11"
+                  height="11"
+                  viewBox="0 0 11 11"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10.1683 5.50163H0.834961M0.834961 5.50163L5.50163 10.1683M0.834961 5.50163L5.50163 0.834961"
+                    stroke="black"
+                    stroke-width="1.67"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+
+                <span class="catalog-pagination__label">Previous</span>
               </button>
               <div class="catalog-pagination__numbers">
                 <button
@@ -216,7 +279,22 @@
                 </button>
               </div>
               <button class="catalog-pagination__button" type="button">
-                Next
+                <span class="catalog-pagination__label">Next</span>
+                <svg
+                  width="11"
+                  height="11"
+                  viewBox="0 0 11 11"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0.834961 5.50163H10.1683M10.1683 5.50163L5.50163 0.834961M10.1683 5.50163L5.50163 10.1683"
+                    stroke="black"
+                    stroke-width="1.67"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
               </button>
             </nav>
           </section>
@@ -246,80 +324,120 @@
     <footer class="footer">
       <div class="footer-main">
         <div class="footer-main__content">
-          <div class="footer-main__info">
+          <section class="footer-main__info" aria-label="Brand information">
             <p class="footer-main__logo">SHOP.CO</p>
             <p class="footer-main__description">
               We have clothes that suits your style and which you're proud to
               wear. From women to men.
             </p>
-            <div class="footer-main__socials">
-              <figure>
-                <img src="~/images/icn_twiter.png" alt="Twitter" />
-              </figure>
-              <figure class="icon-fb">
-                <img src="~/images/icn_fb.png" alt="Facebook" />
-              </figure>
-              <figure>
-                <img src="~/images/icn_instagram.png" alt="Instagram" />
-              </figure>
-              <figure>
-                <img src="~/images/icn_github.png" alt="Github" />
-              </figure>
-            </div>
-          </div>
-
-          <div class="footer-main__links">
-            <ul>
-              <h4>Company</h4>
-              <li>About</li>
-              <li>Features</li>
-              <li>Works</li>
-              <li>Career</li>
+            <ul class="footer-main__socials" aria-label="Social links">
+              <li>
+                <a href="#" aria-label="Twitter">
+                  <img
+                    src="~/images/icn_twiter.svg"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </a>
+              </li>
+              <li>
+                <a href="#" class="icon-fb" aria-label="Facebook">
+                  <img src="~/images/icn_fb.svg" alt="" aria-hidden="true" />
+                </a>
+              </li>
+              <li>
+                <a href="#" aria-label="Instagram">
+                  <img
+                    src="~/images/icn_instagram.svg"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </a>
+              </li>
+              <li>
+                <a href="#" aria-label="Github">
+                  <img
+                    src="~/images/icn_github.svg"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </a>
+              </li>
             </ul>
+          </section>
 
-            <ul>
-              <h4>Help</h4>
-              <li>Customer Support</li>
-              <li>Delivery Details</li>
-              <li>Terms & Conditions</li>
-              <li>Privacy Policy</li>
-            </ul>
+          <nav class="footer-main__links" aria-label="Footer navigation">
+            <section
+              class="footer-main__section"
+              aria-labelledby="footer-company-title"
+            >
+              <h4 id="footer-company-title">Company</h4>
+              <ul>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">Works</a></li>
+                <li><a href="#">Career</a></li>
+              </ul>
+            </section>
 
-            <ul>
-              <h4>FAQ</h4>
-              <li>Account</li>
-              <li>Manage Deliveries</li>
-              <li>Orders</li>
-              <li>Payments</li>
-            </ul>
+            <section
+              class="footer-main__section"
+              aria-labelledby="footer-help-title"
+            >
+              <h4 id="footer-help-title">Help</h4>
+              <ul>
+                <li><a href="#">Customer Support</a></li>
+                <li><a href="#">Delivery Details</a></li>
+                <li><a href="#">Terms &amp; Conditions</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+              </ul>
+            </section>
 
-            <ul>
-              <h4>Resources</h4>
-              <li>Free eBooks</li>
-              <li>Development Tutorial</li>
-              <li>How to - Blog</li>
-              <li>Youtube Playlist</li>
-            </ul>
-          </div>
+            <section
+              class="footer-main__section"
+              aria-labelledby="footer-faq-title"
+            >
+              <h4 id="footer-faq-title">FAQ</h4>
+              <ul>
+                <li><a href="#">Account</a></li>
+                <li><a href="#">Manage Deliveries</a></li>
+                <li><a href="#">Orders</a></li>
+                <li><a href="#">Payments</a></li>
+              </ul>
+            </section>
+
+            <section
+              class="footer-main__section"
+              aria-labelledby="footer-resources-title"
+            >
+              <h4 id="footer-resources-title">Resources</h4>
+              <ul>
+                <li><a href="#">Free eBooks</a></li>
+                <li><a href="#">Development Tutorial</a></li>
+                <li><a href="#">How to - Blog</a></li>
+                <li><a href="#">Youtube Playlist</a></li>
+              </ul>
+            </section>
+          </nav>
         </div>
 
         <div class="footer-main__copyright">
           <p>Shop.co © 2000-2023, All Rights Reserved</p>
           <div class="footer-main__copyright-logo">
             <figure>
-              <img src="~/images/icn_visa.png" alt="Visa" />
+              <img src="~/images/icn_visa.svg" alt="Visa" />
             </figure>
             <figure>
-              <img src="~/images/icn_mastercard.png" alt="Mastercard" />
+              <img src="~/images/icn_mastercard.svg" alt="Mastercard" />
             </figure>
             <figure>
-              <img src="~/images/icn_paypal.png" alt="PayPal" />
+              <img src="~/images/icn_paypal.svg" alt="PayPal" />
             </figure>
             <figure>
-              <img src="~/images/icn_apay.png" alt="Apple Pay" />
+              <img src="~/images/icn_apay.svg" alt="Apple Pay" />
             </figure>
             <figure>
-              <img src="~/images/icn_gpay.png" alt="Google Pay" />
+              <img src="~/images/icn_gpay.svg" alt="Google Pay" />
             </figure>
           </div>
         </div>

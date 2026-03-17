@@ -1,0 +1,123 @@
+@use "~/scss/abstracts/variables" as v;
+@use "~/scss/abstracts/mixins" as *;
+
+.other-products {
+  position: relative;
+
+  &__item {
+    cursor: pointer;
+    max-width: 295px;
+    flex: 0 0 auto;
+    transition:
+      background-color 0.25s ease,
+      transform 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+      .product-item__title {
+        color: #ff4d4f;
+      }
+
+      .product-item__image {
+        transform: scale(1.08);
+      }
+
+      .product-item__prices--discounted {
+        color: #ff4d4f;
+      }
+    }
+  }
+
+  &__title {
+    font-size: 48px;
+    font-weight: 700;
+    text-align: center;
+    font-family: v.$font-family-display;
+  }
+
+  &__viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    touch-action: pan-x;
+    cursor: grab;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &.is-dragging {
+      cursor: grabbing;
+      user-select: none;
+    }
+  }
+
+  &__list {
+    display: flex;
+    width: max-content;
+    gap: 20px;
+    margin-top: 62px;
+
+    &.is-animated {
+      transition: transform 0.5s ease-in-out;
+    }
+  }
+
+  &__prev,
+  &__next {
+    position: absolute;
+    background: v.$color-white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 100;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.5;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      transition:
+        background-color 0.25s ease,
+        transform 0.2s ease;
+    }
+
+    &:hover::after {
+      background-color: #333;
+      transform: scale(1.1);
+    }
+  }
+
+  &__prev {
+    left: -30px;
+
+    &::after {
+      @include icon-mask(v.$icon-back, 60px, 60px, #000, 0.8);
+    }
+  }
+
+  &__next {
+    right: -30px;
+
+    &::after {
+      @include icon-mask(v.$icon-next, 60px, 60px, #000, 0.8);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .other-products {
+    &__title {
+      font-size: 32px;
+    }
+  }
+}
