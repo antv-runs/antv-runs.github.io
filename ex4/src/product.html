@@ -64,11 +64,11 @@
       </header>
 
       <section class="product-overview">
-        <ul
+        <ol
           id="breadcrumb-list"
-          class="product-overview__link js-breadcrumb-list"
+          class="cart-page__breadcrumb product-breadcrumb js-breadcrumb-list"
           aria-label="Breadcrumb"
-        ></ul>
+        ></ol>
 
         <div class="product-overview__details">
           <div class="product-overview__images">
@@ -211,16 +211,20 @@
         >
           <div class="reviews__header">
             <h2 class="reviews__title">
-              All Reviews<span id="reviews-count" class="js-reviews-count"
-                >(0)</span
-              >
+              All Reviews
+              <span id="reviews-count" class="js-reviews-count">(0)</span>
             </h2>
 
             <div class="reviews__actions">
               <div class="reviews__filter">
                 <button
+                  type="button"
                   id="btn-filter-by-stars"
                   class="reviews__action reviews__action--filter js-btn-filter-by-stars"
+                  aria-label="Filter reviews by star rating"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  aria-controls="dropdown-filter-by-stars"
                 ></button>
 
                 <div
@@ -276,7 +280,11 @@
                   <option value="highest">Highest Rating</option>
                 </select>
               </div>
-              <button class="reviews__action reviews__action--write">
+              <button
+                type="button"
+                class="reviews__action reviews__action--write"
+                aria-label="Write a review"
+              >
                 Write a Review
               </button>
             </div>
