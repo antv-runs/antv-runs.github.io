@@ -150,23 +150,21 @@
                   class="quantity-button-minus js-quantity-button-minus"
                   type="button"
                   aria-label="Decrease quantity"
-                >
-                  <img src="./assets/images/icn_minus.png" alt="Minus" />
-                </button>
+                ></button>
                 <input
                   id="quantity-input"
                   class="js-quantity-input"
-                  type="text"
+                  type="number"
                   value="1"
+                  min="1"
+                  step="1"
                   aria-label="Quantity"
                 />
                 <button
                   class="quantity-button-plus js-quantity-button-plus"
                   type="button"
                   aria-label="Increase quantity"
-                >
-                  <img src="./assets/images/icn_plus.png" alt="Plus" />
-                </button>
+                ></button>
               </form>
               <button class="add-to-cart-button js-add-to-cart" type="button">
                 Add to Cart

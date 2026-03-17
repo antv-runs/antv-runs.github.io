@@ -141,6 +141,18 @@ table {
   border-spacing: 0;
 }
 
+/* Chrome, Safari, Edge */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .sub-header {
   background-color: #000;
   color: #fff;
@@ -412,6 +424,7 @@ header .header-icon__profile {
   align-items: center;
   background-color: #f0f0f0;
   border-radius: 62px;
+  height: 50px;
 }
 .product-overview__actions form input {
   width: 100%;
@@ -426,10 +439,26 @@ header .header-icon__profile {
 }
 .product-overview__actions form .quantity-button-minus,
 .product-overview__actions form .quantity-button-plus {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
   background-color: transparent;
   border: none;
   margin: 0 12px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.product-overview__actions form .quantity-button-minus {
+  background-image: url("../images/icn_minus.svg");
+}
+.product-overview__actions form .quantity-button-plus {
+  background-image: url("../images/icn_plus.svg");
 }
 .product-overview__actions .add-to-cart-button {
   flex: 1;

@@ -309,6 +309,7 @@ header {
       align-items: center;
       background-color: #f0f0f0;
       border-radius: 62px;
+      height: 50px;
 
       input {
         width: 100%;
@@ -325,10 +326,28 @@ header {
 
       .quantity-button-minus,
       .quantity-button-plus {
+        width: 20px;
+        height: 20px;
+        min-width: 20px;
+        min-height: 20px;
         background-color: transparent;
         border: none;
         margin: 0 12px;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+      }
+
+      .quantity-button-minus {
+        background-image: url("~/images/icn_minus.svg");
+      }
+
+      .quantity-button-plus {
+        background-image: url("~/images/icn_plus.svg");
       }
     }
 
