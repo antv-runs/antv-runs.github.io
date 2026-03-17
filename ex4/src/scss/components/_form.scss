@@ -1,0 +1,14 @@
+@use "~/scss/abstracts/variables" as v;
+
+.input-pill {
+  width: 100%;
+  border: none;
+  border-radius: v.$radius-pill;
+  background-color: v.$color-surface;
+  padding: 0 20px;
+  font-size: 16px;
+
+  &:focus {
+    outline: none;
+  }
+}

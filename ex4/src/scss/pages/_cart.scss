@@ -1,3 +1,6 @@
+@use "~/scss/abstracts/mixins" as m;
+@use "~/scss/abstracts/variables" as v;
+
 .cart-page {
   margin-bottom: 80px;
 
@@ -10,7 +13,7 @@
     list-style: none;
     margin: 0 0 24px;
     padding: 0;
-    color: rgba(0, 0, 0, 0.6);
+    color: v.$color-muted;
 
     li {
       display: inline-flex;
@@ -55,9 +58,7 @@
 }
 
 .cart-items {
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
-  padding: 24px;
+  @include m.panel();
 }
 
 .cart-item {
@@ -118,7 +119,7 @@
   &__meta {
     font-size: 14px;
     line-height: 1.4;
-    color: rgba(0, 0, 0, 0.6);
+    color: v.$color-muted;
     margin-bottom: 6px;
   }
 
@@ -156,7 +157,7 @@
   &__price-discount {
     font-size: 12px;
     font-weight: 500;
-    color: #ff3333;
+    color: v.$color-danger;
     background-color: rgba(255, 51, 51, 0.1);
     border-radius: 62px;
     padding: 6px 10px;
@@ -169,8 +170,8 @@
     align-items: center;
     justify-content: space-between;
     white-space: nowrap;
-    background-color: #f0f0f0;
-    border-radius: 62px;
+    background-color: v.$color-surface;
+    border-radius: v.$radius-pill;
     padding: 12px 16px;
 
     button {
@@ -201,9 +202,7 @@
 }
 
 .cart-summary {
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
-  padding: 24px;
+  @include m.panel();
 
   &__title {
     font-size: 24px;
@@ -222,7 +221,7 @@
     margin-bottom: 16px;
 
     dt {
-      color: rgba(0, 0, 0, 0.6);
+      color: v.$color-muted;
       font-size: 20px;
     }
 
@@ -233,7 +232,7 @@
   }
 
   &__discount {
-    color: #ff3333;
+    color: v.$color-danger;
   }
 
   &__total {
@@ -288,9 +287,9 @@
     min-width: 0;
 
     border: none;
-    border-radius: 62px;
+    border-radius: v.$radius-pill;
 
-    background-color: #f0f0f0;
+    background-color: v.$color-surface;
 
     padding: 0 20px 0 48px;
 
@@ -309,10 +308,10 @@
     padding: 0 28px;
 
     border: none;
-    border-radius: 62px;
+    border-radius: v.$radius-pill;
 
-    background-color: #000;
-    color: #fff;
+    background-color: v.$color-black;
+    color: v.$color-white;
 
     font-size: 16px;
     font-weight: 500;
@@ -330,9 +329,9 @@
     padding: 16px 20px;
 
     border: none;
-    border-radius: 62px;
-    background: #000;
-    color: #fff;
+    border-radius: v.$radius-pill;
+    background: v.$color-black;
+    color: v.$color-white;
 
     font-size: 14px;
     font-weight: 500;

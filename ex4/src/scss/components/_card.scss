@@ -1,0 +1,5 @@
+@use "~/scss/abstracts/mixins" as m;
+
+.card {
+  @include m.panel();
+}

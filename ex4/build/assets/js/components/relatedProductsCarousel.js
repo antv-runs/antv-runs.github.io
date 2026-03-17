@@ -82,6 +82,8 @@ export function createRelatedProductsCarousel({
   }
 
   function normalizeLoopPosition() {
+    // isAdjustingLoop is true during both forward and backward teleports, so
+    // scroll events fired by our own scrollLeft assignments are ignored here.
     if (isAdjustingLoop) {
       return;
     }
@@ -91,6 +93,8 @@ export function createRelatedProductsCarousel({
       return;
     }
 
+    // Forward wrap: when the user has scrolled past the clone zone, snap
+    // instantly back to scrollLeft=0 (which shows identical content).
     if (viewport.scrollLeft >= loopBoundary - 1) {
       isAdjustingLoop = true;
       viewport.scrollLeft = 0;
@@ -148,6 +152,26 @@ export function createRelatedProductsCarousel({
     const step = getStepWidth(track, firstOriginal);
     if (!step) {
       return;
+    }
+
+    if (direction === -1) {
+      // Backward wrap is needed when there is not enough scroll room to the left.
+      // scrollLeft <= 0 catches the hard-stop at the start;
+      // scrollLeft < step catches being close enough that scrollBy would clamp.
+      const needsWrap = viewport.scrollLeft <= 0 || viewport.scrollLeft < step;
+      const loopBoundary = needsWrap ? getLoopBoundary() : 0;
+
+      if (needsWrap && loopBoundary) {
+        // Smooth scroll after teleport is not reliable here: some browsers may
+        // still base scrollBy on the stale pre-teleport position (often 0),
+        // causing the value to clamp back to 0 and leaving the carousel stuck.
+        // A single direct assignment is deterministic and timing-independent.
+        // loopBoundary - step lands on the last real item position immediately.
+        isAdjustingLoop = true;
+        viewport.scrollLeft = loopBoundary - step;
+        isAdjustingLoop = false;
+        return;
+      }
     }
 
     viewport.scrollBy({

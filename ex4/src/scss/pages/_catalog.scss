@@ -1,3 +1,6 @@
+@use "~/scss/abstracts/mixins" as m;
+@use "~/scss/abstracts/variables" as v;
+
 .catalog {
   margin-bottom: 80px;
 
@@ -5,7 +8,7 @@
     display: flex;
     gap: 12px;
     margin-bottom: 24px;
-    color: rgba(0, 0, 0, 0.6);
+    color: v.$color-muted;
 
     a {
       text-decoration: none;
@@ -26,13 +29,11 @@
 }
 
 .catalog-filters {
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
-  padding: 24px;
+  @include m.panel();
 
   &__header {
     padding-bottom: 20px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid v.$color-border;
     margin-bottom: 20px;
   }
 
@@ -44,7 +45,7 @@
   &__section {
     margin-bottom: 20px;
     padding-bottom: 20px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid v.$color-border;
 
     &:last-of-type {
       margin-bottom: 24px;
@@ -60,7 +61,7 @@
   &__list {
     display: grid;
     gap: 12px;
-    color: rgba(0, 0, 0, 0.6);
+    color: v.$color-muted;
 
     li {
       cursor: pointer;
@@ -151,26 +152,26 @@
 
     button {
       border: none;
-      border-radius: 62px;
+      border-radius: v.$radius-pill;
       padding: 11px 20px;
-      background-color: #f0f0f0;
-      color: rgba(0, 0, 0, 0.6);
+      background-color: v.$color-surface;
+      color: v.$color-muted;
       cursor: pointer;
       font-size: 14px;
     }
   }
 
   &__size--active {
-    background-color: #000 !important;
-    color: #fff !important;
+    background-color: v.$color-black !important;
+    color: v.$color-white !important;
   }
 
   &__apply {
     width: 100%;
     border: none;
-    border-radius: 62px;
-    background-color: #000;
-    color: #fff;
+    border-radius: v.$radius-pill;
+    background-color: v.$color-black;
+    color: v.$color-white;
     font-weight: 500;
     padding: 15px 0;
     cursor: pointer;
@@ -195,7 +196,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    color: rgba(0, 0, 0, 0.6);
+    color: v.$color-muted;
 
     strong {
       color: #000;
