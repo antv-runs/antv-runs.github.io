@@ -53,3 +53,45 @@
     background-color: $color;
   }
 }
+
+@mixin breadcrumb($gap: 12px, $font-size: 16px, $margin-bottom: 24px) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $gap;
+  list-style: none;
+  margin: 0 0 $margin-bottom;
+  padding: 0;
+  color: v.$color-muted;
+  font-size: $font-size;
+
+  li {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  li + li::before {
+    content: "";
+    width: 6px;
+    height: 10px;
+    margin-right: $gap;
+    flex: 0 0 auto;
+    background-color: currentColor;
+    -webkit-mask: url("~/images/icn_breadcrumb_next.svg") no-repeat center /
+      contain;
+    mask: url("~/images/icn_breadcrumb_next.svg") no-repeat center / contain;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      color: v.$color-black;
+    }
+  }
+
+  li[aria-current="page"] {
+    color: v.$color-black;
+  }
+}

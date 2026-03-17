@@ -292,6 +292,15 @@
   }
 }
 
+.product-flow-nav {
+  margin-bottom: 40px;
+
+  &__links {
+    display: flex;
+    gap: 12px;
+  }
+}
+
 @keyframes add-to-cart-feedback {
   0% {
     transform: scale(1);
