@@ -59,6 +59,7 @@ function getPageElements() {
     filterSidebar: document.querySelector(".js-catalog-filters"),
     filterToggle: document.querySelector(".js-filter-toggle"),
     filterClose: document.querySelector(".js-filter-close"),
+    filtersOverlay: document.querySelector(".js-filters-overlay"),
     priceRangeMin: document.querySelector(".js-price-range-min"),
     priceRangeMax: document.querySelector(".js-price-range-max"),
     priceRangeProgress: document.querySelector(".js-price-range-progress"),
@@ -354,6 +355,19 @@ function bindApplyFilter(elements, state, filterState) {
   const button = elements.applyFilterButton;
   const applyText = button.querySelector(".catalog-filters__apply-text");
 
+  const closeFilters = () => {
+    if (elements.filterSidebar) {
+      elements.filterSidebar.classList.remove("is-open");
+    }
+    if (elements.filterToggle) {
+      elements.filterToggle.setAttribute("aria-expanded", "false");
+    }
+    if (elements.filtersOverlay) {
+      elements.filtersOverlay.classList.remove("is-open");
+    }
+    document.body.style.overflow = "";
+  };
+
   const setLoading = (isLoading) => {
     button.disabled = isLoading;
     button.classList.toggle("is-loading", isLoading);
@@ -382,6 +396,8 @@ function bindApplyFilter(elements, state, filterState) {
     setLoading(true);
     try {
       await handlePageLoad(elements, state);
+      // Close filters after successfully applying them
+      closeFilters();
     } finally {
       setLoading(false);
     }
@@ -593,11 +609,27 @@ function bindFilterToggle(elements) {
   const closeFilters = () => {
     elements.filterSidebar.classList.remove("is-open");
     elements.filterToggle.setAttribute("aria-expanded", "false");
+    
+    // Hide overlay
+    if (elements.filtersOverlay) {
+      elements.filtersOverlay.classList.remove("is-open");
+    }
+    
+    // Restore body scroll
+    document.body.style.overflow = "";
   };
 
   const openFilters = () => {
     elements.filterSidebar.classList.add("is-open");
     elements.filterToggle.setAttribute("aria-expanded", "true");
+    
+    // Show overlay
+    if (elements.filtersOverlay) {
+      elements.filtersOverlay.classList.add("is-open");
+    }
+    
+    // Prevent body scroll
+    document.body.style.overflow = "hidden";
   };
 
   elements.filterToggle.addEventListener("click", () => {
@@ -611,6 +643,15 @@ function bindFilterToggle(elements) {
   });
 
   elements.filterClose.addEventListener("click", closeFilters);
+
+  // Close on overlay click
+  if (elements.filtersOverlay) {
+    elements.filtersOverlay.addEventListener("click", (event) => {
+      if (event.target === elements.filtersOverlay) {
+        closeFilters();
+      }
+    });
+  }
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
