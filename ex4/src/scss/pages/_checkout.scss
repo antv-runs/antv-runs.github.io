@@ -1,0 +1,71 @@
+@use "~/scss/abstracts/variables" as v;
+
+.checkout-page {
+  padding: 32px 0 60px;
+
+  &__title {
+    font-family: v.$font-family-display;
+    font-size: 36px;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+
+  &__intro {
+    margin-bottom: 24px;
+    color: v.$color-muted;
+    line-height: 1.5;
+  }
+
+  &__form {
+    max-width: 520px;
+  }
+
+  &__fields {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  &__field {
+    display: grid;
+    gap: 6px;
+  }
+
+  &__submit {
+    min-width: 160px;
+  }
+
+  &__message {
+    min-height: 24px;
+    margin-top: 12px;
+    line-height: 1.5;
+
+    &--error {
+      color: #b42318;
+    }
+
+    &--success {
+      color: #067647;
+    }
+
+    &--pending {
+      color: v.$color-black;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .checkout-page {
+    padding: 24px 0 48px;
+
+    &__title {
+      font-size: 30px;
+    }
+  }
+}

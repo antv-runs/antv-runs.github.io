@@ -7,30 +7,30 @@
     <link rel="stylesheet" href="~/css/style.css" />
   </head>
   <body>
-    <div class="container" style="padding: 32px 0 60px">
-      <h1 style="font-size: 36px; margin-bottom: 12px">Checkout</h1>
-      <p style="margin-bottom: 24px; color: rgba(0, 0, 0, 0.7)">
+    <div class="container checkout-page">
+      <h1 class="checkout-page__title">Checkout</h1>
+      <p class="checkout-page__intro">
         Enter shipping details to complete your order.
       </p>
 
-      <form class="js-checkout-form" action="#" style="max-width: 520px">
-        <div style="display: grid; gap: 14px; margin-bottom: 20px">
-          <label style="display: grid; gap: 6px">
+      <form class="checkout-page__form js-checkout-form" action="#">
+        <div class="checkout-page__fields">
+          <label class="checkout-page__field">
             <span>Name</span>
             <input type="text" name="name" aria-label="Name" required />
           </label>
 
-          <label style="display: grid; gap: 6px">
+          <label class="checkout-page__field">
             <span>Email</span>
             <input type="email" name="email" aria-label="Email" required />
           </label>
 
-          <label style="display: grid; gap: 6px">
+          <label class="checkout-page__field">
             <span>Phone</span>
             <input type="tel" name="phone" aria-label="Phone" required />
           </label>
 
-          <label style="display: grid; gap: 6px">
+          <label class="checkout-page__field">
             <span>Address</span>
             <textarea
               name="address"
@@ -41,14 +41,13 @@
           </label>
         </div>
 
-        <button type="submit">Place Order</button>
-        <p class="js-checkout-message" style="margin-top: 12px"></p>
+        <button class="checkout-page__submit js-checkout-submit" type="submit">
+          Place Order
+        </button>
+        <p class="checkout-page__message js-checkout-message"></p>
       </form>
 
-      <nav
-        aria-label="Flow navigation"
-        style="display: flex; gap: 12px; margin-top: 20px"
-      >
+      <nav class="checkout-page__nav" aria-label="Flow navigation">
         <a href="cart.html">Previous: Cart</a>
       </nav>
     </div>

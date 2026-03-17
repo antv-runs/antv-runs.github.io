@@ -8,6 +8,7 @@ import { renderStars } from "../utils/ratingUtils.js";
 
 const SEARCH_DEBOUNCE_DELAY = 300;
 const PRODUCTS_PER_PAGE = 9;
+const MOBILE_FILTER_BREAKPOINT = 768;
 
 /**
  * STATE MANAGEMENT
@@ -37,13 +38,9 @@ function getPageElements() {
     filterToggle: document.querySelector(".js-filter-toggle"),
     filterClose: document.querySelector(".js-filter-close"),
     // Pagination elements
-    paginationPrev: document.querySelector(
-      ".catalog-pagination__button:first-of-type",
-    ),
-    paginationNext: document.querySelector(
-      ".catalog-pagination__button:last-of-type",
-    ),
-    paginationNumbers: document.querySelector(".catalog-pagination__numbers"),
+    paginationPrev: document.querySelector(".js-pagination-prev"),
+    paginationNext: document.querySelector(".js-pagination-next"),
+    paginationNumbers: document.querySelector(".js-pagination-numbers"),
   };
 }
 
@@ -158,7 +155,7 @@ function renderPagination(elements, state) {
   for (let i = 1; i <= lastPage; i++) {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = "catalog-pagination__number";
+    button.className = "catalog-pagination__number js-pagination-number";
     button.textContent = i;
     button.dataset.page = i;
 
@@ -276,9 +273,55 @@ function bindFilterToggle(elements) {
   });
 
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 768) {
+    if (window.innerWidth > MOBILE_FILTER_BREAKPOINT) {
       closeFilters();
     }
+  });
+}
+
+function bindFilterAccordion(elements) {
+  const filterSidebar = elements.filterSidebar;
+
+  if (!filterSidebar) {
+    return;
+  }
+
+  const setAccordionState = (section, isOpen) => {
+    const toggle = section.querySelector(".js-filter-accordion-toggle");
+    const content = section.querySelector(".js-filter-accordion-content");
+
+    if (!toggle || !content) {
+      return;
+    }
+
+    section.classList.toggle("is-open", isOpen);
+    toggle.setAttribute("aria-expanded", String(isOpen));
+    content.setAttribute("aria-hidden", String(!isOpen));
+    content.inert = !isOpen;
+  };
+
+  filterSidebar.querySelectorAll(".js-filter-section").forEach((section) => {
+    if (!section.querySelector(".js-filter-accordion-toggle")) {
+      return;
+    }
+
+    setAccordionState(section, section.classList.contains("is-open"));
+  });
+
+  filterSidebar.addEventListener("click", (event) => {
+    const toggle = event.target.closest(".js-filter-accordion-toggle");
+
+    if (!toggle || !filterSidebar.contains(toggle)) {
+      return;
+    }
+
+    const section = toggle.closest(".js-filter-section");
+
+    if (!section) {
+      return;
+    }
+
+    setAccordionState(section, !section.classList.contains("is-open"));
   });
 }
 
@@ -353,7 +396,7 @@ function bindEvents(elements, state) {
   // Pagination: Page number clicks
   if (elements.paginationNumbers) {
     elements.paginationNumbers.addEventListener("click", (event) => {
-      const pageButton = event.target.closest(".catalog-pagination__number");
+      const pageButton = event.target.closest(".js-pagination-number");
 
       if (pageButton && pageButton.dataset.page) {
         const newPage = Number(pageButton.dataset.page);
@@ -385,6 +428,7 @@ export function initIndexPage() {
   // Setup UI interactions
   bindProductNavigation(elements);
   bindFilterToggle(elements);
+  bindFilterAccordion(elements);
   bindEvents(elements, state);
 
   // Load products on page load

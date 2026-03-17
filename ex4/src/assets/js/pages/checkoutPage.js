@@ -3,14 +3,23 @@ import { createOrder } from "../services/orderService.js";
 
 const checkoutForm = document.querySelector(".js-checkout-form");
 const checkoutMessage = document.querySelector(".js-checkout-message");
+const checkoutSubmit = document.querySelector(".js-checkout-submit");
 
-function setCheckoutMessage(message, isError = false) {
+function setCheckoutMessage(message, status = "success") {
   if (!checkoutMessage) {
     return;
   }
 
   checkoutMessage.textContent = message;
-  checkoutMessage.style.color = isError ? "#b42318" : "#067647";
+  checkoutMessage.classList.remove(
+    "checkout-page__message--error",
+    "checkout-page__message--success",
+    "checkout-page__message--pending",
+  );
+
+  if (status) {
+    checkoutMessage.classList.add(`checkout-page__message--${status}`);
+  }
 }
 
 function getCartItemsFromStorage() {
@@ -47,7 +56,7 @@ async function handleCheckoutSubmit(event) {
 
   const cartItems = getCartItemsFromStorage();
   if (cartItems.length === 0) {
-    setCheckoutMessage("Your cart is empty.", true);
+    setCheckoutMessage("Your cart is empty.", "error");
     return;
   }
 
@@ -59,12 +68,12 @@ async function handleCheckoutSubmit(event) {
     address: String(formData.get("address") || "").trim(),
   };
 
-  const submitButton = checkoutForm.querySelector("button[type='submit']");
+  const submitButton = checkoutSubmit;
   if (submitButton instanceof HTMLButtonElement) {
     submitButton.disabled = true;
   }
 
-  setCheckoutMessage("Placing your order...");
+  setCheckoutMessage("Placing your order...", "pending");
 
   try {
     await createOrder({
@@ -73,14 +82,14 @@ async function handleCheckoutSubmit(event) {
     });
 
     localStorage.removeItem(CART_STORAGE_KEY);
-    setCheckoutMessage("Order placed successfully. Redirecting...");
+    setCheckoutMessage("Order placed successfully. Redirecting...", "success");
     window.setTimeout(() => {
       window.location.href = "index.html?order=success";
     }, 700);
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Failed to place order.";
-    setCheckoutMessage(message, true);
+    setCheckoutMessage(message, "error");
   } finally {
     if (submitButton instanceof HTMLButtonElement) {
       submitButton.disabled = false;

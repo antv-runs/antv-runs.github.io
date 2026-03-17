@@ -39,7 +39,10 @@
   gap: 0;
 
   &__close {
-    display: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 32px;
     width: 32px;
     height: 32px;
     border: none;
@@ -61,6 +64,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 12px;
     padding-bottom: 20px;
     border-bottom: 1px solid v.$color-border;
     margin-bottom: 20px;
@@ -69,6 +73,14 @@
   &__title {
     font-size: 20px;
     font-weight: 700;
+    margin-right: auto;
+  }
+
+  &__icon {
+    display: none;
+    flex: 0 0 24px;
+    width: 24px;
+    height: 24px;
   }
 
   &__section {
@@ -79,12 +91,70 @@
     &:last-of-type {
       margin-bottom: 24px;
     }
+
+    &.is-open {
+      .catalog-filters__toggle {
+        &::after {
+          transform: rotate(180deg);
+        }
+      }
+
+      .catalog-filters__content {
+        grid-template-rows: 1fr;
+        opacity: 1;
+        margin-top: 16px;
+      }
+    }
   }
 
   &__label {
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 16px;
+  }
+
+  &__toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border: none;
+    padding: 0;
+    margin-bottom: 0;
+    background-color: transparent;
+    color: v.$color-black;
+    text-align: left;
+    cursor: pointer;
+
+    &::after {
+      content: "";
+      flex: 0 0 16px;
+      transition: transform 0.25s ease;
+      @include icon-bg(v.$icon-dropdown, 16px, 16px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid v.$color-black;
+      outline-offset: 4px;
+      border-radius: 4px;
+    }
+  }
+
+  &__content {
+    display: grid;
+    grid-template-rows: 0fr;
+    margin-top: 0;
+    opacity: 0;
+    transition:
+      grid-template-rows 0.3s ease,
+      opacity 0.2s ease,
+      margin-top 0.3s ease;
+  }
+
+  &__content-inner {
+    min-height: 0;
+    overflow: hidden;
   }
 
   &__list {
@@ -232,6 +302,18 @@
     font-weight: 500;
     padding: 14px 0;
     cursor: pointer;
+  }
+}
+
+@media (min-width: 769px) {
+  .catalog-filters {
+    &__close {
+      display: none;
+    }
+
+    &__icon {
+      display: block;
+    }
   }
 }
 
@@ -488,10 +570,6 @@
 
     &.is-open {
       display: block;
-    }
-
-    &__close {
-      display: inline-flex;
     }
   }
 
