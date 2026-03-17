@@ -302,17 +302,21 @@ header {
   &__actions {
     display: flex;
     gap: 20px;
+    flex-wrap: nowrap;
 
     form {
-      width: 170px;
+      width: fit-content;
       display: flex;
+      flex: 0 0 auto;
       align-items: center;
       background-color: #f0f0f0;
       border-radius: 62px;
       height: 50px;
+      padding: 0 8px;
 
       input {
-        width: 100%;
+        width: 44px;
+        flex: 0 0 44px;
         text-align: center;
         background-color: transparent;
         border: none;
@@ -352,13 +356,15 @@ header {
     }
 
     .add-to-cart-button {
-      flex: 1;
+      flex: 1 1 auto;
+      min-width: 0;
       background-color: #000;
       color: #fff;
       border: none;
       border-radius: 62px;
       font-size: 16px;
       font-weight: 500;
+      white-space: nowrap;
       cursor: pointer;
       padding: 12px 24px;
       transition:
@@ -789,10 +795,12 @@ header {
     }
 
     &__actions {
-      flex-direction: column;
+      flex-direction: row;
+      flex-wrap: nowrap;
 
       form {
-        width: 100%;
+        width: fit-content;
+        flex: 0 0 auto;
       }
     }
   }

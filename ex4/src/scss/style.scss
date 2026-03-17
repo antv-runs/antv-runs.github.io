@@ -288,6 +288,12 @@ svg {
 }
 
 @media (max-width: 768px) {
+  .tabs {
+    &__tab {
+      font-size: 16px;
+    }
+  }
+
   .reviews {
     &__title {
       font-size: 20px;
