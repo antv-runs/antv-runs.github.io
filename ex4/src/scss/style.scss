@@ -14,9 +14,29 @@ button {
   line-height: 1;
 }
 
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
 .container {
+  width: 100%;
   max-width: 1240px;
   margin: 10px auto 0px;
+  padding: 0 20px;
 }
 
 .products-tabs {

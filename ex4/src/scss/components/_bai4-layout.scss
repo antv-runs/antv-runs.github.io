@@ -21,6 +21,7 @@ header {
   padding-bottom: 24px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   margin-bottom: 24px;
+  min-width: 0;
 
   .logo {
     font-size: 32px;
@@ -62,6 +63,7 @@ header {
 
   .header-search {
     flex: 1;
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -89,6 +91,9 @@ header {
       order: 1;
       width: 21px;
       height: 21px;
+      min-width: 21px;
+      min-height: 21px;
+      flex: 0 0 21px;
       background: url("~/images/icn_search.svg") no-repeat center;
       background-size: contain;
       border: none;
@@ -103,6 +108,7 @@ header {
     display: flex;
     gap: 14px;
     align-items: center;
+    flex: 0 0 auto;
 
     button {
       background-color: transparent;
@@ -112,6 +118,7 @@ header {
       align-items: center;
       justify-content: center;
       color: #000;
+      flex-shrink: 0;
     }
 
     &__cart {
@@ -429,6 +436,7 @@ header {
   padding: 36px 64px;
   position: relative;
   z-index: 2;
+  width: 100%;
 
   form {
     max-width: 349px;
@@ -491,6 +499,7 @@ header {
 }
 
 .footer-main {
+  width: 100%;
   max-width: 1240px;
   margin: 0 auto;
   padding-top: 140px;
@@ -503,6 +512,7 @@ header {
     padding-bottom: 50px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 25px;
+    min-width: 0;
   }
 
   &__info {
@@ -541,6 +551,7 @@ header {
       justify-content: center;
       align-items: center;
       padding: 9px;
+      flex-shrink: 0;
       transition: background-color 0.2s ease;
 
       &:hover {
@@ -576,6 +587,7 @@ header {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 24px;
+    min-width: 0;
 
     ul {
       list-style: none;
@@ -628,6 +640,7 @@ header {
         padding: 7px;
         display: flex;
         align-items: center;
+        flex-shrink: 0;
 
         img {
           width: 100%;
@@ -643,6 +656,11 @@ header {
   header {
     flex-wrap: wrap;
     gap: 20px;
+  }
+
+  .sub-header {
+    padding: 8px 0;
+    font-size: 12px;
   }
 
   .product-overview__details {
@@ -692,6 +710,7 @@ header {
   }
 
   header {
+    flex-wrap: nowrap;
     gap: 12px;
   }
 
@@ -709,7 +728,8 @@ header {
   }
 
   header .header-search {
-    flex: 0;
+    flex: 0 0 auto;
+    min-width: 21px;
     background-color: transparent;
     border-radius: 0;
     padding: 0;
@@ -726,6 +746,7 @@ header {
 
   header .header-icon {
     gap: 10px;
+    flex: 0 0 auto;
   }
 
   .product-overview {
@@ -788,8 +809,13 @@ header {
 
     &__copyright {
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
       gap: 16px;
+    }
+
+    &__copyright-logo {
+      flex-wrap: wrap;
+      justify-content: center;
     }
   }
 }
