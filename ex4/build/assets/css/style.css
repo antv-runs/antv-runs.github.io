@@ -1618,6 +1618,10 @@ header .header-icon__profile {
   color: #fff !important;
 }
 .catalog-filters__apply {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   width: 100%;
   border: none;
   border-radius: 62px;
@@ -1626,8 +1630,33 @@ header .header-icon__profile {
   font-weight: 500;
   padding: 14px 0;
   cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.catalog-filters__apply:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.catalog-filters__apply.is-loading .catalog-filters__apply-text {
+  display: none;
+}
+.catalog-filters__spinner {
+  display: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: catalog-spinner 0.65s linear infinite;
+}
+.catalog-filters__apply.is-loading .catalog-filters__spinner {
+  display: block;
 }
 
+@keyframes catalog-spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
 @media (min-width: 769px) {
   .catalog-filters__close {
     display: none;

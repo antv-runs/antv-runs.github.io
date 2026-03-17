@@ -27,6 +27,24 @@ function createAppState() {
     lastPage: 1,
     totalCount: 0,
     perPage: 12,
+    // Committed filter values (set when Apply Filter is clicked)
+    minPrice: null,
+    maxPrice: null,
+    colors: [],
+    sizes: [],
+    dressStyle: null,
+  };
+}
+
+function createFilterState() {
+  return {
+    categoryId: null,
+    categoryName: null,
+    minPrice: null,
+    maxPrice: null,
+    colors: [],
+    sizes: [],
+    dressStyle: null,
   };
 }
 
@@ -47,6 +65,7 @@ function getPageElements() {
     priceRangeMinValue: document.querySelector(".js-price-range-min-value"),
     priceRangeMaxValue: document.querySelector(".js-price-range-max-value"),
     categoryList: document.querySelector(".js-category-list"),
+    applyFilterButton: document.querySelector(".js-apply-filter"),
     // Pagination elements
     paginationPrev: document.querySelector(".js-pagination-prev"),
     paginationNext: document.querySelector(".js-pagination-next"),
@@ -136,7 +155,7 @@ async function loadCategories(elements, state) {
   }
 }
 
-function bindCategoryFilter(elements, state) {
+function bindCategoryFilter(elements, filterState) {
   if (!elements.categoryList) {
     return;
   }
@@ -152,28 +171,30 @@ function bindCategoryFilter(elements, state) {
       categoryButton.dataset.categoryId || "",
     ).trim();
 
-    if (!selectedCategoryId || selectedCategoryId === state.categoryId) {
+    if (!selectedCategoryId) {
       return;
     }
 
-    state.categoryId = selectedCategoryId;
-    state.categoryName = categoryButton.textContent.trim() || null;
-    state.currentPage = 1;
+    // Toggle: clicking the active category deselects it
+    if (selectedCategoryId === filterState.categoryId) {
+      filterState.categoryId = null;
+      filterState.categoryName = null;
+    } else {
+      filterState.categoryId = selectedCategoryId;
+      filterState.categoryName = categoryButton.textContent.trim() || null;
+    }
 
     elements.categoryList
       .querySelectorAll("button[data-category-id]")
       .forEach((button) => {
-        const isActive = button === categoryButton;
+        const isActive = button.dataset.categoryId === filterState.categoryId;
         button.classList.toggle("is-active", isActive);
         button.setAttribute("aria-pressed", String(isActive));
       });
-
-    updateCatalogHeader(elements, state.categoryName);
-    handlePageLoad(elements, state);
   });
 }
 
-function bindPriceRangeSlider(elements) {
+function bindPriceRangeSlider(elements, filterState) {
   const minInput = elements.priceRangeMin;
   const maxInput = elements.priceRangeMax;
   const progress = elements.priceRangeProgress;
@@ -215,6 +236,11 @@ function bindPriceRangeSlider(elements) {
 
     minValue.textContent = `$${min}`;
     maxValue.textContent = `$${max}`;
+
+    if (filterState) {
+      filterState.minPrice = min;
+      filterState.maxPrice = max;
+    }
   };
 
   minInput.addEventListener("input", () => {
@@ -226,6 +252,140 @@ function bindPriceRangeSlider(elements) {
   });
 
   renderRange();
+}
+
+function bindColorFilter(elements, filterState) {
+  if (!elements.filterSidebar) {
+    return;
+  }
+
+  elements.filterSidebar.addEventListener("click", (event) => {
+    const colorButton = event.target.closest(".js-color-button");
+
+    if (!colorButton || !elements.filterSidebar.contains(colorButton)) {
+      return;
+    }
+
+    const color = (colorButton.dataset.color || "").toLowerCase();
+    if (!color) {
+      return;
+    }
+
+    const index = filterState.colors.indexOf(color);
+    const isNowActive = index === -1;
+
+    if (isNowActive) {
+      filterState.colors.push(color);
+    } else {
+      filterState.colors.splice(index, 1);
+    }
+
+    colorButton.classList.toggle("catalog-filters__color--active", isNowActive);
+  });
+}
+
+function bindSizeFilter(elements, filterState) {
+  if (!elements.filterSidebar) {
+    return;
+  }
+
+  elements.filterSidebar.addEventListener("click", (event) => {
+    const sizeButton = event.target.closest(".js-size-button");
+
+    if (!sizeButton || !elements.filterSidebar.contains(sizeButton)) {
+      return;
+    }
+
+    const size = (sizeButton.dataset.size || "").trim();
+    if (!size) {
+      return;
+    }
+
+    const index = filterState.sizes.indexOf(size);
+    const isNowActive = index === -1;
+
+    if (isNowActive) {
+      filterState.sizes.push(size);
+    } else {
+      filterState.sizes.splice(index, 1);
+    }
+
+    sizeButton.classList.toggle("is-active", isNowActive);
+  });
+}
+
+function bindDressStyleFilter(elements, filterState) {
+  if (!elements.filterSidebar) {
+    return;
+  }
+
+  elements.filterSidebar.addEventListener("click", (event) => {
+    const styleLink = event.target.closest(".js-dress-style-item");
+
+    if (!styleLink || !elements.filterSidebar.contains(styleLink)) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const style = (styleLink.dataset.style || "").toLowerCase();
+    if (!style) {
+      return;
+    }
+
+    // Toggle: clicking the active style deselects it
+    filterState.dressStyle = style === filterState.dressStyle ? null : style;
+
+    elements.filterSidebar
+      .querySelectorAll(".js-dress-style-item")
+      .forEach((item) => {
+        const isActive =
+          (item.dataset.style || "").toLowerCase() === filterState.dressStyle;
+        item.classList.toggle("is-active", isActive);
+      });
+  });
+}
+
+function bindApplyFilter(elements, state, filterState) {
+  if (!elements.applyFilterButton) {
+    return;
+  }
+
+  const button = elements.applyFilterButton;
+  const applyText = button.querySelector(".catalog-filters__apply-text");
+
+  const setLoading = (isLoading) => {
+    button.disabled = isLoading;
+    button.classList.toggle("is-loading", isLoading);
+    if (applyText) {
+      applyText.textContent = isLoading ? "Applying..." : "Apply Filter";
+    }
+  };
+
+  button.addEventListener("click", async () => {
+    if (button.disabled) {
+      return;
+    }
+
+    // Commit pending filterState into appState
+    state.categoryId = filterState.categoryId;
+    state.categoryName = filterState.categoryName;
+    state.minPrice = filterState.minPrice;
+    state.maxPrice = filterState.maxPrice;
+    state.colors = [...filterState.colors];
+    state.sizes = [...filterState.sizes];
+    state.dressStyle = filterState.dressStyle;
+    state.currentPage = 1;
+
+    updateCatalogHeader(elements, state.categoryName);
+
+    setLoading(true);
+    try {
+      await handlePageLoad(elements, state);
+    } finally {
+      setLoading(false);
+    }
+  });
 }
 
 function updateProductCount(element, state, searchKeyword = "") {
@@ -267,19 +427,21 @@ function debounce(callback, delay) {
  */
 async function fetchProducts(state) {
   try {
-    console.log("[API] Fetching products with params:", {
-      search: state.searchKeyword || "(empty)",
-      category_id: state.categoryId || "(empty)",
-      page: state.currentPage,
-      per_page: PRODUCTS_PER_PAGE,
-    });
-
-    const response = await getProducts({
+    const params = {
       search: state.searchKeyword || undefined,
       category_id: state.categoryId || undefined,
+      min_price: state.minPrice || undefined,
+      max_price: state.maxPrice || undefined,
+      colors: state.colors?.length ? state.colors.join(",") : undefined,
+      sizes: state.sizes?.length ? state.sizes.join(",") : undefined,
+      style: state.dressStyle || undefined,
       page: state.currentPage,
       per_page: PRODUCTS_PER_PAGE,
-    });
+    };
+
+    console.log("[API] Fetching products with params:", params);
+
+    const response = await getProducts(params);
 
     // Log response structure for debugging
     console.log("[API] Response structure:", {
@@ -602,6 +764,7 @@ function bindEvents(elements, state) {
 export function initIndexPage() {
   const elements = getPageElements();
   const state = createAppState();
+  const filterState = createFilterState();
 
   // Validate required elements
   if (!elements.searchForm || !elements.searchInput || !elements.productList) {
@@ -613,8 +776,12 @@ export function initIndexPage() {
   bindProductNavigation(elements);
   bindFilterToggle(elements);
   bindFilterAccordion(elements);
-  bindPriceRangeSlider(elements);
-  bindCategoryFilter(elements, state);
+  bindPriceRangeSlider(elements, filterState);
+  bindCategoryFilter(elements, filterState);
+  bindColorFilter(elements, filterState);
+  bindSizeFilter(elements, filterState);
+  bindDressStyleFilter(elements, filterState);
+  bindApplyFilter(elements, state, filterState);
   bindEvents(elements, state);
 
   updateCatalogHeader(elements, state.categoryName);

@@ -374,6 +374,10 @@
   }
 
   &__apply {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     width: 100%;
     border: none;
     border-radius: v.$radius-pill;
@@ -382,6 +386,38 @@
     font-weight: 500;
     padding: 14px 0;
     cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+
+  &__apply-text {
+    .catalog-filters__apply.is-loading & {
+      display: none;
+    }
+  }
+
+  &__spinner {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: v.$color-white;
+    border-radius: 50%;
+    animation: catalog-spinner 0.65s linear infinite;
+
+    .catalog-filters__apply.is-loading & {
+      display: block;
+    }
+  }
+}
+
+@keyframes catalog-spinner {
+  to {
+    transform: rotate(360deg);
   }
 }
 

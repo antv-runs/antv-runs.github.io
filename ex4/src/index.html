@@ -194,53 +194,63 @@
                   <div class="catalog-filters__colors">
                     <button
                       type="button"
-                      class="catalog-filters__color catalog-filters__color--green"
+                      class="catalog-filters__color catalog-filters__color--green js-color-button"
                       aria-label="Green"
+                      data-color="green"
                     ></button>
                     <button
                       type="button"
-                      class="catalog-filters__color catalog-filters__color--red"
+                      class="catalog-filters__color catalog-filters__color--red js-color-button"
                       aria-label="Red"
+                      data-color="red"
                     ></button>
                     <button
                       type="button"
-                      class="catalog-filters__color catalog-filters__color--yellow"
+                      class="catalog-filters__color catalog-filters__color--yellow js-color-button"
                       aria-label="Yellow"
+                      data-color="yellow"
                     ></button>
                     <button
                       type="button"
-                      class="catalog-filters__color catalog-filters__color--orange"
+                      class="catalog-filters__color catalog-filters__color--orange js-color-button"
                       aria-label="Orange"
+                      data-color="orange"
                     ></button>
                     <button
                       type="button"
-                      class="catalog-filters__color catalog-filters__color--cyan"
+                      class="catalog-filters__color catalog-filters__color--cyan js-color-button"
                       aria-label="Cyan"
+                      data-color="cyan"
                     ></button>
                     <button
                       type="button"
-                      class="catalog-filters__color catalog-filters__color--blue catalog-filters__color--active"
+                      class="catalog-filters__color catalog-filters__color--blue js-color-button"
                       aria-label="Blue"
+                      data-color="blue"
                     ></button>
                     <button
                       type="button"
-                      class="catalog-filters__color catalog-filters__color--purple"
+                      class="catalog-filters__color catalog-filters__color--purple js-color-button"
                       aria-label="Purple"
+                      data-color="purple"
                     ></button>
                     <button
                       type="button"
-                      class="catalog-filters__color catalog-filters__color--pink"
+                      class="catalog-filters__color catalog-filters__color--pink js-color-button"
                       aria-label="Pink"
+                      data-color="pink"
                     ></button>
                     <button
                       type="button"
-                      class="catalog-filters__color catalog-filters__color--white"
+                      class="catalog-filters__color catalog-filters__color--white js-color-button"
                       aria-label="White"
+                      data-color="white"
                     ></button>
                     <button
                       type="button"
-                      class="catalog-filters__color catalog-filters__color--black"
+                      class="catalog-filters__color catalog-filters__color--black js-color-button"
                       aria-label="Black"
+                      data-color="black"
                     ></button>
                   </div>
                 </div>
@@ -262,16 +272,62 @@
               >
                 <div class="catalog-filters__content-inner">
                   <div class="catalog-filters__sizes">
-                    <button type="button">XX-Small</button>
-                    <button type="button">X-Small</button>
-                    <button type="button">Small</button>
-                    <button type="button">Medium</button>
-                    <button type="button" class="catalog-filters__size--active">
+                    <button
+                      type="button"
+                      class="js-size-button"
+                      data-size="XX-Small"
+                    >
+                      XX-Small
+                    </button>
+                    <button
+                      type="button"
+                      class="js-size-button"
+                      data-size="X-Small"
+                    >
+                      X-Small
+                    </button>
+                    <button
+                      type="button"
+                      class="js-size-button"
+                      data-size="Small"
+                    >
+                      Small
+                    </button>
+                    <button
+                      type="button"
+                      class="js-size-button"
+                      data-size="Medium"
+                    >
+                      Medium
+                    </button>
+                    <button
+                      type="button"
+                      class="js-size-button"
+                      data-size="Large"
+                    >
                       Large
                     </button>
-                    <button type="button">X-Large</button>
-                    <button type="button">XX-Large</button>
-                    <button type="button">3X-Large</button>
+                    <button
+                      type="button"
+                      class="js-size-button"
+                      data-size="X-Large"
+                    >
+                      X-Large
+                    </button>
+                    <button
+                      type="button"
+                      class="js-size-button"
+                      data-size="XX-Large"
+                    >
+                      XX-Large
+                    </button>
+                    <button
+                      type="button"
+                      class="js-size-button"
+                      data-size="3X-Large"
+                    >
+                      3X-Large
+                    </button>
                   </div>
                 </div>
               </div>
@@ -291,22 +347,50 @@
                 id="catalog-filter-dress-style-content"
               >
                 <div class="catalog-filters__content-inner">
-                  <ul class="catalog-filters__list">
+                  <ul class="catalog-filters__list js-dress-style-list">
                     <li>
-                      <a href="#" class="catalog-filters__item">Casual</a>
+                      <a
+                        href="#"
+                        class="catalog-filters__item js-dress-style-item"
+                        data-style="casual"
+                        >Casual</a
+                      >
                     </li>
                     <li>
-                      <a href="#" class="catalog-filters__item">Formal</a>
+                      <a
+                        href="#"
+                        class="catalog-filters__item js-dress-style-item"
+                        data-style="formal"
+                        >Formal</a
+                      >
                     </li>
-                    <li><a href="#" class="catalog-filters__item">Party</a></li>
-                    <li><a href="#" class="catalog-filters__item">Gym</a></li>
+                    <li>
+                      <a
+                        href="#"
+                        class="catalog-filters__item js-dress-style-item"
+                        data-style="party"
+                        >Party</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        class="catalog-filters__item js-dress-style-item"
+                        data-style="gym"
+                        >Gym</a
+                      >
+                    </li>
                   </ul>
                 </div>
               </div>
             </section>
 
-            <button class="catalog-filters__apply" type="button">
-              Apply Filter
+            <button
+              class="catalog-filters__apply js-apply-filter"
+              type="button"
+            >
+              <span class="catalog-filters__apply-text">Apply Filter</span>
+              <span class="catalog-filters__spinner" aria-hidden="true"></span>
             </button>
           </aside>
 
