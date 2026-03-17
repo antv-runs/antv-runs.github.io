@@ -33,7 +33,6 @@ const state = {
 };
 
 const dom = {
-  navCategories: document.querySelector(".js-nav-categories"),
   breadcrumbList: document.querySelector(".js-breadcrumb-list"),
   productGallery: document.querySelector(".js-product-gallery"),
   productMainImage: document.querySelector(".js-product-main-image"),
@@ -459,17 +458,9 @@ export async function initProductDetailPage() {
     return;
   }
 
-  const [categoriesResult, productsResult] = await Promise.allSettled([
-    categoryService.getCategories(),
+  const [productsResult] = await Promise.allSettled([
     productService.getProducts(),
   ]);
-
-  if (categoriesResult.status === "fulfilled") {
-    state.categories = categoriesResult.value.categories || [];
-    renderCategories(dom.navCategories, state.categories);
-  } else {
-    console.error("Failed to load categories.", categoriesResult.reason);
-  }
 
   if (productsResult.status === "fulfilled") {
     state.products = productsResult.value.products;
