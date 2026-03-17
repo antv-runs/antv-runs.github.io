@@ -1924,28 +1924,40 @@ header .header-icon__profile {
     display: block;
   }
   .catalog-products__header {
-    flex-direction: column;
-    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
     margin-bottom: 16px;
   }
+  .catalog-products__title {
+    font-size: 24px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
   .catalog-products__actions {
-    width: 100%;
-    justify-content: space-between;
-    gap: 12px;
-  }
-  .catalog-products__count {
-    order: 3;
-    width: 100%;
-  }
-  .catalog-products__sort {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
     margin-left: auto;
   }
-  .catalog-products__sort span {
+  .catalog-products__count {
+    font-size: 14px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    order: unset;
+    width: auto;
+    margin: 0;
+  }
+  .catalog-products__sort {
     display: none;
   }
   .catalog-products__filter-toggle {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
   }
   .catalog-products__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1963,7 +1975,7 @@ header .header-icon__profile {
 }
 @media (max-width: 560px) {
   .catalog-products__title {
-    font-size: 26px;
+    font-size: 22px;
   }
   .catalog-products__sort {
     width: auto;
@@ -1980,41 +1992,6 @@ header .header-icon__profile {
   }
   .product-tile__price-original {
     font-size: 16px;
-  }
-}
-@media (max-width: 768px) {
-  .catalog {
-    margin-bottom: 56px;
-  }
-  .catalog-products__header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .catalog-products__title {
-    font-size: 28px;
-  }
-  .catalog-products__meta {
-    flex-wrap: wrap;
-    gap: 8px;
-    font-size: 14px;
-  }
-  .catalog-products__grid {
-    grid-template-columns: 1fr;
-  }
-  .product-tile__title a {
-    font-size: 18px;
-  }
-  .product-tile__price {
-    font-size: 22px;
-  }
-  .catalog-pagination {
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .catalog-pagination__numbers {
-    order: -1;
-    width: 100%;
-    justify-content: center;
   }
 }
 .product-overview {
