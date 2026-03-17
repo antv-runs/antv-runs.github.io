@@ -23,6 +23,12 @@ export function renderCatalogProducts(container, products, helpers) {
         originalPrice !== null &&
         Number.isFinite(originalPrice) &&
         originalPrice > currentPrice;
+      const discountPercent = Number(
+        pricing.discountPercent ||
+          (hasComparePrice && originalPrice
+            ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100)
+            : 0),
+      );
       const productUrl = createCatalogProductUrl(product.id);
       const productImage =
         product.thumbnail || createCatalogImagePlaceholder(product.name);
@@ -39,9 +45,10 @@ export function renderCatalogProducts(container, products, helpers) {
           <span>${helpers.renderStars(ratingValue, "product-item__star")}</span>
           <span>${ratingValue.toFixed(1)}/5</span>
         </div>
-        <p class="product-tile__price${hasComparePrice ? " product-tile__price--discount" : ""}">
-          ${helpers.formatPrice(currentPrice, pricing.currency || "USD")}
-          ${hasComparePrice ? `<span>${helpers.formatPrice(originalPrice, pricing.currency || "USD")}</span>` : ""}
+        <p class="product-tile__price">
+          <span class="product-tile__price-current">${helpers.formatPrice(currentPrice, pricing.currency || "USD")}</span>
+          ${hasComparePrice ? `<span class="product-tile__price-original">${helpers.formatPrice(originalPrice, pricing.currency || "USD")}</span>` : ""}
+          ${hasComparePrice && discountPercent > 0 ? `<span class="product-tile__price-badge">-${discountPercent}%</span>` : ""}
         </p>
       </article>`;
     })

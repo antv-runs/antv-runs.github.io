@@ -63,24 +63,33 @@
       </header>
 
       <main class="catalog" aria-label="Product catalog">
-        <ol class="cart-page__breadcrumb" aria-label="Breadcrumb">
+        <ol class="catalog__breadcrumb" aria-label="Breadcrumb">
           <li aria-current="page">Home</li>
         </ol>
 
         <section class="catalog__layout">
-          <aside class="catalog-filters" aria-label="Product filters">
+          <aside
+            class="catalog-filters js-catalog-filters"
+            id="catalog-filters"
+            aria-label="Product filters"
+          >
             <div class="catalog-filters__header">
               <h2 class="catalog-filters__title">Filters</h2>
+              <button
+                class="catalog-filters__close js-filter-close"
+                type="button"
+                aria-label="Close filters"
+              ></button>
             </div>
 
             <section class="catalog-filters__section">
               <h3 class="catalog-filters__label">Category</h3>
               <ul class="catalog-filters__list">
-                <li>T-shirts</li>
-                <li>Shorts</li>
-                <li>Shirts</li>
-                <li>Hoodie</li>
-                <li>Jeans</li>
+                <li><a href="#">T-shirts</a></li>
+                <li><a href="#">Shorts</a></li>
+                <li><a href="#">Shirts</a></li>
+                <li><a href="#">Hoodie</a></li>
+                <li><a href="#">Jeans</a></li>
               </ul>
             </section>
 
@@ -186,10 +195,10 @@
             <section class="catalog-filters__section">
               <h3 class="catalog-filters__label">Dress Style</h3>
               <ul class="catalog-filters__list">
-                <li>Casual</li>
-                <li>Formal</li>
-                <li>Party</li>
-                <li>Gym</li>
+                <li><a href="#">Casual</a></li>
+                <li><a href="#">Formal</a></li>
+                <li><a href="#">Party</a></li>
+                <li><a href="#">Gym</a></li>
               </ul>
             </section>
 
@@ -201,9 +210,25 @@
           <section class="catalog-products" aria-label="Product list">
             <div class="catalog-products__header">
               <h1 class="catalog-products__title">Casual</h1>
-              <div class="catalog-products__meta">
-                <p class="js-product-count">Showing 0 products</p>
-                <p>Sort by: <strong>Most Popular</strong></p>
+              <div class="catalog-products__actions">
+                <button
+                  class="catalog-products__filter-toggle js-filter-toggle"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="catalog-filters"
+                ></button>
+                <p class="catalog-products__count js-product-count">
+                  Showing 0-0 of 0 products
+                </p>
+                <label class="catalog-products__sort" for="catalog-sort">
+                  <span>Sort by:</span>
+                  <select id="catalog-sort" class="js-sort-select">
+                    <option value="popular">Most Popular</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="rating">Top Rated</option>
+                  </select>
+                </label>
               </div>
             </div>
 
@@ -214,7 +239,23 @@
 
             <nav class="catalog-pagination" aria-label="Catalog pagination">
               <button class="catalog-pagination__button" type="button">
-                Previous
+                <svg
+                  width="11"
+                  height="11"
+                  viewBox="0 0 11 11"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10.1683 5.50163H0.834961M0.834961 5.50163L5.50163 10.1683M0.834961 5.50163L5.50163 0.834961"
+                    stroke="black"
+                    stroke-width="1.67"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+
+                <span class="catalog-pagination__label">Previous</span>
               </button>
               <div class="catalog-pagination__numbers">
                 <button
@@ -238,7 +279,22 @@
                 </button>
               </div>
               <button class="catalog-pagination__button" type="button">
-                Next
+                <span class="catalog-pagination__label">Next</span>
+                <svg
+                  width="11"
+                  height="11"
+                  viewBox="0 0 11 11"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0.834961 5.50163H10.1683M10.1683 5.50163L5.50163 0.834961M10.1683 5.50163L5.50163 10.1683"
+                    stroke="black"
+                    stroke-width="1.67"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
               </button>
             </nav>
           </section>

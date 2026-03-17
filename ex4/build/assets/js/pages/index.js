@@ -14,6 +14,9 @@ function getPageElements() {
     searchInput: document.querySelector(".js-search-input"),
     productList: document.querySelector(".js-product-list"),
     productCount: document.querySelector(".js-product-count"),
+    filterSidebar: document.querySelector(".js-catalog-filters"),
+    filterToggle: document.querySelector(".js-filter-toggle"),
+    filterClose: document.querySelector(".js-filter-close"),
   };
 }
 
@@ -24,10 +27,12 @@ function updateProductCount(element, count, searchTerm = "") {
 
   const label = count === 1 ? "product" : "products";
   const trimmedSearchTerm = String(searchTerm || "").trim();
+  const start = count > 0 ? 1 : 0;
+  const end = count;
 
   element.textContent = trimmedSearchTerm
-    ? `Showing ${count} ${label} for "${trimmedSearchTerm}"`
-    : `Showing ${count} ${label}`;
+    ? `Showing ${start}-${end} of ${count} ${label} for "${trimmedSearchTerm}"`
+    : `Showing ${start}-${end} of ${count} ${label}`;
 }
 
 function navigateToProduct(productId) {
@@ -78,6 +83,50 @@ function bindProductNavigation(productList) {
   });
 }
 
+function bindFilterToggle(elements) {
+  if (
+    !elements.filterSidebar ||
+    !elements.filterToggle ||
+    !elements.filterClose
+  ) {
+    return;
+  }
+
+  const closeFilters = () => {
+    elements.filterSidebar.classList.remove("is-open");
+    elements.filterToggle.setAttribute("aria-expanded", "false");
+  };
+
+  const openFilters = () => {
+    elements.filterSidebar.classList.add("is-open");
+    elements.filterToggle.setAttribute("aria-expanded", "true");
+  };
+
+  elements.filterToggle.addEventListener("click", () => {
+    const isOpen = elements.filterSidebar.classList.contains("is-open");
+    if (isOpen) {
+      closeFilters();
+      return;
+    }
+
+    openFilters();
+  });
+
+  elements.filterClose.addEventListener("click", closeFilters);
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeFilters();
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 768) {
+      closeFilters();
+    }
+  });
+}
+
 function createProductLoader(elements) {
   const renderCatalog = createCatalogRenderer(elements);
   let activeRequestController = null;
@@ -115,6 +164,7 @@ export function initIndexPage() {
   }
 
   bindProductNavigation(elements.productList);
+  bindFilterToggle(elements);
 
   const loadProducts = createProductLoader(elements);
   const debouncedSearch = debounce((searchTerm) => {
