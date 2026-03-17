@@ -1437,14 +1437,72 @@ header .header-icon__profile {
   background: url("../images/icn_open_right.svg") no-repeat center/contain;
 }
 .catalog-filters__range {
-  display: grid;
-  gap: 12px;
+  position: relative;
+  height: 26px;
   margin-bottom: 8px;
 }
-.catalog-filters__range input {
+.catalog-filters__range-track, .catalog-filters__range-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 6px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+}
+.catalog-filters__range-track {
+  background-color: #e5e5e5;
+}
+.catalog-filters__range-progress {
+  background-color: #000;
+}
+.catalog-filters__range-input {
+  position: absolute;
+  left: 0;
+  top: 0;
   width: 100%;
-  accent-color: #000;
+  height: 100%;
+  margin: 0;
+  background: transparent;
+  appearance: none;
+  pointer-events: none;
+}
+.catalog-filters__range-input::-webkit-slider-runnable-track {
+  height: 6px;
+  background: transparent;
+}
+.catalog-filters__range-input::-moz-range-track {
+  height: 6px;
+  background: transparent;
+  border: none;
+}
+.catalog-filters__range-input::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -6px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background-color: #000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  pointer-events: auto;
   cursor: pointer;
+}
+.catalog-filters__range-input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background-color: #000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  pointer-events: auto;
+  cursor: pointer;
+}
+.catalog-filters__range-input--min {
+  z-index: 3;
+}
+.catalog-filters__range-input--max {
+  z-index: 4;
 }
 .catalog-filters__range-values {
   display: flex;

@@ -37,11 +37,71 @@ function getPageElements() {
     filterSidebar: document.querySelector(".js-catalog-filters"),
     filterToggle: document.querySelector(".js-filter-toggle"),
     filterClose: document.querySelector(".js-filter-close"),
+    priceRangeMin: document.querySelector(".js-price-range-min"),
+    priceRangeMax: document.querySelector(".js-price-range-max"),
+    priceRangeProgress: document.querySelector(".js-price-range-progress"),
+    priceRangeMinValue: document.querySelector(".js-price-range-min-value"),
+    priceRangeMaxValue: document.querySelector(".js-price-range-max-value"),
     // Pagination elements
     paginationPrev: document.querySelector(".js-pagination-prev"),
     paginationNext: document.querySelector(".js-pagination-next"),
     paginationNumbers: document.querySelector(".js-pagination-numbers"),
   };
+}
+
+function bindPriceRangeSlider(elements) {
+  const minInput = elements.priceRangeMin;
+  const maxInput = elements.priceRangeMax;
+  const progress = elements.priceRangeProgress;
+  const minValue = elements.priceRangeMinValue;
+  const maxValue = elements.priceRangeMaxValue;
+
+  if (!minInput || !maxInput || !progress || !minValue || !maxValue) {
+    return;
+  }
+
+  const minLimit = Number(minInput.min) || 0;
+  const maxLimit = Number(minInput.max) || 100;
+  const rangeSize = maxLimit - minLimit || 1;
+  const minGap = Number(minInput.step) || 1;
+
+  const renderRange = (source) => {
+    let min = Number(minInput.value);
+    let max = Number(maxInput.value);
+
+    if (source === "min" && min > max - minGap) {
+      min = max - minGap;
+    }
+
+    if (source === "max" && max < min + minGap) {
+      max = min + minGap;
+    }
+
+    min = Math.max(minLimit, Math.min(min, maxLimit - minGap));
+    max = Math.min(maxLimit, Math.max(max, minLimit + minGap));
+
+    minInput.value = String(min);
+    maxInput.value = String(max);
+
+    const leftPercent = ((min - minLimit) / rangeSize) * 100;
+    const rightPercent = 100 - ((max - minLimit) / rangeSize) * 100;
+
+    progress.style.left = `${leftPercent}%`;
+    progress.style.right = `${rightPercent}%`;
+
+    minValue.textContent = `$${min}`;
+    maxValue.textContent = `$${max}`;
+  };
+
+  minInput.addEventListener("input", () => {
+    renderRange("min");
+  });
+
+  maxInput.addEventListener("input", () => {
+    renderRange("max");
+  });
+
+  renderRange();
 }
 
 function updateProductCount(element, state, searchKeyword = "") {
@@ -429,6 +489,7 @@ export function initIndexPage() {
   bindProductNavigation(elements);
   bindFilterToggle(elements);
   bindFilterAccordion(elements);
+  bindPriceRangeSlider(elements);
   bindEvents(elements, state);
 
   // Load products on page load

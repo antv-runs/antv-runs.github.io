@@ -127,7 +127,12 @@
                     class="catalog-filters__range"
                     aria-label="Price range slider"
                   >
+                    <div class="catalog-filters__range-track"></div>
+                    <div
+                      class="catalog-filters__range-progress js-price-range-progress"
+                    ></div>
                     <input
+                      class="catalog-filters__range-input catalog-filters__range-input--min js-price-range-min"
                       type="range"
                       min="50"
                       max="200"
@@ -135,6 +140,7 @@
                       aria-label="Minimum price"
                     />
                     <input
+                      class="catalog-filters__range-input catalog-filters__range-input--max js-price-range-max"
                       type="range"
                       min="50"
                       max="200"
@@ -143,8 +149,8 @@
                     />
                   </div>
                   <div class="catalog-filters__range-values">
-                    <span>$50</span>
-                    <span>$200</span>
+                    <span class="js-price-range-min-value">$50</span>
+                    <span class="js-price-range-max-value">$200</span>
                   </div>
                 </div>
               </div>
