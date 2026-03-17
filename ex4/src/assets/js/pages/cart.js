@@ -13,6 +13,7 @@ const dom = {
   discount: document.querySelector(".js-cart-discount"),
   delivery: document.querySelector(".js-cart-delivery"),
   total: document.querySelector(".js-cart-total"),
+  checkoutButton: document.querySelector(".js-cart-checkout"),
 };
 
 function getStoredCart() {
@@ -115,7 +116,8 @@ function renderCartItems(items) {
         <div class="cart-item__content">
           <div class="cart-item__head">
             <h2 class="cart-item__name">${item.name || "Product"}</h2>
-            <button class="cart-item__remove js-cart-item-remove" type="button" aria-label="Remove item">Remove</button>
+            <button class="cart-item__remove js-cart-item-remove" type="button" aria-label="Remove item">
+            </button>
           </div>
           <p class="cart-item__meta">Size: Large</p>
           <p class="cart-item__meta">Color: White</p>
@@ -127,11 +129,11 @@ function renderCartItems(items) {
             </div>
             <div class="cart-item__quantity" aria-label="Quantity controls">
               <button class="js-cart-item-qty-minus" type="button" aria-label="Decrease quantity">
-                <img src="~/images/icn_minus.png" alt="Minus" />
+                <img src="~/images/icn_minus.svg" alt="Minus" />
               </button>
               <input class="js-cart-item-qty-input" type="text" value="${item.quantity}" aria-label="Quantity" readonly />
               <button class="js-cart-item-qty-plus" type="button" aria-label="Increase quantity">
-                <img src="~/images/icn_plus.png" alt="Plus" />
+                <img src="~/images/icn_plus.svg" alt="Plus" />
               </button>
             </div>
           </div>
@@ -206,6 +208,10 @@ function bindCartEvents() {
     if (plusButton) {
       updateCartItemQuantity(productId, 1);
     }
+  });
+
+  dom.checkoutButton?.addEventListener("click", () => {
+    window.location.href = "checkout.html";
   });
 }
 

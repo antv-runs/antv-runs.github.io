@@ -20,9 +20,10 @@
           <ul id="nav-categories"></ul>
         </nav>
 
-        <form action="#" class="header-search">
+        <form action="#" class="header-search js-search-form">
           <input
             type="text"
+            class="js-search-input"
             placeholder="Search for products..."
             aria-label="Search for products"
           />
@@ -182,105 +183,12 @@
             <div class="catalog-products__header">
               <h1 class="catalog-products__title">Casual</h1>
               <div class="catalog-products__meta">
-                <p>Showing 1-10 of 100 Products</p>
+                <p class="js-product-count">Showing 0 products</p>
                 <p>Sort by: <strong>Most Popular</strong></p>
               </div>
             </div>
 
-            <div class="catalog-products__grid">
-              <article class="product-tile">
-                <div class="product-tile__image-link">
-                  <img
-                    src="~/assets/images/products/product1.png"
-                    alt="Gradient Graphic T-shirt"
-                    class="product-tile__image"
-                  />
-                </div>
-                <h2 class="product-tile__title">
-                  <a href="product.html">Gradient Graphic T-shirt</a>
-                </h2>
-                <p class="product-tile__rating">4.5/5</p>
-                <p class="product-tile__price">$145</p>
-              </article>
-
-              <article class="product-tile">
-                <div class="product-tile__image-link">
-                  <img
-                    src="~/assets/images/products/product2.png"
-                    alt="Polo with Tipping Details"
-                    class="product-tile__image"
-                  />
-                </div>
-                <h2 class="product-tile__title">
-                  <a href="product.html">Polo with Tipping Details</a>
-                </h2>
-                <p class="product-tile__rating">4.5/5</p>
-                <p class="product-tile__price">$180</p>
-              </article>
-
-              <article class="product-tile">
-                <div class="product-tile__image-link">
-                  <img
-                    src="~/assets/images/products/product3.png"
-                    alt="Black Striped T-shirt"
-                    class="product-tile__image"
-                  />
-                </div>
-                <h2 class="product-tile__title">
-                  <a href="product.html">Black Striped T-shirt</a>
-                </h2>
-                <p class="product-tile__rating">5.0/5</p>
-                <p class="product-tile__price product-tile__price--discount">
-                  $120
-                  <span>$150</span>
-                </p>
-              </article>
-
-              <article class="product-tile">
-                <div class="product-tile__image-link">
-                  <img
-                    src="~/assets/images/products/product4.png"
-                    alt="Skinny Fit Jeans"
-                    class="product-tile__image"
-                  />
-                </div>
-                <h2 class="product-tile__title">
-                  <a href="product.html">Skinny Fit Jeans</a>
-                </h2>
-                <p class="product-tile__rating">3.5/5</p>
-                <p class="product-tile__price">$240</p>
-              </article>
-
-              <article class="product-tile">
-                <div class="product-tile__image-link">
-                  <img
-                    src="~/assets/images/products/product5.png"
-                    alt="Checkered Shirt"
-                    class="product-tile__image"
-                  />
-                </div>
-                <h2 class="product-tile__title">
-                  <a href="product.html">Checkered Shirt</a>
-                </h2>
-                <p class="product-tile__rating">4.5/5</p>
-                <p class="product-tile__price">$180</p>
-              </article>
-
-              <article class="product-tile">
-                <div class="product-tile__image-link">
-                  <img
-                    src="~/assets/images/products/product6.png"
-                    alt="Sleeve Striped T-shirt"
-                    class="product-tile__image"
-                  />
-                </div>
-                <h2 class="product-tile__title">
-                  <a href="product.html">Sleeve Striped T-shirt</a>
-                </h2>
-                <p class="product-tile__rating">4.5/5</p>
-                <p class="product-tile__price">$130</p>
-              </article>
-            </div>
+            <div class="catalog-products__grid js-product-list" aria-live="polite"></div>
 
             <nav class="catalog-pagination" aria-label="Catalog pagination">
               <button class="catalog-pagination__button" type="button">
@@ -417,5 +325,7 @@
         </div>
       </div>
     </footer>
+
+    <script type="module" src="./assets/js/pages/index.js"></script>
   </body>
 </html>

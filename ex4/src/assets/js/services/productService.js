@@ -1,33 +1,8 @@
 import { mockProducts } from "../../data/data.js";
-
-const DEFAULT_API_ORIGIN = "https://api.vanannek.blog";
+import { getApiOrigin, requestJson } from "./httpClient.js";
 
 function clone(data) {
   return JSON.parse(JSON.stringify(data));
-}
-
-function getApiOrigin() {
-  const configuredOrigin = document
-    .querySelector('meta[name="shop-api-base-url"]')
-    ?.getAttribute("content")
-    ?.trim();
-
-  if (configuredOrigin) {
-    return configuredOrigin;
-  }
-
-  if (window.location.port === "8000") {
-    return window.location.origin;
-  }
-
-  return DEFAULT_API_ORIGIN;
-}
-
-function buildApiUrl(path) {
-  return new URL(
-    path.replace(/^\//, ""),
-    `${getApiOrigin().replace(/\/$/, "")}/`,
-  );
 }
 
 function normalizeImageUrl(imageUrl) {
@@ -79,7 +54,15 @@ function normalizeProduct(product) {
     return null;
   }
 
-  const pricing = product.pricing || product.price || {};
+  const pricing =
+    product.pricing ||
+    (typeof product.price === "object"
+      ? product.price
+      : {
+          current: product.price,
+          original: product.compare_price,
+          currency: product.currency || "USD",
+        });
   const images = Array.isArray(product.images)
     ? product.images.map((image, index) =>
         normalizeProductImage(image, index, product.name),
@@ -125,7 +108,7 @@ function normalizeProduct(product) {
     thumbnail,
     thumbnailAlt: product.thumbnailAlt || product.name || "Product image",
     images,
-    rating: Number(product.rating || 0),
+    rating: Number(product.rating ?? product.rating_avg ?? 0),
     reviewCount: Number(product.reviewCount || 0),
     breadcrumb:
       product.breadcrumb ||
@@ -142,21 +125,6 @@ function normalizeProduct(product) {
   };
 }
 
-async function requestJson(path) {
-  const response = await fetch(buildApiUrl(path), {
-    headers: {
-      Accept: "application/json",
-    },
-  });
-
-  if (!response.ok) {
-    const error = new Error(`Request failed with status ${response.status}`);
-    error.status = response.status;
-    throw error;
-  }
-
-  return response.json();
-}
 
 function getCollectionItems(payload) {
   if (Array.isArray(payload)) {
@@ -178,19 +146,132 @@ function getMockProductList() {
   return mockProducts.map((product) => normalizeProduct(product));
 }
 
+function normalizeProducts(products) {
+  return products.map((product) => normalizeProduct(product)).filter(Boolean);
+}
+
+function buildProductsQueryString(params = {}) {
+  const searchParams = new URLSearchParams();
+  const supportedParams = [
+    ["search", params.search],
+    ["category_id", params.category_id],
+    ["status", params.status],
+    ["page", params.page],
+    ["per_page", params.per_page],
+  ];
+
+  supportedParams.forEach(([key, value]) => {
+    if (value === undefined || value === null || value === "") {
+      return;
+    }
+
+    searchParams.set(key, String(value));
+  });
+
+  const queryString = searchParams.toString();
+  return queryString ? `/api/products?${queryString}` : "/api/products";
+}
+
+function buildPaginationFromMeta(meta = {}, fallbackCount = 0, params = {}) {
+  const requestedPage = Number(params.page || 1);
+  const requestedPerPage = Number(params.per_page || meta.per_page || fallbackCount || 15);
+
+  return {
+    page: Number(meta.current_page || requestedPage),
+    lastPage: Number(meta.last_page || (fallbackCount > 0 ? 1 : requestedPage)),
+    perPage: Number(meta.per_page || requestedPerPage),
+    total: Number(meta.total || fallbackCount),
+  };
+}
+
+function buildProductsResult(payload, params = {}) {
+  const products = normalizeProducts(getCollectionItems(payload));
+
+  return {
+    products,
+    pagination: buildPaginationFromMeta(payload?.meta, products.length, params),
+    links: payload?.links || {},
+  };
+}
+
+function filterMockProducts(products, params = {}) {
+  const normalizedSearch = String(params.search || "").trim().toLowerCase();
+  const normalizedCategoryId =
+    params.category_id === undefined || params.category_id === null
+      ? null
+      : String(params.category_id);
+
+  return products.filter((product) => {
+    const matchesSearch =
+      !normalizedSearch ||
+      String(product.name || "").toLowerCase().includes(normalizedSearch);
+    const matchesCategory =
+      !normalizedCategoryId ||
+      String(product.category?.id || "") === normalizedCategoryId;
+
+    return matchesSearch && matchesCategory;
+  });
+}
+
+function buildMockProductsResult(params = {}) {
+  const allProducts = filterMockProducts(clone(getMockProductList()), params);
+  const page = Number(params.page || 1);
+  const perPage = Number(params.per_page || allProducts.length || 15);
+  const startIndex = Math.max(page - 1, 0) * perPage;
+  const products = allProducts.slice(startIndex, startIndex + perPage);
+  const total = allProducts.length;
+  const lastPage = total === 0 ? 1 : Math.ceil(total / perPage);
+
+  return {
+    products,
+    pagination: {
+      page,
+      lastPage,
+      perPage,
+      total,
+    },
+    links: {},
+  };
+}
+
+function buildCatalogRequestPath(searchTerm = "") {
+  const trimmedSearchTerm = String(searchTerm || "").trim();
+
+  if (!trimmedSearchTerm) {
+    return "/api/products";
+  }
+
+  const searchParams = new URLSearchParams({
+    search: trimmedSearchTerm,
+  });
+
+  return `/api/products?${searchParams.toString()}`;
+}
+
+export async function getCatalogProducts(searchTerm = "", options = {}) {
+  const result = await getProducts(
+    {
+      search: searchTerm,
+    },
+    options,
+  );
+
+  return result.products;
+}
+
 // Service shape mirrors production API usage and can switch to fetch later.
-export async function getProducts() {
+export async function getProducts(params = {}, options = {}) {
   try {
-    const payload = await requestJson("/api/products?per_page=100");
-    return getCollectionItems(payload).map((product) =>
-      normalizeProduct(product),
-    );
+    const payload = await requestJson(buildProductsQueryString(params), {
+      signal: options.signal,
+    });
+    return buildProductsResult(payload, params);
   } catch (error) {
     console.error(
       "Failed to load products from API. Falling back to mock data.",
       error,
     );
-    return clone(getMockProductList());
+    return buildMockProductsResult(params);
   }
 }
 
@@ -216,8 +297,10 @@ export async function getProductById(id) {
     }
   }
 
-  const products = await getProducts();
-  const matchedProduct = products.find((product) => product.id === productId);
+  const productsResult = await getProducts();
+  const matchedProduct = productsResult.products.find(
+    (product) => product.id === productId,
+  );
 
   if (!matchedProduct) {
     return null;
