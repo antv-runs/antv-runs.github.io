@@ -1659,7 +1659,14 @@ header .header-icon__profile {
 }
 @media (min-width: 769px) {
   .catalog-filters-overlay {
-    display: none;
+    display: block;
+    position: static;
+    inset: auto;
+    background-color: transparent;
+    opacity: 1;
+    visibility: visible;
+    transition: none;
+    z-index: auto;
   }
   .catalog-filters {
     display: flex !important;
