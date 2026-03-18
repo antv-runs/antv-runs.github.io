@@ -85,13 +85,20 @@ export async function getReviewsByProductId(
     const payload = await requestJson(url, {
       signal,
     });
-    return buildReviewsResult(payload);
+    return {
+      data: buildReviewsResult(payload),
+      meta: payload?.meta ?? { current_page: 1, last_page: 1, total: 0 },
+    };
   } catch (error) {
     console.error(
       "Failed to load reviews from API. Falling back to mock data.",
       error,
     );
-    return buildMockReviewsResult(normalizedProductId);
+    const data = buildMockReviewsResult(normalizedProductId);
+    return {
+      data,
+      meta: { current_page: 1, last_page: 1, total: data.length },
+    };
   }
 }
 
