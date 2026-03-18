@@ -144,6 +144,8 @@ function getStoredCartItems() {
       .map((item) => ({
         id: String(item?.id || "").trim(),
         quantity: Math.max(1, Number(item?.quantity) || 1),
+        color: item?.color ?? null,
+        size: item?.size ?? null,
       }))
       .filter((item) => item.id);
   } catch {
@@ -155,19 +157,32 @@ function persistCartItems(items) {
   const serializableItems = items.map((item) => ({
     id: String(item.id),
     quantity: Math.max(1, Number(item.quantity) || 1),
+    color: item?.color ?? null,
+    size: item?.size ?? null,
   }));
 
   localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(serializableItems));
 }
 
-function toCartItem(product, quantity) {
+function toCartItem(product, quantity, color = null, size = null) {
   return {
     id: String(product.id),
+    name: product.name,
     quantity,
+    color,
+    size,
+    thumbnail: product.thumbnail,
+    thumbnailAlt: product.name,
+    pricing: product.pricing,
   };
 }
 
-function addProductToCart(product, quantityToAdd = 1) {
+function addProductToCart(
+  product,
+  quantityToAdd = 1,
+  color = null,
+  size = null,
+) {
   if (!product?.id) {
     return;
   }
@@ -175,7 +190,10 @@ function addProductToCart(product, quantityToAdd = 1) {
   const quantity = Math.max(1, Number(quantityToAdd) || 1);
   const cartItems = getStoredCartItems();
   const existingItem = cartItems.find(
-    (item) => String(item.id) === String(product.id),
+    (item) =>
+      String(item.id) === String(product.id) &&
+      item.color === color &&
+      item.size === size,
   );
 
   if (existingItem) {
@@ -184,7 +202,7 @@ function addProductToCart(product, quantityToAdd = 1) {
       Number(existingItem.quantity || 0) + quantity,
     );
   } else {
-    cartItems.push(toCartItem(product, quantity));
+    cartItems.push(toCartItem(product, quantity, color, size));
   }
 
   persistCartItems(cartItems);
@@ -431,7 +449,12 @@ function bindAddToCart(product) {
 
   dom.addToCartButton.onclick = () => {
     const quantity = normalizeQuantity(dom.quantityInput?.value || "1");
-    addProductToCart(product, quantity);
+    addProductToCart(
+      product,
+      quantity,
+      state.selectedColorId ?? null,
+      state.selectedSizeId ?? null,
+    );
     triggerAddToCartFeedback(dom.addToCartButton);
   };
 }
