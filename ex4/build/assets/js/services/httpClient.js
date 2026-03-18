@@ -1,19 +1,7 @@
-const DEFAULT_API_ORIGIN = "https://api.vanannek.blog";
+// const DEFAULT_API_ORIGIN = "https://api.vanannek.blog";
+const DEFAULT_API_ORIGIN = "http://localhost:8000";
 
 export function getApiOrigin() {
-  const configuredOrigin = document
-    .querySelector('meta[name="shop-api-base-url"]')
-    ?.getAttribute("content")
-    ?.trim();
-
-  if (configuredOrigin) {
-    return configuredOrigin;
-  }
-
-  if (window.location.port === "8000") {
-    return window.location.origin;
-  }
-
   return DEFAULT_API_ORIGIN;
 }
 

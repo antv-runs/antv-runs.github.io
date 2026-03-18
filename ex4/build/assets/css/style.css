@@ -1019,7 +1019,7 @@ header .header-icon__profile {
   content: "";
   width: 25px;
   height: 25px;
-  background: url("../images/icn_menu.svg") no-repeat center/contain;
+  background: url("../images/icn_review_more.svg") no-repeat center/contain;
 }
 .review-card__header {
   position: relative;

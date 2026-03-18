@@ -345,6 +345,17 @@ function paintProduct(product) {
   renderBreadcrumb(dom.breadcrumbList, product);
   renderImageGallery(dom.productGallery, dom.productMainImage, product);
   renderProductInfo(dom, product, helpers);
+  const ratingValue = Number(product.ratingAvg ?? 0);
+  const normalizedRating = Number.isFinite(ratingValue) ? ratingValue : 0;
+  if (dom.productRatingText) {
+    dom.productRatingText.innerHTML = `${normalizedRating}/<span>5</span>`;
+  }
+  if (dom.productRatingStars) {
+    dom.productRatingStars.innerHTML = renderStars(
+      normalizedRating,
+      "review-card__star",
+    );
+  }
   renderFaqs(dom.productFaqsList, product.faqs || []);
 
   const colors = product.variants?.colors || [];
