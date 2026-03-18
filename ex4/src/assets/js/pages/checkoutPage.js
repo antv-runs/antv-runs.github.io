@@ -36,15 +36,44 @@ function getCartItemsFromStorage() {
 
     return parsed
       .map((item) => ({
-        product_id: Number(item?.product_id ?? item?.id),
+        id: String(item?.id || item?.product_id || "").trim(),
         quantity: Math.max(1, Number(item?.quantity) || 1),
+        color: item?.color ?? null,
+        size: item?.size ?? null,
       }))
-      .filter(
-        (item) => Number.isInteger(item.product_id) && item.product_id > 0,
-      );
+      .filter((item) => item.id);
   } catch {
     return [];
   }
+}
+
+function buildOrderItems(cartItems) {
+  return cartItems
+    .map((item) => ({
+      product_id: Number(item.id),
+      quantity: Math.max(1, Number(item.quantity) || 1),
+      color: item.color ?? null,
+      size: item.size ?? null,
+    }))
+    .filter((item) => Number.isInteger(item.product_id) && item.product_id > 0);
+}
+
+function buildOrderPayload(form, cartItems) {
+  if (!(form instanceof HTMLFormElement)) {
+    return null;
+  }
+
+  const formData = new FormData(form);
+
+  return {
+    customer: {
+      name: String(formData.get("name") || "").trim(),
+      email: String(formData.get("email") || "").trim(),
+      phone: String(formData.get("phone") || "").trim(),
+      address: String(formData.get("address") || "").trim(),
+    },
+    items: buildOrderItems(cartItems),
+  };
 }
 
 async function handleCheckoutSubmit(event) {
@@ -60,13 +89,11 @@ async function handleCheckoutSubmit(event) {
     return;
   }
 
-  const formData = new FormData(checkoutForm);
-  const customer = {
-    name: String(formData.get("name") || "").trim(),
-    email: String(formData.get("email") || "").trim(),
-    phone: String(formData.get("phone") || "").trim(),
-    address: String(formData.get("address") || "").trim(),
-  };
+  const payload = buildOrderPayload(checkoutForm, cartItems);
+  if (!payload || payload.items.length === 0) {
+    setCheckoutMessage("Your cart is empty.", "error");
+    return;
+  }
 
   const submitButton = checkoutSubmit;
   if (submitButton instanceof HTMLButtonElement) {
@@ -76,15 +103,23 @@ async function handleCheckoutSubmit(event) {
   setCheckoutMessage("Placing your order...", "pending");
 
   try {
-    await createOrder({
-      customer,
-      items: cartItems,
-    });
+    const response = await createOrder(payload);
+
+    if (!response?.success) {
+      setCheckoutMessage(
+        response?.message || "Order failed. Please try again.",
+        "error",
+      );
+      return;
+    }
 
     localStorage.removeItem(CART_STORAGE_KEY);
     setCheckoutMessage("Order placed successfully. Redirecting...", "success");
     window.setTimeout(() => {
-      window.location.href = "index.html?order=success";
+      const orderId = response?.data?.id;
+      window.location.href = orderId
+        ? `index.html?order=success&id=${encodeURIComponent(orderId)}`
+        : "index.html?order=success";
     }, 700);
   } catch (error) {
     const message =
