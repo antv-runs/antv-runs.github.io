@@ -32,6 +32,8 @@ function getStoredCart() {
       .map((item) => ({
         id: String(item?.id || "").trim(),
         quantity: Math.max(1, Number(item?.quantity) || 1),
+        color: item?.color ?? null,
+        size: item?.size ?? null,
       }))
       .filter((item) => item.id);
   } catch {
@@ -43,6 +45,8 @@ function persistStoredCart(items) {
   const serializableItems = items.map((item) => ({
     id: String(item.id),
     quantity: Math.max(1, Number(item.quantity) || 1),
+    color: item?.color ?? null,
+    size: item?.size ?? null,
   }));
 
   localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(serializableItems));
@@ -111,7 +115,7 @@ function renderCartItems(items) {
       const thumbnailUrl =
         item.thumbnail || item.images?.[0]?.url || "./assets/images/pic_t_shirt.png";
 
-      return `<article class="cart-item" data-cart-product-id="${item.id}">
+      return `<article class="cart-item" data-cart-product-id="${item.id}" data-cart-color="${item.color ?? ""}" data-cart-size="${item.size ?? ""}">
         <img class="cart-item__image" src="${thumbnailUrl}" alt="${item.thumbnailAlt || item.name || "Product image"}" />
         <div class="cart-item__content">
           <div class="cart-item__head">
@@ -119,8 +123,8 @@ function renderCartItems(items) {
             <button class="cart-item__remove js-cart-item-remove" type="button" aria-label="Remove item">
             </button>
           </div>
-          <p class="cart-item__meta">Size: Large</p>
-          <p class="cart-item__meta">Color: White</p>
+          ${item.size ? `<p class="cart-item__meta">Size: ${item.size}</p>` : ""}
+          ${item.color ? `<p class="cart-item__meta">Color: ${item.color}</p>` : ""}
           <div class="cart-item__foot">
             <div class="cart-item__price-wrap">
               <p class="cart-item__price">${formatPrice(lineCurrentPrice, currency)}</p>
@@ -145,9 +149,12 @@ function renderCartItems(items) {
   renderSummary(items);
 }
 
-function updateCartItemQuantity(productId, delta) {
+function updateCartItemQuantity(productId, color, size, delta) {
   const item = cartItemsState.find(
-    (cartItem) => String(cartItem.id) === String(productId),
+    (cartItem) =>
+      String(cartItem.id) === String(productId) &&
+      (cartItem.color ?? "") === (color ?? "") &&
+      (cartItem.size ?? "") === (size ?? ""),
   );
 
   if (!item) {
@@ -159,9 +166,14 @@ function updateCartItemQuantity(productId, delta) {
   renderCartItems(cartItemsState);
 }
 
-function removeCartItem(productId) {
+function removeCartItem(productId, color, size) {
   cartItemsState = cartItemsState.filter(
-    (item) => String(item.id) !== String(productId),
+    (item) =>
+      !(
+        String(item.id) === String(productId) &&
+        (item.color ?? "") === (color ?? "") &&
+        (item.size ?? "") === (size ?? "")
+      ),
   );
 
   persistStoredCart(cartItemsState);
@@ -187,6 +199,8 @@ function bindCartEvents() {
     }
 
     const productId = cartItemElement.getAttribute("data-cart-product-id");
+    const productColor = cartItemElement.getAttribute("data-cart-color") ?? "";
+    const productSize = cartItemElement.getAttribute("data-cart-size") ?? "";
     if (!productId) {
       return;
     }
@@ -196,17 +210,17 @@ function bindCartEvents() {
     const removeButton = target.closest(".js-cart-item-remove");
 
     if (removeButton) {
-      removeCartItem(productId);
+      removeCartItem(productId, productColor, productSize);
       return;
     }
 
     if (minusButton) {
-      updateCartItemQuantity(productId, -1);
+      updateCartItemQuantity(productId, productColor, productSize, -1);
       return;
     }
 
     if (plusButton) {
-      updateCartItemQuantity(productId, 1);
+      updateCartItemQuantity(productId, productColor, productSize, 1);
     }
   });
 
@@ -232,6 +246,8 @@ async function loadCartItems() {
       return {
         ...product,
         quantity: item.quantity,
+        color: item?.color ?? null,
+        size: item?.size ?? null,
       };
     }),
   );

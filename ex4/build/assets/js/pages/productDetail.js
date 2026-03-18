@@ -26,10 +26,12 @@ const state = {
   selectedColorId: null,
   selectedSizeId: null,
   reviews: [],
-  reviewFilter: "All",
   reviewSort: "latest",
   reviewPage: 1,
   reviewPageSize: 6,
+  reviewRating: null,
+  reviewLastPage: 1,
+  reviewTotal: 0,
 };
 
 const dom = {
@@ -75,45 +77,13 @@ const helpers = {
   renderStars,
 };
 
-function sortedReviews(reviews) {
-  const items = [...reviews];
-
-  if (state.reviewSort === "latest") {
-    items.sort((first, second) => new Date(second.date) - new Date(first.date));
-  } else if (state.reviewSort === "oldest") {
-    items.sort((first, second) => new Date(first.date) - new Date(second.date));
-  } else if (state.reviewSort === "highest") {
-    items.sort((first, second) => second.ratingStar - first.ratingStar);
-  }
-
-  return items;
-}
-
-function filteredReviews(reviews) {
-  if (state.reviewFilter === "All") {
-    return reviews;
-  }
-
-  return reviews.filter(
-    (review) => Math.floor(review.ratingStar) === Number(state.reviewFilter),
-  );
-}
-
-function getVisibleReviews() {
-  const filtered = filteredReviews(sortedReviews(state.reviews));
-  const maxItems = state.reviewPage * state.reviewPageSize;
-  const visibleItems = filtered.slice(0, maxItems);
-
+function mapReviewToCard(review) {
   return {
-    visibleItems,
-    hasMore: visibleItems.length < filtered.length,
+    ratingStar: Number(review?.rating ?? review?.ratingStar ?? 0),
+    name: review?.user?.name ?? review?.name ?? "Anonymous",
+    desc: review?.comment ?? review?.desc ?? "",
+    date: review?.created_at ?? review?.date,
   };
-}
-
-function renderReviewsSection() {
-  const { visibleItems, hasMore } = getVisibleReviews();
-  renderReviewsList(dom.reviewsList, visibleItems, helpers);
-  dom.reviewsLoadMore.style.display = hasMore ? "inline-block" : "none";
 }
 
 function getCurrentRelatedProducts(product) {
@@ -153,6 +123,9 @@ function resetProductSections(message) {
   dom.otherProductsList.innerHTML = "";
   dom.reviewsList.innerHTML = "";
   setText(dom.reviewsCount, "(0)");
+  if (dom.reviewsLoadMore) {
+    dom.reviewsLoadMore.style.display = "none";
+  }
 }
 
 function getStoredCartItems() {
@@ -171,6 +144,8 @@ function getStoredCartItems() {
       .map((item) => ({
         id: String(item?.id || "").trim(),
         quantity: Math.max(1, Number(item?.quantity) || 1),
+        color: item?.color ?? null,
+        size: item?.size ?? null,
       }))
       .filter((item) => item.id);
   } catch {
@@ -182,19 +157,32 @@ function persistCartItems(items) {
   const serializableItems = items.map((item) => ({
     id: String(item.id),
     quantity: Math.max(1, Number(item.quantity) || 1),
+    color: item?.color ?? null,
+    size: item?.size ?? null,
   }));
 
   localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(serializableItems));
 }
 
-function toCartItem(product, quantity) {
+function toCartItem(product, quantity, color = null, size = null) {
   return {
     id: String(product.id),
+    name: product.name,
     quantity,
+    color,
+    size,
+    thumbnail: product.thumbnail,
+    thumbnailAlt: product.name,
+    pricing: product.pricing,
   };
 }
 
-function addProductToCart(product, quantityToAdd = 1) {
+function addProductToCart(
+  product,
+  quantityToAdd = 1,
+  color = null,
+  size = null,
+) {
   if (!product?.id) {
     return;
   }
@@ -202,7 +190,10 @@ function addProductToCart(product, quantityToAdd = 1) {
   const quantity = Math.max(1, Number(quantityToAdd) || 1);
   const cartItems = getStoredCartItems();
   const existingItem = cartItems.find(
-    (item) => String(item.id) === String(product.id),
+    (item) =>
+      String(item.id) === String(product.id) &&
+      item.color === color &&
+      item.size === size,
   );
 
   if (existingItem) {
@@ -211,7 +202,7 @@ function addProductToCart(product, quantityToAdd = 1) {
       Number(existingItem.quantity || 0) + quantity,
     );
   } else {
-    cartItems.push(toCartItem(product, quantity));
+    cartItems.push(toCartItem(product, quantity, color, size));
   }
 
   persistCartItems(cartItems);
@@ -277,28 +268,33 @@ function bindStaticEvents() {
   dom.reviewsFilterOptions.forEach((option) => {
     option.addEventListener("click", (event) => {
       event.stopPropagation();
-      state.reviewFilter = option.dataset.stars;
-      state.reviewPage = 1;
       dom.reviewsFilterOptions.forEach((item) => {
         item.classList.remove("reviews__filter-option--active");
       });
       option.classList.add("reviews__filter-option--active");
+
+      const stars = option.dataset.stars;
+      state.reviewRating = stars === "All" ? null : Number(stars);
+      state.reviewPage = 1;
+
       dom.reviewsFilterDropdown.classList.remove(
         "reviews__filter-dropdown--show",
       );
-      renderReviewsSection();
+      loadReviews(state.selectedProductId);
     });
   });
 
   dom.reviewsSortSelect?.addEventListener("change", () => {
     state.reviewSort = dom.reviewsSortSelect.value;
     state.reviewPage = 1;
-    renderReviewsSection();
+    loadReviews(state.selectedProductId);
   });
 
   dom.reviewsLoadMore?.addEventListener("click", () => {
-    state.reviewPage += 1;
-    renderReviewsSection();
+    if (state.reviewPage < state.reviewLastPage) {
+      state.reviewPage += 1;
+      loadReviews(state.selectedProductId, true);
+    }
   });
 
   const minusButton = document.querySelector(".js-quantity-button-minus");
@@ -325,29 +321,69 @@ function bindStaticEvents() {
   });
 }
 
-async function loadReviews(productId) {
-  state.reviews = await reviewService.getReviewsByProductId(productId);
-  state.reviewFilter = "All";
-  state.reviewSort = "latest";
-  state.reviewPage = 1;
-  dom.reviewsSortSelect.value = "latest";
-  setText(dom.reviewsCount, `(${state.reviews.length})`);
+async function loadReviews(productId, append = false) {
+  const normalizedProductId = String(productId || "").trim();
+  if (!normalizedProductId) {
+    return;
+  }
 
-  dom.reviewsFilterOptions.forEach((item) => {
-    const isAll = item.dataset.stars === "All";
-    item.classList.toggle("reviews__filter-option--active", isAll);
-  });
+  const { data: reviews, meta } = await reviewService.getReviewsByProductId(
+    normalizedProductId,
+    {
+      page: state.reviewPage,
+      perPage: state.reviewPageSize,
+      sort: state.reviewSort,
+      rating: state.reviewRating,
+    },
+  );
 
-  renderReviewsSection();
+  state.reviewLastPage = Number(meta?.last_page || 1);
+  state.reviewTotal = Number(meta?.total || 0);
+  state.reviews = append ? [...state.reviews, ...reviews] : [...reviews];
+
+  setText(dom.reviewsCount, `(${state.reviewTotal})`);
+
+  const mappedReviews = reviews.map((review) => mapReviewToCard(review));
+  if (append) {
+    const temp = document.createElement("ul");
+    renderReviewsList(temp, mappedReviews, helpers);
+    dom.reviewsList.insertAdjacentHTML("beforeend", temp.innerHTML);
+  } else {
+    renderReviewsList(dom.reviewsList, mappedReviews, helpers);
+  }
+
+  if (dom.reviewsLoadMore) {
+    dom.reviewsLoadMore.style.display =
+      state.reviewPage >= state.reviewLastPage ? "none" : "";
+  }
 }
 
 function paintProduct(product) {
   renderBreadcrumb(dom.breadcrumbList, product);
   renderImageGallery(dom.productGallery, dom.productMainImage, product);
   renderProductInfo(dom, product, helpers);
+  const ratingValue = Number(product.ratingAvg ?? 0);
+  const normalizedRating = Number.isFinite(ratingValue) ? ratingValue : 0;
+  if (dom.productRatingText) {
+    dom.productRatingText.innerHTML = `${normalizedRating}/<span>5</span>`;
+  }
+  if (dom.productRatingStars) {
+    dom.productRatingStars.innerHTML = renderStars(
+      normalizedRating,
+      "review-card__star",
+    );
+  }
   renderFaqs(dom.productFaqsList, product.faqs || []);
 
-  const colors = product.variants?.colors || [];
+  const colors = Array.isArray(product.variants?.colors)
+    ? product.variants.colors
+        .map((color) => ({
+          id: color?.id,
+          name: color?.label || color?.name || color?.id,
+          colorCode: color?.colorCode || color?.id,
+        }))
+        .filter((color) => color.id)
+    : [];
   if (!colors.some((item) => item.id === state.selectedColorId)) {
     state.selectedColorId = colors[0] ? colors[0].id : null;
   }
@@ -366,7 +402,15 @@ function paintProduct(product) {
 
   repaintColors();
 
-  const sizes = product.variants?.sizes || [];
+  const sizes = Array.isArray(product.variants?.sizes)
+    ? product.variants.sizes
+        .map((size) => ({
+          id: size?.id,
+          name: size?.label || size?.name || size?.id,
+          inStock: size?.inStock ?? true,
+        }))
+        .filter((size) => size.id)
+    : [];
   if (!sizes.some((item) => item.id === state.selectedSizeId)) {
     state.selectedSizeId = sizes[0] ? sizes[0].id : null;
   }
@@ -405,7 +449,12 @@ function bindAddToCart(product) {
 
   dom.addToCartButton.onclick = () => {
     const quantity = normalizeQuantity(dom.quantityInput?.value || "1");
-    addProductToCart(product, quantity);
+    addProductToCart(
+      product,
+      quantity,
+      state.selectedColorId ?? null,
+      state.selectedSizeId ?? null,
+    );
     triggerAddToCartFeedback(dom.addToCartButton);
   };
 }
@@ -440,6 +489,17 @@ async function loadSelectedProduct(productId) {
       },
     );
     mountRelatedProductsCarousel();
+
+    state.reviewPage = 1;
+    state.reviewSort = "latest";
+    state.reviewRating = null;
+    state.reviewLastPage = 1;
+    state.reviewTotal = 0;
+    dom.reviewsSortSelect.value = "latest";
+    dom.reviewsFilterOptions.forEach((item) => {
+      const isAll = item.dataset.stars === "All";
+      item.classList.toggle("reviews__filter-option--active", isAll);
+    });
 
     await loadReviews(product.id);
   } catch (error) {

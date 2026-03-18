@@ -259,7 +259,7 @@
     cursor: pointer;
     background-color: transparent;
     padding: 0 25px 0 0;
-    @include icon-bg(v.$icon-menu, 25px, 25px);
+    @include icon-bg(v.$icon-review-more, 25px, 25px);
   }
 
   &__header {
