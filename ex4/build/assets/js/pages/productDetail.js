@@ -358,7 +358,15 @@ function paintProduct(product) {
   }
   renderFaqs(dom.productFaqsList, product.faqs || []);
 
-  const colors = product.variants?.colors || [];
+  const colors = Array.isArray(product.variants?.colors)
+    ? product.variants.colors
+        .map((color) => ({
+          id: color?.id,
+          name: color?.label || color?.name || color?.id,
+          colorCode: color?.colorCode || color?.id,
+        }))
+        .filter((color) => color.id)
+    : [];
   if (!colors.some((item) => item.id === state.selectedColorId)) {
     state.selectedColorId = colors[0] ? colors[0].id : null;
   }
@@ -377,7 +385,15 @@ function paintProduct(product) {
 
   repaintColors();
 
-  const sizes = product.variants?.sizes || [];
+  const sizes = Array.isArray(product.variants?.sizes)
+    ? product.variants.sizes
+        .map((size) => ({
+          id: size?.id,
+          name: size?.label || size?.name || size?.id,
+          inStock: size?.inStock ?? true,
+        }))
+        .filter((size) => size.id)
+    : [];
   if (!sizes.some((item) => item.id === state.selectedSizeId)) {
     state.selectedSizeId = sizes[0] ? sizes[0].id : null;
   }
