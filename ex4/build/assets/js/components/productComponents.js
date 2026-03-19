@@ -156,6 +156,7 @@ export function renderProductInfo(dom, product, helpers) {
   const pricing = product.pricing || product.price || {};
   const hasDiscount =
     pricing.original && pricing.current && pricing.original > pricing.current;
+  const discountPercent = Number(pricing.discountPercent ?? 0);
 
   setText(dom.productTitle, product.name);
   dom.productRatingStars.innerHTML = helpers.renderStars(
@@ -178,8 +179,8 @@ export function renderProductInfo(dom, product, helpers) {
     setText(dom.productPriceOld, "");
   }
 
-  if (pricing.discountPercent) {
-    setText(dom.productPriceDiscount, `-${pricing.discountPercent}%`);
+  if (Number.isFinite(discountPercent) && discountPercent > 0) {
+    setText(dom.productPriceDiscount, `-${discountPercent}%`);
   } else {
     setText(dom.productPriceDiscount, "");
   }
@@ -210,14 +211,134 @@ export function renderColorOptions(
   selectedColorId,
   onSelect,
 ) {
+  const EMPTY_STRING = "";
+  const HEX_SHORT_PATTERN = /^#[0-9a-f]{3}$/;
+  const HEX_FULL_PATTERN = /^#[0-9a-f]{6}$/;
+  const RGB_PATTERN = /^rgba?\((\d+),(\d+),(\d+)/;
+  const NAMED_COLOR_WHITE = "white";
+  const NAMED_COLOR_BLACK = "black";
+  const RGB_CHANNEL_MIN = 0;
+  const RGB_CHANNEL_MAX = 255;
+  const SRGB_THRESHOLD = 0.04045;
+  const SRGB_DIVISOR = 12.92;
+  const GAMMA_OFFSET = 0.055;
+  const GAMMA_DIVISOR = 1.055;
+  const GAMMA_EXPONENT = 2.4;
+  const LUMINANCE_RED_COEFFICIENT = 0.2126;
+  const LUMINANCE_GREEN_COEFFICIENT = 0.7152;
+  const LUMINANCE_BLUE_COEFFICIENT = 0.0722;
+  const LIGHT_COLOR_LUMINANCE_THRESHOLD = 0.179;
+  const ACTIVE_CLASS = " is-active";
+  const LIGHT_CLASS = " is-light";
+  const COLOR_OPTION_SELECTOR = ".js-color-option";
+
+  const clampChannel = (value) =>
+    Math.min(RGB_CHANNEL_MAX, Math.max(RGB_CHANNEL_MIN, Number(value) || 0));
+
+  // Parse any CSS color string into {r, g, b} components
+  const parseColor = (colorCode) => {
+    const normalized = String(colorCode || "")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "");
+
+    // Handle shorthand hex: #fff
+    if (HEX_SHORT_PATTERN.test(normalized)) {
+      const [r, g, b] = normalized
+        .slice(1)
+        .split("")
+        .map((c) => parseInt(c + c, 16));
+      return { r, g, b };
+    }
+
+    // Handle full hex: #ffffff
+    if (HEX_FULL_PATTERN.test(normalized)) {
+      const r = parseInt(normalized.slice(1, 1 + HEX_CHANNEL_LENGTH), 16);
+      const g = parseInt(
+        normalized.slice(1 + HEX_CHANNEL_LENGTH, 1 + HEX_CHANNEL_LENGTH * 2),
+        16,
+      );
+      const b = parseInt(
+        normalized.slice(1 + HEX_CHANNEL_LENGTH * 2, 1 + HEX_FULL_LENGTH),
+        16,
+      );
+      return { r, g, b };
+    }
+
+    // Handle rgb() / rgba()
+    const rgbMatch = normalized.match(RGB_PATTERN);
+    if (rgbMatch) {
+      return { r: +rgbMatch[1], g: +rgbMatch[2], b: +rgbMatch[3] };
+    }
+
+    // Fallback: use Canvas API to resolve any named CSS color (e.g. "beige", "white", "black").
+    // Returns null if the color string is invalid or unrecognized.
+    try {
+      const canvas = document.createElement("canvas");
+      canvas.width = canvas.height = 1;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = colorCode;
+      ctx.fillRect(0, 0, 1, 1);
+      const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+      return { r, g, b };
+    } catch {
+      return null;
+    }
+  };
+
+  // Calculate relative luminance per WCAG 2.1 formula
+  const getLuminance = ({ r, g, b }) => {
+    const toLinear = (c) => {
+      const s = c / RGB_CHANNEL_MAX;
+      return s <= SRGB_THRESHOLD
+        ? s / SRGB_DIVISOR
+        : Math.pow((s + GAMMA_OFFSET) / GAMMA_DIVISOR, GAMMA_EXPONENT);
+    };
+    return (
+      LUMINANCE_RED_COEFFICIENT * toLinear(r) +
+      LUMINANCE_GREEN_COEFFICIENT * toLinear(g) +
+      LUMINANCE_BLUE_COEFFICIENT * toLinear(b)
+    );
+  };
+
+  // Determine if a color is light enough to require a dark icon for contrast.
+  // Threshold 0.179 is derived from WCAG contrast ratio guidelines.
+  const isLightColor = (colorCode) => {
+    const rgb = parseColor(colorCode);
+    // Unknown/unparsed colors are intentionally treated as dark backgrounds
+    // so the UI falls back to a white tick for safer contrast.
+    if (!rgb) return false;
+
+    const clampedRgb = {
+      r: clampChannel(rgb.r),
+      g: clampChannel(rgb.g),
+      b: clampChannel(rgb.b),
+    };
+
+    return getLuminance(clampedRgb) > LIGHT_COLOR_LUMINANCE_THRESHOLD;
+  };
+
   container.innerHTML = colors
     .map((color) => {
-      const isActive = color.id === selectedColorId ? " is-active" : "";
-      return `<button class="color-option js-color-option${isActive}" type="button" style="background-color: ${color.colorCode};" aria-label="${color.name}" data-color-id="${color.id}"></button>`;
+      const isActive = String(color.id) === String(selectedColorId);
+      const isLight = isLightColor(color.colorCode);
+
+      // DEBUG — remove after fix is finished
+      console.log({
+        id: color.id,
+        colorCode: color.colorCode,
+        isLight,
+      });
+
+      const activeClass = isActive ? ACTIVE_CLASS : EMPTY_STRING;
+      // is-light triggers dark tick icon to ensure contrast on light swatches
+      const lightClass = isLight ? LIGHT_CLASS : EMPTY_STRING;
+
+      return `<button class="color-option js-color-option${activeClass}${lightClass}" type="button" style="background-color: ${color.colorCode};" aria-label="${color.name}" data-color-id="${color.id}"></button>`;
     })
     .join("");
 
-  container.querySelectorAll(".js-color-option").forEach((option) => {
+  container.querySelectorAll(COLOR_OPTION_SELECTOR).forEach((option) => {
     option.addEventListener("click", () => {
       onSelect(option.dataset.colorId);
     });

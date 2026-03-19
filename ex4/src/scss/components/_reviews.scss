@@ -273,7 +273,7 @@
     &::after {
       content: "";
       position: absolute;
-      @include icon-bg(v.$icon-tick, 25px, 25px);
+      @include icon-bg(v.$icn_verified_review, 25px, 25px);
     }
   }
 

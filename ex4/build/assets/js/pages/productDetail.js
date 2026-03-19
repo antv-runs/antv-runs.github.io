@@ -39,6 +39,7 @@ const dom = {
   productGallery: document.querySelector(".js-product-gallery"),
   productMainImage: document.querySelector(".js-product-main-image"),
   productTitle: document.querySelector(".js-product-title"),
+  productRatingSection: document.querySelector(".product-overview__rating"),
   productRatingStars: document.querySelector(".js-product-rating-stars"),
   productRatingText: document.querySelector(".js-product-rating-text"),
   productPriceCurrent: document.querySelector(".js-product-price"),
@@ -104,6 +105,72 @@ function syncProductUrl(productId) {
   window.history.replaceState({}, "", nextUrl);
 }
 
+function renderFilledStarsOnly(rating, className) {
+  const safeRating = Math.max(0, Number(rating) || 0);
+  const fullStars = Math.floor(safeRating);
+  const hasHalfStar = safeRating % 1 !== 0;
+  let html = "";
+
+  for (let index = 0; index < fullStars; index += 1) {
+    html += `<svg class="${className} ${className}--active" viewBox="0 0 22 21"><path d="M10.737 0L13.9355 6.8872L21.4739 7.80085L15.9122 12.971L17.3728 20.4229L10.737 16.731L4.10121 20.4229L5.56179 12.971L0 7.80085L7.53855 6.8872L10.737 0Z"/></svg>`;
+  }
+
+  if (hasHalfStar) {
+    html += `<svg class="${className} ${className}--active" viewBox="0 0 11 21"><path d="M4.10115 20.4229L10.7369 16.731V0L7.53849 6.8872L0 7.80085L5.56174 12.971L4.10115 20.4229Z"/></svg>`;
+  }
+
+  return html;
+}
+
+function renderProductRatingSection(rating) {
+  if (
+    !dom.productRatingSection ||
+    !dom.productRatingStars ||
+    !dom.productRatingText
+  ) {
+    return;
+  }
+
+  const normalizedRating = Number(rating ?? 0);
+  const safeRating =
+    Number.isFinite(normalizedRating) && normalizedRating > 0
+      ? Math.min(5, normalizedRating)
+      : 0;
+
+  if (safeRating === 0) {
+    dom.productRatingSection.style.display = "none";
+    dom.productRatingStars.innerHTML = "";
+    dom.productRatingText.innerHTML = "";
+    return;
+  }
+
+  dom.productRatingSection.style.display = "";
+  dom.productRatingText.innerHTML = `${safeRating}/<span>5</span>`;
+  dom.productRatingStars.innerHTML = renderFilledStarsOnly(
+    safeRating,
+    "review-card__star",
+  );
+}
+
+function syncDiscountBadgeVisibility() {
+  if (!dom.productPriceDiscount) {
+    return;
+  }
+
+  const discountText = String(
+    dom.productPriceDiscount.textContent || "",
+  ).trim();
+  const parsedDiscount = Number(discountText.replace(/[^0-9.]/g, ""));
+  const hasValidDiscount =
+    discountText.length > 0 &&
+    Number.isFinite(parsedDiscount) &&
+    parsedDiscount > 0;
+
+  if (!hasValidDiscount) {
+    setText(dom.productPriceDiscount, "");
+  }
+}
+
 function resetProductSections(message) {
   relatedProductsCarousel?.destroy();
   relatedProductsCarousel = null;
@@ -113,10 +180,15 @@ function resetProductSections(message) {
   setText(dom.productPriceDiscount, "");
   setText(dom.productDescription, "");
   setText(dom.productDetailsContent, "");
-  if (dom.productRatingText) {
-    dom.productRatingText.innerHTML = "0/<span>5</span>";
+  if (dom.productRatingSection) {
+    dom.productRatingSection.style.display = "none";
   }
-  dom.productRatingStars.innerHTML = "";
+  if (dom.productRatingText) {
+    dom.productRatingText.innerHTML = "";
+  }
+  if (dom.productRatingStars) {
+    dom.productRatingStars.innerHTML = "";
+  }
   dom.productGallery.innerHTML = "";
   dom.productMainImage.removeAttribute("src");
   dom.productFaqsList.innerHTML = "";
@@ -362,17 +434,9 @@ function paintProduct(product) {
   renderBreadcrumb(dom.breadcrumbList, product);
   renderImageGallery(dom.productGallery, dom.productMainImage, product);
   renderProductInfo(dom, product, helpers);
-  const ratingValue = Number(product.ratingAvg ?? 0);
-  const normalizedRating = Number.isFinite(ratingValue) ? ratingValue : 0;
-  if (dom.productRatingText) {
-    dom.productRatingText.innerHTML = `${normalizedRating}/<span>5</span>`;
-  }
-  if (dom.productRatingStars) {
-    dom.productRatingStars.innerHTML = renderStars(
-      normalizedRating,
-      "review-card__star",
-    );
-  }
+  const ratingValue = Number(product.ratingAvg ?? product.rating ?? 0);
+  renderProductRatingSection(ratingValue);
+  syncDiscountBadgeVisibility();
   renderFaqs(dom.productFaqsList, product.faqs || []);
 
   const colors = Array.isArray(product.variants?.colors)
