@@ -74,33 +74,77 @@
             <div
               id="product-thumbnails"
               class="product-overview__images-wrapper js-product-thumbnails js-product-gallery"
-            ></div>
+            >
+              <div
+                class="product-overview__skeleton-thumb"
+                aria-hidden="true"
+              ></div>
+              <div
+                class="product-overview__skeleton-thumb"
+                aria-hidden="true"
+              ></div>
+              <div
+                class="product-overview__skeleton-thumb"
+                aria-hidden="true"
+              ></div>
+            </div>
 
             <div class="image-wrapper-main">
               <img
                 id="product-main-image"
-                class="js-product-main-image"
-                src="./assets/images/pic_t-shirt-main-1.png"
-                alt="Product image"
+                class="product-overview__main-image js-product-main-image"
+                alt=""
               />
+              <div
+                class="product-overview__skeleton-image"
+                aria-hidden="true"
+              ></div>
             </div>
           </div>
 
           <div class="product-overview__info">
             <h1 id="product-title" class="js-product-title">
-              Loading product...
+              <span
+                class="product-overview__skeleton-line product-overview__skeleton-line--title"
+                aria-hidden="true"
+              ></span>
+              <span
+                class="product-overview__skeleton-line product-overview__skeleton-line--title"
+                aria-hidden="true"
+              ></span>
             </h1>
 
             <div class="product-overview__rating">
-              <div
-                id="product-rating-stars"
-                class="js-product-rating-stars"
-              ></div>
+              <div id="product-rating-stars" class="js-product-rating-stars">
+                <span
+                  class="product-overview__skeleton-circle"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  class="product-overview__skeleton-circle"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  class="product-overview__skeleton-circle"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  class="product-overview__skeleton-circle"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  class="product-overview__skeleton-circle"
+                  aria-hidden="true"
+                ></span>
+              </div>
               <p
                 id="product-rating-text"
                 class="product-overview__rating-text js-product-rating-text"
               >
-                0/<span>5</span>
+                <span
+                  class="product-overview__skeleton-line product-overview__skeleton-line--rating"
+                  aria-hidden="true"
+                ></span>
               </p>
             </div>
 
@@ -109,33 +153,76 @@
                 id="product-price-current"
                 class="product-overview__price-current js-product-price-current js-product-price"
               >
-                $0
+                <span
+                  class="product-overview__skeleton-pill"
+                  aria-hidden="true"
+                ></span>
               </p>
               <p
                 id="product-price-old"
                 class="product-overview__price-old js-product-price-old js-product-original-price"
               >
-                $0
+                <span
+                  class="product-overview__skeleton-pill"
+                  aria-hidden="true"
+                ></span>
               </p>
               <p
                 id="product-price-discount"
                 class="product-overview__price-discount js-product-price-discount js-product-discount"
               >
-                -0%
+                <span
+                  class="product-overview__skeleton-pill"
+                  aria-hidden="true"
+                ></span>
               </p>
             </div>
 
             <p
               id="product-description"
               class="product-overview__description js-product-description"
-            ></p>
+            >
+              <span
+                class="product-overview__skeleton-line product-overview__skeleton-line--text"
+                aria-hidden="true"
+              ></span>
+              <span
+                class="product-overview__skeleton-line product-overview__skeleton-line--text"
+                aria-hidden="true"
+              ></span>
+              <span
+                class="product-overview__skeleton-line product-overview__skeleton-line--text"
+                aria-hidden="true"
+              ></span>
+              <span
+                class="product-overview__skeleton-line product-overview__skeleton-line--text"
+                aria-hidden="true"
+              ></span>
+            </p>
 
             <div class="product-overview__choose">
               <p>Select Colors</p>
               <div
                 id="product-color-options"
                 class="product-overview__choose-colors js-product-color-options"
-              ></div>
+              >
+                <span
+                  class="product-overview__skeleton-circle"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  class="product-overview__skeleton-circle"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  class="product-overview__skeleton-circle"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  class="product-overview__skeleton-circle"
+                  aria-hidden="true"
+                ></span>
+              </div>
             </div>
 
             <div class="product-overview__size">
@@ -143,7 +230,24 @@
               <div
                 id="product-size-options"
                 class="product-overview__size-options js-product-size-options"
-              ></div>
+              >
+                <span
+                  class="product-overview__skeleton-size"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  class="product-overview__skeleton-size"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  class="product-overview__skeleton-size"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  class="product-overview__skeleton-size"
+                  aria-hidden="true"
+                ></span>
+              </div>
             </div>
 
             <div class="product-overview__actions">
@@ -308,7 +412,92 @@
             </div>
           </div>
 
-          <ul id="reviews-list" class="reviews__list js-reviews-list"></ul>
+          <ul id="reviews-list" class="reviews__list js-reviews-list">
+            <li
+              class="reviews__item review-card reviews__skeleton"
+              aria-hidden="true"
+            >
+              <div class="review-card__meta">
+                <div
+                  class="reviews__skeleton-line reviews__skeleton-line--icon"
+                ></div>
+                <div
+                  class="reviews__skeleton-line reviews__skeleton-line--title"
+                ></div>
+                <div
+                  class="reviews__skeleton-line reviews__skeleton-line--stars"
+                ></div>
+              </div>
+              <div
+                class="reviews__skeleton-line reviews__skeleton-line--footer"
+              ></div>
+              <div
+                class="reviews__skeleton-line reviews__skeleton-line--text"
+              ></div>
+              <div
+                class="reviews__skeleton-line reviews__skeleton-line--text"
+              ></div>
+              <div
+                class="reviews__skeleton-line reviews__skeleton-line--text reviews__skeleton-line--text-short"
+              ></div>
+            </li>
+            <li
+              class="reviews__item review-card reviews__skeleton"
+              aria-hidden="true"
+            >
+              <div class="review-card__meta">
+                <div
+                  class="reviews__skeleton-line reviews__skeleton-line--icon"
+                ></div>
+                <div
+                  class="reviews__skeleton-line reviews__skeleton-line--title"
+                ></div>
+                <div
+                  class="reviews__skeleton-line reviews__skeleton-line--stars"
+                ></div>
+              </div>
+              <div
+                class="reviews__skeleton-line reviews__skeleton-line--footer"
+              ></div>
+              <div
+                class="reviews__skeleton-line reviews__skeleton-line--text"
+              ></div>
+              <div
+                class="reviews__skeleton-line reviews__skeleton-line--text"
+              ></div>
+              <div
+                class="reviews__skeleton-line reviews__skeleton-line--text reviews__skeleton-line--text-short"
+              ></div>
+            </li>
+            <li
+              class="reviews__item review-card reviews__skeleton"
+              aria-hidden="true"
+            >
+              <div class="review-card__meta">
+                <div
+                  class="reviews__skeleton-line reviews__skeleton-line--icon"
+                ></div>
+                <div
+                  class="reviews__skeleton-line reviews__skeleton-line--title"
+                ></div>
+                <div
+                  class="reviews__skeleton-line reviews__skeleton-line--stars"
+                ></div>
+              </div>
+              <div
+                class="reviews__skeleton-line reviews__skeleton-line--footer"
+              ></div>
+              <div
+                class="reviews__skeleton-line reviews__skeleton-line--text"
+              ></div>
+              <div
+                class="reviews__skeleton-line reviews__skeleton-line--text"
+              ></div>
+              <div
+                class="reviews__skeleton-line reviews__skeleton-line--text reviews__skeleton-line--text-short"
+              ></div>
+            </li>
+          </ul>
 
           <div class="reviews__load-more-wrapper">
             <button
@@ -325,7 +514,24 @@
           data-tab-content="tc-faqs"
           class="products-tabs__content js-products-tabs__content"
         >
-          <ul id="product-faqs-list" class="js-product-faqs-list"></ul>
+          <ul id="product-faqs-list" class="faqs js-product-faqs-list">
+            <li class="faqs__skeleton" aria-hidden="true">
+              <span class="faqs__skeleton-line"></span>
+              <span class="faqs__skeleton-icon"></span>
+            </li>
+            <li class="faqs__skeleton" aria-hidden="true">
+              <span class="faqs__skeleton-line"></span>
+              <span class="faqs__skeleton-icon"></span>
+            </li>
+            <li class="faqs__skeleton" aria-hidden="true">
+              <span class="faqs__skeleton-line"></span>
+              <span class="faqs__skeleton-icon"></span>
+            </li>
+            <li class="faqs__skeleton" aria-hidden="true">
+              <span class="faqs__skeleton-line"></span>
+              <span class="faqs__skeleton-icon"></span>
+            </li>
+          </ul>
         </section>
       </section>
 
@@ -338,7 +544,68 @@
           <ul
             id="other-products-list"
             class="other-products__list js-other-products__list js-related-track"
-          ></ul>
+          >
+            <li class="other-products__skeleton-card" aria-hidden="true">
+              <div class="other-products__skeleton-image"></div>
+              <div class="other-products__skeleton-line"></div>
+              <div class="other-products__skeleton-rating">
+                <span class="other-products__skeleton-circle"></span>
+                <span class="other-products__skeleton-circle"></span>
+                <span class="other-products__skeleton-circle"></span>
+                <span class="other-products__skeleton-circle"></span>
+                <span class="other-products__skeleton-circle"></span>
+                <span
+                  class="other-products__skeleton-line other-products__skeleton-line--short"
+                ></span>
+              </div>
+              <div class="other-products__skeleton-pill"></div>
+            </li>
+            <li class="other-products__skeleton-card" aria-hidden="true">
+              <div class="other-products__skeleton-image"></div>
+              <div class="other-products__skeleton-line"></div>
+              <div class="other-products__skeleton-rating">
+                <span class="other-products__skeleton-circle"></span>
+                <span class="other-products__skeleton-circle"></span>
+                <span class="other-products__skeleton-circle"></span>
+                <span class="other-products__skeleton-circle"></span>
+                <span class="other-products__skeleton-circle"></span>
+                <span
+                  class="other-products__skeleton-line other-products__skeleton-line--short"
+                ></span>
+              </div>
+              <div class="other-products__skeleton-pill"></div>
+            </li>
+            <li class="other-products__skeleton-card" aria-hidden="true">
+              <div class="other-products__skeleton-image"></div>
+              <div class="other-products__skeleton-line"></div>
+              <div class="other-products__skeleton-rating">
+                <span class="other-products__skeleton-circle"></span>
+                <span class="other-products__skeleton-circle"></span>
+                <span class="other-products__skeleton-circle"></span>
+                <span class="other-products__skeleton-circle"></span>
+                <span class="other-products__skeleton-circle"></span>
+                <span
+                  class="other-products__skeleton-line other-products__skeleton-line--short"
+                ></span>
+              </div>
+              <div class="other-products__skeleton-pill"></div>
+            </li>
+            <li class="other-products__skeleton-card" aria-hidden="true">
+              <div class="other-products__skeleton-image"></div>
+              <div class="other-products__skeleton-line"></div>
+              <div class="other-products__skeleton-rating">
+                <span class="other-products__skeleton-circle"></span>
+                <span class="other-products__skeleton-circle"></span>
+                <span class="other-products__skeleton-circle"></span>
+                <span class="other-products__skeleton-circle"></span>
+                <span class="other-products__skeleton-circle"></span>
+                <span
+                  class="other-products__skeleton-line other-products__skeleton-line--short"
+                ></span>
+              </div>
+              <div class="other-products__skeleton-pill"></div>
+            </li>
+          </ul>
         </div>
 
         <button class="other-products__next js-other-products__next"></button>
@@ -544,13 +811,17 @@
               class="review-modal__rating-picker js-review-rating-picker"
               aria-label="Select a rating from 1 to 5 stars"
             >
-              <div class="review-modal__rating-stars js-review-rating-stars"></div>
+              <div
+                class="review-modal__rating-stars js-review-rating-stars"
+              ></div>
               <div
                 class="review-modal__rating-hitzones js-review-rating-hitzones"
                 aria-hidden="false"
               ></div>
             </div>
-            <p class="review-modal__rating-value js-review-rating-value">5.0/5</p>
+            <p class="review-modal__rating-value js-review-rating-value">
+              5.0/5
+            </p>
           </div>
 
           <div class="review-modal__actions">
@@ -560,7 +831,9 @@
             >
               Cancel
             </button>
-            <button type="submit" class="review-modal__button">Submit Review</button>
+            <button type="submit" class="review-modal__button">
+              Submit Review
+            </button>
           </div>
         </form>
       </div>
