@@ -300,13 +300,29 @@
   &__color {
     width: 28px;
     height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     justify-self: start;
     border-radius: 50%;
     border: 2px solid transparent;
     cursor: pointer;
 
-    &--active {
-      border-color: #000;
+    &--active,
+    &.is-active {
+      border-color: transparent;
+
+      &::after {
+        content: "";
+        display: block;
+        width: 12px;
+        height: 9px;
+        background-color: #fff;
+        -webkit-mask: url(v.$icn_select_colors_tick) no-repeat center;
+        mask: url(v.$icn_select_colors_tick) no-repeat center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+      }
     }
 
     &--green {
@@ -344,6 +360,19 @@
     &--white {
       background-color: #fff;
       border-color: rgba(0, 0, 0, 0.15);
+
+      &.is-active,
+      &.catalog-filters__color--active {
+        border-color: rgba(0, 0, 0, 0.15);
+        box-shadow:
+          inset 0 0 0 2px rgba(0, 0, 0, 0.3),
+          0 0 0 1px rgba(0, 0, 0, 0.2);
+      }
+
+      &.is-active::after,
+      &.catalog-filters__color--active::after {
+        background-color: #000;
+      }
     }
 
     &--black {
@@ -622,19 +651,17 @@
   }
 
   &__title {
-    margin-bottom: 12px;
+    margin-bottom: 6px;
     line-height: 1.4;
-    min-height: calc(1.4em * 2);
+    min-height: calc(1.4 * 1em);
 
     a {
       text-decoration: none;
       color: #000;
       font-size: 20px;
       font-weight: 700;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+
+      @include m.line-clamp(1);
     }
   }
 

@@ -269,11 +269,13 @@
     line-height: 1.1;
     font-weight: 700;
     margin-bottom: 14px;
+  }
 
+  &__header--verified {
     &::after {
       content: "";
       position: absolute;
-      @include icon-bg(v.$icon-tick, 25px, 25px);
+      @include icon-bg(v.$icn_verified_review, 25px, 25px);
     }
   }
 
@@ -291,6 +293,195 @@
     line-height: 1.375;
     color: v.$color-muted;
   }
+}
+
+.review-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: none;
+
+  &--open {
+    display: block;
+  }
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+  }
+
+  &__dialog {
+    position: relative;
+    width: min(560px, calc(100% - 32px));
+    margin: 6vh auto 0;
+    background-color: v.$color-white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 22px 40px rgba(0, 0, 0, 0.18);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  &__title {
+    font-size: 24px;
+    line-height: 1.1;
+    font-weight: 700;
+  }
+
+  &__close {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background-color: #f3f3f3;
+    cursor: pointer;
+    position: relative;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 16px;
+      height: 2px;
+      background-color: #333;
+      transform-origin: center;
+    }
+
+    &::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    &::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+  }
+
+  &__form {
+    display: grid;
+    gap: 16px;
+  }
+
+  &__field {
+    display: grid;
+    gap: 8px;
+
+    > span {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid v.$color-border;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font: inherit;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 96px;
+    }
+  }
+
+  &__field--rating {
+    margin-top: 4px;
+  }
+
+  &__rating-picker {
+    position: relative;
+    width: 220px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__rating-stars {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+    pointer-events: none;
+  }
+
+  &__star {
+    width: 100%;
+    max-width: 22px;
+    aspect-ratio: 22/21;
+    justify-self: center;
+
+    path {
+      fill: none;
+      stroke: #ffc633;
+      stroke-width: 1;
+      transition: fill 0.2s ease;
+    }
+
+    &--active path {
+      fill: #ffc633;
+    }
+  }
+
+  &__rating-hitzones {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+  }
+
+  &__rating-hit {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  &__rating-value {
+    margin-top: 6px;
+    font-size: 14px;
+    color: v.$color-muted;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 6px;
+  }
+
+  &__button {
+    border: none;
+    border-radius: v.$radius-pill;
+    padding: 10px 18px;
+    min-width: 130px;
+    font-weight: 500;
+    cursor: pointer;
+    background-color: v.$color-black;
+    color: v.$color-white;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+  }
+
+  &__button--cancel {
+    background-color: #efefef;
+    color: #222;
+  }
+}
+
+body.review-modal-open {
+  overflow: hidden;
 }
 
 @media (max-width: 768px) {
@@ -318,6 +509,30 @@
         width: auto;
         padding: 0 16px;
       }
+    }
+  }
+
+  .review-modal {
+    &__dialog {
+      width: calc(100% - 24px);
+      margin-top: 4vh;
+      padding: 20px;
+    }
+
+    &__title {
+      font-size: 20px;
+    }
+
+    &__rating-picker {
+      width: 190px;
+    }
+
+    &__actions {
+      flex-direction: column-reverse;
+    }
+
+    &__button {
+      width: 100%;
     }
   }
 }

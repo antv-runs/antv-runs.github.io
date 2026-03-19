@@ -272,16 +272,17 @@ function bindColorFilter(elements, filterState) {
       return;
     }
 
-    const index = filterState.colors.indexOf(color);
-    const isNowActive = index === -1;
-
-    if (isNowActive) {
-      filterState.colors.push(color);
-    } else {
-      filterState.colors.splice(index, 1);
-    }
-
+    const isNowActive = !colorButton.classList.contains("is-active");
     colorButton.classList.toggle("catalog-filters__color--active", isNowActive);
+    colorButton.classList.toggle("is-active", isNowActive);
+    colorButton.setAttribute("aria-pressed", String(isNowActive));
+
+    // Keep filter state in sync with current active color buttons.
+    filterState.colors = Array.from(
+      elements.filterSidebar.querySelectorAll(".js-color-button.is-active"),
+    )
+      .map((button) => String(button.dataset.color || "").toLowerCase())
+      .filter(Boolean);
   });
 }
 

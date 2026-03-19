@@ -1,5 +1,5 @@
-// const DEFAULT_API_ORIGIN = "https://api.vanannek.blog";
-const DEFAULT_API_ORIGIN = "http://localhost:8000";
+const DEFAULT_API_ORIGIN = "https://api.vanannek.blog";
+// const DEFAULT_API_ORIGIN = "http://localhost:8000";
 
 export function getApiOrigin() {
   return DEFAULT_API_ORIGIN;
