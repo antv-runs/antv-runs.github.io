@@ -13,7 +13,7 @@ function createCatalogProductUrl(productId) {
 export function renderCatalogProducts(container, products, helpers) {
   container.innerHTML = products
     .map((product) => {
-      const pricing = product.pricing || product.price || {};
+      const pricing = product.pricing || {};
       const currentPrice = Number(pricing.current || 0);
       const originalPrice =
         pricing.original === null || pricing.original === undefined
@@ -32,7 +32,7 @@ export function renderCatalogProducts(container, products, helpers) {
       const productUrl = createCatalogProductUrl(product.id);
       const productImage =
         product.thumbnail || createCatalogImagePlaceholder(product.name);
-      const ratingValue = Number(product.rating || 0);
+      const ratingValue = Number(product.ratingAvg ?? 0);
 
       return `<article class="product-tile js-product-card" data-product-id="${product.id}">
         <a class="product-tile__image-link js-product-link" href="${productUrl}" data-product-id="${product.id}" aria-label="View ${product.name}">
@@ -42,8 +42,14 @@ export function renderCatalogProducts(container, products, helpers) {
           <a class="js-product-link" href="${productUrl}" data-product-id="${product.id}">${product.name}</a>
         </h2>
         <div class="product-tile__rating" aria-label="Rating ${ratingValue} out of 5">
-          <span>${helpers.renderStars(ratingValue, "product-item__star")}</span>
-          <span>${ratingValue.toFixed(1)}/5</span>
+          ${
+            ratingValue > 0
+              ? `
+            <span>${helpers.renderStars(ratingValue, "product-item__star", { showEmpty: false })}</span>
+            <span>${ratingValue.toFixed(1)}/5</span>
+          `
+              : ""
+          }
         </div>
         <p class="product-tile__price">
           <span class="product-tile__price-current">${helpers.formatPrice(currentPrice, pricing.currency || "USD")}</span>
@@ -215,8 +221,6 @@ export function renderColorOptions(
   const HEX_SHORT_PATTERN = /^#[0-9a-f]{3}$/;
   const HEX_FULL_PATTERN = /^#[0-9a-f]{6}$/;
   const RGB_PATTERN = /^rgba?\((\d+),(\d+),(\d+)/;
-  const NAMED_COLOR_WHITE = "white";
-  const NAMED_COLOR_BLACK = "black";
   const RGB_CHANNEL_MIN = 0;
   const RGB_CHANNEL_MAX = 255;
   const SRGB_THRESHOLD = 0.04045;
@@ -323,13 +327,6 @@ export function renderColorOptions(
       const isActive = String(color.id) === String(selectedColorId);
       const isLight = isLightColor(color.colorCode);
 
-      // DEBUG — remove after fix is finished
-      console.log({
-        id: color.id,
-        colorCode: color.colorCode,
-        isLight,
-      });
-
       const activeClass = isActive ? ACTIVE_CLASS : EMPTY_STRING;
       // is-light triggers dark tick icon to ensure contrast on light swatches
       const lightClass = isLight ? LIGHT_CLASS : EMPTY_STRING;
@@ -374,7 +371,7 @@ export function renderRelatedProducts(
         pricing.original &&
         pricing.current &&
         pricing.original > pricing.current;
-      // Update field mapping to include all possible rating field names
+      // Use normalized rating field with fallback for API variations
       const ratingValue = Number(product.ratingAvg ?? 0);
 
       return `<li class="other-products__item js-other-products__item js-related-item" data-product-id="${product.id}">
