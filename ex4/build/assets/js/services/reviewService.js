@@ -1,6 +1,8 @@
 import { mockReviews } from "../../data/data.js";
 import { requestJson } from "./httpClient.js";
 
+const mockSubmittedReviews = [];
+
 function clone(data) {
   return JSON.parse(JSON.stringify(data));
 }
@@ -34,7 +36,9 @@ function getSingleItem(payload) {
 }
 
 function getMockReviewList() {
-  return mockReviews.map((review) => normalizeReview(review));
+  return [...mockReviews, ...mockSubmittedReviews].map((review) =>
+    normalizeReview(review),
+  );
 }
 
 function normalizeReviews(reviews) {
@@ -61,6 +65,56 @@ function filterMockReviews(reviews, productId) {
 function buildMockReviewsResult(productId) {
   const allReviews = filterMockReviews(clone(getMockReviewList()), productId);
   return allReviews;
+}
+
+function getReviewRatingValue(review) {
+  return Number(review?.rating ?? review?.ratingStar ?? review?.stars ?? 0);
+}
+
+function sortMockReviews(reviews, sort) {
+  const nextReviews = [...reviews];
+
+  if (sort === "oldest") {
+    nextReviews.sort(
+      (firstItem, secondItem) =>
+        new Date(firstItem?.date || firstItem?.created_at || 0).getTime() -
+        new Date(secondItem?.date || secondItem?.created_at || 0).getTime(),
+    );
+    return nextReviews;
+  }
+
+  if (sort === "highest") {
+    nextReviews.sort(
+      (firstItem, secondItem) =>
+        getReviewRatingValue(secondItem) - getReviewRatingValue(firstItem),
+    );
+    return nextReviews;
+  }
+
+  nextReviews.sort(
+    (firstItem, secondItem) =>
+      new Date(secondItem?.date || secondItem?.created_at || 0).getTime() -
+      new Date(firstItem?.date || firstItem?.created_at || 0).getTime(),
+  );
+
+  return nextReviews;
+}
+
+function paginateMockReviews(reviews, page, perPage) {
+  const safePage = Math.max(1, Number(page) || 1);
+  const safePerPage = Math.max(1, Number(perPage) || 10);
+  const total = reviews.length;
+  const lastPage = Math.max(1, Math.ceil(total / safePerPage));
+  const startIndex = (safePage - 1) * safePerPage;
+
+  return {
+    data: reviews.slice(startIndex, startIndex + safePerPage),
+    meta: {
+      current_page: safePage,
+      last_page: lastPage,
+      total,
+    },
+  };
 }
 
 export async function getReviewsByProductId(
@@ -94,16 +148,35 @@ export async function getReviewsByProductId(
       "Failed to load reviews from API. Falling back to mock data.",
       error,
     );
-    const data = buildMockReviewsResult(normalizedProductId);
+    const normalizedRating = Number(rating);
+    const filteredByRating = buildMockReviewsResult(normalizedProductId).filter(
+      (review) => {
+        if (rating === null || !Number.isFinite(normalizedRating)) {
+          return true;
+        }
+
+        return Math.abs(getReviewRatingValue(review) - normalizedRating) < 0.001;
+      },
+    );
+    const sortedReviews = sortMockReviews(filteredByRating, sort);
+    const paginated = paginateMockReviews(sortedReviews, page, perPage);
+
     return {
-      data,
-      meta: { current_page: 1, last_page: 1, total: data.length },
+      data: paginated.data,
+      meta: paginated.meta,
     };
   }
 }
 
 export async function submitReview(productId, payload, options = {}) {
   const normalizedProductId = String(productId || "").trim();
+  const stars = Number(payload?.stars ?? payload?.rating ?? 0);
+  const normalizedStars =
+    Math.round(Math.max(1, Math.min(5, Number.isFinite(stars) ? stars : 1)) * 2) /
+    2;
+  const normalizedComment = String(payload?.comment || "").trim();
+  const normalizedUsername =
+    String(payload?.username || "").trim() || "Guest";
 
   try {
     const responsePayload = await requestJson(
@@ -111,8 +184,10 @@ export async function submitReview(productId, payload, options = {}) {
       {
         method: "POST",
         body: JSON.stringify({
-          rating: payload?.rating,
-          comment: payload?.comment,
+          username: normalizedUsername,
+          comment: normalizedComment,
+          stars: normalizedStars,
+          rating: normalizedStars,
         }),
         signal: options.signal,
       },
@@ -123,10 +198,22 @@ export async function submitReview(productId, payload, options = {}) {
       "Failed to submit review via API. Simulating success with mock data.",
       error,
     );
-    return normalizeReview({
+    const fallbackReview = normalizeReview({
       ...payload,
+      productId: normalizedProductId,
+      name: normalizedUsername,
+      desc: normalizedComment,
+      stars: normalizedStars,
+      rating: normalizedStars,
+      ratingStar: normalizedStars,
       id: String(Date.now()),
       date: new Date().toISOString(),
     });
+
+    if (fallbackReview) {
+      mockSubmittedReviews.unshift(fallbackReview);
+    }
+
+    return fallbackReview;
   }
 }

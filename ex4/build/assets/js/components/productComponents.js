@@ -374,12 +374,14 @@ export function renderRelatedProducts(
         pricing.original &&
         pricing.current &&
         pricing.original > pricing.current;
+      const ratingValue = Number(product.rating ?? product.ratingAvg ?? 0);
+
       return `<li class="other-products__item js-other-products__item js-related-item" data-product-id="${product.id}">
         <img class="product-item__image" src="${product.thumbnail}" alt="${product.thumbnailAlt}" />
         <h3 class="product-item__title">${product.name}</h3>
         <div class="product-item__rating">
-          <div class="product-item__stars">${helpers.renderStars(product.rating, "product-item__star")}</div>
-          <p>${product.rating}/5</p>
+          <div class="product-item__stars">${helpers.renderStars(ratingValue, "product-item__star", { showEmpty: false })}</div>
+          <p>${ratingValue}/5</p>
         </div>
         <div class="product-item__prices">
           <p class="product-item__prices--discounted">${helpers.formatPrice(pricing.current || 0, pricing.currency || "USD")}</p>
