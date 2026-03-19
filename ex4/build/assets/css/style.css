@@ -1029,7 +1029,7 @@ header .header-icon__profile {
   font-weight: 700;
   margin-bottom: 14px;
 }
-.review-card__header::after {
+.review-card__header--verified::after {
   content: "";
   position: absolute;
   content: "";
