@@ -100,6 +100,7 @@ function mapReviewToCard(review) {
     name: review?.user?.name ?? review?.username ?? review?.name ?? "Anonymous",
     desc: review?.comment ?? review?.desc ?? "",
     date: review?.created_at ?? review?.date,
+    isVerified: Boolean(review?.isVerified),
   };
 }
 
