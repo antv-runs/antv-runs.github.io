@@ -29,6 +29,32 @@ const dom = {
   checkoutButton: document.querySelector(".js-cart-checkout"),
 };
 
+function setButtonLoadingState(button, isLoading, loadingLabel = "Processing...") {
+  if (!(button instanceof HTMLButtonElement)) {
+    return;
+  }
+
+  const textElement = button.querySelector(".cart-summary__checkout-text");
+  if (!(textElement instanceof HTMLElement)) {
+    return;
+  }
+
+  if (isLoading) {
+    if (!button.dataset.defaultLabel) {
+      button.dataset.defaultLabel = textElement.textContent?.trim() || "";
+    }
+
+    textElement.textContent = loadingLabel;
+    button.disabled = true;
+    button.setAttribute("aria-busy", "true");
+    return;
+  }
+
+  textElement.textContent = button.dataset.defaultLabel || textElement.textContent;
+  button.disabled = false;
+  button.removeAttribute("aria-busy");
+}
+
 function createCartSkeletonItemMarkup() {
   return `<article class="cart-item cart-item--skeleton" aria-hidden="true">
     <div class="cart-item__image cart-skeleton-block"></div>
@@ -368,6 +394,7 @@ function bindCartEvents() {
       return;
     }
 
+    setButtonLoadingState(dom.checkoutButton, true, "Redirecting...");
     window.location.href = "checkout.html";
   });
 }
