@@ -172,6 +172,9 @@ function renderCategoryItems(container, categories, selectedCategoryId) {
     return;
   }
 
+  container.classList.remove("catalog-filters__list--loading");
+  container.setAttribute("aria-busy", "false");
+
   if (!Array.isArray(categories) || categories.length === 0) {
     container.innerHTML =
       '<li><button type="button" class="catalog-filters__item" disabled>No categories available</button></li>';
@@ -193,10 +196,25 @@ function renderCategoryItems(container, categories, selectedCategoryId) {
     .join("");
 }
 
+function renderCategoryPlaceholders(container, count = 5) {
+  if (!container) {
+    return;
+  }
+
+  const safeCount = Math.max(1, Number(count) || 5);
+  container.classList.add("catalog-filters__list--loading");
+  container.setAttribute("aria-busy", "true");
+  container.innerHTML = Array.from({ length: safeCount }, () => {
+    return `<li><button type="button" class="catalog-filters__item catalog-filters__item--placeholder" disabled aria-hidden="true"><span class="catalog-filters__placeholder-line"></span></button></li>`;
+  }).join("");
+}
+
 async function loadCategories(elements, state) {
   if (!elements.categoryList) {
     return;
   }
+
+  renderCategoryPlaceholders(elements.categoryList, 5);
 
   try {
     const response = await getCategories({ per_page: 5 });

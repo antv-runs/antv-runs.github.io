@@ -149,6 +149,10 @@
     gap: 12px;
     color: v.$color-muted;
 
+    &--loading {
+      pointer-events: none;
+    }
+
     li {
       line-height: 1.4;
     }
@@ -203,6 +207,25 @@
         transform: none;
       }
     }
+
+    &--placeholder {
+      min-height: 22px;
+      cursor: default;
+
+      &::after {
+        opacity: 0.3;
+      }
+    }
+  }
+
+  &__placeholder-line {
+    display: block;
+    width: 82%;
+    height: 14px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
+    background-size: 200% 100%;
+    animation: reviews-skeleton-shimmer 1.2s ease-in-out infinite;
   }
 
   &__range {
