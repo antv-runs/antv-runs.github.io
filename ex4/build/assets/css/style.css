@@ -1014,6 +1014,11 @@ header .header-icon__profile {
     transform: rotate(360deg);
   }
 }
+.products-tabs--bootstrap-locked .reviews__actions {
+  opacity: 0.62;
+  transition: opacity 0.2s ease;
+}
+
 .review-card {
   border: 1px solid rgba(0, 0, 0, 0.1019607843);
   border-radius: 20px;
@@ -2397,6 +2402,12 @@ body.review-modal-open {
 .product-overview {
   margin-bottom: 80px;
 }
+.product-overview--bootstrap-locked .product-overview__choose-colors,
+.product-overview--bootstrap-locked .product-overview__size-options,
+.product-overview--bootstrap-locked .product-overview__actions {
+  opacity: 0.62;
+  transition: opacity 0.2s ease;
+}
 .product-overview--loading {
   position: relative;
 }
@@ -2620,6 +2631,10 @@ body.review-modal-open {
   background-position: center;
   background-size: 16px 16px;
 }
+.product-overview__choose-colors .color-option:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
 .product-overview__choose-colors .color-option--1 {
   background-color: #4f4631;
 }
@@ -2674,6 +2689,10 @@ body.review-modal-open {
   justify-content: center;
   cursor: pointer;
 }
+.product-overview__size-options .size-option:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
 .product-overview__size-options .size-option.is-active {
   background-color: #000;
   color: #fff;
@@ -2705,6 +2724,10 @@ body.review-modal-open {
 .product-overview__actions form input:focus {
   outline: none;
 }
+.product-overview__actions form input:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
 .product-overview__actions form .quantity-button-minus,
 .product-overview__actions form .quantity-button-plus {
   width: 20px;
@@ -2721,6 +2744,11 @@ body.review-modal-open {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+}
+.product-overview__actions form .quantity-button-minus:disabled,
+.product-overview__actions form .quantity-button-plus:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 .product-overview__actions form .quantity-button-minus {
   background-image: url("../images/icn_minus.svg");
@@ -2741,6 +2769,11 @@ body.review-modal-open {
   cursor: pointer;
   padding: 12px 24px;
   transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.product-overview__actions .add-to-cart-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  background-color: #333;
 }
 .product-overview__actions .add-to-cart-button:hover {
   background-color: #333;

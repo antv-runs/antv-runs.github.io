@@ -39,6 +39,8 @@ const state = {
   isLoadingReviews: false,
   productRequestToken: 0,
   isProductLoading: false,
+  hasSettledInitialBootstrap: false,
+  isBootstrapUiLocked: false,
 };
 
 const REVIEW_LOADING_MIN_DELAY_MS = 300;
@@ -64,6 +66,8 @@ const dom = {
   productColorOptions: document.querySelector(".js-product-color-options"),
   productSizeOptions: document.querySelector(".js-product-size-options"),
   quantityInput: document.querySelector(".js-quantity-input"),
+  quantityMinusButton: document.querySelector(".js-quantity-button-minus"),
+  quantityPlusButton: document.querySelector(".js-quantity-button-plus"),
   productDetailsContent: document.querySelector(".js-product-details-content"),
   productFaqsList: document.querySelector(".js-product-faqs-list"),
   reviewsCount: document.querySelector(".js-reviews-count"),
@@ -293,8 +297,48 @@ function setReviewControlsDisabled(isDisabled) {
 
   // Disable load-more button
   if (dom.reviewsLoadMore) {
-    dom.reviewsLoadMore.disabled = nextIsDisabled || state.reviewPage >= state.reviewLastPage;
+    dom.reviewsLoadMore.disabled =
+      nextIsDisabled || state.reviewPage >= state.reviewLastPage;
   }
+}
+
+function setInitialBootstrapUiLock(isLocked) {
+  const nextIsLocked = Boolean(isLocked);
+  state.isBootstrapUiLocked = nextIsLocked;
+
+  dom.productOverview?.classList.toggle(
+    "product-overview--bootstrap-locked",
+    nextIsLocked,
+  );
+  dom.productsTabs?.classList.toggle("products-tabs--bootstrap-locked", nextIsLocked);
+
+  dom.quantityInput && (dom.quantityInput.disabled = nextIsLocked);
+  dom.quantityMinusButton && (dom.quantityMinusButton.disabled = nextIsLocked);
+  dom.quantityPlusButton && (dom.quantityPlusButton.disabled = nextIsLocked);
+  dom.addToCartButton && (dom.addToCartButton.disabled = nextIsLocked);
+  dom.writeReviewButton && (dom.writeReviewButton.disabled = nextIsLocked);
+
+  dom.productColorOptions
+    ?.querySelectorAll(".js-color-option")
+    .forEach((item) => {
+      item.disabled = nextIsLocked;
+    });
+
+  dom.productSizeOptions
+    ?.querySelectorAll(".js-size-option")
+    .forEach((item) => {
+      if (nextIsLocked) {
+        item.dataset.initialDisabled = String(item.disabled);
+        item.disabled = true;
+        return;
+      }
+
+      const shouldRestoreDisabled = item.dataset.initialDisabled === "true";
+      item.disabled = shouldRestoreDisabled;
+      item.removeAttribute("data-initial-disabled");
+    });
+
+  setReviewControlsDisabled(nextIsLocked || state.isLoadingReviews);
 }
 
 function setLoadMoreButtonLoading(isLoading) {
@@ -303,7 +347,10 @@ function setLoadMoreButtonLoading(isLoading) {
   }
 
   const nextIsLoading = Boolean(isLoading);
-  dom.reviewsLoadMore.disabled = nextIsLoading || state.reviewPage >= state.reviewLastPage;
+  dom.reviewsLoadMore.disabled =
+    nextIsLoading ||
+    state.isBootstrapUiLocked ||
+    state.reviewPage >= state.reviewLastPage;
   dom.reviewsLoadMore.classList.toggle("is-loading", nextIsLoading);
   dom.reviewsLoadMore.textContent = nextIsLoading
     ? LOAD_MORE_LOADING_TEXT
@@ -772,7 +819,7 @@ function bindStaticEvents() {
       loadReviews(state.selectedProductId, false, { showLoading: true }).finally(
         () => {
           state.isLoadingReviews = false;
-          setReviewControlsDisabled(false);
+          setReviewControlsDisabled(state.isBootstrapUiLocked);
         },
       );
     });
@@ -794,7 +841,7 @@ function bindStaticEvents() {
     loadReviews(state.selectedProductId, false, { showLoading: true }).finally(
       () => {
         state.isLoadingReviews = false;
-        setReviewControlsDisabled(false);
+        setReviewControlsDisabled(state.isBootstrapUiLocked);
       },
     );
   });
@@ -826,6 +873,10 @@ function bindStaticEvents() {
   buildReviewRatingHitzones();
 
   dom.writeReviewButton?.addEventListener("click", () => {
+    if (state.isBootstrapUiLocked) {
+      return;
+    }
+
     openReviewModal();
   });
 
@@ -994,6 +1045,10 @@ function paintProduct(product) {
   };
 
   repaintSizes();
+
+  if (state.isBootstrapUiLocked) {
+    setInitialBootstrapUiLock(true);
+  }
 }
 
 function mountRelatedProductsCarousel() {
@@ -1100,6 +1155,11 @@ async function loadSelectedProduct(productId) {
   } finally {
     if (requestToken === state.productRequestToken) {
       setProductTransitionLoading(false);
+
+      if (!state.hasSettledInitialBootstrap) {
+        state.hasSettledInitialBootstrap = true;
+        setInitialBootstrapUiLock(false);
+      }
     }
   }
 }
@@ -1113,6 +1173,8 @@ export async function initProductDetailPage() {
     resetProductSections("Product not found");
     return;
   }
+
+  setInitialBootstrapUiLock(true);
 
   const [productsResult] = await Promise.allSettled([
     productService.getProducts(),

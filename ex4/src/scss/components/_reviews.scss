@@ -260,6 +260,13 @@
   }
 }
 
+.products-tabs--bootstrap-locked {
+  .reviews__actions {
+    opacity: 0.62;
+    transition: opacity 0.2s ease;
+  }
+}
+
 .review-card {
   border: 1px solid rgba(0, 0, 0, 0.1019607843);
   border-radius: 20px;
