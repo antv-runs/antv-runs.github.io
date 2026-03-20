@@ -32,11 +32,13 @@ export function renderCatalogProducts(container, products, helpers) {
       const productUrl = createCatalogProductUrl(product.id);
       const productImage =
         product.thumbnail || createCatalogImagePlaceholder(product.name);
+      const fallbackImage = createCatalogImagePlaceholder(product.name);
       const ratingValue = Number(product.ratingAvg ?? 0);
 
       return `<article class="product-tile js-product-card" data-product-id="${product.id}">
         <a class="product-tile__image-link js-product-link" href="${productUrl}" data-product-id="${product.id}" aria-label="View ${product.name}">
-          <img src="${productImage}" alt="${product.name}" class="product-tile__image" />
+          <img src="${productImage}" alt="${product.name}" class="product-tile__image js-product-card-image" data-fallback-src="${fallbackImage}" />
+          <span class="product-tile__image-placeholder" aria-hidden="true"></span>
         </a>
         <h2 class="product-tile__title">
           <a class="js-product-link" href="${productUrl}" data-product-id="${product.id}">${product.name}</a>
@@ -59,6 +61,38 @@ export function renderCatalogProducts(container, products, helpers) {
       </article>`;
     })
     .join("");
+
+  container.querySelectorAll(".js-product-card-image").forEach((image) => {
+    const markLoaded = () => {
+      image.classList.add("is-loaded");
+    };
+
+    const markError = () => {
+      image.classList.add("is-error");
+    };
+
+    const handleError = () => {
+      const fallbackSrc = String(image.dataset.fallbackSrc || "").trim();
+      if (fallbackSrc && image.src !== fallbackSrc) {
+        image.src = fallbackSrc;
+        markError();
+        return;
+      }
+
+      markError();
+    };
+
+    image.addEventListener("load", markLoaded, { once: true });
+    image.addEventListener("error", handleError);
+
+    if (image.complete) {
+      if (image.naturalWidth > 0) {
+        markLoaded();
+      } else {
+        handleError();
+      }
+    }
+  });
 }
 
 export function renderProductSkeleton(container, count = 9) {
