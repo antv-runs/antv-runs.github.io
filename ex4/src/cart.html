@@ -202,17 +202,29 @@
                   <img src="~/images/icn_promo_code.svg" alt="Promo code" />
                 </figure>
                 <input
+                  class="js-cart-coupon-input"
                   type="text"
                   placeholder="Add promo code"
                   aria-label="Promo code"
+                  disabled
+                  aria-disabled="true"
                 />
               </div>
-              <button type="button">Apply</button>
+              <button
+                class="js-cart-coupon-apply"
+                type="button"
+                disabled
+                aria-disabled="true"
+              >
+                Apply
+              </button>
             </form>
 
             <button
               class="cart-summary__checkout js-cart-checkout"
               type="button"
+              disabled
+              aria-disabled="true"
             >
               <span class="cart-summary__checkout-text">Go to Checkout</span>
             </button>

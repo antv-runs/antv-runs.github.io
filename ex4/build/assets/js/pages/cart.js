@@ -19,8 +19,10 @@ let cartHydrationState = CART_HYDRATION_STATES.IDLE;
 let cartHydrationErrorMessage = "";
 let activeHydrationRequestId = 0;
 let activeHydrationController = null;
+let isCartLoading = false;
 
 const dom = {
+  cartPage: document.querySelector(".cart-page"),
   cartItems: document.querySelector(".js-cart-items"),
   cartSummary: document.querySelector(".js-cart-summary"),
   subtotal: document.querySelector(".js-cart-subtotal"),
@@ -29,6 +31,16 @@ const dom = {
   total: document.querySelector(".js-cart-total"),
   checkoutButton: document.querySelector(".js-cart-checkout"),
 };
+
+const CART_INTERACTIVE_CONTROL_SELECTORS = [
+  ".js-cart-item-remove",
+  ".js-cart-item-qty-minus",
+  ".js-cart-item-qty-plus",
+  ".js-cart-checkout",
+  ".js-cart-coupon-input",
+  ".js-cart-coupon-apply",
+  ".js-cart-retry",
+];
 
 function setButtonLoadingState(button, isLoading, loadingLabel = "Processing...") {
   if (!(button instanceof HTMLButtonElement)) {
@@ -146,7 +158,47 @@ function createSummarySkeletonMarkup(isTotal = false) {
   return `<span class="${summaryClass}"></span>`;
 }
 
-function setLoadingState(isLoading) {
+function setControlDisabledState(control, isDisabled) {
+  if (!(control instanceof HTMLElement)) {
+    return;
+  }
+
+  if (
+    control instanceof HTMLButtonElement ||
+    control instanceof HTMLInputElement ||
+    control instanceof HTMLSelectElement ||
+    control instanceof HTMLTextAreaElement
+  ) {
+    control.disabled = isDisabled;
+  }
+
+  control.setAttribute("aria-disabled", String(isDisabled));
+  control.classList.toggle("is-disabled", isDisabled);
+}
+
+function setCartControlsDisabled(isDisabled, options = {}) {
+  const allowRetry = options.allowRetry === true;
+  const controls = document.querySelectorAll(
+    CART_INTERACTIVE_CONTROL_SELECTORS.join(","),
+  );
+
+  controls.forEach((control) => {
+    if (
+      allowRetry &&
+      control instanceof HTMLElement &&
+      control.classList.contains("js-cart-retry")
+    ) {
+      setControlDisabledState(control, false);
+      return;
+    }
+
+    setControlDisabledState(control, isDisabled);
+  });
+}
+
+function setCartLoadingState(isLoading) {
+  isCartLoading = isLoading;
+
   if (dom.cartItems) {
     dom.cartItems.setAttribute("aria-busy", String(isLoading));
     dom.cartItems.classList.toggle("cart-items--loading", isLoading);
@@ -155,19 +207,32 @@ function setLoadingState(isLoading) {
   if (dom.cartSummary) {
     dom.cartSummary.setAttribute("aria-busy", String(isLoading));
   }
+
+  if (dom.cartPage) {
+    dom.cartPage.classList.toggle("cart-page--loading", isLoading);
+  }
+
+  setCartControlsDisabled(isLoading);
 }
 
 function setCartHydrationState(nextState, errorMessage = "") {
   cartHydrationState = nextState;
   cartHydrationErrorMessage = errorMessage;
 
-  setLoadingState(nextState === CART_HYDRATION_STATES.LOADING);
+  const isLoadingState = nextState === CART_HYDRATION_STATES.LOADING;
+  setCartLoadingState(isLoadingState);
 
-  if (dom.checkoutButton instanceof HTMLButtonElement) {
-    dom.checkoutButton.disabled =
-      nextState === CART_HYDRATION_STATES.LOADING ||
-      nextState === CART_HYDRATION_STATES.ERROR;
+  if (nextState === CART_HYDRATION_STATES.SUCCESS) {
+    setCartControlsDisabled(false);
+    return;
   }
+
+  if (nextState === CART_HYDRATION_STATES.ERROR) {
+    setCartControlsDisabled(true, { allowRetry: true });
+    return;
+  }
+
+  setCartControlsDisabled(true);
 }
 
 function isAbortError(error) {
@@ -408,6 +473,10 @@ function removeCartItem(productId, color, size) {
 
 function bindCartEvents() {
   dom.cartItems?.addEventListener("click", (event) => {
+    if (isCartLoading) {
+      return;
+    }
+
     const target = event.target;
     if (!(target instanceof Element)) {
       return;
@@ -455,6 +524,10 @@ function bindCartEvents() {
   });
 
   dom.checkoutButton?.addEventListener("click", () => {
+    if (isCartLoading) {
+      return;
+    }
+
     if (cartHydrationState !== CART_HYDRATION_STATES.SUCCESS) {
       return;
     }
