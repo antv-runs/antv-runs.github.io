@@ -4,8 +4,20 @@ import { formatPrice } from "../utils/formatters.js";
 
 const DELIVERY_FEE = 0;
 const DISCOUNT_RATE = 0;
+const CART_HYDRATION_STATES = {
+  IDLE: "idle",
+  LOADING: "loading",
+  SUCCESS: "success",
+  ERROR: "error",
+};
+const CART_LOAD_ERROR_MESSAGE =
+  "We could not load your cart right now. Please check your connection and try again.";
 
 let cartItemsState = [];
+let cartHydrationState = CART_HYDRATION_STATES.IDLE;
+let cartHydrationErrorMessage = "";
+let activeHydrationRequestId = 0;
+let activeHydrationController = null;
 
 const dom = {
   cartItems: document.querySelector(".js-cart-items"),
@@ -50,15 +62,29 @@ function createSummarySkeletonMarkup(isTotal = false) {
 function setLoadingState(isLoading) {
   if (dom.cartItems) {
     dom.cartItems.setAttribute("aria-busy", String(isLoading));
+    dom.cartItems.classList.toggle("cart-items--loading", isLoading);
   }
 
   if (dom.cartSummary) {
     dom.cartSummary.setAttribute("aria-busy", String(isLoading));
   }
+}
+
+function setCartHydrationState(nextState, errorMessage = "") {
+  cartHydrationState = nextState;
+  cartHydrationErrorMessage = errorMessage;
+
+  setLoadingState(nextState === CART_HYDRATION_STATES.LOADING);
 
   if (dom.checkoutButton instanceof HTMLButtonElement) {
-    dom.checkoutButton.disabled = isLoading;
+    dom.checkoutButton.disabled =
+      nextState === CART_HYDRATION_STATES.LOADING ||
+      nextState === CART_HYDRATION_STATES.ERROR;
   }
+}
+
+function isAbortError(error) {
+  return error instanceof DOMException && error.name === "AbortError";
 }
 
 function renderCartItemsSkeleton(itemsCount = 2) {
@@ -83,10 +109,37 @@ function renderSummarySkeleton() {
   dom.total.innerHTML = createSummarySkeletonMarkup(true);
 }
 
-function renderInitialLoadingState() {
-  setLoadingState(true);
-  renderCartItemsSkeleton();
+function renderSummaryUnavailable() {
+  if (!dom.subtotal || !dom.discount || !dom.delivery || !dom.total) {
+    return;
+  }
+
+  dom.subtotal.textContent = "--";
+  dom.discount.textContent = "--";
+  dom.delivery.textContent = "--";
+  dom.total.textContent = "--";
+}
+
+function renderInitialLoadingState(itemsCount = 2) {
+  setCartHydrationState(CART_HYDRATION_STATES.LOADING);
+  renderCartItemsSkeleton(itemsCount);
   renderSummarySkeleton();
+}
+
+function renderCartFetchError(message = CART_LOAD_ERROR_MESSAGE) {
+  if (!dom.cartItems) {
+    return;
+  }
+
+  const contentMessage = String(message || CART_LOAD_ERROR_MESSAGE).trim();
+  dom.cartItems.innerHTML = `<div class="cart-fetch-state cart-fetch-state--error" role="status" aria-live="polite">
+    <p class="cart-fetch-state__title">Unable to load cart items</p>
+    <p class="cart-fetch-state__description">${contentMessage}</p>
+    <button class="cart-fetch-state__retry js-cart-retry" type="button">Retry</button>
+  </div>`;
+
+  renderSummaryUnavailable();
+  setCartHydrationState(CART_HYDRATION_STATES.ERROR, contentMessage);
 }
 
 function getStoredCart() {
@@ -157,9 +210,10 @@ function renderEmptyCart() {
     return;
   }
 
+  cartItemsState = [];
   dom.cartItems.innerHTML = "<p>Your cart is empty.</p>";
   renderSummary([]);
-  setLoadingState(false);
+  setCartHydrationState(CART_HYDRATION_STATES.SUCCESS);
 }
 
 function renderCartItems(items) {
@@ -221,7 +275,7 @@ function renderCartItems(items) {
     .join("");
 
   renderSummary(items);
-  setLoadingState(false);
+  setCartHydrationState(CART_HYDRATION_STATES.SUCCESS);
 }
 
 function updateCartItemQuantity(productId, color, size, delta) {
@@ -268,6 +322,16 @@ function bindCartEvents() {
       return;
     }
 
+    const retryButton = target.closest(".js-cart-retry");
+    if (retryButton) {
+      hydrateCartItems();
+      return;
+    }
+
+    if (cartHydrationState !== CART_HYDRATION_STATES.SUCCESS) {
+      return;
+    }
+
     const cartItemElement = target.closest("[data-cart-product-id]");
     if (!cartItemElement) {
       return;
@@ -300,21 +364,39 @@ function bindCartEvents() {
   });
 
   dom.checkoutButton?.addEventListener("click", () => {
+    if (cartHydrationState !== CART_HYDRATION_STATES.SUCCESS) {
+      return;
+    }
+
     window.location.href = "checkout.html";
   });
 }
 
-async function loadCartItems() {
+async function hydrateCartItems() {
   const storedCart = getStoredCart();
   if (storedCart.length === 0) {
     renderEmptyCart();
     return;
   }
 
+  if (activeHydrationController) {
+    activeHydrationController.abort();
+  }
+
+  activeHydrationRequestId += 1;
+  const requestId = activeHydrationRequestId;
+  activeHydrationController = new AbortController();
+  const skeletonCount = Math.min(Math.max(storedCart.length, 1), 3);
+  renderInitialLoadingState(skeletonCount);
+
   try {
-    const cartProducts = await Promise.all(
+    const cartProductResults = await Promise.allSettled(
       storedCart.map(async (item) => {
-        const product = await productService.getProductById(item.id);
+        const product = await productService.getProductById(item.id, {
+          signal: activeHydrationController?.signal,
+          allowMockFallback: false,
+        });
+
         if (!product) {
           return null;
         }
@@ -328,7 +410,32 @@ async function loadCartItems() {
       }),
     );
 
-    const validItems = cartProducts.filter(Boolean);
+    if (requestId !== activeHydrationRequestId) {
+      return;
+    }
+
+    let failedRequestCount = 0;
+    const validItems = cartProductResults.reduce((items, result) => {
+      if (result.status === "fulfilled") {
+        if (result.value) {
+          items.push(result.value);
+        }
+
+        return items;
+      }
+
+      if (!isAbortError(result.reason)) {
+        failedRequestCount += 1;
+      }
+
+      return items;
+    }, []);
+
+    if (failedRequestCount > 0 && validItems.length === 0) {
+      renderCartFetchError(CART_LOAD_ERROR_MESSAGE);
+      return;
+    }
+
     if (validItems.length === 0) {
       renderEmptyCart();
       return;
@@ -338,13 +445,20 @@ async function loadCartItems() {
     persistStoredCart(cartItemsState);
     renderCartItems(cartItemsState);
   } catch (error) {
+    if (requestId !== activeHydrationRequestId || isAbortError(error)) {
+      return;
+    }
+
     console.error("Failed to load cart items.", error);
-    renderEmptyCart();
+    renderCartFetchError(CART_LOAD_ERROR_MESSAGE);
+  } finally {
+    if (requestId === activeHydrationRequestId) {
+      activeHydrationController = null;
+    }
   }
 }
 
 export async function initCartPage() {
-  renderInitialLoadingState();
   bindCartEvents();
-  await loadCartItems();
+  await hydrateCartItems();
 }

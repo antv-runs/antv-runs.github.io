@@ -271,12 +271,22 @@ export async function getCatalogProducts(searchTerm = "", options = {}) {
 
 // Service shape mirrors production API usage and can switch to fetch later.
 export async function getProducts(params = {}, options = {}) {
+  const shouldFallbackToMock = options.allowMockFallback !== false;
+
   try {
     const payload = await requestJson(buildProductsQueryString(params), {
       signal: options.signal,
     });
     return buildProductsResult(payload, params);
   } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") {
+      throw error;
+    }
+
+    if (!shouldFallbackToMock) {
+      throw error;
+    }
+
     console.error(
       "Failed to load products from API. Falling back to mock data.",
       error,
@@ -285,14 +295,17 @@ export async function getProducts(params = {}, options = {}) {
   }
 }
 
-async function getProductDetailByIdentifier(identifier) {
+async function getProductDetailByIdentifier(identifier, options = {}) {
   const payload = await requestJson(
     `/api/products/${encodeURIComponent(identifier)}`,
+    {
+      signal: options.signal,
+    },
   );
   return normalizeProduct(getSingleItem(payload));
 }
 
-export async function getProductById(id) {
+export async function getProductById(id, options = {}) {
   const productId = String(id || "").trim();
 
   if (!productId) {
@@ -300,14 +313,18 @@ export async function getProductById(id) {
   }
 
   try {
-    return await getProductDetailByIdentifier(productId);
+    return await getProductDetailByIdentifier(productId, options);
   } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") {
+      throw error;
+    }
+
     if (error.status && error.status !== 404) {
       throw error;
     }
   }
 
-  const productsResult = await getProducts();
+  const productsResult = await getProducts({}, options);
   const matchedProduct = productsResult.products.find(
     (product) => product.id === productId,
   );
@@ -321,8 +338,12 @@ export async function getProductById(id) {
   }
 
   try {
-    return await getProductDetailByIdentifier(matchedProduct.slug);
+    return await getProductDetailByIdentifier(matchedProduct.slug, options);
   } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") {
+      throw error;
+    }
+
     console.error(
       "Failed to load product detail by slug. Falling back to list data.",
       error,
