@@ -768,12 +768,37 @@ function bindProductNavigation(elements) {
       return;
     }
 
+    const productCard = productLink.closest(".js-product-card");
+    if (productCard?.classList.contains("is-navigating")) {
+      event.preventDefault();
+      return;
+    }
+
     event.preventDefault();
 
-    const { productId } = productLink.dataset;
-    if (productId) {
-      window.location.href = `product.html?id=${encodeURIComponent(productId)}`;
+    if (productCard) {
+      productCard.classList.add("is-navigating");
+      productCard.setAttribute("aria-busy", "true");
     }
+
+    const href = productLink.getAttribute("href");
+    const productId = String(productLink.dataset.productId || "").trim();
+    const targetUrl =
+      (href && href !== "#" && href) ||
+      (productId ? `product.html?id=${encodeURIComponent(productId)}` : "");
+
+    if (!targetUrl) {
+      if (productCard) {
+        productCard.classList.remove("is-navigating");
+        productCard.setAttribute("aria-busy", "false");
+      }
+      return;
+    }
+
+    // Let the pending state paint before navigating away.
+    window.requestAnimationFrame(() => {
+      window.location.href = targetUrl;
+    });
   });
 }
 

@@ -1422,11 +1422,33 @@ body.review-modal-open {
   margin-left: 10px;
 }
 
+.product-tile.is-navigating {
+  pointer-events: none;
+}
+.product-tile.is-navigating .product-tile__image-link::after {
+  opacity: 1;
+}
+.product-tile.is-navigating .product-tile__image,
+.product-tile.is-navigating .product-tile__title,
+.product-tile.is-navigating .product-tile__rating,
+.product-tile.is-navigating .product-tile__price {
+  opacity: 0.78;
+}
 .product-tile__image-link {
   position: relative;
   display: block;
   overflow: hidden;
   aspect-ratio: 1/1;
+}
+.product-tile__image-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.16);
+  opacity: 0;
+  transition: opacity 0.16s ease;
+  pointer-events: none;
+  z-index: 2;
 }
 .product-tile__image-placeholder {
   position: absolute;

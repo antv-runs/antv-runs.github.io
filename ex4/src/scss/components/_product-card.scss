@@ -100,11 +100,37 @@
 }
 
 .product-tile {
+  &.is-navigating {
+    pointer-events: none;
+
+    .product-tile__image-link::after {
+      opacity: 1;
+    }
+
+    .product-tile__image,
+    .product-tile__title,
+    .product-tile__rating,
+    .product-tile__price {
+      opacity: 0.78;
+    }
+  }
+
   &__image-link {
     position: relative;
     display: block;
     overflow: hidden;
     aspect-ratio: 1 / 1;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.16);
+      opacity: 0;
+      transition: opacity 0.16s ease;
+      pointer-events: none;
+      z-index: 2;
+    }
   }
 
   &__image-placeholder {
