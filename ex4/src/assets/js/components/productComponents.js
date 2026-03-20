@@ -61,6 +61,30 @@ export function renderCatalogProducts(container, products, helpers) {
     .join("");
 }
 
+export function renderProductSkeleton(container, count = 9) {
+  if (!container) {
+    return;
+  }
+
+  const safeCount = Math.max(1, Number(count) || 9);
+
+  container.innerHTML = Array.from({ length: safeCount }, () => {
+    return `<article class="product-tile product-tile--skeleton" aria-hidden="true">
+      <div class="product-tile__image-link product-tile__skeleton-block product-tile__skeleton-image"></div>
+      <div class="product-tile__title product-tile__skeleton-title-wrap">
+        <span class="product-tile__skeleton-block product-tile__skeleton-title"></span>
+        <span class="product-tile__skeleton-block product-tile__skeleton-title product-tile__skeleton-title--short"></span>
+      </div>
+      <div class="product-tile__rating product-tile__skeleton-rating-wrap">
+        <span class="product-tile__skeleton-block product-tile__skeleton-rating"></span>
+      </div>
+      <p class="product-tile__price">
+        <span class="product-tile__skeleton-block product-tile__skeleton-price"></span>
+      </p>
+    </article>`;
+  }).join("");
+}
+
 export function renderCatalogEmptyState(container, message) {
   container.innerHTML = `<p class="catalog-products__empty">${message}</p>`;
 }

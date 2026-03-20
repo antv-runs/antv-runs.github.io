@@ -1,6 +1,7 @@
 import {
   renderCatalogEmptyState,
   renderCatalogProducts,
+  renderProductSkeleton,
 } from "../components/productComponents.js";
 import { getCategories } from "../services/categoryService.js";
 import { getProducts } from "../services/productService.js";
@@ -69,11 +70,16 @@ function setCatalogLoadingState(elements, state, loadType) {
     state.isInitialLoading = true;
     state.isRefreshing = false;
     if (elements.productList) {
+      elements.productList.setAttribute("aria-busy", "true");
+      renderProductSkeleton(elements.productList, PRODUCTS_PER_PAGE);
+    }
+    if (elements.productList) {
       elements.productList.classList.add("catalog-products__grid--loading");
     }
   } else if (isRefresh) {
     state.isRefreshing = true;
     if (elements.productList) {
+      elements.productList.setAttribute("aria-busy", "true");
       elements.productList.classList.add("catalog-products__grid--refreshing");
     }
   }
@@ -89,6 +95,7 @@ function clearCatalogLoadingState(elements, state) {
   state.isRefreshing = false;
 
   if (elements.productList) {
+    elements.productList.setAttribute("aria-busy", "false");
     elements.productList.classList.remove(
       "catalog-products__grid--loading",
       "catalog-products__grid--refreshing",
@@ -501,9 +508,7 @@ function debounce(callback, delay) {
  * - On response, validates token matches
  * - Ignores stale responses from cancelled/superseded requests
  */
-async function fetchProducts(state) {
-  // Capture request token to invalidate stale responses
-  const requestToken = state.productRequestToken;
+async function fetchProducts(state, requestToken) {
 
   try {
     const params = {
@@ -639,12 +644,18 @@ function renderPagination(elements, state) {
 async function handlePageLoad(elements, state, loadType = "refresh") {
   // Increment request token to invalidate any in-flight requests
   state.productRequestToken += 1;
+  const requestToken = state.productRequestToken;
 
   // Set appropriate loading state based on context
   setCatalogLoadingState(elements, state, loadType);
 
   try {
-    const apiResponse = await fetchProducts(state);
+    const apiResponse = await fetchProducts(state, requestToken);
+
+    // Ignore stale responses; a newer request already owns rendering.
+    if (requestToken !== state.productRequestToken) {
+      return;
+    }
 
     // Only render if this is still the current request
     if (apiResponse) {
@@ -666,7 +677,10 @@ async function handlePageLoad(elements, state, loadType = "refresh") {
       renderPagination(elements, state);
     }
   } finally {
-    clearCatalogLoadingState(elements, state);
+    // Only clear loading for the latest request.
+    if (requestToken === state.productRequestToken) {
+      clearCatalogLoadingState(elements, state);
+    }
   }
 }
 
