@@ -1,6 +1,10 @@
 import * as productService from "../services/productService.js";
 import { CART_STORAGE_KEY } from "../constants/storageKeys.js";
 import { formatPrice } from "../utils/formatters.js";
+import {
+  getStoredCartItems,
+  persistStoredCartItems,
+} from "../utils/storageUtils.js";
 
 const DELIVERY_FEE = 0;
 const DISCOUNT_RATE = 0;
@@ -295,39 +299,11 @@ function renderCartFetchError(message = CART_LOAD_ERROR_MESSAGE) {
 }
 
 function getStoredCart() {
-  try {
-    const rawValue = localStorage.getItem(CART_STORAGE_KEY);
-    if (!rawValue) {
-      return [];
-    }
-
-    const parsedValue = JSON.parse(rawValue);
-    if (!Array.isArray(parsedValue)) {
-      return [];
-    }
-
-    return parsedValue
-      .map((item) => ({
-        id: String(item?.id || "").trim(),
-        quantity: Math.max(1, Number(item?.quantity) || 1),
-        color: item?.color ?? null,
-        size: item?.size ?? null,
-      }))
-      .filter((item) => item.id);
-  } catch {
-    return [];
-  }
+  return getStoredCartItems(CART_STORAGE_KEY);
 }
 
 function persistStoredCart(items) {
-  const serializableItems = items.map((item) => ({
-    id: String(item.id),
-    quantity: Math.max(1, Number(item.quantity) || 1),
-    color: item?.color ?? null,
-    size: item?.size ?? null,
-  }));
-
-  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(serializableItems));
+  persistStoredCartItems(CART_STORAGE_KEY, items);
 }
 
 function calculateCartTotals(items) {

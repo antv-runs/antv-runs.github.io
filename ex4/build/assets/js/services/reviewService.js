@@ -1,11 +1,8 @@
 import { mockReviews } from "../../data/data.js";
 import { requestJson } from "./httpClient.js";
+import { cloneData, getCollectionItems, getSingleItem } from "./serviceUtils.js";
 
 const mockSubmittedReviews = [];
-
-function clone(data) {
-  return JSON.parse(JSON.stringify(data));
-}
 
 function normalizeReview(review) {
   if (!review) {
@@ -19,21 +16,6 @@ function normalizeReview(review) {
   };
 }
 
-function getCollectionItems(payload) {
-  if (Array.isArray(payload)) {
-    return payload;
-  }
-
-  if (Array.isArray(payload?.data)) {
-    return payload.data;
-  }
-
-  return [];
-}
-
-function getSingleItem(payload) {
-  return payload?.data || payload || null;
-}
 
 function getMockReviewList() {
   return [...mockReviews, ...mockSubmittedReviews].map((review) =>
@@ -63,7 +45,10 @@ function filterMockReviews(reviews, productId) {
 }
 
 function buildMockReviewsResult(productId) {
-  const allReviews = filterMockReviews(clone(getMockReviewList()), productId);
+  const allReviews = filterMockReviews(
+    cloneData(getMockReviewList()),
+    productId,
+  );
   return allReviews;
 }
 

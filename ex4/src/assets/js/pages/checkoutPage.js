@@ -1,5 +1,6 @@
 import { CART_STORAGE_KEY } from "../constants/storageKeys.js";
 import { createOrder } from "../services/orderService.js";
+import { getStoredCartItems } from "../utils/storageUtils.js";
 
 const checkoutForm = document.querySelector(".js-checkout-form");
 const checkoutMessage = document.querySelector(".js-checkout-message");
@@ -23,28 +24,7 @@ function setCheckoutMessage(message, status = "success") {
 }
 
 function getCartItemsFromStorage() {
-  try {
-    const raw = localStorage.getItem(CART_STORAGE_KEY);
-    if (!raw) {
-      return [];
-    }
-
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) {
-      return [];
-    }
-
-    return parsed
-      .map((item) => ({
-        id: String(item?.id || item?.product_id || "").trim(),
-        quantity: Math.max(1, Number(item?.quantity) || 1),
-        color: item?.color ?? null,
-        size: item?.size ?? null,
-      }))
-      .filter((item) => item.id);
-  } catch {
-    return [];
-  }
+  return getStoredCartItems(CART_STORAGE_KEY, { allowProductIdFallback: true });
 }
 
 function buildOrderItems(cartItems) {

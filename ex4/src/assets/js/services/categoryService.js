@@ -1,9 +1,11 @@
 import { mockCategories } from "../../data/data.js";
 import { requestJson } from "./httpClient.js";
-
-function clone(data) {
-  return JSON.parse(JSON.stringify(data));
-}
+import {
+  buildPaginationFromMeta,
+  buildQueryPath,
+  cloneData,
+  getCollectionItems,
+} from "./serviceUtils.js";
 
 function normalizeCategory(category) {
   if (!category) {
@@ -37,18 +39,6 @@ function normalizeCategory(category) {
   };
 }
 
-function getCollectionItems(payload) {
-  if (Array.isArray(payload)) {
-    return payload;
-  }
-
-  if (Array.isArray(payload?.data)) {
-    return payload.data;
-  }
-
-  return [];
-}
-
 function normalizeCategories(categories) {
   return categories
     .map((category) => normalizeCategory(category))
@@ -56,7 +46,6 @@ function normalizeCategories(categories) {
 }
 
 function buildCategoriesQueryString(params = {}) {
-  const searchParams = new URLSearchParams();
   const supportedParams = [
     ["search", params.search],
     ["status", params.status],
@@ -67,30 +56,7 @@ function buildCategoriesQueryString(params = {}) {
     ["per_page", params.per_page],
   ];
 
-  supportedParams.forEach(([key, value]) => {
-    if (value === undefined || value === null || value === "") {
-      return;
-    }
-
-    searchParams.set(key, String(value));
-  });
-
-  const queryString = searchParams.toString();
-  return queryString ? `/api/categories?${queryString}` : "/api/categories";
-}
-
-function buildPaginationFromMeta(meta = {}, fallbackCount = 0, params = {}) {
-  const requestedPage = Number(params.page || 1);
-  const requestedPerPage = Number(
-    params.per_page || meta.per_page || fallbackCount || 15,
-  );
-
-  return {
-    page: Number(meta.current_page || requestedPage),
-    lastPage: Number(meta.last_page || (fallbackCount > 0 ? 1 : requestedPage)),
-    perPage: Number(meta.per_page || requestedPerPage),
-    total: Number(meta.total || fallbackCount),
-  };
+  return buildQueryPath("/api/categories", supportedParams);
 }
 
 function buildCategoriesResult(payload, params = {}) {
@@ -125,7 +91,7 @@ function filterMockCategories(categories, params = {}) {
 
 function buildMockCategoriesResult(params = {}) {
   const allCategories = filterMockCategories(
-    clone(mockCategories).map((category) => normalizeCategory(category)),
+    cloneData(mockCategories).map((category) => normalizeCategory(category)),
     params,
   );
   const page = Number(params.page || 1);
