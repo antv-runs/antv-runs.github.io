@@ -783,7 +783,6 @@ function bindAddToCart(product) {
 
 async function loadSelectedProduct(productId) {
   state.selectedProductId = String(productId);
-  setText(dom.productTitle, "Loading product...");
   dom.reviewsList.innerHTML = "";
   console.log("Fetching product:", productId);
 

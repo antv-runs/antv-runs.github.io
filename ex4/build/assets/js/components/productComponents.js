@@ -381,7 +381,7 @@ export function renderRelatedProducts(
           <div class="product-item__stars">
             ${ratingValue > 0 ? helpers.renderStars(ratingValue, "product-item__star", { showEmpty: false }) : ""}
           </div>
-          <p>${ratingValue > 0 ? `${ratingValue}/5` : "No ratings yet"}</p>
+          <p class="product-item__rating-text">${ratingValue > 0 ? `${ratingValue}/5` : "No ratings yet"}</p>
         </div>
         <div class="product-item__prices">
           <p class="product-item__prices--discounted">${helpers.formatPrice(pricing.current || 0, pricing.currency || "USD")}</p>
