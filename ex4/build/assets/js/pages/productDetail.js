@@ -35,11 +35,17 @@ const state = {
   reviewDraftStars: 5,
   reviewRequestToken: 0,
   isLoadingMoreReviews: false,
+  productRequestToken: 0,
+  isProductLoading: false,
 };
 
 const REVIEW_LOADING_MIN_DELAY_MS = 300;
+const LOAD_MORE_DEFAULT_TEXT = "Load More Reviews";
+const LOAD_MORE_LOADING_TEXT = "Loading...";
 
 const dom = {
+  productOverview: document.querySelector(".js-product-overview"),
+  productsTabs: document.querySelector(".js-products-tabs"),
   breadcrumbList: document.querySelector(".js-breadcrumb-list"),
   productGallery: document.querySelector(".js-product-gallery"),
   productMainImage: document.querySelector(".js-product-main-image"),
@@ -93,8 +99,139 @@ const helpers = {
   renderStars,
 };
 
-const LOAD_MORE_DEFAULT_TEXT = "Load More Reviews";
-const LOAD_MORE_LOADING_TEXT = "Loading...";
+const initialSkeletonMarkup = {
+  productGallery: dom.productGallery?.innerHTML || "",
+  productTitle: dom.productTitle?.innerHTML || "",
+  productRatingStars: dom.productRatingStars?.innerHTML || "",
+  productRatingText: dom.productRatingText?.innerHTML || "",
+  productPriceCurrent: dom.productPriceCurrent?.innerHTML || "",
+  productPriceOld: dom.productPriceOld?.innerHTML || "",
+  productPriceDiscount: dom.productPriceDiscount?.innerHTML || "",
+  productDescription: dom.productDescription?.innerHTML || "",
+  productColorOptions: dom.productColorOptions?.innerHTML || "",
+  productSizeOptions: dom.productSizeOptions?.innerHTML || "",
+  productFaqsList: dom.productFaqsList?.innerHTML || "",
+  relatedProductsList: dom.otherProductsList?.innerHTML || "",
+  reviewsList: dom.reviewsList?.innerHTML || "",
+};
+
+function setSectionInteractivity(section, isDisabled) {
+  if (!section) {
+    return;
+  }
+
+  section.setAttribute("aria-busy", String(Boolean(isDisabled)));
+
+  if ("inert" in section) {
+    section.inert = Boolean(isDisabled);
+    return;
+  }
+
+  section.style.pointerEvents = isDisabled ? "none" : "";
+}
+
+function setProductTransitionLoading(isLoading) {
+  state.isProductLoading = Boolean(isLoading);
+  dom.productOverview?.classList.toggle("product-overview--loading", isLoading);
+
+  [dom.productOverview, dom.productsTabs, dom.relatedProductsRoot].forEach(
+    (section) => {
+      setSectionInteractivity(section, isLoading);
+    },
+  );
+
+  if (isLoading) {
+    dom.reviewsFilterDropdown?.classList.remove("reviews__filter-dropdown--show");
+    dom.reviewsFilterBtn?.setAttribute("aria-expanded", "false");
+  }
+}
+
+function restoreProductSkeletonState() {
+  if (dom.productGallery) {
+    dom.productGallery.innerHTML = initialSkeletonMarkup.productGallery;
+  }
+
+  if (dom.productTitle) {
+    dom.productTitle.innerHTML = initialSkeletonMarkup.productTitle;
+  }
+
+  if (dom.productRatingSection) {
+    dom.productRatingSection.style.display = "";
+  }
+
+  if (dom.productRatingStars) {
+    dom.productRatingStars.innerHTML = initialSkeletonMarkup.productRatingStars;
+  }
+
+  if (dom.productRatingText) {
+    dom.productRatingText.innerHTML = initialSkeletonMarkup.productRatingText;
+  }
+
+  if (dom.productPriceCurrent) {
+    dom.productPriceCurrent.innerHTML = initialSkeletonMarkup.productPriceCurrent;
+  }
+
+  if (dom.productPriceOld) {
+    dom.productPriceOld.innerHTML = initialSkeletonMarkup.productPriceOld;
+  }
+
+  if (dom.productPriceDiscount) {
+    dom.productPriceDiscount.innerHTML = initialSkeletonMarkup.productPriceDiscount;
+  }
+
+  if (dom.productDescription) {
+    dom.productDescription.innerHTML = initialSkeletonMarkup.productDescription;
+  }
+
+  if (dom.productColorOptions) {
+    dom.productColorOptions.innerHTML = initialSkeletonMarkup.productColorOptions;
+  }
+
+  if (dom.productSizeOptions) {
+    dom.productSizeOptions.innerHTML = initialSkeletonMarkup.productSizeOptions;
+  }
+
+  if (dom.productDetailsContent) {
+    setText(dom.productDetailsContent, "Product details are loading...");
+  }
+
+  if (dom.productFaqsList) {
+    dom.productFaqsList.innerHTML = initialSkeletonMarkup.productFaqsList;
+  }
+
+  if (dom.otherProductsList) {
+    dom.otherProductsList.innerHTML = initialSkeletonMarkup.relatedProductsList;
+  }
+
+  if (dom.reviewsList) {
+    dom.reviewsList.classList.remove("reviews__list--fade-in");
+    dom.reviewsList.innerHTML = initialSkeletonMarkup.reviewsList;
+  }
+
+  if (dom.reviewsCount) {
+    setText(dom.reviewsCount, "(0)");
+  }
+
+  if (dom.reviewsLoadMore) {
+    dom.reviewsLoadMore.style.display = "none";
+  }
+
+  dom.productMainImage?.removeAttribute("src");
+  if (dom.productMainImage) {
+    dom.productMainImage.alt = "";
+  }
+}
+
+function scrollToTopForProductSwitch() {
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  window.scrollTo({
+    top: 0,
+    behavior: prefersReducedMotion ? "auto" : "smooth",
+  });
+}
 
 function mapReviewToCard(review) {
   return {
@@ -816,12 +953,33 @@ function bindAddToCart(product) {
 }
 
 async function loadSelectedProduct(productId) {
-  state.selectedProductId = String(productId);
-  dom.reviewsList.innerHTML = "";
-  console.log("Fetching product:", productId);
+  const normalizedProductId = String(productId || "").trim();
+  if (!normalizedProductId) {
+    return;
+  }
+
+  if (state.isProductLoading) {
+    return;
+  }
+
+  if (normalizedProductId === String(state.selectedProductId || "")) {
+    return;
+  }
+
+  const requestToken = ++state.productRequestToken;
+  state.selectedProductId = normalizedProductId;
+  restoreProductSkeletonState();
+  setProductTransitionLoading(true);
+  relatedProductsCarousel?.destroy();
+  relatedProductsCarousel = null;
+  console.log("Fetching product:", normalizedProductId);
 
   try {
-    const product = await productService.getProductById(productId);
+    const product = await productService.getProductById(normalizedProductId);
+
+    if (requestToken !== state.productRequestToken) {
+      return;
+    }
 
     if (!product) {
       resetProductSections("Product not found");
@@ -838,9 +996,17 @@ async function loadSelectedProduct(productId) {
       relatedProducts,
       helpers,
       async (nextProductId) => {
-        if (String(nextProductId) !== state.selectedProductId) {
-          await loadSelectedProduct(nextProductId);
+        const normalizedNextProductId = String(nextProductId || "").trim();
+        if (
+          !normalizedNextProductId ||
+          normalizedNextProductId === String(state.selectedProductId || "") ||
+          state.isProductLoading
+        ) {
+          return;
         }
+
+        scrollToTopForProductSwitch();
+        await loadSelectedProduct(normalizedNextProductId);
       },
     );
     mountRelatedProductsCarousel();
@@ -854,10 +1020,14 @@ async function loadSelectedProduct(productId) {
     setActiveReviewFilterOption("All");
     dom.reviewsFilterBtn?.setAttribute("aria-expanded", "false");
 
-    await loadReviews(product.id);
+    await loadReviews(product.id, false, { showLoading: true });
   } catch (error) {
     console.error("Failed to load product detail.", error);
     resetProductSections("Product not found");
+  } finally {
+    if (requestToken === state.productRequestToken) {
+      setProductTransitionLoading(false);
+    }
   }
 }
 
@@ -882,5 +1052,6 @@ export async function initProductDetailPage() {
     state.products = [];
   }
 
+  state.selectedProductId = null;
   await loadSelectedProduct(productId);
 }
