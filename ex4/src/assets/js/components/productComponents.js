@@ -208,13 +208,37 @@ export function renderImageGallery(thumbnailsContainer, mainImage, product) {
     .map((image, index) => {
       const imageUrl = image.url || image.image_url;
       const imageAlt = image.alt || image.alt_text;
-      return `<div class="image-wrapper"><img class="js-product-thumbnail" data-image-index="${index}" src="${imageUrl}" alt="${imageAlt}" /></div>`;
+      return `<div class="image-wrapper js-thumbnail-wrapper"><div class="image-placeholder"></div><img class="product-image js-product-thumbnail" data-image-index="${index}" src="${imageUrl}" alt="${imageAlt}" /></div>`;
     })
     .join("");
 
   thumbnailsContainer
     .querySelectorAll(".js-product-thumbnail")
     .forEach((thumb) => {
+      // Handle image load event
+      const handleLoad = () => {
+        const wrapper = thumb.closest(".js-thumbnail-wrapper");
+        const placeholder = wrapper?.querySelector(".image-placeholder");
+        if (placeholder) {
+          placeholder.classList.add("image-placeholder--hidden");
+        }
+        thumb.classList.add("product-image--loaded");
+      };
+
+      // Handle image error
+      const handleError = () => {
+        thumb.classList.add("product-image--error");
+      };
+
+      thumb.addEventListener("load", handleLoad);
+      thumb.addEventListener("error", handleError);
+
+      // If image is already loaded from cache
+      if (thumb.complete && thumb.naturalWidth > 0) {
+        handleLoad();
+      }
+
+      // Click handler for thumbnail selection
       thumb.addEventListener("click", () => {
         const imageIndex = Number(thumb.dataset.imageIndex);
         const selectedImage = images[imageIndex];
@@ -443,7 +467,10 @@ export function renderRelatedProducts(
       const ratingValue = Number(product.ratingAvg ?? 0);
 
       return `<li class="other-products__item js-other-products__item js-related-item" data-product-id="${product.id}">
-        <img class="product-item__image" src="${product.thumbnail}" alt="${product.thumbnailAlt}" />
+        <div class="product-image-wrapper js-product-image-wrapper">
+          <div class="image-placeholder"></div>
+          <img class="product-item__image product-image js-product-item-image" src="${product.thumbnail}" alt="${product.thumbnailAlt}" />
+        </div>
         <h3 class="product-item__title">${product.name}</h3>
         <div class="product-item__rating">
           <div class="product-item__stars">
@@ -459,6 +486,31 @@ export function renderRelatedProducts(
       </li>`;
     })
     .join("");
+
+  container.querySelectorAll(".js-product-item-image").forEach((img) => {
+    // Handle image load event
+    const handleLoad = () => {
+      const wrapper = img.closest(".js-product-image-wrapper");
+      const placeholder = wrapper?.querySelector(".image-placeholder");
+      if (placeholder) {
+        placeholder.classList.add("image-placeholder--hidden");
+      }
+      img.classList.add("product-image--loaded");
+    };
+
+    // Handle image error
+    const handleError = () => {
+      img.classList.add("product-image--error");
+    };
+
+    img.addEventListener("load", handleLoad);
+    img.addEventListener("error", handleError);
+
+    // If image is already loaded from cache
+    if (img.complete && img.naturalWidth > 0) {
+      handleLoad();
+    }
+  });
 
   container.querySelectorAll(".js-other-products__item").forEach((item) => {
     item.addEventListener("click", () => {
