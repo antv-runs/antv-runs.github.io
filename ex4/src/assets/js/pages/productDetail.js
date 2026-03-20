@@ -34,6 +34,7 @@ const state = {
   reviewTotal: 0,
   reviewDraftStars: 5,
   reviewRequestToken: 0,
+  isLoadingMoreReviews: false,
 };
 
 const REVIEW_LOADING_MIN_DELAY_MS = 300;
@@ -92,6 +93,9 @@ const helpers = {
   renderStars,
 };
 
+const LOAD_MORE_DEFAULT_TEXT = "Load More Reviews";
+const LOAD_MORE_LOADING_TEXT = "Loading...";
+
 function mapReviewToCard(review) {
   return {
     ratingStar: Number(
@@ -126,6 +130,19 @@ function showReviewsSkeleton(itemsCount = state.reviewPageSize) {
 
   dom.reviewsList.classList.remove("reviews__list--fade-in");
   dom.reviewsList.innerHTML = buildReviewSkeletonMarkup(itemsCount);
+}
+
+function setLoadMoreButtonLoading(isLoading) {
+  if (!dom.reviewsLoadMore) {
+    return;
+  }
+
+  const nextIsLoading = Boolean(isLoading);
+  dom.reviewsLoadMore.disabled = nextIsLoading;
+  dom.reviewsLoadMore.classList.toggle("is-loading", nextIsLoading);
+  dom.reviewsLoadMore.textContent = nextIsLoading
+    ? LOAD_MORE_LOADING_TEXT
+    : LOAD_MORE_DEFAULT_TEXT;
 }
 
 function getCurrentRelatedProducts(product) {
@@ -572,10 +589,27 @@ function bindStaticEvents() {
     loadReviews(state.selectedProductId, false, { showLoading: true });
   });
 
-  dom.reviewsLoadMore?.addEventListener("click", () => {
-    if (state.reviewPage < state.reviewLastPage) {
-      state.reviewPage += 1;
-      loadReviews(state.selectedProductId, true);
+  dom.reviewsLoadMore?.addEventListener("click", async () => {
+    if (
+      state.isLoadingMoreReviews ||
+      state.reviewPage >= state.reviewLastPage
+    ) {
+      return;
+    }
+
+    state.isLoadingMoreReviews = true;
+    const previousPage = state.reviewPage;
+    state.reviewPage += 1;
+    setLoadMoreButtonLoading(true);
+
+    try {
+      await loadReviews(state.selectedProductId, true);
+    } catch (error) {
+      state.reviewPage = previousPage;
+      console.error("Failed to load more reviews", error);
+    } finally {
+      state.isLoadingMoreReviews = false;
+      setLoadMoreButtonLoading(false);
     }
   });
 

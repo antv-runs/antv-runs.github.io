@@ -974,10 +974,36 @@ header .header-icon__profile {
   background-color: #eee;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1019607843);
 }
+.reviews__load-more:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+.reviews__load-more.is-loading {
+  position: relative;
+  padding-left: 50px;
+}
+.reviews__load-more.is-loading::before {
+  content: "";
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  border-top-color: #000;
+  border-radius: 50%;
+  animation: reviews-load-more-spin 0.8s linear infinite;
+}
 .reviews__item--hidden {
   display: none;
 }
 
+@keyframes reviews-load-more-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 .review-card {
   border: 1px solid rgba(0, 0, 0, 0.1019607843);
   border-radius: 20px;
