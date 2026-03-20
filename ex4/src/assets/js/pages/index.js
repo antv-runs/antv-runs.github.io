@@ -80,6 +80,7 @@ function setCatalogLoadingState(elements, state, loadType) {
     state.isRefreshing = true;
     if (elements.productList) {
       elements.productList.setAttribute("aria-busy", "true");
+      // Keep current products rendered and show in-place refresh overlay.
       elements.productList.classList.add("catalog-products__grid--refreshing");
     }
   }
