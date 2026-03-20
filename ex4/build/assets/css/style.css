@@ -385,7 +385,6 @@ header .header-icon__profile {
     gap: 20px;
   }
   .sub-header {
-    padding: 8px 0;
     font-size: 12px;
   }
 }
@@ -1231,10 +1230,27 @@ header .header-icon__profile {
   cursor: pointer;
   background-color: #000;
   color: #fff;
+  position: relative;
 }
 .review-modal__button:disabled {
   cursor: not-allowed;
   opacity: 0.55;
+}
+.review-modal__button.is-loading {
+  padding-left: 50px;
+}
+.review-modal__button.is-loading::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: review-submit-spin 0.8s linear infinite;
 }
 .review-modal__button--cancel {
   background-color: #efefef;
@@ -1245,6 +1261,14 @@ body.review-modal-open {
   overflow: hidden;
 }
 
+@keyframes review-submit-spin {
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
 @media (max-width: 768px) {
   .reviews__title {
     font-size: 20px;

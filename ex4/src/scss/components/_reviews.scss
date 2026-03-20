@@ -497,10 +497,29 @@
     cursor: pointer;
     background-color: v.$color-black;
     color: v.$color-white;
+    position: relative;
 
     &:disabled {
       cursor: not-allowed;
       opacity: 0.55;
+    }
+
+    &.is-loading {
+      padding-left: 50px;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: v.$color-white;
+        border-radius: 50%;
+        animation: review-submit-spin 0.8s linear infinite;
+      }
     }
   }
 
@@ -512,6 +531,15 @@
 
 body.review-modal-open {
   overflow: hidden;
+}
+
+@keyframes review-submit-spin {
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
 }
 
 @media (max-width: 768px) {

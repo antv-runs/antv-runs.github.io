@@ -35,6 +35,7 @@ const state = {
   reviewDraftStars: 5,
   reviewRequestToken: 0,
   isLoadingMoreReviews: false,
+  isSubmittingReview: false,
   productRequestToken: 0,
   isProductLoading: false,
 };
@@ -42,6 +43,8 @@ const state = {
 const REVIEW_LOADING_MIN_DELAY_MS = 300;
 const LOAD_MORE_DEFAULT_TEXT = "Load More Reviews";
 const LOAD_MORE_LOADING_TEXT = "Loading...";
+const REVIEW_SUBMIT_DEFAULT_TEXT = "Submit Review";
+const REVIEW_SUBMIT_LOADING_TEXT = "Submitting...";
 
 const dom = {
   productOverview: document.querySelector(".js-product-overview"),
@@ -141,7 +144,9 @@ function setProductTransitionLoading(isLoading) {
   );
 
   if (isLoading) {
-    dom.reviewsFilterDropdown?.classList.remove("reviews__filter-dropdown--show");
+    dom.reviewsFilterDropdown?.classList.remove(
+      "reviews__filter-dropdown--show",
+    );
     dom.reviewsFilterBtn?.setAttribute("aria-expanded", "false");
   }
 }
@@ -168,7 +173,8 @@ function restoreProductSkeletonState() {
   }
 
   if (dom.productPriceCurrent) {
-    dom.productPriceCurrent.innerHTML = initialSkeletonMarkup.productPriceCurrent;
+    dom.productPriceCurrent.innerHTML =
+      initialSkeletonMarkup.productPriceCurrent;
   }
 
   if (dom.productPriceOld) {
@@ -176,7 +182,8 @@ function restoreProductSkeletonState() {
   }
 
   if (dom.productPriceDiscount) {
-    dom.productPriceDiscount.innerHTML = initialSkeletonMarkup.productPriceDiscount;
+    dom.productPriceDiscount.innerHTML =
+      initialSkeletonMarkup.productPriceDiscount;
   }
 
   if (dom.productDescription) {
@@ -184,7 +191,8 @@ function restoreProductSkeletonState() {
   }
 
   if (dom.productColorOptions) {
-    dom.productColorOptions.innerHTML = initialSkeletonMarkup.productColorOptions;
+    dom.productColorOptions.innerHTML =
+      initialSkeletonMarkup.productColorOptions;
   }
 
   if (dom.productSizeOptions) {
@@ -443,6 +451,11 @@ function closeReviewModal() {
 async function handleReviewSubmit(event) {
   event.preventDefault();
 
+  // Prevent duplicate submits
+  if (state.isSubmittingReview) {
+    return;
+  }
+
   const normalizedProductId = String(state.selectedProductId || "").trim();
   if (!normalizedProductId) {
     return;
@@ -461,8 +474,13 @@ async function handleReviewSubmit(event) {
   const submitButton = dom.reviewModalForm?.querySelector(
     "button[type='submit']",
   );
+
+  // Set loading state
+  state.isSubmittingReview = true;
   if (submitButton) {
     submitButton.disabled = true;
+    submitButton.classList.add("is-loading");
+    setText(submitButton, REVIEW_SUBMIT_LOADING_TEXT);
   }
 
   try {
@@ -477,8 +495,12 @@ async function handleReviewSubmit(event) {
   } catch (error) {
     console.error("Failed to submit review", error);
   } finally {
+    // Restore button state
+    state.isSubmittingReview = false;
     if (submitButton) {
       submitButton.disabled = false;
+      submitButton.classList.remove("is-loading");
+      setText(submitButton, REVIEW_SUBMIT_DEFAULT_TEXT);
     }
   }
 }
