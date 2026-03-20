@@ -48,9 +48,15 @@
   &__main-image {
     position: relative;
     z-index: 2;
+    opacity: 0;
+    transition: opacity 0.2s ease;
   }
 
-  &__main-image[src]:not([src=""]) + &__skeleton-image {
+  &__main-image.is-loaded {
+    opacity: 1;
+  }
+
+  &__main-image.is-loaded + &__skeleton-image {
     opacity: 0;
     visibility: hidden;
   }
@@ -140,7 +146,7 @@
   }
 
   &__info {
-    margin-left: 20px;
+    padding-left: 20px;
     max-width: 600px;
 
     h1 {

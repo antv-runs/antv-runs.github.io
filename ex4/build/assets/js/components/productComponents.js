@@ -120,23 +120,89 @@ export function renderBreadcrumb(container, product) {
 }
 
 export function renderImageGallery(thumbnailsContainer, mainImage, product) {
+  const mainImageSkeleton = mainImage
+    ?.closest(".image-wrapper-main")
+    ?.querySelector(".product-overview__skeleton-image");
+  const fallbackImage = createCatalogImagePlaceholder(
+    product?.name || "Product",
+  );
+
+  function setMainImageWithLoadingState(src, alt) {
+    if (!mainImage) {
+      return;
+    }
+
+    const nextLoadToken = String(Number(mainImage.dataset.loadToken || 0) + 1);
+    const targetSrc = String(src || "").trim() || fallbackImage;
+    const targetAlt = String(alt || product?.name || "Product image").trim();
+
+    mainImage.dataset.loadToken = nextLoadToken;
+    mainImage.dataset.fallbackAppliedToken = "";
+    mainImage.classList.remove("is-loaded", "is-error");
+
+    const isStaleRequest = () => mainImage.dataset.loadToken !== nextLoadToken;
+
+    const markLoaded = () => {
+      if (isStaleRequest()) {
+        return;
+      }
+
+      mainImage.classList.add("is-loaded");
+      mainImage.classList.remove("is-error");
+    };
+
+    const handleError = () => {
+      if (isStaleRequest()) {
+        return;
+      }
+
+      if (mainImage.dataset.fallbackAppliedToken === nextLoadToken) {
+        mainImage.classList.add("is-error");
+        mainImage.classList.remove("is-loaded");
+        return;
+      }
+
+      mainImage.dataset.fallbackAppliedToken = nextLoadToken;
+      mainImage.alt = product?.name || "Product image unavailable";
+      mainImage.src = fallbackImage;
+    };
+
+    mainImage.onload = markLoaded;
+    mainImage.onerror = handleError;
+    mainImage.alt = targetAlt;
+    mainImage.src = targetSrc;
+
+    if (mainImage.complete && mainImage.naturalWidth > 0) {
+      markLoaded();
+    }
+
+    if (mainImageSkeleton) {
+      mainImageSkeleton.setAttribute("aria-hidden", "true");
+    }
+  }
+
   const images = Array.isArray(product.images) ? product.images : [];
 
   if (images.length === 0 && product.thumbnail) {
-    mainImage.src = product.thumbnail;
-    mainImage.alt = product.thumbnailAlt || product.name || "Product";
+    setMainImageWithLoadingState(
+      product.thumbnail,
+      product.thumbnailAlt || product.name || "Product",
+    );
     thumbnailsContainer.innerHTML = "";
     return;
   }
 
   if (images.length === 0) {
+    setMainImageWithLoadingState(fallbackImage, product.name || "Product");
     thumbnailsContainer.innerHTML = "";
     return;
   }
 
   const [firstImage] = images;
-  mainImage.src = firstImage.url || firstImage.image_url;
-  mainImage.alt = firstImage.alt || firstImage.alt_text;
+  setMainImageWithLoadingState(
+    firstImage.url || firstImage.image_url,
+    firstImage.alt || firstImage.alt_text,
+  );
 
   thumbnailsContainer.innerHTML = images
     .map((image, index) => {
@@ -152,8 +218,10 @@ export function renderImageGallery(thumbnailsContainer, mainImage, product) {
       thumb.addEventListener("click", () => {
         const imageIndex = Number(thumb.dataset.imageIndex);
         const selectedImage = images[imageIndex];
-        mainImage.src = selectedImage.url || selectedImage.image_url;
-        mainImage.alt = selectedImage.alt || selectedImage.alt_text;
+        setMainImageWithLoadingState(
+          selectedImage?.url || selectedImage?.image_url,
+          selectedImage?.alt || selectedImage?.alt_text,
+        );
       });
     });
 }
