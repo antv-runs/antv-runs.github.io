@@ -12,6 +12,7 @@ const CART_HYDRATION_STATES = {
 };
 const CART_LOAD_ERROR_MESSAGE =
   "We could not load your cart right now. Please check your connection and try again.";
+const CART_IMAGE_FALLBACK_SRC = "~/images/pic_t_shirt.png";
 
 let cartItemsState = [];
 let cartHydrationState = CART_HYDRATION_STATES.IDLE;
@@ -53,6 +54,66 @@ function setButtonLoadingState(button, isLoading, loadingLabel = "Processing..."
   textElement.textContent = button.dataset.defaultLabel || textElement.textContent;
   button.disabled = false;
   button.removeAttribute("aria-busy");
+}
+
+function setCartImageState(shell, state) {
+  if (!(shell instanceof HTMLElement)) {
+    return;
+  }
+
+  shell.classList.remove(
+    "cart-item__image-shell--loading",
+    "cart-item__image-shell--loaded",
+    "cart-item__image-shell--error",
+  );
+  shell.classList.add(`cart-item__image-shell--${state}`);
+}
+
+function bindCartItemImageState(imageElement) {
+  if (!(imageElement instanceof HTMLImageElement)) {
+    return;
+  }
+
+  const imageShell = imageElement.closest(".js-cart-image-shell");
+  if (!(imageShell instanceof HTMLElement)) {
+    return;
+  }
+
+  const onImageLoad = () => {
+    setCartImageState(imageShell, "loaded");
+  };
+
+  const onImageError = () => {
+    if (imageElement.dataset.fallbackApplied === "true") {
+      setCartImageState(imageShell, "error");
+      return;
+    }
+
+    imageElement.dataset.fallbackApplied = "true";
+    setCartImageState(imageShell, "loading");
+    imageElement.src = CART_IMAGE_FALLBACK_SRC;
+  };
+
+  if (imageElement.complete) {
+    if (imageElement.naturalWidth > 0) {
+      onImageLoad();
+    } else {
+      onImageError();
+    }
+    return;
+  }
+
+  imageElement.addEventListener("load", onImageLoad, { once: true });
+  imageElement.addEventListener("error", onImageError, { once: false });
+}
+
+function bindCartItemImages() {
+  if (!dom.cartItems) {
+    return;
+  }
+
+  const imageElements = dom.cartItems.querySelectorAll(".js-cart-item-image");
+  imageElements.forEach((imageElement) => bindCartItemImageState(imageElement));
 }
 
 function createCartSkeletonItemMarkup() {
@@ -267,10 +328,13 @@ function renderCartItems(items) {
           ? originalPrice * quantity
           : null;
       const thumbnailUrl =
-        item.thumbnail || item.images?.[0]?.url || "~/images/pic_t_shirt.png";
+        item.thumbnail || item.images?.[0]?.url || CART_IMAGE_FALLBACK_SRC;
 
       return `<article class="cart-item" data-cart-product-id="${item.id}" data-cart-color="${item.color ?? ""}" data-cart-size="${item.size ?? ""}">
-        <img class="cart-item__image" src="${thumbnailUrl}" alt="${item.thumbnailAlt || item.name || "Product image"}" />
+        <div class="cart-item__image-shell cart-item__image-shell--loading js-cart-image-shell" aria-busy="true">
+          <span class="cart-item__image-placeholder cart-skeleton-block" aria-hidden="true"></span>
+          <img class="cart-item__image js-cart-item-image" src="${thumbnailUrl}" alt="${item.thumbnailAlt || item.name || "Product image"}" loading="lazy" decoding="async" />
+        </div>
         <div class="cart-item__content">
           <div class="cart-item__head">
             <h2 class="cart-item__name">${item.name || "Product"}</h2>
@@ -301,6 +365,7 @@ function renderCartItems(items) {
     .join("");
 
   renderSummary(items);
+  bindCartItemImages();
   setCartHydrationState(CART_HYDRATION_STATES.SUCCESS);
 }
 
