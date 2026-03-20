@@ -320,6 +320,7 @@ header .header-search {
   background-color: #f0f0f0;
   border-radius: 62px;
   padding: 0 16px;
+  transition: opacity 0.2s ease;
 }
 header .header-search input {
   width: 100%;
@@ -349,6 +350,10 @@ header .header-search button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+header .header-search.is-disabled {
+  opacity: 0.6;
+  pointer-events: none;
 }
 header .header-icon {
   display: flex;
@@ -2082,6 +2087,19 @@ body.review-modal-open {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
   margin-bottom: 32px;
+  transition: opacity 0.2s ease;
+  /* Loading state: first page load (will show skeletons) */
+}
+.catalog-products__grid--loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+.catalog-products__grid {
+  /* Refreshing state: search/filter/pagination updates */
+}
+.catalog-products__grid--refreshing {
+  pointer-events: none;
+  opacity: 0.7;
 }
 
 .product-tile {

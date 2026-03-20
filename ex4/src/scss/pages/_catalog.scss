@@ -627,6 +627,19 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 24px;
     margin-bottom: 32px;
+    transition: opacity 0.2s ease;
+
+    /* Loading state: first page load (will show skeletons) */
+    &--loading {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    /* Refreshing state: search/filter/pagination updates */
+    &--refreshing {
+      pointer-events: none;
+      opacity: 0.7;
+    }
   }
 }
 
