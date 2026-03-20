@@ -85,10 +85,7 @@ function setCatalogLoadingState(elements, state, loadType) {
     }
   }
 
-  // Disable pagination and search controls during any load
-  if (elements.paginationPrev) elements.paginationPrev.disabled = true;
-  if (elements.paginationNext) elements.paginationNext.disabled = true;
-  if (elements.searchForm) elements.searchForm.classList.add("is-disabled");
+  setControlsDisabled(elements, state, true);
 }
 
 function clearCatalogLoadingState(elements, state) {
@@ -103,9 +100,62 @@ function clearCatalogLoadingState(elements, state) {
     );
   }
 
-  // Enable pagination and search controls
-  if (elements.searchForm) elements.searchForm.classList.remove("is-disabled");
-  // Pagination buttons will be re-enabled by renderPagination()
+  setControlsDisabled(elements, state, false);
+}
+
+function setControlsDisabled(elements, state, isDisabled) {
+  const shouldDisable = Boolean(isDisabled);
+  const pageButtons = elements.paginationNumbers?.querySelectorAll(
+    ".js-pagination-number",
+  );
+
+  if (elements.searchForm) {
+    elements.searchForm.classList.toggle("is-disabled", shouldDisable);
+    elements.searchForm.setAttribute("aria-busy", String(shouldDisable));
+  }
+
+  if (elements.searchInput) {
+    elements.searchInput.disabled = shouldDisable;
+  }
+
+  const searchSubmitButton = elements.searchForm?.querySelector(
+    ".header-search__button",
+  );
+  if (searchSubmitButton) {
+    searchSubmitButton.disabled = shouldDisable;
+  }
+
+  if (shouldDisable) {
+    if (elements.paginationPrev) elements.paginationPrev.disabled = true;
+    if (elements.paginationNext) elements.paginationNext.disabled = true;
+    pageButtons?.forEach((button) => {
+      button.disabled = true;
+    });
+    if (elements.applyFilterButton) {
+      elements.applyFilterButton.disabled = true;
+    }
+    return;
+  }
+
+  if (elements.paginationPrev) {
+    elements.paginationPrev.disabled = state.currentPage === 1;
+  }
+
+  if (elements.paginationNext) {
+    elements.paginationNext.disabled = state.currentPage === state.lastPage;
+  }
+
+  pageButtons?.forEach((button) => {
+    button.disabled = false;
+  });
+
+  // Preserve existing apply-filter loading UI ownership in bindApplyFilter.
+  if (
+    elements.applyFilterButton &&
+    !elements.applyFilterButton.classList.contains("is-loading")
+  ) {
+    elements.applyFilterButton.disabled = false;
+  }
 }
 
 function getPageElements() {
@@ -457,7 +507,7 @@ function bindApplyFilter(elements, state, filterState) {
 
   button.addEventListener("click", async () => {
     // Guard: skip if already loading
-    if (button.disabled || state.isRefreshing) {
+    if (button.disabled || state.isInitialLoading || state.isRefreshing) {
       return;
     }
 
@@ -605,6 +655,7 @@ function renderProducts(elements, apiResponse, state) {
  */
 function renderPagination(elements, state) {
   const { currentPage, lastPage } = state;
+  const isLoading = Boolean(state.isInitialLoading || state.isRefreshing);
 
   if (!elements.paginationNumbers) {
     return;
@@ -619,6 +670,7 @@ function renderPagination(elements, state) {
     button.className = "catalog-pagination__number js-pagination-number";
     button.textContent = i;
     button.dataset.page = i;
+    button.disabled = isLoading;
 
     if (i === currentPage) {
       button.classList.add("catalog-pagination__number--active");
@@ -637,11 +689,11 @@ function renderPagination(elements, state) {
 
   // Update button states
   if (elements.paginationPrev) {
-    elements.paginationPrev.disabled = currentPage === 1;
+    elements.paginationPrev.disabled = isLoading || currentPage === 1;
   }
 
   if (elements.paginationNext) {
-    elements.paginationNext.disabled = currentPage === lastPage;
+    elements.paginationNext.disabled = isLoading || currentPage === lastPage;
   }
 }
 
