@@ -3330,6 +3330,60 @@ body.review-modal-open {
   padding: 24px;
 }
 
+@keyframes cartSkeletonShimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+.cart-skeleton-block {
+  display: block;
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.08) 25%, rgba(0, 0, 0, 0.15) 37%, rgba(0, 0, 0, 0.08) 63%);
+  background-size: 200% 100%;
+  animation: cartSkeletonShimmer 1.2s ease-in-out infinite;
+}
+.cart-skeleton-block--title {
+  width: 62%;
+  height: 28px;
+}
+.cart-skeleton-block--icon {
+  width: 18px;
+  height: 20px;
+}
+.cart-skeleton-block--meta {
+  width: 44%;
+  height: 16px;
+  margin-bottom: 8px;
+}
+.cart-skeleton-block--meta-short {
+  width: 34%;
+  margin-bottom: 0;
+}
+.cart-skeleton-block--price {
+  width: 108px;
+  height: 32px;
+}
+.cart-skeleton-block--qty-icon {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+.cart-skeleton-block--qty-value {
+  width: 24px;
+  height: 18px;
+}
+.cart-skeleton-block--summary {
+  width: 92px;
+  height: 28px;
+}
+.cart-skeleton-block--summary-total {
+  width: 132px;
+  height: 36px;
+}
+
 .cart-item {
   display: flex;
   gap: 16px;
@@ -3453,6 +3507,20 @@ body.review-modal-open {
 .cart-item__quantity input:focus {
   outline: none;
 }
+.cart-item--skeleton .cart-item__name,
+.cart-item--skeleton .cart-item__meta,
+.cart-item--skeleton .cart-item__price,
+.cart-item--skeleton .cart-item__price-original,
+.cart-item--skeleton .cart-item__price-discount {
+  visibility: hidden;
+}
+.cart-item--skeleton .cart-item__head {
+  align-items: center;
+  margin-bottom: 12px;
+}
+.cart-item__quantity--skeleton {
+  pointer-events: none;
+}
 
 .cart-summary {
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -3571,6 +3639,13 @@ body.review-modal-open {
   flex-shrink: 0;
   background: url("../images/icn_arrow_right.svg") no-repeat center;
   background-size: contain;
+}
+
+.cart-summary[aria-busy=true] .cart-summary__row dd,
+.cart-summary[aria-busy=true] .cart-summary__total p:last-child {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
 }
 
 @media (max-width: 992px) {
