@@ -1,6 +1,7 @@
 import {
   renderCatalogEmptyState,
   renderCatalogProducts,
+  renderProductSkeleton,
 } from "../components/productComponents.js";
 import { getCategories } from "../services/categoryService.js";
 import { getProducts } from "../services/productService.js";
@@ -33,6 +34,13 @@ function createAppState() {
     colors: [],
     sizes: [],
     dressStyle: null,
+    // LOADING STATE MANAGEMENT
+    // ========================
+    // Tracks which phase of the data lifecycle we're in.
+    // Distinguishes between first page load and subsequent updates.
+    isInitialLoading: false, // true = first page load with skeleton
+    isRefreshing: false, // true = search/filter/pagination update
+    productRequestToken: 0, // Incremented per request; used to invalidate stale responses
   };
 }
 
@@ -46,6 +54,108 @@ function createFilterState() {
     sizes: [],
     dressStyle: null,
   };
+}
+
+/**
+ * LOADING STATE HELPERS
+ * =====================
+ * Manage loading state for product data fetching.
+ * Reuses pattern from productDetail.js: request tokens prevent race conditions.
+ */
+function setCatalogLoadingState(elements, state, loadType) {
+  const isInitial = loadType === "initial";
+  const isRefresh = loadType === "refresh";
+
+  if (isInitial) {
+    state.isInitialLoading = true;
+    state.isRefreshing = false;
+    if (elements.productList) {
+      elements.productList.setAttribute("aria-busy", "true");
+      renderProductSkeleton(elements.productList, PRODUCTS_PER_PAGE);
+    }
+    if (elements.productList) {
+      elements.productList.classList.add("catalog-products__grid--loading");
+    }
+  } else if (isRefresh) {
+    state.isRefreshing = true;
+    if (elements.productList) {
+      elements.productList.setAttribute("aria-busy", "true");
+      // Keep current products rendered and show in-place refresh overlay.
+      elements.productList.classList.add("catalog-products__grid--refreshing");
+    }
+  }
+
+  setControlsDisabled(elements, state, true);
+}
+
+function clearCatalogLoadingState(elements, state) {
+  state.isInitialLoading = false;
+  state.isRefreshing = false;
+
+  if (elements.productList) {
+    elements.productList.setAttribute("aria-busy", "false");
+    elements.productList.classList.remove(
+      "catalog-products__grid--loading",
+      "catalog-products__grid--refreshing",
+    );
+  }
+
+  setControlsDisabled(elements, state, false);
+}
+
+function setControlsDisabled(elements, state, isDisabled) {
+  const shouldDisable = Boolean(isDisabled);
+  const pageButtons = elements.paginationNumbers?.querySelectorAll(
+    ".js-pagination-number",
+  );
+
+  if (elements.searchForm) {
+    elements.searchForm.classList.toggle("is-disabled", shouldDisable);
+    elements.searchForm.setAttribute("aria-busy", String(shouldDisable));
+  }
+
+  if (elements.searchInput) {
+    elements.searchInput.disabled = shouldDisable;
+  }
+
+  const searchSubmitButton = elements.searchForm?.querySelector(
+    ".header-search__button",
+  );
+  if (searchSubmitButton) {
+    searchSubmitButton.disabled = shouldDisable;
+  }
+
+  if (shouldDisable) {
+    if (elements.paginationPrev) elements.paginationPrev.disabled = true;
+    if (elements.paginationNext) elements.paginationNext.disabled = true;
+    pageButtons?.forEach((button) => {
+      button.disabled = true;
+    });
+    if (elements.applyFilterButton) {
+      elements.applyFilterButton.disabled = true;
+    }
+    return;
+  }
+
+  if (elements.paginationPrev) {
+    elements.paginationPrev.disabled = state.currentPage === 1;
+  }
+
+  if (elements.paginationNext) {
+    elements.paginationNext.disabled = state.currentPage === state.lastPage;
+  }
+
+  pageButtons?.forEach((button) => {
+    button.disabled = false;
+  });
+
+  // Preserve existing apply-filter loading UI ownership in bindApplyFilter.
+  if (
+    elements.applyFilterButton &&
+    !elements.applyFilterButton.classList.contains("is-loading")
+  ) {
+    elements.applyFilterButton.disabled = false;
+  }
 }
 
 function getPageElements() {
@@ -113,6 +223,9 @@ function renderCategoryItems(container, categories, selectedCategoryId) {
     return;
   }
 
+  container.classList.remove("catalog-filters__list--loading");
+  container.setAttribute("aria-busy", "false");
+
   if (!Array.isArray(categories) || categories.length === 0) {
     container.innerHTML =
       '<li><button type="button" class="catalog-filters__item" disabled>No categories available</button></li>';
@@ -134,10 +247,25 @@ function renderCategoryItems(container, categories, selectedCategoryId) {
     .join("");
 }
 
+function renderCategoryPlaceholders(container, count = 5) {
+  if (!container) {
+    return;
+  }
+
+  const safeCount = Math.max(1, Number(count) || 5);
+  container.classList.add("catalog-filters__list--loading");
+  container.setAttribute("aria-busy", "true");
+  container.innerHTML = Array.from({ length: safeCount }, () => {
+    return `<li><button type="button" class="catalog-filters__item catalog-filters__item--placeholder" disabled aria-hidden="true"><span class="catalog-filters__placeholder-line"></span></button></li>`;
+  }).join("");
+}
+
 async function loadCategories(elements, state) {
   if (!elements.categoryList) {
     return;
   }
+
+  renderCategoryPlaceholders(elements.categoryList, 5);
 
   try {
     const response = await getCategories({ per_page: 5 });
@@ -369,7 +497,7 @@ function bindApplyFilter(elements, state, filterState) {
     document.body.style.overflow = "";
   };
 
-  const setLoading = (isLoading) => {
+  const setApplyButtonLoading = (isLoading) => {
     button.disabled = isLoading;
     button.classList.toggle("is-loading", isLoading);
     if (applyText) {
@@ -378,7 +506,8 @@ function bindApplyFilter(elements, state, filterState) {
   };
 
   button.addEventListener("click", async () => {
-    if (button.disabled) {
+    // Guard: skip if already loading
+    if (button.disabled || state.isInitialLoading || state.isRefreshing) {
       return;
     }
 
@@ -394,13 +523,14 @@ function bindApplyFilter(elements, state, filterState) {
 
     updateCatalogHeader(elements, state.categoryName);
 
-    setLoading(true);
+    setApplyButtonLoading(true);
     try {
-      await handlePageLoad(elements, state);
+      // Use unified loading state system
+      await handlePageLoad(elements, state, "refresh");
       // Close filters after successfully applying them
       closeFilters();
     } finally {
-      setLoading(false);
+      setApplyButtonLoading(false);
     }
   });
 }
@@ -441,8 +571,14 @@ function debounce(callback, delay) {
  * Calls API with current state values.
  * Returns: { products, pagination } or null on error.
  * Logs response structure for debugging.
+ * 
+ * REQUEST GUARD (Token Pattern):
+ * - Captures current token before fetch
+ * - On response, validates token matches
+ * - Ignores stale responses from cancelled/superseded requests
  */
-async function fetchProducts(state) {
+async function fetchProducts(state, requestToken) {
+
   try {
     const params = {
       search: state.searchKeyword || undefined,
@@ -459,6 +595,18 @@ async function fetchProducts(state) {
     console.log("[API] Fetching products with params:", params);
 
     const response = await getProducts(params);
+
+    // STALE REQUEST CHECK: If token changed, a new request was triggered
+    // Discard this response and let the newer request handle rendering
+    if (requestToken !== state.productRequestToken) {
+      console.log(
+        "[API] Ignoring stale response (token mismatch)",
+        requestToken,
+        "!=",
+        state.productRequestToken,
+      );
+      return null;
+    }
 
     // Log response structure for debugging
     console.log("[API] Response structure:", {
@@ -507,6 +655,7 @@ function renderProducts(elements, apiResponse, state) {
  */
 function renderPagination(elements, state) {
   const { currentPage, lastPage } = state;
+  const isLoading = Boolean(state.isInitialLoading || state.isRefreshing);
 
   if (!elements.paginationNumbers) {
     return;
@@ -521,6 +670,7 @@ function renderPagination(elements, state) {
     button.className = "catalog-pagination__number js-pagination-number";
     button.textContent = i;
     button.dataset.page = i;
+    button.disabled = isLoading;
 
     if (i === currentPage) {
       button.classList.add("catalog-pagination__number--active");
@@ -539,40 +689,69 @@ function renderPagination(elements, state) {
 
   // Update button states
   if (elements.paginationPrev) {
-    elements.paginationPrev.disabled = currentPage === 1;
+    elements.paginationPrev.disabled = isLoading || currentPage === 1;
   }
 
   if (elements.paginationNext) {
-    elements.paginationNext.disabled = currentPage === lastPage;
+    elements.paginationNext.disabled = isLoading || currentPage === lastPage;
   }
 }
 
 /**
  * HANDLE PAGE LOAD
  * ================
- * Main function: Update state → Fetch API → Render UI.
- * Called on: initial load, search, pagination.
+ * Main function: Update state → Set loading → Fetch API → Render UI.
+ * Called on: initial load, search, filter apply, pagination.
+ * 
+ * LOADING LIFECYCLE:
+ * 1. Determine load type (initial vs refresh)
+ * 2. Increment request token (invalidates prior requests)
+ * 3. Set loading state (disable controls, show indicators)
+ * 4. Fetch products with token guard
+ * 5. Validate response token before rendering
+ * 6. Render UI or error state
+ * 7. Clear loading state (re-enable controls)
  */
-async function handlePageLoad(elements, state) {
-  const apiResponse = await fetchProducts(state);
+async function handlePageLoad(elements, state, loadType = "refresh") {
+  // Increment request token to invalidate any in-flight requests
+  state.productRequestToken += 1;
+  const requestToken = state.productRequestToken;
 
-  if (apiResponse) {
-    const { pagination } = apiResponse;
+  // Set appropriate loading state based on context
+  setCatalogLoadingState(elements, state, loadType);
 
-    // Update state from API response
-    state.currentPage = pagination.page || 1;
-    state.lastPage = pagination.lastPage || 1;
-    state.totalCount = pagination.total || 0;
-    state.perPage = Number(pagination.perPage || state.perPage || 12);
+  try {
+    const apiResponse = await fetchProducts(state, requestToken);
 
-    // Render UI
-    renderProducts(elements, apiResponse, state);
-    renderPagination(elements, state);
-  } else {
-    // Fallback: show error state
-    updateProductCount(elements.productCount, state, state.searchKeyword);
-    renderCatalogEmptyState(elements.productList, "Error loading products");
-    renderPagination(elements, state);
+    // Ignore stale responses; a newer request already owns rendering.
+    if (requestToken !== state.productRequestToken) {
+      return;
+    }
+
+    // Only render if this is still the current request
+    if (apiResponse) {
+      const { pagination } = apiResponse;
+
+      // Update state from API response
+      state.currentPage = pagination.page || 1;
+      state.lastPage = pagination.lastPage || 1;
+      state.totalCount = pagination.total || 0;
+      state.perPage = Number(pagination.perPage || state.perPage || 12);
+
+      // Render UI
+      renderProducts(elements, apiResponse, state);
+      renderPagination(elements, state);
+    } else {
+      // Fallback: show error state
+      updateProductCount(elements.productCount, state, state.searchKeyword);
+      renderCatalogEmptyState(elements.productList, "Error loading products");
+      renderPagination(elements, state);
+    }
+  } finally {
+    // Only clear loading for the latest request.
+    if (requestToken === state.productRequestToken) {
+      clearCatalogLoadingState(elements, state);
+    }
   }
 }
 
@@ -589,12 +768,37 @@ function bindProductNavigation(elements) {
       return;
     }
 
+    const productCard = productLink.closest(".js-product-card");
+    if (productCard?.classList.contains("is-navigating")) {
+      event.preventDefault();
+      return;
+    }
+
     event.preventDefault();
 
-    const { productId } = productLink.dataset;
-    if (productId) {
-      window.location.href = `product.html?id=${encodeURIComponent(productId)}`;
+    if (productCard) {
+      productCard.classList.add("is-navigating");
+      productCard.setAttribute("aria-busy", "true");
     }
+
+    const href = productLink.getAttribute("href");
+    const productId = String(productLink.dataset.productId || "").trim();
+    const targetUrl =
+      (href && href !== "#" && href) ||
+      (productId ? `product.html?id=${encodeURIComponent(productId)}` : "");
+
+    if (!targetUrl) {
+      if (productCard) {
+        productCard.classList.remove("is-navigating");
+        productCard.setAttribute("aria-busy", "false");
+      }
+      return;
+    }
+
+    // Let the pending state paint before navigating away.
+    window.requestAnimationFrame(() => {
+      window.location.href = targetUrl;
+    });
   });
 }
 
@@ -718,18 +922,28 @@ function bindFilterAccordion(elements) {
  * ===========
  * Attach event listeners for search, pagination, and filter toggle.
  * All events update state → trigger handlePageLoad().
+ * 
+ * REQUEST GUARDS:
+ * - Check state.isInitialLoading and state.isRefreshing to prevent overlapping requests
+ * - Each request increments productRequestToken to invalidate stale responses
  */
 function bindEvents(elements, state) {
   // Search form submission
   if (elements.searchForm) {
     elements.searchForm.addEventListener("submit", (event) => {
       event.preventDefault();
+
+      // Guard: skip if loading
+      if (state.isInitialLoading || state.isRefreshing) {
+        return;
+      }
+
       const newSearchTerm = (elements.searchInput?.value || "").trim();
 
       if (newSearchTerm !== state.searchKeyword) {
         state.searchKeyword = newSearchTerm;
         state.currentPage = 1; // Reset pagination on search
-        handlePageLoad(elements, state);
+        handlePageLoad(elements, state, "refresh");
       }
     });
   }
@@ -737,12 +951,17 @@ function bindEvents(elements, state) {
   // Search input with debounce
   if (elements.searchInput) {
     const debouncedSearch = debounce((value) => {
+      // Guard: skip if loading
+      if (state.isInitialLoading || state.isRefreshing) {
+        return;
+      }
+
       const newSearchTerm = (value || "").trim();
 
       if (newSearchTerm !== state.searchKeyword) {
         state.searchKeyword = newSearchTerm;
         state.currentPage = 1; // Reset pagination on search
-        handlePageLoad(elements, state);
+        handlePageLoad(elements, state, "refresh");
       }
     }, SEARCH_DEBOUNCE_DELAY);
 
@@ -754,14 +973,17 @@ function bindEvents(elements, state) {
   // Pagination: Previous button
   if (elements.paginationPrev) {
     elements.paginationPrev.addEventListener("click", () => {
-      if (state.currentPage > 1) {
-        state.currentPage--;
-        handlePageLoad(elements, state);
+      // Guard: skip if loading or invalid state
+      if (state.isInitialLoading || state.isRefreshing || state.currentPage <= 1) {
+        return;
+      }
 
-        // Scroll to top of product list
-        if (elements.productList) {
-          elements.productList.scrollIntoView({ behavior: "smooth" });
-        }
+      state.currentPage--;
+      handlePageLoad(elements, state, "refresh");
+
+      // Scroll to top of product list
+      if (elements.productList) {
+        elements.productList.scrollIntoView({ behavior: "smooth" });
       }
     });
   }
@@ -769,14 +991,21 @@ function bindEvents(elements, state) {
   // Pagination: Next button
   if (elements.paginationNext) {
     elements.paginationNext.addEventListener("click", () => {
-      if (state.currentPage < state.lastPage) {
-        state.currentPage++;
-        handlePageLoad(elements, state);
+      // Guard: skip if loading or invalid state
+      if (
+        state.isInitialLoading ||
+        state.isRefreshing ||
+        state.currentPage >= state.lastPage
+      ) {
+        return;
+      }
 
-        // Scroll to top of product list
-        if (elements.productList) {
-          elements.productList.scrollIntoView({ behavior: "smooth" });
-        }
+      state.currentPage++;
+      handlePageLoad(elements, state, "refresh");
+
+      // Scroll to top of product list
+      if (elements.productList) {
+        elements.productList.scrollIntoView({ behavior: "smooth" });
       }
     });
   }
@@ -786,12 +1015,21 @@ function bindEvents(elements, state) {
     elements.paginationNumbers.addEventListener("click", (event) => {
       const pageButton = event.target.closest(".js-pagination-number");
 
+      // Guard: skip if loading or invalid state
+      if (
+        (state.isInitialLoading || state.isRefreshing) &&
+        pageButton &&
+        pageButton.dataset.page
+      ) {
+        return;
+      }
+
       if (pageButton && pageButton.dataset.page) {
         const newPage = Number(pageButton.dataset.page);
 
         if (newPage !== state.currentPage) {
           state.currentPage = newPage;
-          handlePageLoad(elements, state);
+          handlePageLoad(elements, state, "refresh");
 
           // Scroll to top of product list
           if (elements.productList) {
@@ -829,8 +1067,8 @@ export function initIndexPage() {
   updateCatalogHeader(elements, state.categoryName);
   loadCategories(elements, state);
 
-  // Load products on page load
-  handlePageLoad(elements, state);
+  // Load products on page load (initial load phase)
+  handlePageLoad(elements, state, "initial");
 }
 
 document.addEventListener("DOMContentLoaded", () => {

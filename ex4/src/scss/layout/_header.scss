@@ -72,6 +72,7 @@ header {
     background-color: v.$color-surface;
     border-radius: v.$radius-pill;
     padding: 0 16px;
+    transition: opacity 0.2s ease;
 
     input {
       width: 100%;
@@ -103,6 +104,11 @@ header {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+    }
+
+    &.is-disabled {
+      opacity: 0.6;
+      pointer-events: none;
     }
   }
 
@@ -146,7 +152,6 @@ header {
   }
 
   .sub-header {
-    padding: 8px 0;
     font-size: 12px;
   }
 }

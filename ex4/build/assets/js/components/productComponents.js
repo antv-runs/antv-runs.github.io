@@ -32,11 +32,13 @@ export function renderCatalogProducts(container, products, helpers) {
       const productUrl = createCatalogProductUrl(product.id);
       const productImage =
         product.thumbnail || createCatalogImagePlaceholder(product.name);
+      const fallbackImage = createCatalogImagePlaceholder(product.name);
       const ratingValue = Number(product.ratingAvg ?? 0);
 
       return `<article class="product-tile js-product-card" data-product-id="${product.id}">
         <a class="product-tile__image-link js-product-link" href="${productUrl}" data-product-id="${product.id}" aria-label="View ${product.name}">
-          <img src="${productImage}" alt="${product.name}" class="product-tile__image" />
+          <img src="${productImage}" alt="${product.name}" class="product-tile__image js-product-card-image" data-fallback-src="${fallbackImage}" />
+          <span class="product-tile__image-placeholder" aria-hidden="true"></span>
         </a>
         <h2 class="product-tile__title">
           <a class="js-product-link" href="${productUrl}" data-product-id="${product.id}">${product.name}</a>
@@ -59,6 +61,62 @@ export function renderCatalogProducts(container, products, helpers) {
       </article>`;
     })
     .join("");
+
+  container.querySelectorAll(".js-product-card-image").forEach((image) => {
+    const markLoaded = () => {
+      image.classList.add("is-loaded");
+    };
+
+    const markError = () => {
+      image.classList.add("is-error");
+    };
+
+    const handleError = () => {
+      const fallbackSrc = String(image.dataset.fallbackSrc || "").trim();
+      if (fallbackSrc && image.src !== fallbackSrc) {
+        image.src = fallbackSrc;
+        markError();
+        return;
+      }
+
+      markError();
+    };
+
+    image.addEventListener("load", markLoaded, { once: true });
+    image.addEventListener("error", handleError);
+
+    if (image.complete) {
+      if (image.naturalWidth > 0) {
+        markLoaded();
+      } else {
+        handleError();
+      }
+    }
+  });
+}
+
+export function renderProductSkeleton(container, count = 9) {
+  if (!container) {
+    return;
+  }
+
+  const safeCount = Math.max(1, Number(count) || 9);
+
+  container.innerHTML = Array.from({ length: safeCount }, () => {
+    return `<article class="product-tile product-tile--skeleton" aria-hidden="true">
+      <div class="product-tile__image-link product-tile__skeleton-block product-tile__skeleton-image"></div>
+      <div class="product-tile__title product-tile__skeleton-title-wrap">
+        <span class="product-tile__skeleton-block product-tile__skeleton-title"></span>
+        <span class="product-tile__skeleton-block product-tile__skeleton-title product-tile__skeleton-title--short"></span>
+      </div>
+      <div class="product-tile__rating product-tile__skeleton-rating-wrap">
+        <span class="product-tile__skeleton-block product-tile__skeleton-rating"></span>
+      </div>
+      <p class="product-tile__price">
+        <span class="product-tile__skeleton-block product-tile__skeleton-price"></span>
+      </p>
+    </article>`;
+  }).join("");
 }
 
 export function renderCatalogEmptyState(container, message) {
@@ -120,40 +178,132 @@ export function renderBreadcrumb(container, product) {
 }
 
 export function renderImageGallery(thumbnailsContainer, mainImage, product) {
+  const mainImageSkeleton = mainImage
+    ?.closest(".image-wrapper-main")
+    ?.querySelector(".product-overview__skeleton-image");
+  const fallbackImage = createCatalogImagePlaceholder(
+    product?.name || "Product",
+  );
+
+  function setMainImageWithLoadingState(src, alt) {
+    if (!mainImage) {
+      return;
+    }
+
+    const nextLoadToken = String(Number(mainImage.dataset.loadToken || 0) + 1);
+    const targetSrc = String(src || "").trim() || fallbackImage;
+    const targetAlt = String(alt || product?.name || "Product image").trim();
+
+    mainImage.dataset.loadToken = nextLoadToken;
+    mainImage.dataset.fallbackAppliedToken = "";
+    mainImage.classList.remove("is-loaded", "is-error");
+
+    const isStaleRequest = () => mainImage.dataset.loadToken !== nextLoadToken;
+
+    const markLoaded = () => {
+      if (isStaleRequest()) {
+        return;
+      }
+
+      mainImage.classList.add("is-loaded");
+      mainImage.classList.remove("is-error");
+    };
+
+    const handleError = () => {
+      if (isStaleRequest()) {
+        return;
+      }
+
+      if (mainImage.dataset.fallbackAppliedToken === nextLoadToken) {
+        mainImage.classList.add("is-error");
+        mainImage.classList.remove("is-loaded");
+        return;
+      }
+
+      mainImage.dataset.fallbackAppliedToken = nextLoadToken;
+      mainImage.alt = product?.name || "Product image unavailable";
+      mainImage.src = fallbackImage;
+    };
+
+    mainImage.onload = markLoaded;
+    mainImage.onerror = handleError;
+    mainImage.alt = targetAlt;
+    mainImage.src = targetSrc;
+
+    if (mainImage.complete && mainImage.naturalWidth > 0) {
+      markLoaded();
+    }
+
+    if (mainImageSkeleton) {
+      mainImageSkeleton.setAttribute("aria-hidden", "true");
+    }
+  }
+
   const images = Array.isArray(product.images) ? product.images : [];
 
   if (images.length === 0 && product.thumbnail) {
-    mainImage.src = product.thumbnail;
-    mainImage.alt = product.thumbnailAlt || product.name || "Product";
+    setMainImageWithLoadingState(
+      product.thumbnail,
+      product.thumbnailAlt || product.name || "Product",
+    );
     thumbnailsContainer.innerHTML = "";
     return;
   }
 
   if (images.length === 0) {
+    setMainImageWithLoadingState(fallbackImage, product.name || "Product");
     thumbnailsContainer.innerHTML = "";
     return;
   }
 
   const [firstImage] = images;
-  mainImage.src = firstImage.url || firstImage.image_url;
-  mainImage.alt = firstImage.alt || firstImage.alt_text;
+  setMainImageWithLoadingState(
+    firstImage.url || firstImage.image_url,
+    firstImage.alt || firstImage.alt_text,
+  );
 
   thumbnailsContainer.innerHTML = images
     .map((image, index) => {
       const imageUrl = image.url || image.image_url;
       const imageAlt = image.alt || image.alt_text;
-      return `<div class="image-wrapper"><img class="js-product-thumbnail" data-image-index="${index}" src="${imageUrl}" alt="${imageAlt}" /></div>`;
+      return `<div class="image-wrapper js-thumbnail-wrapper"><div class="image-placeholder"></div><img class="product-image js-product-thumbnail" data-image-index="${index}" src="${imageUrl}" alt="${imageAlt}" /></div>`;
     })
     .join("");
 
   thumbnailsContainer
     .querySelectorAll(".js-product-thumbnail")
     .forEach((thumb) => {
+      // Handle image load event
+      const handleLoad = () => {
+        const wrapper = thumb.closest(".js-thumbnail-wrapper");
+        const placeholder = wrapper?.querySelector(".image-placeholder");
+        if (placeholder) {
+          placeholder.classList.add("image-placeholder--hidden");
+        }
+        thumb.classList.add("product-image--loaded");
+      };
+
+      // Handle image error
+      const handleError = () => {
+        thumb.classList.add("product-image--error");
+      };
+
+      thumb.addEventListener("load", handleLoad);
+      thumb.addEventListener("error", handleError);
+
+      // If image is already loaded from cache
+      if (thumb.complete && thumb.naturalWidth > 0) {
+        handleLoad();
+      }
+
+      // Click handler for thumbnail selection
       thumb.addEventListener("click", () => {
         const imageIndex = Number(thumb.dataset.imageIndex);
         const selectedImage = images[imageIndex];
-        mainImage.src = selectedImage.url || selectedImage.image_url;
-        mainImage.alt = selectedImage.alt || selectedImage.alt_text;
+        setMainImageWithLoadingState(
+          selectedImage?.url || selectedImage?.image_url,
+          selectedImage?.alt || selectedImage?.alt_text,
+        );
       });
     });
 }
@@ -375,13 +525,16 @@ export function renderRelatedProducts(
       const ratingValue = Number(product.ratingAvg ?? 0);
 
       return `<li class="other-products__item js-other-products__item js-related-item" data-product-id="${product.id}">
-        <img class="product-item__image" src="${product.thumbnail}" alt="${product.thumbnailAlt}" />
+        <div class="product-image-wrapper js-product-image-wrapper">
+          <div class="image-placeholder"></div>
+          <img class="product-item__image product-image js-product-item-image" src="${product.thumbnail}" alt="${product.thumbnailAlt}" />
+        </div>
         <h3 class="product-item__title">${product.name}</h3>
         <div class="product-item__rating">
           <div class="product-item__stars">
             ${ratingValue > 0 ? helpers.renderStars(ratingValue, "product-item__star", { showEmpty: false }) : ""}
           </div>
-          <p>${ratingValue > 0 ? `${ratingValue}/5` : "No ratings yet"}</p>
+          <p class="product-item__rating-text">${ratingValue > 0 ? `${ratingValue}/5` : "No ratings yet"}</p>
         </div>
         <div class="product-item__prices">
           <p class="product-item__prices--discounted">${helpers.formatPrice(pricing.current || 0, pricing.currency || "USD")}</p>
@@ -391,6 +544,31 @@ export function renderRelatedProducts(
       </li>`;
     })
     .join("");
+
+  container.querySelectorAll(".js-product-item-image").forEach((img) => {
+    // Handle image load event
+    const handleLoad = () => {
+      const wrapper = img.closest(".js-product-image-wrapper");
+      const placeholder = wrapper?.querySelector(".image-placeholder");
+      if (placeholder) {
+        placeholder.classList.add("image-placeholder--hidden");
+      }
+      img.classList.add("product-image--loaded");
+    };
+
+    // Handle image error
+    const handleError = () => {
+      img.classList.add("product-image--error");
+    };
+
+    img.addEventListener("load", handleLoad);
+    img.addEventListener("error", handleError);
+
+    // If image is already loaded from cache
+    if (img.complete && img.naturalWidth > 0) {
+      handleLoad();
+    }
+  });
 
   container.querySelectorAll(".js-other-products__item").forEach((item) => {
     item.addEventListener("click", () => {

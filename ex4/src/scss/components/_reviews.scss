@@ -97,6 +97,11 @@
     border: none;
     cursor: pointer;
 
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+
     &--filter {
       height: 48px;
       width: 48px;
@@ -172,6 +177,11 @@
     line-height: 48px;
     cursor: pointer;
     padding: 0 36px 0 20px;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
   }
 
   &__select:focus {
@@ -204,14 +214,56 @@
       background-color: #e6e6e6;
     }
 
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+
     &:active {
       background-color: #eee;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1019607843);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.65;
+    }
+
+    &.is-loading {
+      position: relative;
+      padding-left: 50px;
+    }
+
+    &.is-loading::before {
+      content: "";
+      position: absolute;
+      left: 22px;
+      top: 50%;
+      width: 16px;
+      height: 16px;
+      margin-top: -8px;
+      border: 2px solid rgba(0, 0, 0, 0.25);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: reviews-load-more-spin 0.8s linear infinite;
     }
   }
 
   &__item--hidden {
     display: none;
+  }
+}
+
+@keyframes reviews-load-more-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.products-tabs--bootstrap-locked {
+  .reviews__actions {
+    opacity: 0.62;
+    transition: opacity 0.2s ease;
   }
 }
 
@@ -467,21 +519,53 @@
     cursor: pointer;
     background-color: v.$color-black;
     color: v.$color-white;
+    position: relative;
 
     &:disabled {
       cursor: not-allowed;
       opacity: 0.55;
+    }
+
+    &.is-loading {
+      padding-left: 50px;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: v.$color-white;
+        border-radius: 50%;
+        animation: review-submit-spin 0.8s linear infinite;
+      }
     }
   }
 
   &__button--cancel {
     background-color: #efefef;
     color: #222;
+
+    &:disabled {
+      opacity: 0.55;
+    }
   }
 }
 
 body.review-modal-open {
   overflow: hidden;
+}
+
+@keyframes review-submit-spin {
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
 }
 
 @media (max-width: 768px) {
@@ -501,6 +585,11 @@ body.review-modal-open {
 
     &__action {
       font-size: 12px;
+
+      &:disabled {
+        opacity: 0.55;
+      }
+
       &--sort {
         display: none;
       }

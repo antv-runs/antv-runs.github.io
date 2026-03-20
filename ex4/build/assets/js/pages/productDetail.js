@@ -34,11 +34,24 @@ const state = {
   reviewTotal: 0,
   reviewDraftStars: 5,
   reviewRequestToken: 0,
+  isLoadingMoreReviews: false,
+  isSubmittingReview: false,
+  isLoadingReviews: false,
+  productRequestToken: 0,
+  isProductLoading: false,
+  hasSettledInitialBootstrap: false,
+  isBootstrapUiLocked: false,
 };
 
 const REVIEW_LOADING_MIN_DELAY_MS = 300;
+const LOAD_MORE_DEFAULT_TEXT = "Load More Reviews";
+const LOAD_MORE_LOADING_TEXT = "Loading...";
+const REVIEW_SUBMIT_DEFAULT_TEXT = "Submit Review";
+const REVIEW_SUBMIT_LOADING_TEXT = "Submitting...";
 
 const dom = {
+  productOverview: document.querySelector(".js-product-overview"),
+  productsTabs: document.querySelector(".js-products-tabs"),
   breadcrumbList: document.querySelector(".js-breadcrumb-list"),
   productGallery: document.querySelector(".js-product-gallery"),
   productMainImage: document.querySelector(".js-product-main-image"),
@@ -53,6 +66,8 @@ const dom = {
   productColorOptions: document.querySelector(".js-product-color-options"),
   productSizeOptions: document.querySelector(".js-product-size-options"),
   quantityInput: document.querySelector(".js-quantity-input"),
+  quantityMinusButton: document.querySelector(".js-quantity-button-minus"),
+  quantityPlusButton: document.querySelector(".js-quantity-button-plus"),
   productDetailsContent: document.querySelector(".js-product-details-content"),
   productFaqsList: document.querySelector(".js-product-faqs-list"),
   reviewsCount: document.querySelector(".js-reviews-count"),
@@ -92,6 +107,145 @@ const helpers = {
   renderStars,
 };
 
+const initialSkeletonMarkup = {
+  productGallery: dom.productGallery?.innerHTML || "",
+  productTitle: dom.productTitle?.innerHTML || "",
+  productRatingStars: dom.productRatingStars?.innerHTML || "",
+  productRatingText: dom.productRatingText?.innerHTML || "",
+  productPriceCurrent: dom.productPriceCurrent?.innerHTML || "",
+  productPriceOld: dom.productPriceOld?.innerHTML || "",
+  productPriceDiscount: dom.productPriceDiscount?.innerHTML || "",
+  productDescription: dom.productDescription?.innerHTML || "",
+  productColorOptions: dom.productColorOptions?.innerHTML || "",
+  productSizeOptions: dom.productSizeOptions?.innerHTML || "",
+  productFaqsList: dom.productFaqsList?.innerHTML || "",
+  relatedProductsList: dom.otherProductsList?.innerHTML || "",
+  reviewsList: dom.reviewsList?.innerHTML || "",
+};
+
+function setSectionInteractivity(section, isDisabled) {
+  if (!section) {
+    return;
+  }
+
+  section.setAttribute("aria-busy", String(Boolean(isDisabled)));
+
+  if ("inert" in section) {
+    section.inert = Boolean(isDisabled);
+    return;
+  }
+
+  section.style.pointerEvents = isDisabled ? "none" : "";
+}
+
+function setProductTransitionLoading(isLoading) {
+  state.isProductLoading = Boolean(isLoading);
+  dom.productOverview?.classList.toggle("product-overview--loading", isLoading);
+
+  [dom.productOverview, dom.productsTabs, dom.relatedProductsRoot].forEach(
+    (section) => {
+      setSectionInteractivity(section, isLoading);
+    },
+  );
+
+  if (isLoading) {
+    dom.reviewsFilterDropdown?.classList.remove(
+      "reviews__filter-dropdown--show",
+    );
+    dom.reviewsFilterBtn?.setAttribute("aria-expanded", "false");
+  }
+}
+
+function restoreProductSkeletonState() {
+  if (dom.productGallery) {
+    dom.productGallery.innerHTML = initialSkeletonMarkup.productGallery;
+  }
+
+  if (dom.productTitle) {
+    dom.productTitle.innerHTML = initialSkeletonMarkup.productTitle;
+  }
+
+  if (dom.productRatingSection) {
+    dom.productRatingSection.style.display = "";
+  }
+
+  if (dom.productRatingStars) {
+    dom.productRatingStars.innerHTML = initialSkeletonMarkup.productRatingStars;
+  }
+
+  if (dom.productRatingText) {
+    dom.productRatingText.innerHTML = initialSkeletonMarkup.productRatingText;
+  }
+
+  if (dom.productPriceCurrent) {
+    dom.productPriceCurrent.innerHTML =
+      initialSkeletonMarkup.productPriceCurrent;
+  }
+
+  if (dom.productPriceOld) {
+    dom.productPriceOld.innerHTML = initialSkeletonMarkup.productPriceOld;
+  }
+
+  if (dom.productPriceDiscount) {
+    dom.productPriceDiscount.innerHTML =
+      initialSkeletonMarkup.productPriceDiscount;
+  }
+
+  if (dom.productDescription) {
+    dom.productDescription.innerHTML = initialSkeletonMarkup.productDescription;
+  }
+
+  if (dom.productColorOptions) {
+    dom.productColorOptions.innerHTML =
+      initialSkeletonMarkup.productColorOptions;
+  }
+
+  if (dom.productSizeOptions) {
+    dom.productSizeOptions.innerHTML = initialSkeletonMarkup.productSizeOptions;
+  }
+
+  if (dom.productDetailsContent) {
+    setText(dom.productDetailsContent, "Product details are loading...");
+  }
+
+  if (dom.productFaqsList) {
+    dom.productFaqsList.innerHTML = initialSkeletonMarkup.productFaqsList;
+  }
+
+  if (dom.otherProductsList) {
+    dom.otherProductsList.innerHTML = initialSkeletonMarkup.relatedProductsList;
+  }
+
+  if (dom.reviewsList) {
+    dom.reviewsList.classList.remove("reviews__list--fade-in");
+    dom.reviewsList.innerHTML = initialSkeletonMarkup.reviewsList;
+  }
+
+  if (dom.reviewsCount) {
+    setText(dom.reviewsCount, "(0)");
+  }
+
+  if (dom.reviewsLoadMore) {
+    dom.reviewsLoadMore.style.display = "none";
+  }
+
+  dom.productMainImage?.removeAttribute("src");
+  if (dom.productMainImage) {
+    dom.productMainImage.alt = "";
+  }
+}
+
+function scrollToTopForProductSwitch() {
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  window.scrollTo({
+    top: 0,
+    behavior: prefersReducedMotion ? "auto" : "smooth",
+  });
+}
+
 function mapReviewToCard(review) {
   return {
     ratingStar: Number(
@@ -126,6 +280,81 @@ function showReviewsSkeleton(itemsCount = state.reviewPageSize) {
 
   dom.reviewsList.classList.remove("reviews__list--fade-in");
   dom.reviewsList.innerHTML = buildReviewSkeletonMarkup(itemsCount);
+}
+
+function setReviewControlsDisabled(isDisabled) {
+  const nextIsDisabled = Boolean(isDisabled);
+
+  // Disable filter button
+  if (dom.reviewsFilterBtn) {
+    dom.reviewsFilterBtn.disabled = nextIsDisabled;
+  }
+
+  // Disable sort select
+  if (dom.reviewsSortSelect) {
+    dom.reviewsSortSelect.disabled = nextIsDisabled;
+  }
+
+  // Disable load-more button
+  if (dom.reviewsLoadMore) {
+    dom.reviewsLoadMore.disabled =
+      nextIsDisabled || state.reviewPage >= state.reviewLastPage;
+  }
+}
+
+function setInitialBootstrapUiLock(isLocked) {
+  const nextIsLocked = Boolean(isLocked);
+  state.isBootstrapUiLocked = nextIsLocked;
+
+  dom.productOverview?.classList.toggle(
+    "product-overview--bootstrap-locked",
+    nextIsLocked,
+  );
+  dom.productsTabs?.classList.toggle("products-tabs--bootstrap-locked", nextIsLocked);
+
+  dom.quantityInput && (dom.quantityInput.disabled = nextIsLocked);
+  dom.quantityMinusButton && (dom.quantityMinusButton.disabled = nextIsLocked);
+  dom.quantityPlusButton && (dom.quantityPlusButton.disabled = nextIsLocked);
+  dom.addToCartButton && (dom.addToCartButton.disabled = nextIsLocked);
+  dom.writeReviewButton && (dom.writeReviewButton.disabled = nextIsLocked);
+
+  dom.productColorOptions
+    ?.querySelectorAll(".js-color-option")
+    .forEach((item) => {
+      item.disabled = nextIsLocked;
+    });
+
+  dom.productSizeOptions
+    ?.querySelectorAll(".js-size-option")
+    .forEach((item) => {
+      if (nextIsLocked) {
+        item.dataset.initialDisabled = String(item.disabled);
+        item.disabled = true;
+        return;
+      }
+
+      const shouldRestoreDisabled = item.dataset.initialDisabled === "true";
+      item.disabled = shouldRestoreDisabled;
+      item.removeAttribute("data-initial-disabled");
+    });
+
+  setReviewControlsDisabled(nextIsLocked || state.isLoadingReviews);
+}
+
+function setLoadMoreButtonLoading(isLoading) {
+  if (!dom.reviewsLoadMore) {
+    return;
+  }
+
+  const nextIsLoading = Boolean(isLoading);
+  dom.reviewsLoadMore.disabled =
+    nextIsLoading ||
+    state.isBootstrapUiLocked ||
+    state.reviewPage >= state.reviewLastPage;
+  dom.reviewsLoadMore.classList.toggle("is-loading", nextIsLoading);
+  dom.reviewsLoadMore.textContent = nextIsLoading
+    ? LOAD_MORE_LOADING_TEXT
+    : LOAD_MORE_DEFAULT_TEXT;
 }
 
 function getCurrentRelatedProducts(product) {
@@ -289,6 +518,11 @@ function closeReviewModal() {
 async function handleReviewSubmit(event) {
   event.preventDefault();
 
+  // Prevent duplicate submits
+  if (state.isSubmittingReview) {
+    return;
+  }
+
   const normalizedProductId = String(state.selectedProductId || "").trim();
   if (!normalizedProductId) {
     return;
@@ -307,8 +541,13 @@ async function handleReviewSubmit(event) {
   const submitButton = dom.reviewModalForm?.querySelector(
     "button[type='submit']",
   );
+
+  // Set loading state
+  state.isSubmittingReview = true;
   if (submitButton) {
     submitButton.disabled = true;
+    submitButton.classList.add("is-loading");
+    setText(submitButton, REVIEW_SUBMIT_LOADING_TEXT);
   }
 
   try {
@@ -323,8 +562,12 @@ async function handleReviewSubmit(event) {
   } catch (error) {
     console.error("Failed to submit review", error);
   } finally {
+    // Restore button state
+    state.isSubmittingReview = false;
     if (submitButton) {
       submitButton.disabled = false;
+      submitButton.classList.remove("is-loading");
+      setText(submitButton, REVIEW_SUBMIT_DEFAULT_TEXT);
     }
   }
 }
@@ -553,6 +796,12 @@ function bindStaticEvents() {
   dom.reviewsFilterOptions.forEach((option) => {
     option.addEventListener("click", (event) => {
       event.stopPropagation();
+
+      // Prevent duplicate requests
+      if (state.isLoadingReviews) {
+        return;
+      }
+
       const stars = option.dataset.stars;
       setActiveReviewFilterOption(stars);
       state.reviewRating = stars === "All" ? null : Number(stars);
@@ -562,26 +811,72 @@ function bindStaticEvents() {
         "reviews__filter-dropdown--show",
       );
       dom.reviewsFilterBtn?.setAttribute("aria-expanded", "false");
-      loadReviews(state.selectedProductId, false, { showLoading: true });
+
+      // Disable controls during load
+      state.isLoadingReviews = true;
+      setReviewControlsDisabled(true);
+
+      loadReviews(state.selectedProductId, false, { showLoading: true }).finally(
+        () => {
+          state.isLoadingReviews = false;
+          setReviewControlsDisabled(state.isBootstrapUiLocked);
+        },
+      );
     });
   });
 
   dom.reviewsSortSelect?.addEventListener("change", () => {
+    // Prevent duplicate requests
+    if (state.isLoadingReviews) {
+      return;
+    }
+
     state.reviewSort = dom.reviewsSortSelect.value;
     state.reviewPage = 1;
-    loadReviews(state.selectedProductId, false, { showLoading: true });
+
+    // Disable controls during load
+    state.isLoadingReviews = true;
+    setReviewControlsDisabled(true);
+
+    loadReviews(state.selectedProductId, false, { showLoading: true }).finally(
+      () => {
+        state.isLoadingReviews = false;
+        setReviewControlsDisabled(state.isBootstrapUiLocked);
+      },
+    );
   });
 
-  dom.reviewsLoadMore?.addEventListener("click", () => {
-    if (state.reviewPage < state.reviewLastPage) {
-      state.reviewPage += 1;
-      loadReviews(state.selectedProductId, true);
+  dom.reviewsLoadMore?.addEventListener("click", async () => {
+    if (
+      state.isLoadingMoreReviews ||
+      state.reviewPage >= state.reviewLastPage
+    ) {
+      return;
+    }
+
+    state.isLoadingMoreReviews = true;
+    const previousPage = state.reviewPage;
+    state.reviewPage += 1;
+    setLoadMoreButtonLoading(true);
+
+    try {
+      await loadReviews(state.selectedProductId, true);
+    } catch (error) {
+      state.reviewPage = previousPage;
+      console.error("Failed to load more reviews", error);
+    } finally {
+      state.isLoadingMoreReviews = false;
+      setLoadMoreButtonLoading(false);
     }
   });
 
   buildReviewRatingHitzones();
 
   dom.writeReviewButton?.addEventListener("click", () => {
+    if (state.isBootstrapUiLocked) {
+      return;
+    }
+
     openReviewModal();
   });
 
@@ -750,6 +1045,10 @@ function paintProduct(product) {
   };
 
   repaintSizes();
+
+  if (state.isBootstrapUiLocked) {
+    setInitialBootstrapUiLock(true);
+  }
 }
 
 function mountRelatedProductsCarousel() {
@@ -782,13 +1081,33 @@ function bindAddToCart(product) {
 }
 
 async function loadSelectedProduct(productId) {
-  state.selectedProductId = String(productId);
-  setText(dom.productTitle, "Loading product...");
-  dom.reviewsList.innerHTML = "";
-  console.log("Fetching product:", productId);
+  const normalizedProductId = String(productId || "").trim();
+  if (!normalizedProductId) {
+    return;
+  }
+
+  if (state.isProductLoading) {
+    return;
+  }
+
+  if (normalizedProductId === String(state.selectedProductId || "")) {
+    return;
+  }
+
+  const requestToken = ++state.productRequestToken;
+  state.selectedProductId = normalizedProductId;
+  restoreProductSkeletonState();
+  setProductTransitionLoading(true);
+  relatedProductsCarousel?.destroy();
+  relatedProductsCarousel = null;
+  console.log("Fetching product:", normalizedProductId);
 
   try {
-    const product = await productService.getProductById(productId);
+    const product = await productService.getProductById(normalizedProductId);
+
+    if (requestToken !== state.productRequestToken) {
+      return;
+    }
 
     if (!product) {
       resetProductSections("Product not found");
@@ -805,9 +1124,17 @@ async function loadSelectedProduct(productId) {
       relatedProducts,
       helpers,
       async (nextProductId) => {
-        if (String(nextProductId) !== state.selectedProductId) {
-          await loadSelectedProduct(nextProductId);
+        const normalizedNextProductId = String(nextProductId || "").trim();
+        if (
+          !normalizedNextProductId ||
+          normalizedNextProductId === String(state.selectedProductId || "") ||
+          state.isProductLoading
+        ) {
+          return;
         }
+
+        scrollToTopForProductSwitch();
+        await loadSelectedProduct(normalizedNextProductId);
       },
     );
     mountRelatedProductsCarousel();
@@ -821,10 +1148,19 @@ async function loadSelectedProduct(productId) {
     setActiveReviewFilterOption("All");
     dom.reviewsFilterBtn?.setAttribute("aria-expanded", "false");
 
-    await loadReviews(product.id);
+    await loadReviews(product.id, false, { showLoading: true });
   } catch (error) {
     console.error("Failed to load product detail.", error);
     resetProductSections("Product not found");
+  } finally {
+    if (requestToken === state.productRequestToken) {
+      setProductTransitionLoading(false);
+
+      if (!state.hasSettledInitialBootstrap) {
+        state.hasSettledInitialBootstrap = true;
+        setInitialBootstrapUiLock(false);
+      }
+    }
   }
 }
 
@@ -838,6 +1174,8 @@ export async function initProductDetailPage() {
     return;
   }
 
+  setInitialBootstrapUiLock(true);
+
   const [productsResult] = await Promise.allSettled([
     productService.getProducts(),
   ]);
@@ -849,5 +1187,6 @@ export async function initProductDetailPage() {
     state.products = [];
   }
 
+  state.selectedProductId = null;
   await loadSelectedProduct(productId);
 }
