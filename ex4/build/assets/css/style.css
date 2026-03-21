@@ -250,6 +250,10 @@ svg {
   margin-bottom: 24px;
 }
 
+.u-mb-28 {
+  margin-bottom: 28px;
+}
+
 .u-w-full {
   width: 100%;
 }
@@ -503,7 +507,7 @@ header .header-icon__profile {
   width: 100%;
   max-width: 1240px;
   margin: 0 auto;
-  padding: 140px 20px 0 20px;
+  padding: 140px 0 0 0;
 }
 .footer-main__content {
   display: grid;
@@ -3319,7 +3323,7 @@ body.review-modal-open {
 }
 .cart-page__layout {
   display: grid;
-  grid-template-columns: 1fr 420px;
+  grid-template-columns: 1fr 505px;
   gap: 20px;
   align-items: start;
 }
@@ -3333,6 +3337,8 @@ body.review-modal-open {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 20px;
   padding: 24px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   position: relative;
 }
 .cart-items--loading::after {
@@ -3433,8 +3439,8 @@ body.review-modal-open {
 .cart-item {
   display: flex;
   gap: 16px;
-  padding-bottom: 24px;
-  margin-bottom: 24px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .cart-item:last-child {
@@ -3501,7 +3507,7 @@ body.review-modal-open {
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   min-width: 0;
 }
 .cart-item__name {
@@ -3513,10 +3519,11 @@ body.review-modal-open {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  padding-top: 5px;
 }
 .cart-item__remove {
   width: 18px;
-  height: 20px;
+  height: 19.5px;
   border: none;
   background: url("../images/icn_trash.svg") no-repeat center;
   background-size: contain;
@@ -3531,14 +3538,14 @@ body.review-modal-open {
   font-size: 14px;
   line-height: 1.4;
   color: rgba(0, 0, 0, 0.6);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 .cart-item__foot {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
-  margin-top: 14px;
+  margin-top: 10px;
   gap: 12px;
   min-width: 0;
 }
@@ -3624,20 +3631,21 @@ body.review-modal-open {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 20px;
   padding: 24px;
+  padding-bottom: 34px;
 }
 .cart-summary__title {
   font-size: 24px;
   font-weight: 700;
-  margin-bottom: 24px;
+  line-height: 1;
+  margin-bottom: 30px;
 }
 .cart-summary__rows {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 .cart-summary__row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
 }
 .cart-summary__row dt {
   color: rgba(0, 0, 0, 0.6);
@@ -3655,14 +3663,14 @@ body.review-modal-open {
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
-  padding-top: 20px;
-  margin-bottom: 20px;
+  padding-top: 22px;
+  margin-bottom: 30px;
 }
 .cart-summary__total p:first-child {
   font-size: 20px;
 }
 .cart-summary__total p:last-child {
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 700;
 }
 .cart-summary__coupon {
@@ -3670,7 +3678,7 @@ body.review-modal-open {
   align-items: stretch;
   flex-wrap: nowrap;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 .cart-summary__coupon .coupon-input {
   position: relative;
@@ -3685,8 +3693,8 @@ body.review-modal-open {
   margin: 0;
 }
 .cart-summary__coupon figure img {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   display: block;
 }
 .cart-summary__coupon input {
@@ -3708,8 +3716,10 @@ body.review-modal-open {
   cursor: not-allowed;
 }
 .cart-summary__coupon button {
-  flex: 0 0 auto;
-  height: 48px;
+  width: auto;
+  min-width: 119px;
+  height: auto;
+  min-height: 48px;
   padding: 0 28px;
   border: none;
   border-radius: 62px;
@@ -3724,6 +3734,8 @@ body.review-modal-open {
   cursor: not-allowed;
 }
 .cart-summary__checkout {
+  height: auto;
+  min-height: 60px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3749,6 +3761,9 @@ body.review-modal-open {
   flex-shrink: 0;
   background: url("../images/icn_arrow_right.svg") no-repeat center;
   background-size: contain;
+}
+.cart-summary__checkout-text {
+  font-size: 16px;
 }
 
 .cart-summary[aria-busy=true] .cart-summary__row dd,
@@ -3808,6 +3823,7 @@ body.review-modal-open {
   .cart-items,
   .cart-summary {
     padding: 16px;
+    min-width: 0;
   }
   .cart-item {
     align-items: flex-start;
@@ -3834,6 +3850,9 @@ body.review-modal-open {
   }
   .cart-item__price {
     font-size: 20px;
+  }
+  .cart-item__price-original, .cart-item__price-discount {
+    display: none;
   }
   .cart-item__foot {
     flex-direction: row;

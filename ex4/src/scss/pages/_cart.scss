@@ -17,7 +17,7 @@
 
   &__layout {
     display: grid;
-    grid-template-columns: 1fr 420px;
+    grid-template-columns: 1fr 505px;
     gap: 20px;
     align-items: start;
   }
@@ -30,6 +30,8 @@
 
 .cart-items {
   @include m.panel();
+  padding-top: 20px;
+  padding-bottom: 20px;
   position: relative;
 
   &--loading::after {
@@ -151,8 +153,8 @@
 .cart-item {
   display: flex;
   gap: 16px;
-  padding-bottom: 24px;
-  margin-bottom: 24px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
   &:last-child {
@@ -237,7 +239,7 @@
     display: flex;
     justify-content: space-between;
     gap: 12px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     min-width: 0;
   }
 
@@ -250,11 +252,12 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    padding-top: 5px;
   }
 
   &__remove {
     width: 18px;
-    height: 20px;
+    height: 19.5px;
     border: none;
     background: url("~/images/icn_trash.svg") no-repeat center;
     background-size: contain;
@@ -271,7 +274,7 @@
     font-size: 14px;
     line-height: 1.4;
     color: v.$color-muted;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
 
   &__foot {
@@ -279,7 +282,7 @@
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
-    margin-top: 14px;
+    margin-top: 10px;
     gap: 12px;
     min-width: 0;
   }
@@ -378,22 +381,23 @@
 
 .cart-summary {
   @include m.panel();
+  padding-bottom: 34px;
 
   &__title {
     font-size: 24px;
     font-weight: 700;
-    margin-bottom: 24px;
+    line-height: 1;
+    margin-bottom: 30px;
   }
 
   &__rows {
-    margin-bottom: 20px;
+    margin-bottom: 22px;
   }
 
   &__row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
 
     dt {
       color: v.$color-muted;
@@ -415,15 +419,15 @@
     justify-content: space-between;
     align-items: center;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
-    padding-top: 20px;
-    margin-bottom: 20px;
+    padding-top: 22px;
+    margin-bottom: 30px;
 
     p:first-child {
       font-size: 20px;
     }
 
     p:last-child {
-      font-size: 32px;
+      font-size: 24px;
       font-weight: 700;
     }
   }
@@ -433,7 +437,7 @@
     align-items: stretch;
     flex-wrap: nowrap;
     gap: 12px;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
   }
 
   &__coupon .coupon-input {
@@ -451,8 +455,8 @@
   }
 
   &__coupon figure img {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     display: block;
   }
 
@@ -482,11 +486,12 @@
   }
 
   &__coupon button {
-    flex: 0 0 auto;
+    width: auto;
+    min-width: 119px;
+    height: auto;
+    min-height: 48px;
 
-    height: 48px;
     padding: 0 28px;
-
     border: none;
     border-radius: v.$radius-pill;
 
@@ -505,6 +510,8 @@
   }
 
   &__checkout {
+    height: auto;
+    min-height: 60px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -535,6 +542,10 @@
       background: url("~/images/icn_arrow_right.svg") no-repeat center;
       background-size: contain;
     }
+  }
+
+  &__checkout-text {
+    font-size: 16px;
   }
 }
 
@@ -571,6 +582,7 @@
   .cart-items,
   .cart-summary {
     padding: 16px;
+    min-width: 0;
   }
 
   .cart-item {
@@ -604,6 +616,11 @@
 
     &__price {
       font-size: 20px;
+    }
+
+    &__price-original,
+    &__price-discount {
+      display: none;
     }
 
     &__foot {
