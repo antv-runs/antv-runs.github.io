@@ -101,7 +101,6 @@ const dom = {
   productTabs: document.querySelectorAll(".js-tabs__tab"),
   productTabContents: document.querySelectorAll(".js-products-tabs__content"),
   addToCartButton: document.querySelector(".js-add-to-cart"),
-  cartButton: document.querySelector(".js-cart-button"),
 };
 
 let relatedProductsCarousel = null;
@@ -716,10 +715,6 @@ function triggerAddToCartFeedback(button) {
 }
 
 function bindStaticEvents() {
-  dom.cartButton?.addEventListener("click", () => {
-    window.location.href = "cart.html";
-  });
-
   dom.productTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       dom.productTabs.forEach((item) => {

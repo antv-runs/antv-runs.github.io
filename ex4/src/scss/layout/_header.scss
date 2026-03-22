@@ -3,6 +3,7 @@
 .sub-header {
   background-color: v.$color-black;
   color: v.$color-white;
+  width: 100%;
   text-align: center;
   padding: 10px 0;
   font-size: 14px;
@@ -20,9 +21,11 @@ header {
   display: flex;
   align-items: center;
   gap: 40px;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto 24px;
   padding-bottom: 24px;
   border-bottom: 1px solid v.$color-border;
-  margin-bottom: 24px;
   min-width: 0;
 
   .logo {
@@ -160,6 +163,8 @@ header {
   header {
     flex-wrap: nowrap;
     gap: 12px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
   header .header-menu-toggle {

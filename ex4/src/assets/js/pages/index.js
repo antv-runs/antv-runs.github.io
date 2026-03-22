@@ -1,3 +1,4 @@
+import { initHeader } from "../components/header.js";
 import {
   renderCatalogEmptyState,
   renderCatalogProducts,
@@ -571,14 +572,13 @@ function debounce(callback, delay) {
  * Calls API with current state values.
  * Returns: { products, pagination } or null on error.
  * Logs response structure for debugging.
- * 
+ *
  * REQUEST GUARD (Token Pattern):
  * - Captures current token before fetch
  * - On response, validates token matches
  * - Ignores stale responses from cancelled/superseded requests
  */
 async function fetchProducts(state, requestToken) {
-
   try {
     const params = {
       search: state.searchKeyword || undefined,
@@ -702,7 +702,7 @@ function renderPagination(elements, state) {
  * ================
  * Main function: Update state → Set loading → Fetch API → Render UI.
  * Called on: initial load, search, filter apply, pagination.
- * 
+ *
  * LOADING LIFECYCLE:
  * 1. Determine load type (initial vs refresh)
  * 2. Increment request token (invalidates prior requests)
@@ -922,7 +922,7 @@ function bindFilterAccordion(elements) {
  * ===========
  * Attach event listeners for search, pagination, and filter toggle.
  * All events update state → trigger handlePageLoad().
- * 
+ *
  * REQUEST GUARDS:
  * - Check state.isInitialLoading and state.isRefreshing to prevent overlapping requests
  * - Each request increments productRequestToken to invalidate stale responses
@@ -974,7 +974,11 @@ function bindEvents(elements, state) {
   if (elements.paginationPrev) {
     elements.paginationPrev.addEventListener("click", () => {
       // Guard: skip if loading or invalid state
-      if (state.isInitialLoading || state.isRefreshing || state.currentPage <= 1) {
+      if (
+        state.isInitialLoading ||
+        state.isRefreshing ||
+        state.currentPage <= 1
+      ) {
         return;
       }
 
@@ -1072,5 +1076,6 @@ export function initIndexPage() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  initHeader();
   initIndexPage();
 });

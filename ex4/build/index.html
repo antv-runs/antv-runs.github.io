@@ -1,67 +1,69 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Product List</title>
-    <link rel="stylesheet" href="./assets/css/style.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Product List</title>
+<link rel="stylesheet" href="./assets/css/style.css" />
+
   </head>
   <body>
     <p class="sub-header">
-      Sign up and get 20% off to your first order.
-      <span>Sign Up Now</span>
-    </p>
+  Sign up and get 20% off to your first order.
+  <span>Sign Up Now</span>
+</p>
+
+<header class="site-header">
+  <button
+    class="header-menu-toggle"
+    type="button"
+    aria-label="Open menu"
+  ></button>
+  <p class="logo">SHOP.CO</p>
+
+  <nav class="header-links" aria-label="Main navigation">
+    <ul id="nav-categories" class="js-nav-categories">
+      <li>
+        <a href="#"
+          >Shop <img src="./assets/images/icn_arrow_down.svg" alt="Expand"
+        /></a>
+      </li>
+      <li><a href="#">On Sale</a></li>
+      <li><a href="#">New Arrivals</a></li>
+      <li><a href="#">Brands</a></li>
+    </ul>
+  </nav>
+
+  <form action="#" class="header-search js-search-form">
+    <input
+      type="text"
+      class="js-search-input"
+      placeholder="Search for products..."
+      aria-label="Search for products"
+    />
+    <button
+      class="header-search__button"
+      type="button"
+      aria-label="Search products"
+    ></button>
+  </form>
+
+  <div class="header-icon">
+    <button
+      class="header-icon__cart js-cart-button"
+      type="button"
+      aria-label="Cart"
+    ></button>
+    <button
+      class="header-icon__profile"
+      type="button"
+      aria-label="Profile"
+    ></button>
+  </div>
+</header>
+
 
     <div class="container">
-      <header class="site-header">
-        <button
-          class="header-menu-toggle"
-          type="button"
-          aria-label="Open menu"
-        ></button>
-        <p class="logo">SHOP.CO</p>
-
-        <nav class="header-links" aria-label="Main navigation">
-          <ul id="nav-categories" class="js-nav-categories">
-            <li>
-              <a href="#"
-                >Shop <img src="./assets/images/icn_arrow_down.svg" alt="Expand"
-              /></a>
-            </li>
-            <li><a href="#">On Sale</a></li>
-            <li><a href="#">New Arrivals</a></li>
-            <li><a href="#">Brands</a></li>
-          </ul>
-        </nav>
-
-        <form action="#" class="header-search js-search-form">
-          <input
-            type="text"
-            class="js-search-input"
-            placeholder="Search for products..."
-            aria-label="Search for products"
-          />
-          <button
-            class="header-search__button"
-            type="button"
-            aria-label="Search products"
-          ></button>
-        </form>
-
-        <div class="header-icon">
-          <button
-            class="header-icon__cart js-cart-button"
-            type="button"
-            aria-label="Cart"
-          ></button>
-          <button
-            class="header-icon__profile"
-            type="button"
-            aria-label="Profile"
-          ></button>
-        </div>
-      </header>
-
       <main class="catalog" aria-label="Product catalog">
         <ol class="catalog__breadcrumb" aria-label="Breadcrumb">
           <li><a href="#">Home</a></li>
@@ -524,148 +526,126 @@
       </main>
 
       <div class="footer-form">
-        <p>STAY UPTO DATE ABOUT OUR LATEST OFFERS</p>
-        <form action="#">
-          <div class="footer-form__input">
-            <figure>
-              <img src="./assets/images/icn_mail.png" alt="Mail" />
-            </figure>
-            <input
-              type="email"
-              placeholder="Enter your email address"
-              aria-label="Email address"
-            />
-          </div>
-          <button class="footer-form__button" type="button">
-            Subscribe to Newsletter
-          </button>
-        </form>
-      </div>
+  <p>STAY UPTO DATE ABOUT OUR LATEST OFFERS</p>
+  <form action="#">
+    <div class="footer-form__input">
+      <figure>
+        <img src="./assets/images/icn_mail.svg" alt="Mail" />
+      </figure>
+      <input
+        type="email"
+        placeholder="Enter your email address"
+        aria-label="Email address"
+      />
+    </div>
+    <button class="footer-form__button" type="button">
+      Subscribe to Newsletter
+    </button>
+  </form>
+</div>
+
     </div>
 
     <footer class="footer">
-      <div class="footer-main">
-        <div class="footer-main__content">
-          <section class="footer-main__info" aria-label="Brand information">
-            <p class="footer-main__logo">SHOP.CO</p>
-            <p class="footer-main__description">
-              We have clothes that suits your style and which you're proud to
-              wear. From women to men.
-            </p>
-            <ul class="footer-main__socials" aria-label="Social links">
-              <li>
-                <a href="#" aria-label="Twitter">
-                  <img
-                    src="./assets/images/icn_twiter.svg"
-                    alt=""
-                    aria-hidden="true"
-                  />
-                </a>
-              </li>
-              <li>
-                <a href="#" class="icon-fb" aria-label="Facebook">
-                  <img src="./assets/images/icn_fb.svg" alt="" aria-hidden="true" />
-                </a>
-              </li>
-              <li>
-                <a href="#" aria-label="Instagram">
-                  <img
-                    src="./assets/images/icn_instagram.svg"
-                    alt=""
-                    aria-hidden="true"
-                  />
-                </a>
-              </li>
-              <li>
-                <a href="#" aria-label="Github">
-                  <img
-                    src="./assets/images/icn_github.svg"
-                    alt=""
-                    aria-hidden="true"
-                  />
-                </a>
-              </li>
-            </ul>
-          </section>
+  <div class="footer-main">
+    <div class="footer-main__content">
+      <section class="footer-main__info" aria-label="Brand information">
+        <p class="footer-main__logo">SHOP.CO</p>
+        <p class="footer-main__description">
+          We have clothes that suits your style and which you're proud to
+          wear. From women to men.
+        </p>
+        <ul class="footer-main__socials" aria-label="Social links">
+          <li>
+            <a href="#" aria-label="Twitter">
+              <img src="./assets/images/icn_twiter.svg" alt="" aria-hidden="true" />
+            </a>
+          </li>
+          <li>
+            <a href="#" class="icon-fb" aria-label="Facebook">
+              <img src="./assets/images/icn_fb.svg" alt="" aria-hidden="true" />
+            </a>
+          </li>
+          <li>
+            <a href="#" aria-label="Instagram">
+              <img src="./assets/images/icn_instagram.svg" alt="" aria-hidden="true" />
+            </a>
+          </li>
+          <li>
+            <a href="#" aria-label="Github">
+              <img src="./assets/images/icn_github.svg" alt="" aria-hidden="true" />
+            </a>
+          </li>
+        </ul>
+      </section>
 
-          <nav class="footer-main__links" aria-label="Footer navigation">
-            <section
-              class="footer-main__section"
-              aria-labelledby="footer-company-title"
-            >
-              <h4 id="footer-company-title">Company</h4>
-              <ul>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Features</a></li>
-                <li><a href="#">Works</a></li>
-                <li><a href="#">Career</a></li>
-              </ul>
-            </section>
+      <nav class="footer-main__links" aria-label="Footer navigation">
+        <section class="footer-main__section" aria-labelledby="footer-company-title">
+          <h4 id="footer-company-title">Company</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Works</a></li>
+            <li><a href="#">Career</a></li>
+          </ul>
+        </section>
 
-            <section
-              class="footer-main__section"
-              aria-labelledby="footer-help-title"
-            >
-              <h4 id="footer-help-title">Help</h4>
-              <ul>
-                <li><a href="#">Customer Support</a></li>
-                <li><a href="#">Delivery Details</a></li>
-                <li><a href="#">Terms &amp; Conditions</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-              </ul>
-            </section>
+        <section class="footer-main__section" aria-labelledby="footer-help-title">
+          <h4 id="footer-help-title">Help</h4>
+          <ul>
+            <li><a href="#">Customer Support</a></li>
+            <li><a href="#">Delivery Details</a></li>
+            <li><a href="#">Terms &amp; Conditions</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </section>
 
-            <section
-              class="footer-main__section"
-              aria-labelledby="footer-faq-title"
-            >
-              <h4 id="footer-faq-title">FAQ</h4>
-              <ul>
-                <li><a href="#">Account</a></li>
-                <li><a href="#">Manage Deliveries</a></li>
-                <li><a href="#">Orders</a></li>
-                <li><a href="#">Payments</a></li>
-              </ul>
-            </section>
+        <section class="footer-main__section" aria-labelledby="footer-faq-title">
+          <h4 id="footer-faq-title">FAQ</h4>
+          <ul>
+            <li><a href="#">Account</a></li>
+            <li><a href="#">Manage Deliveries</a></li>
+            <li><a href="#">Orders</a></li>
+            <li><a href="#">Payments</a></li>
+          </ul>
+        </section>
 
-            <section
-              class="footer-main__section"
-              aria-labelledby="footer-resources-title"
-            >
-              <h4 id="footer-resources-title">Resources</h4>
-              <ul>
-                <li><a href="#">Free eBooks</a></li>
-                <li><a href="#">Development Tutorial</a></li>
-                <li><a href="#">How to - Blog</a></li>
-                <li><a href="#">Youtube Playlist</a></li>
-              </ul>
-            </section>
-          </nav>
-        </div>
+        <section class="footer-main__section" aria-labelledby="footer-resources-title">
+          <h4 id="footer-resources-title">Resources</h4>
+          <ul>
+            <li><a href="#">Free eBooks</a></li>
+            <li><a href="#">Development Tutorial</a></li>
+            <li><a href="#">How to - Blog</a></li>
+            <li><a href="#">Youtube Playlist</a></li>
+          </ul>
+        </section>
+      </nav>
+    </div>
 
-        <div class="footer-main__copyright">
-          <p>Shop.co © 2000-2023, All Rights Reserved</p>
-          <div class="footer-main__copyright-logo">
-            <figure>
-              <img src="./assets/images/icn_visa.svg" alt="Visa" />
-            </figure>
-            <figure>
-              <img src="./assets/images/icn_mastercard.svg" alt="Mastercard" />
-            </figure>
-            <figure>
-              <img src="./assets/images/icn_paypal.svg" alt="PayPal" />
-            </figure>
-            <figure>
-              <img src="./assets/images/icn_apay.svg" alt="Apple Pay" />
-            </figure>
-            <figure>
-              <img src="./assets/images/icn_gpay.svg" alt="Google Pay" />
-            </figure>
-          </div>
-        </div>
+    <div class="footer-main__copyright">
+      <p>Shop.co © 2000-2023, All Rights Reserved</p>
+      <div class="footer-main__copyright-logo">
+        <figure>
+          <img src="./assets/images/icn_visa.svg" alt="Visa" />
+        </figure>
+        <figure>
+          <img src="./assets/images/icn_mastercard.svg" alt="Mastercard" />
+        </figure>
+        <figure>
+          <img src="./assets/images/icn_paypal.svg" alt="PayPal" />
+        </figure>
+        <figure>
+          <img src="./assets/images/icn_apay.svg" alt="Apple Pay" />
+        </figure>
+        <figure>
+          <img src="./assets/images/icn_gpay.svg" alt="Google Pay" />
+        </figure>
       </div>
-    </footer>
+    </div>
+  </div>
+</footer>
 
     <script type="module" src="./assets/js/pages/index.js"></script>
+
   </body>
 </html>
