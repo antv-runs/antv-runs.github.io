@@ -473,12 +473,12 @@ header .header-icon__profile {
   align-items: center;
   background-color: #fff;
   gap: 12px;
-  padding: 12px 16px 14px;
+  padding: 12px 15px 15px;
   border-radius: 62px;
 }
 .footer-form__input figure {
-  width: 20px;
-  height: 20px;
+  width: 20.25px;
+  height: 15.75px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -495,8 +495,8 @@ header .header-icon__profile {
 }
 .footer-form__button {
   width: 100%;
-  margin-top: 14px;
-  padding: 12px 0;
+  margin-top: 12px;
+  padding: 15px 0;
   background-color: #fff;
   border: none;
   font-size: 16px;
@@ -516,13 +516,12 @@ header .header-icon__profile {
 }
 .footer-main__content {
   display: grid;
-  grid-template-columns: minmax(240px, 1.35fr) repeat(4, minmax(120px, 1fr));
-  gap: 32px 40px;
+  grid-template-columns: max-content auto;
+  justify-content: space-between;
   align-items: start;
-  padding-bottom: 50px;
+  padding-bottom: 45px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  margin-bottom: 25px;
-  min-width: 0;
+  margin-bottom: 20px;
 }
 .footer-main__info {
   max-width: 248px;
@@ -531,7 +530,8 @@ header .header-icon__profile {
   font-size: 33px;
   font-weight: 700;
   font-family: "IntegralCF", sans-serif;
-  margin-bottom: 25px;
+  display: block;
+  margin: 0 0 25px;
 }
 .footer-main__description {
   font-size: 14px;
@@ -548,7 +548,7 @@ header .header-icon__profile {
   gap: 12px;
   align-items: center;
 }
-.footer-main__socials a {
+.footer-main__social-link {
   position: relative;
   width: 36px;
   height: 36px;
@@ -562,48 +562,48 @@ header .header-icon__profile {
   text-decoration: none;
   transition: background-color 0.2s ease;
 }
-.footer-main__socials a:hover {
+.footer-main__social-link:hover {
   background-color: #e8e8e8;
 }
-.footer-main__socials a img {
+.footer-main__social-link img {
   width: 16px;
   height: 16px;
   object-fit: contain;
 }
-.footer-main__socials .icon-fb {
+.footer-main__social-link.icon-fb {
   background-color: #000;
 }
-.footer-main__socials .icon-fb:hover {
+.footer-main__social-link.icon-fb:hover {
   background-color: #1a1a1a;
 }
 .footer-main__links {
-  grid-column: 2/-1;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(4, max-content);
+  column-gap: 125px;
+  align-items: start;
   min-width: 0;
 }
-.footer-main__links ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  row-gap: 12px;
-}
-.footer-main__links h4 {
+.footer-main__title {
   font-size: 16px;
   font-weight: 500;
   text-transform: uppercase;
   margin-bottom: 15px;
 }
-.footer-main__links a {
+.footer-main__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+}
+.footer-main__link {
   font-size: 16px;
   color: rgba(0, 0, 0, 0.6);
   text-decoration: none;
   line-height: 1.4;
 }
-.footer-main__links a:hover {
+.footer-main__link:hover {
   color: #000;
 }
 .footer-main__copyright {
@@ -654,7 +654,6 @@ header .header-icon__profile {
     padding-bottom: 40px;
   }
   .footer-main__links {
-    grid-column: auto;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 28px 24px;
   }
