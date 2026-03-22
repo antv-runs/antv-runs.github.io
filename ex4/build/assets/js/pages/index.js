@@ -9,7 +9,6 @@ import { getProducts } from "../services/productService.js";
 import { formatPrice } from "../utils/formatters.js";
 import { renderStars } from "../utils/ratingUtils.js";
 
-const SEARCH_DEBOUNCE_DELAY = 300;
 const PRODUCTS_PER_PAGE = 9;
 const MOBILE_FILTER_BREAKPOINT = 768;
 
@@ -110,20 +109,8 @@ function setControlsDisabled(elements, state, isDisabled) {
     ".js-pagination-number",
   );
 
-  if (elements.searchForm) {
-    elements.searchForm.classList.toggle("is-disabled", shouldDisable);
-    elements.searchForm.setAttribute("aria-busy", String(shouldDisable));
-  }
-
-  if (elements.searchInput) {
-    elements.searchInput.disabled = shouldDisable;
-  }
-
-  const searchSubmitButton = elements.searchForm?.querySelector(
-    ".header-search__button",
-  );
-  if (searchSubmitButton) {
-    searchSubmitButton.disabled = shouldDisable;
+  if (elements.headerApi) {
+    elements.headerApi.setSearchDisabled(shouldDisable);
   }
 
   if (shouldDisable) {
@@ -161,8 +148,6 @@ function setControlsDisabled(elements, state, isDisabled) {
 
 function getPageElements() {
   return {
-    searchForm: document.querySelector(".js-search-form"),
-    searchInput: document.querySelector(".js-search-input"),
     breadcrumb: document.querySelector(".catalog__breadcrumb"),
     catalogTitle: document.querySelector(".catalog-products__title"),
     productList: document.querySelector(".js-product-list"),
@@ -555,17 +540,6 @@ function updateProductCount(element, state, searchKeyword = "") {
   element.textContent = `Showing ${start}-${end} of ${safeTotalCount} ${label}${suffix}`;
 }
 
-function debounce(callback, delay) {
-  let timeoutId = null;
-
-  return (...args) => {
-    window.clearTimeout(timeoutId);
-    timeoutId = window.setTimeout(() => {
-      callback(...args);
-    }, delay);
-  };
-}
-
 /**
  * FETCH PRODUCTS
  * ==============
@@ -928,48 +902,6 @@ function bindFilterAccordion(elements) {
  * - Each request increments productRequestToken to invalidate stale responses
  */
 function bindEvents(elements, state) {
-  // Search form submission
-  if (elements.searchForm) {
-    elements.searchForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      // Guard: skip if loading
-      if (state.isInitialLoading || state.isRefreshing) {
-        return;
-      }
-
-      const newSearchTerm = (elements.searchInput?.value || "").trim();
-
-      if (newSearchTerm !== state.searchKeyword) {
-        state.searchKeyword = newSearchTerm;
-        state.currentPage = 1; // Reset pagination on search
-        handlePageLoad(elements, state, "refresh");
-      }
-    });
-  }
-
-  // Search input with debounce
-  if (elements.searchInput) {
-    const debouncedSearch = debounce((value) => {
-      // Guard: skip if loading
-      if (state.isInitialLoading || state.isRefreshing) {
-        return;
-      }
-
-      const newSearchTerm = (value || "").trim();
-
-      if (newSearchTerm !== state.searchKeyword) {
-        state.searchKeyword = newSearchTerm;
-        state.currentPage = 1; // Reset pagination on search
-        handlePageLoad(elements, state, "refresh");
-      }
-    }, SEARCH_DEBOUNCE_DELAY);
-
-    elements.searchInput.addEventListener("input", (event) => {
-      debouncedSearch(event.target.value);
-    });
-  }
-
   // Pagination: Previous button
   if (elements.paginationPrev) {
     elements.paginationPrev.addEventListener("click", () => {
@@ -1051,10 +983,28 @@ export function initIndexPage() {
   const filterState = createFilterState();
 
   // Validate required elements
-  if (!elements.searchForm || !elements.searchInput || !elements.productList) {
+  if (!elements.productList) {
     console.error("[INIT] Required DOM elements not found");
     return;
   }
+
+  // Initialize header and store its api in elements for setControlsDisabled
+  elements.headerApi = initHeader({
+    onSearch: (keyword) => {
+      // Guard: skip if loading
+      if (state.isInitialLoading || state.isRefreshing) {
+        return;
+      }
+
+      const newSearchTerm = (keyword || "").trim();
+
+      if (newSearchTerm !== state.searchKeyword) {
+        state.searchKeyword = newSearchTerm;
+        state.currentPage = 1; // Reset pagination on search
+        handlePageLoad(elements, state, "refresh");
+      }
+    }
+  });
 
   // Setup UI interactions
   bindProductNavigation(elements);
@@ -1076,6 +1026,5 @@ export function initIndexPage() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  initHeader();
   initIndexPage();
 });
