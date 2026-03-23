@@ -1,7 +1,10 @@
 @use "~/scss/abstracts/variables" as v;
 @use "~/scss/abstracts/mixins" as m;
 
-@mixin skeleton-shimmer($bg: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%), $bg-size: 200% 100%) {
+@mixin skeleton-shimmer(
+  $bg: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%),
+  $bg-size: 200% 100%
+) {
   background: $bg;
   background-size: $bg-size;
   animation: reviews-skeleton-shimmer 1.2s ease-in-out infinite;
@@ -11,7 +14,6 @@
   margin-bottom: 80px;
 
   &--bootstrap-locked {
-
     .product-overview__choose-colors,
     .product-overview__size-options,
     .product-overview__actions {
@@ -70,7 +72,7 @@
     opacity: 1;
   }
 
-  &__main-image.is-loaded+&__skeleton-image {
+  &__main-image.is-loaded + &__skeleton-image {
     opacity: 0;
     visibility: hidden;
   }
@@ -180,7 +182,7 @@
     gap: 16px;
     margin-bottom: 14px;
 
-    >div {
+    > div {
       display: flex;
       gap: 4px;
     }
@@ -517,25 +519,56 @@
       -webkit-mask-image: none;
 
       &.js-has-scroll-bottom:not(.js-has-scroll-top) {
-        mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - 28px), transparent 100%);
-        -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - 28px), transparent 100%);
+        mask-image: linear-gradient(
+          to bottom,
+          #000 0%,
+          #000 calc(100% - 28px),
+          transparent 100%
+        );
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          #000 0%,
+          #000 calc(100% - 28px),
+          transparent 100%
+        );
       }
 
       &.js-has-scroll-top:not(.js-has-scroll-bottom) {
-        mask-image: linear-gradient(to bottom, transparent 0%, #000 28px, #000 100%);
-        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 28px, #000 100%);
+        mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          #000 28px,
+          #000 100%
+        );
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          #000 28px,
+          #000 100%
+        );
       }
 
       &.js-has-scroll-top.js-has-scroll-bottom {
-        mask-image: linear-gradient(to bottom, transparent 0%, #000 28px, #000 calc(100% - 28px), transparent 100%);
-        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 28px, #000 calc(100% - 28px), transparent 100%);
+        mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          #000 28px,
+          #000 calc(100% - 28px),
+          transparent 100%
+        );
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          #000 28px,
+          #000 calc(100% - 28px),
+          transparent 100%
+        );
       }
 
       .image-wrapper {
         position: relative;
-        width: 152px;
-        // Height derived from design ratio — no fixed height needed
-        aspect-ratio: 152 / 167;
+        max-width: 152px;
+        max-height: 167px;
         flex: 0 0 auto;
         border-radius: 20px;
         overflow: hidden;
@@ -589,8 +622,8 @@
     .image-wrapper-main {
       position: relative;
       flex: 1;
-      // Design spec: 444 × 530 — aspect-ratio derives height from available width
-      aspect-ratio: 444 / 530;
+      max-width: 444px;
+      max-height: 530px;
       overflow: hidden;
       border-radius: 20px;
       background-color: #f0f0f0;
@@ -798,8 +831,15 @@
   &__skeleton-line {
     height: 14px;
     border-radius: 8px;
-    @include skeleton-shimmer(linear-gradient(90deg, rgba(0, 0, 0, 0.08) 25%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0.08) 75%),
-      220% 100%);
+    @include skeleton-shimmer(
+      linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.08) 25%,
+        rgba(0, 0, 0, 0.15) 50%,
+        rgba(0, 0, 0, 0.08) 75%
+      ),
+      220% 100%
+    );
 
     &--stars {
       width: 110px;
@@ -879,7 +919,6 @@
 
     &__choose,
     &__size {
-
       p,
       div {
         font-size: 14px;

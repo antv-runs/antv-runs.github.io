@@ -3078,8 +3078,8 @@ body.review-modal-open {
 }
 .product-overview__images-wrapper .image-wrapper {
   position: relative;
-  width: 152px;
-  aspect-ratio: 152/167;
+  max-width: 152px;
+  max-height: 167px;
   flex: 0 0 auto;
   border-radius: 20px;
   overflow: hidden;
@@ -3127,7 +3127,8 @@ body.review-modal-open {
 .product-overview__images .image-wrapper-main {
   position: relative;
   flex: 1;
-  aspect-ratio: 444/530;
+  max-width: 444px;
+  max-height: 530px;
   overflow: hidden;
   border-radius: 20px;
   background-color: #f0f0f0;
