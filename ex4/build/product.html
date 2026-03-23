@@ -48,11 +48,12 @@
 
     <div class="container">
       <section class="product-overview js-product-overview">
-        <ol
-          id="breadcrumb-list"
-          class="cart-page__breadcrumb product-breadcrumb js-breadcrumb-list"
-          aria-label="Breadcrumb"
-        ></ol>
+        <nav aria-label="Breadcrumb">
+          <ol
+            id="breadcrumb-list"
+            class="cart-page__breadcrumb product-breadcrumb js-breadcrumb-list"
+          ></ol>
+        </nav>
 
         <div class="product-overview__details">
           <div class="product-overview__images">
@@ -311,7 +312,7 @@
                   id="btn-filter-by-stars"
                   class="reviews__action reviews__action--filter js-btn-filter-by-stars"
                   aria-label="Filter reviews by star rating"
-                  aria-haspopup="true"
+                  aria-haspopup="listbox"
                   aria-expanded="false"
                   aria-controls="dropdown-filter-by-stars"
                 ></button>
@@ -319,61 +320,91 @@
                 <div
                   id="dropdown-filter-by-stars"
                   class="reviews__filter-dropdown js-dropdown-filter-by-stars"
+                  role="listbox"
+                  aria-labelledby="btn-filter-by-stars"
+                  tabindex="-1"
                 >
-                  <div
+                  <button
+                    type="button"
                     class="reviews__filter-option js-reviews__filter-option reviews__filter-option--active"
                     data-stars="All"
+                    role="option"
+                    aria-selected="true"
                   >
-                    <p class="reviews__filter-stars">All Reviews</p>
-                  </div>
-                  <div
+                    <span class="reviews__filter-stars">All Reviews</span>
+                  </button>
+                  <button
+                    type="button"
                     class="reviews__filter-option js-reviews__filter-option"
                     data-stars="5"
+                    role="option"
+                    aria-selected="false"
                   >
-                    <div class="reviews__filter-stars">5 stars</div>
-                  </div>
-                  <div
+                    <span class="reviews__filter-stars">5 stars</span>
+                  </button>
+                  <button
+                    type="button"
                     class="reviews__filter-option js-reviews__filter-option"
                     data-stars="4.5"
+                    role="option"
+                    aria-selected="false"
                   >
-                    <div class="reviews__filter-stars">4.5 stars</div>
-                  </div>
-                  <div
+                    <span class="reviews__filter-stars">4.5 stars</span>
+                  </button>
+                  <button
+                    type="button"
                     class="reviews__filter-option js-reviews__filter-option"
                     data-stars="4"
+                    role="option"
+                    aria-selected="false"
                   >
-                    <div class="reviews__filter-stars">4 stars</div>
-                  </div>
-                  <div
+                    <span class="reviews__filter-stars">4 stars</span>
+                  </button>
+                  <button
+                    type="button"
                     class="reviews__filter-option js-reviews__filter-option"
                     data-stars="3.5"
+                    role="option"
+                    aria-selected="false"
                   >
-                    <div class="reviews__filter-stars">3.5 stars</div>
-                  </div>
-                  <div
+                    <span class="reviews__filter-stars">3.5 stars</span>
+                  </button>
+                  <button
+                    type="button"
                     class="reviews__filter-option js-reviews__filter-option"
                     data-stars="3"
+                    role="option"
+                    aria-selected="false"
                   >
-                    <div class="reviews__filter-stars">3 stars</div>
-                  </div>
-                  <div
+                    <span class="reviews__filter-stars">3 stars</span>
+                  </button>
+                  <button
+                    type="button"
                     class="reviews__filter-option js-reviews__filter-option"
                     data-stars="2.5"
+                    role="option"
+                    aria-selected="false"
                   >
-                    <div class="reviews__filter-stars">2.5 stars</div>
-                  </div>
-                  <div
+                    <span class="reviews__filter-stars">2.5 stars</span>
+                  </button>
+                  <button
+                    type="button"
                     class="reviews__filter-option js-reviews__filter-option"
                     data-stars="2"
+                    role="option"
+                    aria-selected="false"
                   >
-                    <div class="reviews__filter-stars">2 stars</div>
-                  </div>
-                  <div
+                    <span class="reviews__filter-stars">2 stars</span>
+                  </button>
+                  <button
+                    type="button"
                     class="reviews__filter-option js-reviews__filter-option"
                     data-stars="1"
+                    role="option"
+                    aria-selected="false"
                   >
-                    <div class="reviews__filter-stars">1 star</div>
-                  </div>
+                    <span class="reviews__filter-stars">1 star</span>
+                  </button>
                 </div>
               </div>
               <div class="reviews__action reviews__action--sort">
@@ -751,6 +782,8 @@
         <a href="cart.html">Next: Cart</a>
       </nav>
     </div>
+
+    <div aria-live="polite" class="sr-only js-sr-announcer"></div>
 
     <div
       id="write-review-modal"

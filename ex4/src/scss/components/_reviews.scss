@@ -54,6 +54,12 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 0;
+    text-align: left;
+    font: inherit;
   }
 
   &__filter-option--active,

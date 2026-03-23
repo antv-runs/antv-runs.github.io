@@ -101,7 +101,14 @@ const dom = {
   productTabs: document.querySelectorAll(".js-tabs__tab"),
   productTabContents: document.querySelectorAll(".js-products-tabs__content"),
   addToCartButton: document.querySelector(".js-add-to-cart"),
+  srAnnouncer: document.querySelector(".js-sr-announcer"),
 };
+
+function announce(message) {
+  if (dom.srAnnouncer) {
+    dom.srAnnouncer.textContent = message;
+  }
+}
 
 let relatedProductsCarousel = null;
 
@@ -748,6 +755,39 @@ function bindStaticEvents() {
     );
   });
 
+  dom.reviewsFilterBtn?.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      dom.reviewsFilterDropdown?.classList.add("reviews__filter-dropdown--show");
+      dom.reviewsFilterBtn?.setAttribute("aria-expanded", "true");
+      dom.reviewsFilterOptions[0]?.focus();
+    }
+  });
+
+  dom.reviewsFilterDropdown?.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      event.stopPropagation();
+      dom.reviewsFilterDropdown?.classList.remove("reviews__filter-dropdown--show");
+      dom.reviewsFilterBtn?.setAttribute("aria-expanded", "false");
+      dom.reviewsFilterBtn?.focus();
+      return;
+    }
+
+    const options = Array.from(dom.reviewsFilterOptions);
+    const index = options.indexOf(document.activeElement);
+    if (index === -1) return;
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      const nextIndex = (index + 1) % options.length;
+      options[nextIndex]?.focus();
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      const prevIndex = (index - 1 + options.length) % options.length;
+      options[prevIndex]?.focus();
+    }
+  });
+
   document.addEventListener("click", () => {
     dom.reviewsFilterDropdown?.classList.remove(
       "reviews__filter-dropdown--show",
@@ -903,6 +943,7 @@ async function loadReviews(
     if (dom.reviewsLoadMore) {
       dom.reviewsLoadMore.style.display = "none";
     }
+    announce("Loading reviews...");
   }
 
   const [reviewsResult] = await Promise.all([
@@ -938,6 +979,8 @@ async function loadReviews(
     dom.reviewsList.offsetWidth;
     dom.reviewsList.classList.add("reviews__list--fade-in");
   }
+
+  announce("Reviews loaded");
 
   if (dom.reviewsLoadMore) {
     dom.reviewsLoadMore.style.display =
@@ -1039,6 +1082,7 @@ function bindAddToCart(product) {
       state.selectedSizeId ?? null,
     );
     triggerAddToCartFeedback(dom.addToCartButton);
+    announce("Product added to cart");
   };
 }
 

@@ -896,6 +896,12 @@ header .header-icon__profile {
   cursor: pointer;
   display: flex;
   align-items: center;
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 0;
+  text-align: left;
+  font: inherit;
 }
 .reviews__filter-option--active, .reviews__filter-option:hover {
   background: #f5f5f5;
@@ -3329,6 +3335,18 @@ body.review-modal-open {
     width: 240px;
   }
 }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 .cart-page {
   margin-bottom: 80px;
 }
