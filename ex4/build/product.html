@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
+
+<head>
+  <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Product Detail</title>
 <link rel="stylesheet" href="./assets/css/style.css" />
 
-  </head>
-  <body>
-    <div class="announcement-bar js-announcement-bar">
+</head>
+
+<body>
+  <div class="announcement-bar js-announcement-bar">
   <div class="announcement-bar__container">
     <p class="announcement-bar__text">
       Sign up and get 20% off to your first order.
@@ -46,557 +48,338 @@
   </div>
 </header>
 
-    <div class="container">
-      <section class="product-overview js-product-overview">
-        <ol
-          id="breadcrumb-list"
-          class="cart-page__breadcrumb product-breadcrumb js-breadcrumb-list"
-          aria-label="Breadcrumb"
-        ></ol>
+  <div class="container">
+    <section class="product-overview js-product-overview">
+      <nav aria-label="Breadcrumb">
+        <ol id="breadcrumb-list" class="cart-page__breadcrumb product-breadcrumb js-breadcrumb-list u-mb-40"></ol>
+      </nav>
 
-        <div class="product-overview__details">
-          <div class="product-overview__images">
-            <div
-              id="product-thumbnails"
-              class="product-overview__images-wrapper js-product-thumbnails js-product-gallery"
-            >
-              <div
-                class="product-overview__skeleton-thumb"
-                aria-hidden="true"
-              ></div>
-              <div
-                class="product-overview__skeleton-thumb"
-                aria-hidden="true"
-              ></div>
-              <div
-                class="product-overview__skeleton-thumb"
-                aria-hidden="true"
-              ></div>
-            </div>
-
-            <div class="image-wrapper-main">
-              <img
-                id="product-main-image"
-                class="product-overview__main-image js-product-main-image"
-                alt=""
-              />
-              <div
-                class="product-overview__skeleton-image"
-                aria-hidden="true"
-              ></div>
-            </div>
+      <div class="product-overview__details">
+        <div class="product-overview__images">
+          <div id="product-thumbnails"
+            class="product-overview__images-wrapper js-product-thumbnails js-product-gallery">
+            <div class="product-overview__skeleton-thumb" aria-hidden="true"></div>
+            <div class="product-overview__skeleton-thumb" aria-hidden="true"></div>
+            <div class="product-overview__skeleton-thumb" aria-hidden="true"></div>
           </div>
 
-          <div class="product-overview__info">
-            <h1 id="product-title" class="js-product-title">
-              <span
-                class="product-overview__skeleton-line product-overview__skeleton-line--title"
-                aria-hidden="true"
-              ></span>
-              <span
-                class="product-overview__skeleton-line product-overview__skeleton-line--title"
-                aria-hidden="true"
-              ></span>
-            </h1>
+          <div class="image-wrapper-main">
+            <img id="product-main-image" class="product-overview__main-image js-product-main-image" alt="" />
+            <div class="product-overview__skeleton-image" aria-hidden="true"></div>
+          </div>
+        </div>
 
-            <div class="product-overview__rating">
-              <div id="product-rating-stars" class="js-product-rating-stars">
-                <span
-                  class="product-overview__skeleton-circle"
-                  aria-hidden="true"
-                ></span>
-                <span
-                  class="product-overview__skeleton-circle"
-                  aria-hidden="true"
-                ></span>
-                <span
-                  class="product-overview__skeleton-circle"
-                  aria-hidden="true"
-                ></span>
-                <span
-                  class="product-overview__skeleton-circle"
-                  aria-hidden="true"
-                ></span>
-                <span
-                  class="product-overview__skeleton-circle"
-                  aria-hidden="true"
-                ></span>
-              </div>
-              <p
-                id="product-rating-text"
-                class="product-overview__rating-text js-product-rating-text"
-              >
-                <span
-                  class="product-overview__skeleton-line product-overview__skeleton-line--rating"
-                  aria-hidden="true"
-                ></span>
-              </p>
+        <div class="product-overview__info">
+          <h1 id="product-title" class="js-product-title">
+            <span class="product-overview__skeleton-line product-overview__skeleton-line--title"
+              aria-hidden="true"></span>
+            <span class="product-overview__skeleton-line product-overview__skeleton-line--title"
+              aria-hidden="true"></span>
+          </h1>
+
+          <div class="product-overview__rating">
+            <div id="product-rating-stars" class="js-product-rating-stars">
+              <span class="product-overview__skeleton-circle" aria-hidden="true"></span>
+              <span class="product-overview__skeleton-circle" aria-hidden="true"></span>
+              <span class="product-overview__skeleton-circle" aria-hidden="true"></span>
+              <span class="product-overview__skeleton-circle" aria-hidden="true"></span>
+              <span class="product-overview__skeleton-circle" aria-hidden="true"></span>
             </div>
-
-            <div class="product-overview__price">
-              <p
-                id="product-price-current"
-                class="product-overview__price-current js-product-price-current js-product-price"
-              >
-                <span
-                  class="product-overview__skeleton-pill"
-                  aria-hidden="true"
-                ></span>
-              </p>
-              <p
-                id="product-price-old"
-                class="product-overview__price-old js-product-price-old js-product-original-price"
-              >
-                <span
-                  class="product-overview__skeleton-pill"
-                  aria-hidden="true"
-                ></span>
-              </p>
-              <p
-                id="product-price-discount"
-                class="product-overview__price-discount js-product-price-discount js-product-discount"
-              >
-                <span
-                  class="product-overview__skeleton-pill"
-                  aria-hidden="true"
-                ></span>
-              </p>
-            </div>
-
-            <p
-              id="product-description"
-              class="product-overview__description js-product-description"
-            >
-              <span
-                class="product-overview__skeleton-line product-overview__skeleton-line--text"
-                aria-hidden="true"
-              ></span>
-              <span
-                class="product-overview__skeleton-line product-overview__skeleton-line--text"
-                aria-hidden="true"
-              ></span>
-              <span
-                class="product-overview__skeleton-line product-overview__skeleton-line--text"
-                aria-hidden="true"
-              ></span>
-              <span
-                class="product-overview__skeleton-line product-overview__skeleton-line--text"
-                aria-hidden="true"
-              ></span>
+            <p id="product-rating-text" class="product-overview__rating-text js-product-rating-text">
+              <span class="product-overview__skeleton-line product-overview__skeleton-line--rating"
+                aria-hidden="true"></span>
             </p>
-
-            <div class="product-overview__choose">
-              <p>Select Colors</p>
-              <div
-                id="product-color-options"
-                class="product-overview__choose-colors js-product-color-options"
-              >
-                <span
-                  class="product-overview__skeleton-circle"
-                  aria-hidden="true"
-                ></span>
-                <span
-                  class="product-overview__skeleton-circle"
-                  aria-hidden="true"
-                ></span>
-                <span
-                  class="product-overview__skeleton-circle"
-                  aria-hidden="true"
-                ></span>
-                <span
-                  class="product-overview__skeleton-circle"
-                  aria-hidden="true"
-                ></span>
-              </div>
-            </div>
-
-            <div class="product-overview__size">
-              <p>Choose Size</p>
-              <div
-                id="product-size-options"
-                class="product-overview__size-options js-product-size-options"
-              >
-                <span
-                  class="product-overview__skeleton-size"
-                  aria-hidden="true"
-                ></span>
-                <span
-                  class="product-overview__skeleton-size"
-                  aria-hidden="true"
-                ></span>
-                <span
-                  class="product-overview__skeleton-size"
-                  aria-hidden="true"
-                ></span>
-                <span
-                  class="product-overview__skeleton-size"
-                  aria-hidden="true"
-                ></span>
-              </div>
-            </div>
-
-            <div class="product-overview__actions">
-              <form action="#">
-                <button
-                  class="quantity-button-minus js-quantity-button-minus"
-                  type="button"
-                  aria-label="Decrease quantity"
-                ></button>
-                <input
-                  id="quantity-input"
-                  class="quantity-input js-quantity-input"
-                  type="number"
-                  value="1"
-                  min="1"
-                  step="1"
-                  aria-label="Quantity"
-                />
-                <button
-                  class="quantity-button-plus js-quantity-button-plus"
-                  type="button"
-                  aria-label="Increase quantity"
-                ></button>
-              </form>
-              <button class="add-to-cart-button js-add-to-cart" type="button">
-                Add to Cart
-              </button>
-            </div>
           </div>
-        </div>
-      </section>
 
-      <section class="products-tabs js-products-tabs">
-        <div class="tabs" aria-label="Product tabs">
-          <button class="tabs__tab js-tabs__tab" data-tab="tc-details">
-            Product Details
-          </button>
-
-          <button
-            class="tabs__tab js-tabs__tab tabs__tab--active"
-            data-tab="tc-reviews"
-          >
-            Rating & Reviews
-          </button>
-
-          <button class="tabs__tab js-tabs__tab" data-tab="tc-faqs">
-            FAQs
-          </button>
-        </div>
-
-        <section
-          id="tc-details"
-          data-tab-content="tc-details"
-          class="products-tabs__content js-products-tabs__content"
-        >
-          <div id="product-details-content" class="js-product-details-content">
-            Product details are loading...
+          <div class="product-overview__price">
+            <p id="product-price-current"
+              class="product-overview__price-current js-product-price-current js-product-price">
+              <span class="product-overview__skeleton-pill" aria-hidden="true"></span>
+            </p>
+            <p id="product-price-old"
+              class="product-overview__price-old js-product-price-old js-product-original-price">
+              <span class="product-overview__skeleton-pill" aria-hidden="true"></span>
+            </p>
+            <p id="product-price-discount"
+              class="product-overview__price-discount js-product-price-discount js-product-discount">
+              <span class="product-overview__skeleton-pill" aria-hidden="true"></span>
+            </p>
           </div>
-        </section>
 
-        <section
-          id="tc-reviews"
-          data-tab-content="tc-reviews"
-          class="reviews products-tabs__content js-products-tabs__content products-tabs__content--active"
-        >
-          <div class="reviews__header">
-            <h2 class="reviews__title">
-              All Reviews
-              <span id="reviews-count" class="js-reviews-count">(0)</span>
-            </h2>
+          <p id="product-description" class="product-overview__description js-product-description">
+            <span class="product-overview__skeleton-line product-overview__skeleton-line--text"
+              aria-hidden="true"></span>
+            <span class="product-overview__skeleton-line product-overview__skeleton-line--text"
+              aria-hidden="true"></span>
+            <span class="product-overview__skeleton-line product-overview__skeleton-line--text"
+              aria-hidden="true"></span>
+            <span class="product-overview__skeleton-line product-overview__skeleton-line--text"
+              aria-hidden="true"></span>
+          </p>
 
-            <div class="reviews__actions">
-              <div class="reviews__filter">
-                <button
-                  type="button"
-                  id="btn-filter-by-stars"
-                  class="reviews__action reviews__action--filter js-btn-filter-by-stars"
-                  aria-label="Filter reviews by star rating"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                  aria-controls="dropdown-filter-by-stars"
-                ></button>
-
-                <div
-                  id="dropdown-filter-by-stars"
-                  class="reviews__filter-dropdown js-dropdown-filter-by-stars"
-                >
-                  <div
-                    class="reviews__filter-option js-reviews__filter-option reviews__filter-option--active"
-                    data-stars="All"
-                  >
-                    <p class="reviews__filter-stars">All Reviews</p>
-                  </div>
-                  <div
-                    class="reviews__filter-option js-reviews__filter-option"
-                    data-stars="5"
-                  >
-                    <div class="reviews__filter-stars">5 stars</div>
-                  </div>
-                  <div
-                    class="reviews__filter-option js-reviews__filter-option"
-                    data-stars="4.5"
-                  >
-                    <div class="reviews__filter-stars">4.5 stars</div>
-                  </div>
-                  <div
-                    class="reviews__filter-option js-reviews__filter-option"
-                    data-stars="4"
-                  >
-                    <div class="reviews__filter-stars">4 stars</div>
-                  </div>
-                  <div
-                    class="reviews__filter-option js-reviews__filter-option"
-                    data-stars="3.5"
-                  >
-                    <div class="reviews__filter-stars">3.5 stars</div>
-                  </div>
-                  <div
-                    class="reviews__filter-option js-reviews__filter-option"
-                    data-stars="3"
-                  >
-                    <div class="reviews__filter-stars">3 stars</div>
-                  </div>
-                  <div
-                    class="reviews__filter-option js-reviews__filter-option"
-                    data-stars="2.5"
-                  >
-                    <div class="reviews__filter-stars">2.5 stars</div>
-                  </div>
-                  <div
-                    class="reviews__filter-option js-reviews__filter-option"
-                    data-stars="2"
-                  >
-                    <div class="reviews__filter-stars">2 stars</div>
-                  </div>
-                  <div
-                    class="reviews__filter-option js-reviews__filter-option"
-                    data-stars="1"
-                  >
-                    <div class="reviews__filter-stars">1 star</div>
-                  </div>
-                </div>
-              </div>
-              <div class="reviews__action reviews__action--sort">
-                <select
-                  id="reviews-sort-select"
-                  class="reviews__select js-reviews-sort-select"
-                  aria-label="Sort reviews"
-                >
-                  <option value="latest">Latest</option>
-                  <option value="oldest">Oldest</option>
-                  <option value="highest">Highest Rating</option>
-                </select>
-              </div>
-              <button
-                type="button"
-                class="reviews__action reviews__action--write js-write-review-button"
-                aria-label="Write a review"
-              >
-                Write a Review
-              </button>
+          <div class="product-overview__choose">
+            <p>Select Colors</p>
+            <div id="product-color-options" class="product-overview__choose-colors js-product-color-options">
+              <span class="product-overview__skeleton-circle" aria-hidden="true"></span>
+              <span class="product-overview__skeleton-circle" aria-hidden="true"></span>
+              <span class="product-overview__skeleton-circle" aria-hidden="true"></span>
+              <span class="product-overview__skeleton-circle" aria-hidden="true"></span>
             </div>
           </div>
 
-          <ul id="reviews-list" class="reviews__list js-reviews-list">
-            <li
-              class="reviews__item review-card reviews__skeleton"
-              aria-hidden="true"
-            >
-              <div class="review-card__meta">
-                <div
-                  class="reviews__skeleton-line reviews__skeleton-line--icon"
-                ></div>
-                <div
-                  class="reviews__skeleton-line reviews__skeleton-line--title"
-                ></div>
-                <div
-                  class="reviews__skeleton-line reviews__skeleton-line--stars"
-                ></div>
-              </div>
-              <div
-                class="reviews__skeleton-line reviews__skeleton-line--footer"
-              ></div>
-              <div
-                class="reviews__skeleton-line reviews__skeleton-line--text"
-              ></div>
-              <div
-                class="reviews__skeleton-line reviews__skeleton-line--text"
-              ></div>
-              <div
-                class="reviews__skeleton-line reviews__skeleton-line--text reviews__skeleton-line--text-short"
-              ></div>
-            </li>
-            <li
-              class="reviews__item review-card reviews__skeleton"
-              aria-hidden="true"
-            >
-              <div class="review-card__meta">
-                <div
-                  class="reviews__skeleton-line reviews__skeleton-line--icon"
-                ></div>
-                <div
-                  class="reviews__skeleton-line reviews__skeleton-line--title"
-                ></div>
-                <div
-                  class="reviews__skeleton-line reviews__skeleton-line--stars"
-                ></div>
-              </div>
-              <div
-                class="reviews__skeleton-line reviews__skeleton-line--footer"
-              ></div>
-              <div
-                class="reviews__skeleton-line reviews__skeleton-line--text"
-              ></div>
-              <div
-                class="reviews__skeleton-line reviews__skeleton-line--text"
-              ></div>
-              <div
-                class="reviews__skeleton-line reviews__skeleton-line--text reviews__skeleton-line--text-short"
-              ></div>
-            </li>
-            <li
-              class="reviews__item review-card reviews__skeleton"
-              aria-hidden="true"
-            >
-              <div class="review-card__meta">
-                <div
-                  class="reviews__skeleton-line reviews__skeleton-line--icon"
-                ></div>
-                <div
-                  class="reviews__skeleton-line reviews__skeleton-line--title"
-                ></div>
-                <div
-                  class="reviews__skeleton-line reviews__skeleton-line--stars"
-                ></div>
-              </div>
-              <div
-                class="reviews__skeleton-line reviews__skeleton-line--footer"
-              ></div>
-              <div
-                class="reviews__skeleton-line reviews__skeleton-line--text"
-              ></div>
-              <div
-                class="reviews__skeleton-line reviews__skeleton-line--text"
-              ></div>
-              <div
-                class="reviews__skeleton-line reviews__skeleton-line--text reviews__skeleton-line--text-short"
-              ></div>
-            </li>
-          </ul>
+          <div class="product-overview__size">
+            <p>Choose Size</p>
+            <div id="product-size-options" class="product-overview__size-options js-product-size-options">
+              <span class="product-overview__skeleton-size" aria-hidden="true"></span>
+              <span class="product-overview__skeleton-size" aria-hidden="true"></span>
+              <span class="product-overview__skeleton-size" aria-hidden="true"></span>
+              <span class="product-overview__skeleton-size" aria-hidden="true"></span>
+            </div>
+          </div>
 
-          <div class="reviews__load-more-wrapper">
-            <button
-              id="reviews-load-more"
-              class="reviews__load-more js-reviews-load-more"
-            >
-              Load More Reviews
+          <div class="product-overview__actions">
+            <form action="#">
+              <button class="quantity-button-minus js-quantity-button-minus" type="button"
+                aria-label="Decrease quantity"></button>
+              <input id="quantity-input" class="quantity-input js-quantity-input" type="number" value="1" min="1"
+                step="1" aria-label="Quantity" />
+              <button class="quantity-button-plus js-quantity-button-plus" type="button"
+                aria-label="Increase quantity"></button>
+            </form>
+            <button class="add-to-cart-button js-add-to-cart" type="button">
+              Add to Cart
             </button>
           </div>
-        </section>
+        </div>
+      </div>
+    </section>
 
-        <section
-          id="tc-faqs"
-          data-tab-content="tc-faqs"
-          class="products-tabs__content js-products-tabs__content"
-        >
-          <ul id="product-faqs-list" class="faqs js-product-faqs-list">
-            <li class="faqs__skeleton" aria-hidden="true">
-              <span class="faqs__skeleton-line"></span>
-              <span class="faqs__skeleton-icon"></span>
-            </li>
-            <li class="faqs__skeleton" aria-hidden="true">
-              <span class="faqs__skeleton-line"></span>
-              <span class="faqs__skeleton-icon"></span>
-            </li>
-            <li class="faqs__skeleton" aria-hidden="true">
-              <span class="faqs__skeleton-line"></span>
-              <span class="faqs__skeleton-icon"></span>
-            </li>
-            <li class="faqs__skeleton" aria-hidden="true">
-              <span class="faqs__skeleton-line"></span>
-              <span class="faqs__skeleton-icon"></span>
-            </li>
-          </ul>
-        </section>
+    <section class="products-tabs js-products-tabs">
+      <div class="tabs" aria-label="Product tabs">
+        <button class="tabs__tab js-tabs__tab" data-tab="tc-details">
+          Product Details
+        </button>
+
+        <button class="tabs__tab js-tabs__tab tabs__tab--active" data-tab="tc-reviews">
+          Rating & Reviews
+        </button>
+
+        <button class="tabs__tab js-tabs__tab" data-tab="tc-faqs">
+          FAQs
+        </button>
+      </div>
+
+      <section id="tc-details" data-tab-content="tc-details" class="products-tabs__content js-products-tabs__content">
+        <div id="product-details-content" class="js-product-details-content">
+          Product details are loading...
+        </div>
       </section>
 
-      <section class="other-products js-related-products">
-        <h2 class="other-products__title">You Might Also Like</h2>
+      <section id="tc-reviews" data-tab-content="tc-reviews"
+        class="reviews products-tabs__content js-products-tabs__content products-tabs__content--active">
+        <div class="reviews__header">
+          <h2 class="reviews__title">
+            All Reviews
+            <span id="reviews-count" class="js-reviews-count">(0)</span>
+          </h2>
 
-        <button class="other-products__prev js-other-products__prev"></button>
+          <div class="reviews__actions">
+            <div class="reviews__filter">
+              <button type="button" id="btn-filter-by-stars"
+                class="reviews__action reviews__action--filter js-btn-filter-by-stars"
+                aria-label="Filter reviews by star rating" aria-haspopup="listbox" aria-expanded="false"
+                aria-controls="dropdown-filter-by-stars"></button>
 
-        <div class="other-products__viewport js-related-viewport">
-          <ul
-            id="other-products-list"
-            class="other-products__list js-other-products__list js-related-track"
-          >
-            <li class="other-products__skeleton-card" aria-hidden="true">
-              <div class="other-products__skeleton-image"></div>
-              <div class="other-products__skeleton-line"></div>
-              <div class="other-products__skeleton-rating">
-                <span class="other-products__skeleton-circle"></span>
-                <span class="other-products__skeleton-circle"></span>
-                <span class="other-products__skeleton-circle"></span>
-                <span class="other-products__skeleton-circle"></span>
-                <span class="other-products__skeleton-circle"></span>
-                <span
-                  class="other-products__skeleton-line other-products__skeleton-line--short"
-                ></span>
+              <div id="dropdown-filter-by-stars" class="reviews__filter-dropdown js-dropdown-filter-by-stars"
+                role="listbox" aria-labelledby="btn-filter-by-stars" tabindex="-1">
+                <button type="button"
+                  class="reviews__filter-option js-reviews__filter-option reviews__filter-option--active"
+                  data-stars="All" role="option" aria-selected="true">
+                  <span class="reviews__filter-stars">All Reviews</span>
+                </button>
+                <button type="button" class="reviews__filter-option js-reviews__filter-option" data-stars="5"
+                  role="option" aria-selected="false">
+                  <span class="reviews__filter-stars">5 stars</span>
+                </button>
+                <button type="button" class="reviews__filter-option js-reviews__filter-option" data-stars="4.5"
+                  role="option" aria-selected="false">
+                  <span class="reviews__filter-stars">4.5 stars</span>
+                </button>
+                <button type="button" class="reviews__filter-option js-reviews__filter-option" data-stars="4"
+                  role="option" aria-selected="false">
+                  <span class="reviews__filter-stars">4 stars</span>
+                </button>
+                <button type="button" class="reviews__filter-option js-reviews__filter-option" data-stars="3.5"
+                  role="option" aria-selected="false">
+                  <span class="reviews__filter-stars">3.5 stars</span>
+                </button>
+                <button type="button" class="reviews__filter-option js-reviews__filter-option" data-stars="3"
+                  role="option" aria-selected="false">
+                  <span class="reviews__filter-stars">3 stars</span>
+                </button>
+                <button type="button" class="reviews__filter-option js-reviews__filter-option" data-stars="2.5"
+                  role="option" aria-selected="false">
+                  <span class="reviews__filter-stars">2.5 stars</span>
+                </button>
+                <button type="button" class="reviews__filter-option js-reviews__filter-option" data-stars="2"
+                  role="option" aria-selected="false">
+                  <span class="reviews__filter-stars">2 stars</span>
+                </button>
+                <button type="button" class="reviews__filter-option js-reviews__filter-option" data-stars="1.5"
+                  role="option" aria-selected="false">
+                  <span class="reviews__filter-stars">1.5 stars</span>
+                </button>
+                <button type="button" class="reviews__filter-option js-reviews__filter-option" data-stars="1"
+                  role="option" aria-selected="false">
+                  <span class="reviews__filter-stars">1 star</span>
+                </button>
               </div>
-              <div class="other-products__skeleton-pill"></div>
-            </li>
-            <li class="other-products__skeleton-card" aria-hidden="true">
-              <div class="other-products__skeleton-image"></div>
-              <div class="other-products__skeleton-line"></div>
-              <div class="other-products__skeleton-rating">
-                <span class="other-products__skeleton-circle"></span>
-                <span class="other-products__skeleton-circle"></span>
-                <span class="other-products__skeleton-circle"></span>
-                <span class="other-products__skeleton-circle"></span>
-                <span class="other-products__skeleton-circle"></span>
-                <span
-                  class="other-products__skeleton-line other-products__skeleton-line--short"
-                ></span>
-              </div>
-              <div class="other-products__skeleton-pill"></div>
-            </li>
-            <li class="other-products__skeleton-card" aria-hidden="true">
-              <div class="other-products__skeleton-image"></div>
-              <div class="other-products__skeleton-line"></div>
-              <div class="other-products__skeleton-rating">
-                <span class="other-products__skeleton-circle"></span>
-                <span class="other-products__skeleton-circle"></span>
-                <span class="other-products__skeleton-circle"></span>
-                <span class="other-products__skeleton-circle"></span>
-                <span class="other-products__skeleton-circle"></span>
-                <span
-                  class="other-products__skeleton-line other-products__skeleton-line--short"
-                ></span>
-              </div>
-              <div class="other-products__skeleton-pill"></div>
-            </li>
-            <li class="other-products__skeleton-card" aria-hidden="true">
-              <div class="other-products__skeleton-image"></div>
-              <div class="other-products__skeleton-line"></div>
-              <div class="other-products__skeleton-rating">
-                <span class="other-products__skeleton-circle"></span>
-                <span class="other-products__skeleton-circle"></span>
-                <span class="other-products__skeleton-circle"></span>
-                <span class="other-products__skeleton-circle"></span>
-                <span class="other-products__skeleton-circle"></span>
-                <span
-                  class="other-products__skeleton-line other-products__skeleton-line--short"
-                ></span>
-              </div>
-              <div class="other-products__skeleton-pill"></div>
-            </li>
-          </ul>
+            </div>
+            <div class="reviews__action reviews__action--sort">
+              <select id="reviews-sort-select" class="reviews__select js-reviews-sort-select" aria-label="Sort reviews">
+                <option value="latest">Latest</option>
+                <option value="oldest">Oldest</option>
+                <option value="highest">Highest Rating</option>
+              </select>
+            </div>
+            <button type="button" class="reviews__action reviews__action--write js-write-review-button"
+              aria-label="Write a review">
+              Write a Review
+            </button>
+          </div>
         </div>
 
-        <button class="other-products__next js-other-products__next"></button>
+        <ul id="reviews-list" class="reviews__list js-reviews-list">
+          <li class="reviews__item review-card reviews__skeleton" aria-hidden="true">
+            <div class="review-card__meta">
+              <div class="reviews__skeleton-line reviews__skeleton-line--icon"></div>
+              <div class="reviews__skeleton-line reviews__skeleton-line--title"></div>
+              <div class="reviews__skeleton-line reviews__skeleton-line--stars"></div>
+            </div>
+            <div class="reviews__skeleton-line reviews__skeleton-line--footer"></div>
+            <div class="reviews__skeleton-line reviews__skeleton-line--text"></div>
+            <div class="reviews__skeleton-line reviews__skeleton-line--text"></div>
+            <div class="reviews__skeleton-line reviews__skeleton-line--text reviews__skeleton-line--text-short"></div>
+          </li>
+          <li class="reviews__item review-card reviews__skeleton" aria-hidden="true">
+            <div class="review-card__meta">
+              <div class="reviews__skeleton-line reviews__skeleton-line--icon"></div>
+              <div class="reviews__skeleton-line reviews__skeleton-line--title"></div>
+              <div class="reviews__skeleton-line reviews__skeleton-line--stars"></div>
+            </div>
+            <div class="reviews__skeleton-line reviews__skeleton-line--footer"></div>
+            <div class="reviews__skeleton-line reviews__skeleton-line--text"></div>
+            <div class="reviews__skeleton-line reviews__skeleton-line--text"></div>
+            <div class="reviews__skeleton-line reviews__skeleton-line--text reviews__skeleton-line--text-short"></div>
+          </li>
+          <li class="reviews__item review-card reviews__skeleton" aria-hidden="true">
+            <div class="review-card__meta">
+              <div class="reviews__skeleton-line reviews__skeleton-line--icon"></div>
+              <div class="reviews__skeleton-line reviews__skeleton-line--title"></div>
+              <div class="reviews__skeleton-line reviews__skeleton-line--stars"></div>
+            </div>
+            <div class="reviews__skeleton-line reviews__skeleton-line--footer"></div>
+            <div class="reviews__skeleton-line reviews__skeleton-line--text"></div>
+            <div class="reviews__skeleton-line reviews__skeleton-line--text"></div>
+            <div class="reviews__skeleton-line reviews__skeleton-line--text reviews__skeleton-line--text-short"></div>
+          </li>
+        </ul>
+
+        <div class="reviews__load-more-wrapper">
+          <button id="reviews-load-more" class="reviews__load-more js-reviews-load-more">
+            Load More Reviews
+          </button>
+        </div>
       </section>
 
-      <div class="footer-form">
+      <section id="tc-faqs" data-tab-content="tc-faqs" class="products-tabs__content js-products-tabs__content">
+        <ul id="product-faqs-list" class="faqs js-product-faqs-list">
+          <li class="faqs__skeleton" aria-hidden="true">
+            <span class="faqs__skeleton-line"></span>
+            <span class="faqs__skeleton-icon"></span>
+          </li>
+          <li class="faqs__skeleton" aria-hidden="true">
+            <span class="faqs__skeleton-line"></span>
+            <span class="faqs__skeleton-icon"></span>
+          </li>
+          <li class="faqs__skeleton" aria-hidden="true">
+            <span class="faqs__skeleton-line"></span>
+            <span class="faqs__skeleton-icon"></span>
+          </li>
+          <li class="faqs__skeleton" aria-hidden="true">
+            <span class="faqs__skeleton-line"></span>
+            <span class="faqs__skeleton-icon"></span>
+          </li>
+        </ul>
+      </section>
+    </section>
+
+    <section class="other-products js-related-products">
+      <h2 class="other-products__title">You Might Also Like</h2>
+
+      <button class="other-products__prev js-other-products__prev"></button>
+
+      <div class="other-products__viewport js-related-viewport">
+        <ul id="other-products-list" class="other-products__list js-other-products__list js-related-track">
+          <li class="other-products__skeleton-card" aria-hidden="true">
+            <div class="other-products__skeleton-image"></div>
+            <div class="other-products__skeleton-line"></div>
+            <div class="other-products__skeleton-rating">
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-line other-products__skeleton-line--short"></span>
+            </div>
+            <div class="other-products__skeleton-pill"></div>
+          </li>
+          <li class="other-products__skeleton-card" aria-hidden="true">
+            <div class="other-products__skeleton-image"></div>
+            <div class="other-products__skeleton-line"></div>
+            <div class="other-products__skeleton-rating">
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-line other-products__skeleton-line--short"></span>
+            </div>
+            <div class="other-products__skeleton-pill"></div>
+          </li>
+          <li class="other-products__skeleton-card" aria-hidden="true">
+            <div class="other-products__skeleton-image"></div>
+            <div class="other-products__skeleton-line"></div>
+            <div class="other-products__skeleton-rating">
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-line other-products__skeleton-line--short"></span>
+            </div>
+            <div class="other-products__skeleton-pill"></div>
+          </li>
+          <li class="other-products__skeleton-card" aria-hidden="true">
+            <div class="other-products__skeleton-image"></div>
+            <div class="other-products__skeleton-line"></div>
+            <div class="other-products__skeleton-rating">
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-circle"></span>
+              <span class="other-products__skeleton-line other-products__skeleton-line--short"></span>
+            </div>
+            <div class="other-products__skeleton-pill"></div>
+          </li>
+        </ul>
+      </div>
+
+      <button class="other-products__next js-other-products__next"></button>
+    </section>
+
+    <div class="footer-form">
   <p>STAY UPTO DATE ABOUT OUR LATEST OFFERS</p>
   <form action="#">
     <div class="footer-form__input">
@@ -615,9 +398,9 @@
   </form>
 </div>
 
-    </div>
+  </div>
 
-    <footer class="footer">
+  <footer class="footer">
   <div class="footer-main">
     <div class="footer-main__content">
       <section class="footer-main__info" aria-label="Brand information">
@@ -745,92 +528,64 @@
 </footer>
 
 
-    <div class="container product-flow-nav">
-      <nav class="product-flow-nav__links" aria-label="Flow navigation">
-        <a href="index.html">Previous: Product List</a>
-        <a href="cart.html">Next: Cart</a>
-      </nav>
-    </div>
+  <div class="container product-flow-nav">
+    <nav class="product-flow-nav__links" aria-label="Flow navigation">
+      <a href="index.html">Previous: Product List</a>
+      <a href="cart.html">Next: Cart</a>
+    </nav>
+  </div>
 
-    <div
-      id="write-review-modal"
-      class="review-modal js-review-modal"
-      aria-hidden="true"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="write-review-title"
-    >
-      <div class="review-modal__backdrop js-review-modal-close"></div>
-      <div class="review-modal__dialog" role="document">
-        <div class="review-modal__header">
-          <h3 id="write-review-title" class="review-modal__title">
-            Write a Review
-          </h3>
-          <button
-            type="button"
-            class="review-modal__close js-review-modal-close"
-            aria-label="Close review form"
-          ></button>
+  <div aria-live="polite" class="sr-only js-sr-announcer"></div>
+
+  <div id="write-review-modal" class="review-modal js-review-modal" aria-hidden="true" role="dialog" aria-modal="true"
+    aria-labelledby="write-review-title">
+    <div class="review-modal__backdrop js-review-modal-close"></div>
+    <div class="review-modal__dialog" role="document">
+      <div class="review-modal__header">
+        <h3 id="write-review-title" class="review-modal__title">
+          Write a Review
+        </h3>
+        <button type="button" class="review-modal__close js-review-modal-close" aria-label="Close review form"></button>
+      </div>
+
+      <form class="review-modal__form js-review-modal-form">
+        <label class="review-modal__field">
+          <span>Username</span>
+          <input type="text" class="js-review-username" name="username" autocomplete="name" disabled />
+        </label>
+
+        <label class="review-modal__field">
+          <span>Comment</span>
+          <textarea class="js-review-comment" name="comment" rows="4"
+            placeholder="Share your thoughts about this product" required></textarea>
+        </label>
+
+        <div class="review-modal__field review-modal__field--rating">
+          <span>Star Rating</span>
+          <div class="review-modal__rating-picker js-review-rating-picker"
+            aria-label="Select a rating from 1 to 5 stars">
+            <div class="review-modal__rating-stars js-review-rating-stars"></div>
+            <div class="review-modal__rating-hitzones js-review-rating-hitzones" aria-hidden="false"></div>
+          </div>
+          <p class="review-modal__rating-value js-review-rating-value">
+            5.0/5
+          </p>
         </div>
 
-        <form class="review-modal__form js-review-modal-form">
-          <label class="review-modal__field">
-            <span>Username</span>
-            <input
-              type="text"
-              class="js-review-username"
-              name="username"
-              autocomplete="name"
-              disabled
-            />
-          </label>
-
-          <label class="review-modal__field">
-            <span>Comment</span>
-            <textarea
-              class="js-review-comment"
-              name="comment"
-              rows="4"
-              placeholder="Share your thoughts about this product"
-              required
-            ></textarea>
-          </label>
-
-          <div class="review-modal__field review-modal__field--rating">
-            <span>Star Rating</span>
-            <div
-              class="review-modal__rating-picker js-review-rating-picker"
-              aria-label="Select a rating from 1 to 5 stars"
-            >
-              <div
-                class="review-modal__rating-stars js-review-rating-stars"
-              ></div>
-              <div
-                class="review-modal__rating-hitzones js-review-rating-hitzones"
-                aria-hidden="false"
-              ></div>
-            </div>
-            <p class="review-modal__rating-value js-review-rating-value">
-              5.0/5
-            </p>
-          </div>
-
-          <div class="review-modal__actions">
-            <button
-              type="button"
-              class="review-modal__button review-modal__button--cancel js-review-modal-close"
-            >
-              Cancel
-            </button>
-            <button type="submit" class="review-modal__button">
-              Submit Review
-            </button>
-          </div>
-        </form>
-      </div>
+        <div class="review-modal__actions">
+          <button type="button" class="review-modal__button review-modal__button--cancel js-review-modal-close">
+            Cancel
+          </button>
+          <button type="submit" class="review-modal__button">
+            Submit Review
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
 
-    <script type="module" src="./assets/js/pages/productDetailPage.js"></script>
+  <script type="module" src="./assets/js/pages/productDetailPage.js"></script>
 
-  </body>
+</body>
+
 </html>

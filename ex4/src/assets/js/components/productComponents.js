@@ -167,7 +167,7 @@ export function renderBreadcrumb(container, product) {
       const isLast = index === breadcrumb.length - 1;
 
       if (isLast) {
-        return `<li aria-current="page">${crumb}</li>`;
+        return `<li aria-current="page"><span class="product-breadcrumb__current">${crumb}</span></li>`;
       }
 
       const href = getBreadcrumbHref(crumb, index);
@@ -269,6 +269,34 @@ export function renderImageGallery(thumbnailsContainer, mainImage, product) {
     })
     .join("");
 
+  // --- Scroll-aware fade helpers ---
+
+  function updateThumbnailScrollState() {
+    const canScrollUp = thumbnailsContainer.scrollTop > 0;
+    const canScrollDown =
+      thumbnailsContainer.scrollTop + thumbnailsContainer.clientHeight <
+      thumbnailsContainer.scrollHeight - 1;
+    thumbnailsContainer.classList.toggle("js-has-scroll-top", canScrollUp);
+    thumbnailsContainer.classList.toggle("js-has-scroll-bottom", canScrollDown);
+  }
+
+  // --- Active thumbnail helper ---
+
+  function setActiveThumbnail(activeWrapper) {
+    thumbnailsContainer
+      .querySelectorAll(".js-thumbnail-wrapper")
+      .forEach((wrapper) => wrapper.classList.remove("js-is-active"));
+    activeWrapper?.classList.add("js-is-active");
+  }
+
+  // Mark first thumbnail as active on initial render
+  const firstWrapper = thumbnailsContainer.querySelector(".js-thumbnail-wrapper");
+  setActiveThumbnail(firstWrapper);
+
+  // Compute initial scroll fade state and keep it updated
+  updateThumbnailScrollState();
+  thumbnailsContainer.addEventListener("scroll", updateThumbnailScrollState, { passive: true });
+
   thumbnailsContainer
     .querySelectorAll(".js-product-thumbnail")
     .forEach((thumb) => {
@@ -295,7 +323,7 @@ export function renderImageGallery(thumbnailsContainer, mainImage, product) {
         handleLoad();
       }
 
-      // Click handler for thumbnail selection
+      // Click handler: switch main image and move active state
       thumb.addEventListener("click", () => {
         const imageIndex = Number(thumb.dataset.imageIndex);
         const selectedImage = images[imageIndex];
@@ -303,6 +331,7 @@ export function renderImageGallery(thumbnailsContainer, mainImage, product) {
           selectedImage?.url || selectedImage?.image_url,
           selectedImage?.alt || selectedImage?.alt_text,
         );
+        setActiveThumbnail(thumb.closest(".js-thumbnail-wrapper"));
       });
     });
 }

@@ -7,6 +7,32 @@
   &__breadcrumb {
     @include m.breadcrumb();
   }
+}
+
+.product-breadcrumb {
+  flex-wrap: nowrap;
+  min-width: 0;
+
+  li {
+    flex: 0 0 auto;
+  }
+
+  li[aria-current="page"] {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden; // Clip the flex item so the span inside cannot escape
+  }
+
+  &__current {
+    display: block;         // Block box is required for text-overflow to fire
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+.cart-page {
+
 
   &__title {
     font-family: "IntegralCF", sans-serif;
@@ -290,14 +316,14 @@
     line-height: 1.2;
     flex: 1 1 auto;
     min-width: 0;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     padding-top: 5px;
 
     &-link {
+      @include m.line-clamp(1);
       color: inherit;
       text-decoration: none;
+      overflow-wrap: break-word;
+      word-break: break-word;
 
       &:hover {
         text-decoration: underline;
@@ -721,7 +747,8 @@
     }
 
     &__quantity {
-      width: 126px;
+      max-width: 105px;
+      padding: 0;
     }
   }
 
@@ -750,6 +777,10 @@
       button {
         padding: 0 20px;
       }
+    }
+
+    &__checkout {
+      min-height: 48px;
     }
   }
 }

@@ -101,7 +101,14 @@ const dom = {
   productTabs: document.querySelectorAll(".js-tabs__tab"),
   productTabContents: document.querySelectorAll(".js-products-tabs__content"),
   addToCartButton: document.querySelector(".js-add-to-cart"),
+  srAnnouncer: document.querySelector(".js-sr-announcer"),
 };
+
+function announce(message) {
+  if (dom.srAnnouncer) {
+    dom.srAnnouncer.textContent = message;
+  }
+}
 
 let relatedProductsCarousel = null;
 
@@ -748,12 +755,41 @@ function bindStaticEvents() {
     );
   });
 
-  document.addEventListener("click", () => {
-    dom.reviewsFilterDropdown?.classList.remove(
-      "reviews__filter-dropdown--show",
-    );
-    dom.reviewsFilterBtn?.setAttribute("aria-expanded", "false");
+  dom.reviewsFilterBtn?.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      dom.reviewsFilterDropdown?.classList.add("reviews__filter-dropdown--show");
+      dom.reviewsFilterBtn?.setAttribute("aria-expanded", "true");
+      dom.reviewsFilterOptions[0]?.focus();
+    }
   });
+
+  dom.reviewsFilterDropdown?.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      event.stopPropagation();
+      dom.reviewsFilterDropdown?.classList.remove("reviews__filter-dropdown--show");
+      dom.reviewsFilterBtn?.setAttribute("aria-expanded", "false");
+      dom.reviewsFilterBtn?.focus();
+      return;
+    }
+
+    const options = Array.from(dom.reviewsFilterOptions);
+    const index = options.indexOf(document.activeElement);
+    if (index === -1) return;
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      const nextIndex = (index + 1) % options.length;
+      options[nextIndex]?.focus();
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      const prevIndex = (index - 1 + options.length) % options.length;
+      options[prevIndex]?.focus();
+    }
+  });
+
+  document.removeEventListener("click", handleDocumentClickForDropdown);
+  document.addEventListener("click", handleDocumentClickForDropdown);
 
   dom.reviewsFilterOptions.forEach((option) => {
     option.addEventListener("click", (event) => {
@@ -848,11 +884,8 @@ function bindStaticEvents() {
     });
   });
 
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      closeReviewModal();
-    }
-  });
+  document.removeEventListener("keydown", handleEscapeKeyToCloseModal);
+  document.addEventListener("keydown", handleEscapeKeyToCloseModal);
 
   dom.reviewModalForm?.addEventListener("submit", handleReviewSubmit);
 
@@ -861,22 +894,25 @@ function bindStaticEvents() {
 
   minusButton?.addEventListener("click", () => {
     const current = normalizeQuantity(dom.quantityInput.value);
-    dom.quantityInput.value = String(Math.max(1, current - 1));
+    updateQuantityUI(current - 1);
   });
 
   plusButton?.addEventListener("click", () => {
     const current = normalizeQuantity(dom.quantityInput.value);
-    dom.quantityInput.value = String(current + 1);
+    updateQuantityUI(current + 1);
   });
 
   dom.quantityInput?.addEventListener("input", () => {
-    dom.quantityInput.value = dom.quantityInput.value.replace(/[^0-9]/g, "");
+    const sanitized = dom.quantityInput.value.replace(/[^0-9]/g, "");
+    dom.quantityInput.value = sanitized;
+    const parsed = parseInt(sanitized, 10);
+    if (dom.quantityMinusButton) {
+      dom.quantityMinusButton.disabled = isNaN(parsed) || parsed <= 1;
+    }
   });
 
   dom.quantityInput?.addEventListener("blur", () => {
-    dom.quantityInput.value = String(
-      normalizeQuantity(dom.quantityInput.value),
-    );
+    updateQuantityUI(dom.quantityInput.value);
   });
 }
 
@@ -903,6 +939,7 @@ async function loadReviews(
     if (dom.reviewsLoadMore) {
       dom.reviewsLoadMore.style.display = "none";
     }
+    announce("Loading reviews...");
   }
 
   const [reviewsResult] = await Promise.all([
@@ -938,6 +975,8 @@ async function loadReviews(
     dom.reviewsList.offsetWidth;
     dom.reviewsList.classList.add("reviews__list--fade-in");
   }
+
+  announce("Reviews loaded");
 
   if (dom.reviewsLoadMore) {
     dom.reviewsLoadMore.style.display =
@@ -1039,6 +1078,7 @@ function bindAddToCart(product) {
       state.selectedSizeId ?? null,
     );
     triggerAddToCartFeedback(dom.addToCartButton);
+    announce("Product added to cart");
   };
 }
 
@@ -1126,6 +1166,29 @@ async function loadSelectedProduct(productId) {
   }
 }
 
+function handleDocumentClickForDropdown() {
+  dom.reviewsFilterDropdown?.classList.remove(
+    "reviews__filter-dropdown--show",
+  );
+  dom.reviewsFilterBtn?.setAttribute("aria-expanded", "false");
+}
+
+function handleEscapeKeyToCloseModal(event) {
+  if (event.key === "Escape") {
+    if (typeof closeReviewModal === "function") closeReviewModal();
+  }
+}
+
+export function updateQuantityUI(value) {
+  const current = normalizeQuantity(value);
+  if (dom.quantityInput) {
+    dom.quantityInput.value = String(current);
+  }
+  if (dom.quantityMinusButton) {
+    dom.quantityMinusButton.disabled = current <= 1;
+  }
+}
+
 export async function initProductDetailPage() {
   bindStaticEvents();
 
@@ -1151,4 +1214,8 @@ export async function initProductDetailPage() {
 
   state.selectedProductId = null;
   await loadSelectedProduct(productId);
+  
+  if (dom.quantityInput) {
+    updateQuantityUI(dom.quantityInput.value);
+  }
 }

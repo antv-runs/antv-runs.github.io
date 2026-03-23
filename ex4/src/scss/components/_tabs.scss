@@ -14,6 +14,7 @@
   margin-bottom: 24px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid #0000001A;
 
   &__tab {
     font-size: 20px;
@@ -34,8 +35,32 @@
 
 @media (max-width: 768px) {
   .tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 45px;
+    // Hide scrollbar — tabs scroll via swipe/trackpad
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
     &__tab {
+      flex: 0 0 auto;
       font-size: 16px;
+      padding: 12px 0;
+      white-space: nowrap;
+      // Transparent baseline keeps layout stable when active state changes
+      border-bottom: 2px solid transparent;
+      color: #999;
+
+      &--active {
+        color: #000;
+        border-color: #000;
+      }
     }
   }
 }
