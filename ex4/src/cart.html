@@ -1,194 +1,129 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    @@include('./partials/head.html', { "title": "Cart" })
-  </head>
-  <body>
-    @@include('./partials/header.html')
 
-    <div class="container">
-      <main class="cart-page">
-        <ol class="cart-page__breadcrumb" aria-label="Breadcrumb">
-          <li><a href="#">Home</a></li>
-          <li aria-current="page">Cart</li>
-        </ol>
+<head>
+  @@include('./partials/head.html', { "title": "Cart" })
+</head>
 
-        <h1 class="cart-page__title">Your Cart</h1>
+<body>
+  @@include('./partials/header.html')
 
-        <div class="cart-empty js-cart-empty" style="display: none;" aria-live="polite">
-          <div class="cart-empty__inner">
-            <p class="cart-empty__text">Your cart is empty.</p>
-            <a href="/" class="cart-empty__cta">Continue Shopping</a>
-          </div>
+  <div class="container">
+    <main class="cart-page js-cart-page">
+      <ol class="cart-page__breadcrumb" aria-label="Breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li aria-current="page">Cart</li>
+      </ol>
+
+      <h1 class="cart-page__title">Your Cart</h1>
+
+      <div class="cart-empty js-cart-empty" style="display: none;" aria-live="polite">
+        <div class="cart-empty__inner">
+          <p class="cart-empty__text">Your cart is empty.</p>
+          <a href="/" class="cart-empty__cta">Continue Shopping</a>
+        </div>
+      </div>
+
+      <section class="cart-page__layout js-cart-layout" aria-label="Cart summary">
+        <div class="cart-items js-cart-items" aria-busy="true" aria-live="polite">
+          <article class="cart-item cart-item--skeleton" aria-hidden="true">
+            <div class="cart-item__image cart-skeleton-block"></div>
+            <div class="cart-item__content">
+              <div class="cart-item__head">
+                <div class="cart-skeleton-block cart-skeleton-block--title"></div>
+                <div class="cart-skeleton-block cart-skeleton-block--icon"></div>
+              </div>
+              <div class="cart-skeleton-block cart-skeleton-block--meta"></div>
+              <div class="cart-skeleton-block cart-skeleton-block--meta cart-skeleton-block--meta-short"></div>
+              <div class="cart-item__foot">
+                <div class="cart-skeleton-block cart-skeleton-block--price"></div>
+                <div class="cart-item__quantity cart-item__quantity--skeleton">
+                  <div class="cart-skeleton-block cart-skeleton-block--qty-icon"></div>
+                  <div class="cart-skeleton-block cart-skeleton-block--qty-value"></div>
+                  <div class="cart-skeleton-block cart-skeleton-block--qty-icon"></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="cart-item cart-item--skeleton" aria-hidden="true">
+            <div class="cart-item__image cart-skeleton-block"></div>
+            <div class="cart-item__content">
+              <div class="cart-item__head">
+                <div class="cart-skeleton-block cart-skeleton-block--title"></div>
+                <div class="cart-skeleton-block cart-skeleton-block--icon"></div>
+              </div>
+              <div class="cart-skeleton-block cart-skeleton-block--meta"></div>
+              <div class="cart-skeleton-block cart-skeleton-block--meta cart-skeleton-block--meta-short"></div>
+              <div class="cart-item__foot">
+                <div class="cart-skeleton-block cart-skeleton-block--price"></div>
+                <div class="cart-item__quantity cart-item__quantity--skeleton">
+                  <div class="cart-skeleton-block cart-skeleton-block--qty-icon"></div>
+                  <div class="cart-skeleton-block cart-skeleton-block--qty-value"></div>
+                  <div class="cart-skeleton-block cart-skeleton-block--qty-icon"></div>
+                </div>
+              </div>
+            </div>
+          </article>
         </div>
 
-        <section class="cart-page__layout js-cart-layout" aria-label="Cart summary">
-          <div
-            class="cart-items js-cart-items"
-            aria-busy="true"
-            aria-live="polite"
-          >
-            <article class="cart-item cart-item--skeleton" aria-hidden="true">
-              <div class="cart-item__image cart-skeleton-block"></div>
-              <div class="cart-item__content">
-                <div class="cart-item__head">
-                  <div
-                    class="cart-skeleton-block cart-skeleton-block--title"
-                  ></div>
-                  <div
-                    class="cart-skeleton-block cart-skeleton-block--icon"
-                  ></div>
-                </div>
-                <div
-                  class="cart-skeleton-block cart-skeleton-block--meta"
-                ></div>
-                <div
-                  class="cart-skeleton-block cart-skeleton-block--meta cart-skeleton-block--meta-short"
-                ></div>
-                <div class="cart-item__foot">
-                  <div
-                    class="cart-skeleton-block cart-skeleton-block--price"
-                  ></div>
-                  <div
-                    class="cart-item__quantity cart-item__quantity--skeleton"
-                  >
-                    <div
-                      class="cart-skeleton-block cart-skeleton-block--qty-icon"
-                    ></div>
-                    <div
-                      class="cart-skeleton-block cart-skeleton-block--qty-value"
-                    ></div>
-                    <div
-                      class="cart-skeleton-block cart-skeleton-block--qty-icon"
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </article>
+        <aside class="cart-summary js-cart-summary" aria-label="Order summary" aria-busy="true">
+          <h2 class="cart-summary__title">Order Summary</h2>
 
-            <article class="cart-item cart-item--skeleton" aria-hidden="true">
-              <div class="cart-item__image cart-skeleton-block"></div>
-              <div class="cart-item__content">
-                <div class="cart-item__head">
-                  <div
-                    class="cart-skeleton-block cart-skeleton-block--title"
-                  ></div>
-                  <div
-                    class="cart-skeleton-block cart-skeleton-block--icon"
-                  ></div>
-                </div>
-                <div
-                  class="cart-skeleton-block cart-skeleton-block--meta"
-                ></div>
-                <div
-                  class="cart-skeleton-block cart-skeleton-block--meta cart-skeleton-block--meta-short"
-                ></div>
-                <div class="cart-item__foot">
-                  <div
-                    class="cart-skeleton-block cart-skeleton-block--price"
-                  ></div>
-                  <div
-                    class="cart-item__quantity cart-item__quantity--skeleton"
-                  >
-                    <div
-                      class="cart-skeleton-block cart-skeleton-block--qty-icon"
-                    ></div>
-                    <div
-                      class="cart-skeleton-block cart-skeleton-block--qty-value"
-                    ></div>
-                    <div
-                      class="cart-skeleton-block cart-skeleton-block--qty-icon"
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </article>
+          <dl class="cart-summary__rows">
+            <div class="cart-summary__row u-mb-28">
+              <dt>Subtotal</dt>
+              <dd class="js-cart-subtotal">
+                <span class="cart-skeleton-block cart-skeleton-block--summary"></span>
+              </dd>
+            </div>
+            <div class="cart-summary__row u-mb-28">
+              <dt>Discount (-20%)</dt>
+              <dd class="cart-summary__discount js-cart-discount">
+                <span class="cart-skeleton-block cart-skeleton-block--summary"></span>
+              </dd>
+            </div>
+            <div class="cart-summary__row">
+              <dt>Delivery Fee</dt>
+              <dd class="js-cart-delivery">
+                <span class="cart-skeleton-block cart-skeleton-block--summary"></span>
+              </dd>
+            </div>
+          </dl>
+
+          <div class="cart-summary__total">
+            <p>Total</p>
+            <p class="js-cart-total">
+              <span class="cart-skeleton-block cart-skeleton-block--summary cart-skeleton-block--summary-total"></span>
+            </p>
           </div>
 
-          <aside
-            class="cart-summary js-cart-summary"
-            aria-label="Order summary"
-            aria-busy="true"
-          >
-            <h2 class="cart-summary__title">Order Summary</h2>
-
-            <dl class="cart-summary__rows">
-              <div class="cart-summary__row u-mb-28">
-                <dt>Subtotal</dt>
-                <dd class="js-cart-subtotal">
-                  <span
-                    class="cart-skeleton-block cart-skeleton-block--summary"
-                  ></span>
-                </dd>
-              </div>
-              <div class="cart-summary__row u-mb-28">
-                <dt>Discount (-20%)</dt>
-                <dd class="cart-summary__discount js-cart-discount">
-                  <span
-                    class="cart-skeleton-block cart-skeleton-block--summary"
-                  ></span>
-                </dd>
-              </div>
-              <div class="cart-summary__row">
-                <dt>Delivery Fee</dt>
-                <dd class="js-cart-delivery">
-                  <span
-                    class="cart-skeleton-block cart-skeleton-block--summary"
-                  ></span>
-                </dd>
-              </div>
-            </dl>
-
-            <div class="cart-summary__total">
-              <p>Total</p>
-              <p class="js-cart-total">
-                <span
-                  class="cart-skeleton-block cart-skeleton-block--summary cart-skeleton-block--summary-total"
-                ></span>
-              </p>
+          <form class="cart-summary__coupon js-cart-promo-form" action="#">
+            <div class="coupon-input">
+              <figure>
+                <img src="~/images/icn_promo_code.svg" alt="Promo code" />
+              </figure>
+              <input class="js-cart-coupon-input" type="text" placeholder="Add promo code" aria-label="Promo code"
+                disabled aria-disabled="true" />
             </div>
-
-            <form class="cart-summary__coupon" action="#">
-              <div class="coupon-input">
-                <figure>
-                  <img src="~/images/icn_promo_code.svg" alt="Promo code" />
-                </figure>
-                <input
-                  class="js-cart-coupon-input"
-                  type="text"
-                  placeholder="Add promo code"
-                  aria-label="Promo code"
-                  disabled
-                  aria-disabled="true"
-                />
-              </div>
-              <button
-                class="js-cart-coupon-apply"
-                type="button"
-                disabled
-                aria-disabled="true"
-              >
-                Apply
-              </button>
-            </form>
-            <p class="cart-summary__coupon-msg js-cart-coupon-msg" aria-live="polite" hidden></p>
-
-            <button
-              class="cart-summary__checkout js-cart-checkout"
-              type="button"
-              disabled
-              aria-disabled="true"
-            >
-              <span class="cart-summary__checkout-text">Go to Checkout</span>
+            <button class="js-cart-coupon-apply" type="button" disabled aria-disabled="true">
+              Apply
             </button>
-          </aside>
-        </section>
-      </main>
+          </form>
+          <p class="cart-summary__coupon-msg js-cart-coupon-msg" aria-live="polite" hidden></p>
 
-      @@include('./partials/footer-form.html')
-    </div>
+          <button class="cart-summary__checkout js-cart-checkout" type="button" disabled aria-disabled="true">
+            <span class="cart-summary__checkout-text">Go to Checkout</span>
+          </button>
+        </aside>
+      </section>
+    </main>
 
-    @@include('./partials/footer.html')
-    @@include('./partials/scripts.html', { "script": "~/js/pages/cartPage.js" })
-  </body>
+    @@include('./partials/footer-form.html')
+  </div>
+
+  @@include('./partials/footer.html')
+  @@include('./partials/scripts.html', { "script": "~/js/pages/cartPage.js" })
+</body>
+
 </html>

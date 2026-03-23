@@ -3835,17 +3835,12 @@ body.review-modal-open {
   cursor: not-allowed;
   pointer-events: none;
 }
-.cart-summary__coupon-msg {
-  margin-top: -12px;
-  margin-bottom: 22px;
-  font-size: 14px;
-  line-height: 1.4;
-}
 .cart-summary__coupon-msg[hidden] {
   display: none;
 }
 .cart-summary__coupon-msg--error {
   color: #ff3333;
+  margin-bottom: 22px;
 }
 .cart-summary__checkout {
   height: auto;

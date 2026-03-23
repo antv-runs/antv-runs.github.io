@@ -568,17 +568,13 @@
   }
 
   &__coupon-msg {
-    margin-top: -12px;
-    margin-bottom: 22px;
-    font-size: 14px;
-    line-height: 1.4;
-
     &[hidden] {
       display: none;
     }
 
     &--error {
       color: v.$color-danger;
+      margin-bottom: 22px;
     }
   }
 
