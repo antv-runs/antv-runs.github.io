@@ -901,22 +901,25 @@ function bindStaticEvents() {
 
   minusButton?.addEventListener("click", () => {
     const current = normalizeQuantity(dom.quantityInput.value);
-    dom.quantityInput.value = String(Math.max(1, current - 1));
+    updateQuantityUI(current - 1);
   });
 
   plusButton?.addEventListener("click", () => {
     const current = normalizeQuantity(dom.quantityInput.value);
-    dom.quantityInput.value = String(current + 1);
+    updateQuantityUI(current + 1);
   });
 
   dom.quantityInput?.addEventListener("input", () => {
-    dom.quantityInput.value = dom.quantityInput.value.replace(/[^0-9]/g, "");
+    const sanitized = dom.quantityInput.value.replace(/[^0-9]/g, "");
+    dom.quantityInput.value = sanitized;
+    const parsed = parseInt(sanitized, 10);
+    if (dom.quantityMinusButton) {
+      dom.quantityMinusButton.disabled = isNaN(parsed) || parsed <= 1;
+    }
   });
 
   dom.quantityInput?.addEventListener("blur", () => {
-    dom.quantityInput.value = String(
-      normalizeQuantity(dom.quantityInput.value),
-    );
+    updateQuantityUI(dom.quantityInput.value);
   });
 }
 
@@ -1170,6 +1173,16 @@ async function loadSelectedProduct(productId) {
   }
 }
 
+export function updateQuantityUI(value) {
+  const current = normalizeQuantity(value);
+  if (dom.quantityInput) {
+    dom.quantityInput.value = String(current);
+  }
+  if (dom.quantityMinusButton) {
+    dom.quantityMinusButton.disabled = current <= 1;
+  }
+}
+
 export async function initProductDetailPage() {
   bindStaticEvents();
 
@@ -1195,4 +1208,8 @@ export async function initProductDetailPage() {
 
   state.selectedProductId = null;
   await loadSelectedProduct(productId);
+  
+  if (dom.quantityInput) {
+    updateQuantityUI(dom.quantityInput.value);
+  }
 }

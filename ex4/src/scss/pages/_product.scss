@@ -5,6 +5,7 @@
   margin-bottom: 80px;
 
   &--bootstrap-locked {
+
     .product-overview__choose-colors,
     .product-overview__size-options,
     .product-overview__actions {
@@ -65,7 +66,7 @@
     opacity: 1;
   }
 
-  &__main-image.is-loaded + &__skeleton-image {
+  &__main-image.is-loaded+&__skeleton-image {
     opacity: 0;
     visibility: hidden;
   }
@@ -173,7 +174,7 @@
     gap: 16px;
     margin-bottom: 14px;
 
-    > div {
+    >div {
       display: flex;
       gap: 4px;
     }
@@ -496,12 +497,10 @@
         .image-placeholder {
           grid-column: 1;
           grid-row: 1;
-          background: linear-gradient(
-            90deg,
-            #e0e0e0 25%,
-            #f5f5f5 50%,
-            #e0e0e0 75%
-          );
+          background: linear-gradient(90deg,
+              #e0e0e0 25%,
+              #f5f5f5 50%,
+              #e0e0e0 75%);
           background-size: 200% 100%;
           animation: reviews-skeleton-shimmer 1.2s ease-in-out infinite;
           transition: opacity 0.2s ease;
@@ -747,12 +746,10 @@
   &__skeleton-line {
     height: 14px;
     border-radius: 8px;
-    background: linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.08) 25%,
-      rgba(0, 0, 0, 0.15) 50%,
-      rgba(0, 0, 0, 0.08) 75%
-    );
+    background: linear-gradient(90deg,
+        rgba(0, 0, 0, 0.08) 25%,
+        rgba(0, 0, 0, 0.15) 50%,
+        rgba(0, 0, 0, 0.08) 75%);
     background-size: 220% 100%;
     animation: reviews-skeleton-shimmer 1.2s ease-in-out infinite;
 
@@ -829,6 +826,7 @@
 
     &__choose,
     &__size {
+
       p,
       div {
         font-size: 14px;
