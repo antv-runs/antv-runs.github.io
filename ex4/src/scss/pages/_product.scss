@@ -171,7 +171,7 @@
       font-family: v.$font-family-display;
       margin-bottom: 14px;
       line-height: 1;
-      @include m.line-clamp(2);
+      @include m.line-clamp(1);
     }
   }
 
@@ -376,23 +376,39 @@
     flex-wrap: nowrap;
 
     form {
-      width: fit-content;
+      // Design spec: 170 × 52 — flex-basis locks width, height explicit
+      flex: 0 0 170px;
+      width: 170px;
+      height: 52px;
       display: flex;
-      flex: 0 0 auto;
-      align-items: center;
+      // stretch lets buttons fill full height for a larger tap area
+      align-items: stretch;
       background-color: #f0f0f0;
       border-radius: v.$radius-pill;
-      height: 50px;
-      padding: 0 8px;
+      // No padding — buttons claim their own column width via flex-basis
+      padding: 0;
+      overflow: hidden;
 
       input {
-        width: 44px;
-        flex: 0 0 44px;
+        // Fill remaining space between the two buttons
+        flex: 1 1 auto;
+        min-width: 0;
+        width: auto;
         text-align: center;
         background-color: transparent;
         border: none;
         font-size: 16px;
         font-weight: 500;
+        // Hide native number spinners — custom ± buttons handle increment
+        -webkit-appearance: none;
+        -moz-appearance: textfield;
+        appearance: textfield;
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
 
         &:focus {
           outline: none;
@@ -406,20 +422,17 @@
 
       .quantity-button-minus,
       .quantity-button-plus {
-        width: 20px;
-        height: 20px;
-        min-width: 20px;
-        min-height: 20px;
+        // 44px tap area column — icon stays 20px, centered inside
+        flex: 0 0 44px;
         background-color: transparent;
         border: none;
-        margin: 0 12px;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
         background-repeat: no-repeat;
         background-position: center;
-        background-size: contain;
+        background-size: 20px 20px;
 
         &:disabled {
           opacity: 0.45;
@@ -437,7 +450,10 @@
     }
 
     .add-to-cart-button {
-      flex: 1 1 auto;
+      // Design spec: 400 × 52
+      flex: 0 0 400px;
+      width: 400px;
+      height: 52px;
       min-width: 0;
       background-color: #000;
       color: #fff;
@@ -447,7 +463,6 @@
       font-weight: 500;
       white-space: nowrap;
       cursor: pointer;
-      padding: 12px 24px;
       transition:
         transform 0.2s ease,
         background-color 0.2s ease;
@@ -840,8 +855,13 @@
   .product-overview {
     margin-bottom: 48px;
 
+    &__info {
+      padding-left: 0;
+    }
+
     &__info h1 {
       font-size: 24px;
+      @include m.line-clamp(2);
     }
 
     &__rating-text {
@@ -877,6 +897,7 @@
         // Switch from desktop grid to a horizontal flex strip
         display: flex;
         flex-direction: row;
+        gap: 12px;
         flex-wrap: nowrap;
         // Reset desktop grid rules
         grid-template-columns: unset;
@@ -942,8 +963,24 @@
       flex-wrap: nowrap;
 
       form {
-        width: fit-content;
-        flex: 0 0 auto;
+        // Mobile design spec: 110 × 44
+        flex: 0 0 110px;
+        width: 110px;
+        height: 44px;
+      }
+
+      // Shrink button tap areas so both fit inside 110px wrapper
+      // Math: 32 + auto-input + 32 = 110px → input gets ~46px
+      .quantity-button-minus,
+      .quantity-button-plus {
+        flex: 0 0 32px;
+      }
+
+      .add-to-cart-button {
+        // Mobile design spec: 236 × 44
+        flex: 0 0 236px;
+        width: 236px;
+        height: 44px;
       }
     }
   }

@@ -829,6 +829,7 @@ header .header-icon__profile {
   margin-bottom: 24px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1019607843);
 }
 .tabs__tab {
   font-size: 20px;
@@ -846,8 +847,29 @@ header .header-icon__profile {
 }
 
 @media (max-width: 768px) {
+  .tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 45px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
   .tabs__tab {
+    flex: 0 0 auto;
     font-size: 16px;
+    padding: 12px 0;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    color: #999;
+  }
+  .tabs__tab--active {
+    color: #000;
+    border-color: #000;
   }
 }
 .reviews__header {
@@ -2751,7 +2773,7 @@ body.review-modal-open {
   display: -webkit-box;
   /* autoprefixer: ignore next */
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   overflow: hidden;
 }
 .product-overview__rating {
@@ -2925,23 +2947,32 @@ body.review-modal-open {
   flex-wrap: nowrap;
 }
 .product-overview__actions form {
-  width: fit-content;
+  flex: 0 0 170px;
+  width: 170px;
+  height: 52px;
   display: flex;
-  flex: 0 0 auto;
-  align-items: center;
+  align-items: stretch;
   background-color: #f0f0f0;
   border-radius: 62px;
-  height: 50px;
-  padding: 0 8px;
+  padding: 0;
+  overflow: hidden;
 }
 .product-overview__actions form input {
-  width: 44px;
-  flex: 0 0 44px;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: auto;
   text-align: center;
   background-color: transparent;
   border: none;
   font-size: 16px;
   font-weight: 500;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.product-overview__actions form input::-webkit-outer-spin-button, .product-overview__actions form input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 .product-overview__actions form input:focus {
   outline: none;
@@ -2952,20 +2983,16 @@ body.review-modal-open {
 }
 .product-overview__actions form .quantity-button-minus,
 .product-overview__actions form .quantity-button-plus {
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
-  min-height: 20px;
+  flex: 0 0 44px;
   background-color: transparent;
   border: none;
-  margin: 0 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: contain;
+  background-size: 20px 20px;
 }
 .product-overview__actions form .quantity-button-minus:disabled,
 .product-overview__actions form .quantity-button-plus:disabled {
@@ -2979,7 +3006,9 @@ body.review-modal-open {
   background-image: url("../images/icn_plus.svg");
 }
 .product-overview__actions .add-to-cart-button {
-  flex: 1 1 auto;
+  flex: 0 0 400px;
+  width: 400px;
+  height: 52px;
   min-width: 0;
   background-color: #000;
   color: #fff;
@@ -2989,7 +3018,6 @@ body.review-modal-open {
   font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
-  padding: 12px 24px;
   transition: transform 0.2s ease, background-color 0.2s ease;
 }
 .product-overview__actions .add-to-cart-button:disabled {
@@ -3318,8 +3346,16 @@ body.review-modal-open {
   .product-overview {
     margin-bottom: 48px;
   }
+  .product-overview__info {
+    padding-left: 0;
+  }
   .product-overview__info h1 {
     font-size: 24px;
+    display: -webkit-box;
+    /* autoprefixer: ignore next */
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
   }
   .product-overview__rating-text {
     font-size: 14px;
@@ -3344,6 +3380,7 @@ body.review-modal-open {
   .product-overview__images-wrapper {
     display: flex;
     flex-direction: row;
+    gap: 12px;
     flex-wrap: nowrap;
     grid-template-columns: unset;
     grid-auto-rows: unset;
@@ -3392,8 +3429,18 @@ body.review-modal-open {
     flex-wrap: nowrap;
   }
   .product-overview__actions form {
-    width: fit-content;
-    flex: 0 0 auto;
+    flex: 0 0 110px;
+    width: 110px;
+    height: 44px;
+  }
+  .product-overview__actions .quantity-button-minus,
+  .product-overview__actions .quantity-button-plus {
+    flex: 0 0 32px;
+  }
+  .product-overview__actions .add-to-cart-button {
+    flex: 0 0 236px;
+    width: 236px;
+    height: 44px;
   }
   .quantity-input,
   .add-to-cart-button {
