@@ -1,9 +1,12 @@
 import { mockProducts } from "../../data/data.js";
 import { getApiOrigin, requestJson } from "./httpClient.js";
-
-function clone(data) {
-  return JSON.parse(JSON.stringify(data));
-}
+import {
+  buildPaginationFromMeta,
+  buildQueryPath,
+  cloneData,
+  getCollectionItems,
+  getSingleItem,
+} from "./serviceUtils.js";
 
 function normalizeImageUrl(imageUrl) {
   if (!imageUrl) {
@@ -125,22 +128,6 @@ function normalizeProduct(product) {
   };
 }
 
-function getCollectionItems(payload) {
-  if (Array.isArray(payload)) {
-    return payload;
-  }
-
-  if (Array.isArray(payload?.data)) {
-    return payload.data;
-  }
-
-  return [];
-}
-
-function getSingleItem(payload) {
-  return payload?.data || payload || null;
-}
-
 function getMockProductList() {
   return mockProducts.map((product) => normalizeProduct(product));
 }
@@ -150,7 +137,6 @@ function normalizeProducts(products) {
 }
 
 function buildProductsQueryString(params = {}) {
-  const searchParams = new URLSearchParams();
   const supportedParams = [
     ["search", params.search],
     ["category_id", params.category_id],
@@ -164,30 +150,7 @@ function buildProductsQueryString(params = {}) {
     ["per_page", params.per_page],
   ];
 
-  supportedParams.forEach(([key, value]) => {
-    if (value === undefined || value === null || value === "") {
-      return;
-    }
-
-    searchParams.set(key, String(value));
-  });
-
-  const queryString = searchParams.toString();
-  return queryString ? `/api/products?${queryString}` : "/api/products";
-}
-
-function buildPaginationFromMeta(meta = {}, fallbackCount = 0, params = {}) {
-  const requestedPage = Number(params.page || 1);
-  const requestedPerPage = Number(
-    params.per_page || meta.per_page || fallbackCount || 15,
-  );
-
-  return {
-    page: Number(meta.current_page || requestedPage),
-    lastPage: Number(meta.last_page || (fallbackCount > 0 ? 1 : requestedPage)),
-    perPage: Number(meta.per_page || requestedPerPage),
-    total: Number(meta.total || fallbackCount),
-  };
+  return buildQueryPath("/api/products", supportedParams);
 }
 
 function buildProductsResult(payload, params = {}) {
@@ -224,7 +187,10 @@ function filterMockProducts(products, params = {}) {
 }
 
 function buildMockProductsResult(params = {}) {
-  const allProducts = filterMockProducts(clone(getMockProductList()), params);
+  const allProducts = filterMockProducts(
+    cloneData(getMockProductList()),
+    params,
+  );
   const page = Number(params.page || 1);
   const perPage = Number(params.per_page || allProducts.length || 15);
   const startIndex = Math.max(page - 1, 0) * perPage;

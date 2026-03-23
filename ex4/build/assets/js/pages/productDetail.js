@@ -18,6 +18,11 @@ import { setText, normalizeQuantity } from "../utils/domUtils.js";
 import { renderStars } from "../utils/ratingUtils.js";
 import { getQueryParam } from "../utils/queryParams.js";
 import { CART_STORAGE_KEY } from "../constants/storageKeys.js";
+import {
+  getStoredCartItems,
+  persistStoredCartItems,
+  readJsonStorageValue,
+} from "../utils/storageUtils.js";
 
 const state = {
   categories: [],
@@ -96,7 +101,6 @@ const dom = {
   productTabs: document.querySelectorAll(".js-tabs__tab"),
   productTabContents: document.querySelectorAll(".js-products-tabs__content"),
   addToCartButton: document.querySelector(".js-add-to-cart"),
-  cartButton: document.querySelector(".js-cart-button"),
 };
 
 let relatedProductsCarousel = null;
@@ -310,7 +314,10 @@ function setInitialBootstrapUiLock(isLocked) {
     "product-overview--bootstrap-locked",
     nextIsLocked,
   );
-  dom.productsTabs?.classList.toggle("products-tabs--bootstrap-locked", nextIsLocked);
+  dom.productsTabs?.classList.toggle(
+    "products-tabs--bootstrap-locked",
+    nextIsLocked,
+  );
 
   dom.quantityInput && (dom.quantityInput.disabled = nextIsLocked);
   dom.quantityMinusButton && (dom.quantityMinusButton.disabled = nextIsLocked);
@@ -403,19 +410,14 @@ function getLoggedInUsername() {
   const keyCandidates = ["currentUser", "authUser", "user", "profile"];
 
   for (const key of keyCandidates) {
-    try {
-      const rawValue = localStorage.getItem(key);
-      if (!rawValue) {
-        continue;
-      }
-
-      const parsedValue = JSON.parse(rawValue);
-      const username = findUsernameFromStorageRecord(parsedValue);
-      if (username) {
-        return username;
-      }
-    } catch {
+    const parsedValue = readJsonStorageValue(localStorage, key, null);
+    if (!parsedValue) {
       continue;
+    }
+
+    const username = findUsernameFromStorageRecord(parsedValue);
+    if (username) {
+      return username;
     }
   }
 
@@ -651,42 +653,6 @@ function resetProductSections(message) {
   }
 }
 
-function getStoredCartItems() {
-  try {
-    const rawValue = localStorage.getItem(CART_STORAGE_KEY);
-    if (!rawValue) {
-      return [];
-    }
-
-    const parsedValue = JSON.parse(rawValue);
-    if (!Array.isArray(parsedValue)) {
-      return [];
-    }
-
-    return parsedValue
-      .map((item) => ({
-        id: String(item?.id || "").trim(),
-        quantity: Math.max(1, Number(item?.quantity) || 1),
-        color: item?.color ?? null,
-        size: item?.size ?? null,
-      }))
-      .filter((item) => item.id);
-  } catch {
-    return [];
-  }
-}
-
-function persistCartItems(items) {
-  const serializableItems = items.map((item) => ({
-    id: String(item.id),
-    quantity: Math.max(1, Number(item.quantity) || 1),
-    color: item?.color ?? null,
-    size: item?.size ?? null,
-  }));
-
-  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(serializableItems));
-}
-
 function toCartItem(product, quantity, color = null, size = null) {
   return {
     id: String(product.id),
@@ -711,7 +677,7 @@ function addProductToCart(
   }
 
   const quantity = Math.max(1, Number(quantityToAdd) || 1);
-  const cartItems = getStoredCartItems();
+  const cartItems = getStoredCartItems(CART_STORAGE_KEY);
   const existingItem = cartItems.find(
     (item) =>
       String(item.id) === String(product.id) &&
@@ -728,7 +694,7 @@ function addProductToCart(
     cartItems.push(toCartItem(product, quantity, color, size));
   }
 
-  persistCartItems(cartItems);
+  persistStoredCartItems(CART_STORAGE_KEY, cartItems);
 }
 
 function triggerAddToCartFeedback(button) {
@@ -749,10 +715,6 @@ function triggerAddToCartFeedback(button) {
 }
 
 function bindStaticEvents() {
-  dom.cartButton?.addEventListener("click", () => {
-    window.location.href = "cart.html";
-  });
-
   dom.productTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       dom.productTabs.forEach((item) => {
@@ -816,12 +778,12 @@ function bindStaticEvents() {
       state.isLoadingReviews = true;
       setReviewControlsDisabled(true);
 
-      loadReviews(state.selectedProductId, false, { showLoading: true }).finally(
-        () => {
-          state.isLoadingReviews = false;
-          setReviewControlsDisabled(state.isBootstrapUiLocked);
-        },
-      );
+      loadReviews(state.selectedProductId, false, {
+        showLoading: true,
+      }).finally(() => {
+        state.isLoadingReviews = false;
+        setReviewControlsDisabled(state.isBootstrapUiLocked);
+      });
     });
   });
 

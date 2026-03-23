@@ -1,18 +1,71 @@
 @use "~/scss/abstracts/variables" as v;
 
-.sub-header {
+.announcement-bar {
+  width: 100%;
   background-color: v.$color-black;
   color: v.$color-white;
-  text-align: center;
-  padding: 10px 0;
-  font-size: 14px;
-  font-weight: 400;
-  margin-bottom: 24px;
 
-  span {
+  &--hidden {
+    display: none;
+  }
+
+  &__container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 10px 16px;
+  }
+
+  &__text {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+  }
+
+  &__link {
+    color: inherit;
     font-weight: 500;
     text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
     cursor: pointer;
+    transform: translateY(-50%);
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.7;
+    }
+
+    &::before {
+      content: "";
+      display: block;
+      width: 14px;
+      height: 14px;
+      background-color: v.$color-white;
+      -webkit-mask: url(v.$icon-close) center / contain no-repeat;
+      mask: url(v.$icon-close) center / contain no-repeat;
+    }
   }
 }
 
@@ -20,9 +73,11 @@ header {
   display: flex;
   align-items: center;
   gap: 40px;
+  width: 100%;
+  max-width: 1240px;
+  margin: 24px auto 25px;
   padding-bottom: 24px;
   border-bottom: 1px solid v.$color-border;
-  margin-bottom: 24px;
   min-width: 0;
 
   .logo {
@@ -151,15 +206,23 @@ header {
     gap: 20px;
   }
 
-  .sub-header {
+  .announcement-bar__text {
     font-size: 12px;
   }
 }
 
 @media (max-width: 768px) {
+  .announcement-bar {
+    &__close {
+      display: none;
+    }
+  }
+
   header {
     flex-wrap: nowrap;
     gap: 12px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
   header .header-menu-toggle {

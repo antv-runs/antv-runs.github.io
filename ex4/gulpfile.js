@@ -6,6 +6,7 @@ import cleanCSS from "gulp-clean-css";
 import rename from "gulp-rename";
 import replace from "gulp-replace";
 import htmlmin from "gulp-htmlmin";
+import fileinclude from "gulp-file-include";
 import browserSync from "browser-sync";
 import { deleteAsync } from "del";
 import path from "node:path";
@@ -181,7 +182,14 @@ export function clean() {
 
 function htmlTask({ dev }) {
   const replacements = dev ? devAliasMap : buildAliasMap;
-  let stream = applyReplacements(gulp.src(paths.src.html), replacements);
+  let stream = gulp.src(paths.src.html).pipe(
+    fileinclude({
+      prefix: "@@",
+      basepath: "@file",
+    }),
+  );
+
+  stream = applyReplacements(stream, replacements);
 
   if (!dev) {
     stream = stream.pipe(
