@@ -3540,6 +3540,11 @@ body.review-modal-open {
   object-fit: cover;
   flex-shrink: 0;
 }
+.cart-item__image-link {
+  display: block;
+  flex-shrink: 0;
+  border-radius: 12px;
+}
 .cart-item__image-shell {
   width: 124px;
   height: 124px;
@@ -3605,6 +3610,13 @@ body.review-modal-open {
   white-space: nowrap;
   text-overflow: ellipsis;
   padding-top: 5px;
+}
+.cart-item__name-link {
+  color: inherit;
+  text-decoration: none;
+}
+.cart-item__name-link:hover {
+  text-decoration: underline;
 }
 .cart-item__remove {
   width: 18px;

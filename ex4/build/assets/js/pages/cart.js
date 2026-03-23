@@ -412,15 +412,22 @@ function renderCartItem(item) {
   const lineCurrentPrice = currentPrice * quantity;
   const lineOriginalPrice = originalPrice && originalPrice > currentPrice ? originalPrice * quantity : null;
   const thumbnailUrl = item.thumbnail || item.images?.[0]?.url || MESSAGES.IMAGE_FALLBACK_SRC;
+  const productUrl = `product.html?id=${item.id}`;
 
   return `<article class="${SELECTORS.ITEM.slice(1)}" ${DATA_ATTRS.PRODUCT_ID}="${item.id}" ${DATA_ATTRS.COLOR}="${item.color ?? ""}" ${DATA_ATTRS.SIZE}="${item.size ?? ""}">
-    <div class="cart-item__image-shell ${CSS_CLASSES.IMAGE_LOADING} ${SELECTORS.IMAGE_SHELL.slice(1)}" aria-busy="true">
-      <span class="cart-item__image-placeholder cart-skeleton-block" aria-hidden="true"></span>
-      <img class="cart-item__image ${SELECTORS.ITEM_IMAGE.slice(1)}" src="${thumbnailUrl}" alt="${item.thumbnailAlt || item.name || FALLBACK_TEXT.IMAGE}" loading="lazy" decoding="async" />
-    </div>
+    <a href="${productUrl}" class="cart-item__image-link js-cart-item-link" aria-label="View product details for ${item.name || FALLBACK_TEXT.PRODUCT}">
+      <div class="cart-item__image-shell ${CSS_CLASSES.IMAGE_LOADING} ${SELECTORS.IMAGE_SHELL.slice(1)}" aria-busy="true">
+        <span class="cart-item__image-placeholder cart-skeleton-block" aria-hidden="true"></span>
+        <img class="cart-item__image ${SELECTORS.ITEM_IMAGE.slice(1)}" src="${thumbnailUrl}" alt="${item.thumbnailAlt || item.name || FALLBACK_TEXT.IMAGE}" loading="lazy" decoding="async" />
+      </div>
+    </a>
     <div class="cart-item__content">
       <div class="cart-item__head">
-        <h2 class="cart-item__name">${item.name || FALLBACK_TEXT.PRODUCT}</h2>
+        <h2 class="cart-item__name">
+          <a class="cart-item__name-link js-cart-item-link" href="${productUrl}">
+            ${item.name || FALLBACK_TEXT.PRODUCT}
+          </a>
+        </h2>
         <button class="cart-item__remove ${SELECTORS.ITEM_REMOVE.slice(1)}" type="button" aria-label="${FALLBACK_TEXT.REMOVE_ITEM}"></button>
       </div>
       ${item.size ? `<p class="cart-item__meta">Size: ${item.size}</p>` : ""}
