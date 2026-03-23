@@ -277,6 +277,8 @@
   border: 1px solid rgba(0, 0, 0, 0.1019607843);
   border-radius: 20px;
   padding: 25px 30px;
+  display: flex;
+  flex-direction: column;
 
   &__meta {
     display: flex;
@@ -343,6 +345,9 @@
     color: v.$color-muted;
     padding-right: 25px;
     margin-bottom: 22px;
+    // ~3 lines × 16px font-size × 1.375 line-height ≈ 66px
+    // Keeps 1-line reviews the same visual height as multi-line ones
+    min-height: 66px;
   }
 
   &__footer {
@@ -350,6 +355,7 @@
     font-weight: 500;
     line-height: 1.375;
     color: v.$color-muted;
+    margin-top: auto;
   }
 }
 
@@ -431,7 +437,7 @@
     display: grid;
     gap: 8px;
 
-    > span {
+    >span {
       font-size: 14px;
       font-weight: 600;
       color: #333;
@@ -569,6 +575,7 @@ body.review-modal-open {
   from {
     transform: translateY(-50%) rotate(0deg);
   }
+
   to {
     transform: translateY(-50%) rotate(360deg);
   }

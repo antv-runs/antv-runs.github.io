@@ -1116,6 +1116,8 @@ header .header-icon__profile {
   border: 1px solid rgba(0, 0, 0, 0.1019607843);
   border-radius: 20px;
   padding: 25px 30px;
+  display: flex;
+  flex-direction: column;
 }
 .review-card__meta {
   display: flex;
@@ -1181,6 +1183,7 @@ header .header-icon__profile {
   color: rgba(0, 0, 0, 0.6);
   padding-right: 25px;
   margin-bottom: 22px;
+  min-height: 66px;
 }
 .review-card__footer {
   display: -webkit-box;
@@ -1191,6 +1194,7 @@ header .header-icon__profile {
   font-weight: 500;
   line-height: 1.375;
   color: rgba(0, 0, 0, 0.6);
+  margin-top: auto;
 }
 
 .review-modal {
