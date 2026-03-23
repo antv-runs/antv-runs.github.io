@@ -24,6 +24,7 @@ let cartHydrationErrorMessage = "";
 let activeHydrationRequestId = 0;
 let activeHydrationController = null;
 let isCartLoading = false;
+let isPromoSubmitting = false;
 
 const dom = {
   cartPage: document.querySelector(".cart-page"),
@@ -53,10 +54,7 @@ function setButtonLoadingState(button, isLoading, loadingLabel = "Processing..."
     return;
   }
 
-  const textElement = button.querySelector(".cart-summary__checkout-text");
-  if (!(textElement instanceof HTMLElement)) {
-    return;
-  }
+  const textElement = button.querySelector(".cart-summary__checkout-text") || button;
 
   if (isLoading) {
     if (!button.dataset.defaultLabel) {
@@ -66,12 +64,16 @@ function setButtonLoadingState(button, isLoading, loadingLabel = "Processing..."
     textElement.textContent = loadingLabel;
     button.disabled = true;
     button.setAttribute("aria-busy", "true");
+    button.classList.add("is-loading");
     return;
   }
 
-  textElement.textContent = button.dataset.defaultLabel || textElement.textContent;
+  if (button.dataset.defaultLabel) {
+    textElement.textContent = button.dataset.defaultLabel;
+  }
   button.disabled = false;
   button.removeAttribute("aria-busy");
+  button.classList.remove("is-loading");
 }
 
 function setCartImageState(shell, state) {
@@ -422,6 +424,7 @@ function renderCartItems(items) {
   setCartHydrationState(CART_HYDRATION_STATES.SUCCESS);
 
   syncAllCartQuantityControls();
+  syncPromoApplyButtonState();
 }
 
 function syncCartItemQuantityControls(cartItemElement) {
@@ -438,6 +441,20 @@ function syncAllCartQuantityControls() {
   if (!dom.cartItems) return;
   const items = dom.cartItems.querySelectorAll(".cart-item");
   items.forEach(syncCartItemQuantityControls);
+}
+
+function syncPromoApplyButtonState() {
+  const promoInput = document.querySelector(".js-cart-coupon-input");
+  const applyBtn = document.querySelector(".js-cart-coupon-apply");
+
+  if (!promoInput || !applyBtn) return;
+
+  const isEmpty = promoInput.value.trim().length === 0;
+
+  if (cartHydrationState === CART_HYDRATION_STATES.SUCCESS) {
+    setControlDisabledState(applyBtn, isEmpty || isPromoSubmitting);
+    setControlDisabledState(promoInput, isPromoSubmitting);
+  }
 }
 
 function updateCartItemDOM(item, cartItemElement) {
@@ -530,6 +547,17 @@ function removeCartItem(productId, color, size) {
   }
 
   renderCartItems(cartItemsState);
+}
+
+async function mockApplyPromoCode(code) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        success: false,
+        message: "Promo code is invalid or unavailable.",
+      });
+    }, 700 + Math.random() * 500); // 700ms - 1200ms
+  });
 }
 
 function bindCartEvents() {
@@ -625,19 +653,51 @@ function bindCartEvents() {
 
   const promoForm = document.querySelector(".cart-summary__coupon");
   const applyBtn = document.querySelector(".js-cart-coupon-apply");
+  const promoInput = document.querySelector(".js-cart-coupon-input");
+  const promoMsg = document.querySelector(".js-cart-coupon-msg");
 
-  promoForm?.addEventListener("submit", (e) => {
+  const resetPromoMessage = () => {
+    if (promoMsg) promoMsg.hidden = true;
+    syncPromoApplyButtonState();
+  };
+
+  promoInput?.addEventListener("input", resetPromoMessage);
+  promoInput?.addEventListener("change", syncPromoApplyButtonState);
+
+  promoForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    if (isCartLoading || cartHydrationState !== CART_HYDRATION_STATES.SUCCESS) {
+    if (isCartLoading || cartHydrationState !== CART_HYDRATION_STATES.SUCCESS || isPromoSubmitting) {
       return;
     }
 
     if (applyBtn && !applyBtn.disabled) {
+      const code = promoInput?.value.trim();
+      if (!code) return;
+
+      isPromoSubmitting = true;
+      syncPromoApplyButtonState();
       setButtonLoadingState(applyBtn, true, "Applying...");
-      // Simulate API call for Quick Win B
-      setTimeout(() => {
+      if (promoMsg) promoMsg.hidden = true;
+
+      try {
+        const response = await mockApplyPromoCode(code);
+
+        if (!response.success && promoMsg) {
+          promoMsg.textContent = response.message;
+          promoMsg.hidden = false;
+          promoMsg.className = "cart-summary__coupon-msg cart-summary__coupon-msg--error js-cart-coupon-msg";
+        }
+      } catch (error) {
+        if (promoMsg) {
+          promoMsg.textContent = "An error occurred. Please try again.";
+          promoMsg.hidden = false;
+          promoMsg.className = "cart-summary__coupon-msg cart-summary__coupon-msg--error js-cart-coupon-msg";
+        }
+      } finally {
+        isPromoSubmitting = false;
         setButtonLoadingState(applyBtn, false);
-      }, 800);
+        syncPromoApplyButtonState();
+      }
     }
   });
 

@@ -559,9 +559,26 @@
 
     cursor: pointer;
 
-    &:disabled {
+    &:disabled,
+    &.is-disabled {
       opacity: 0.5;
       cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+
+  &__coupon-msg {
+    margin-top: -12px;
+    margin-bottom: 22px;
+    font-size: 14px;
+    line-height: 1.4;
+
+    &[hidden] {
+      display: none;
+    }
+
+    &--error {
+      color: v.$color-danger;
     }
   }
 
