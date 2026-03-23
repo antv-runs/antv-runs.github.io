@@ -8,25 +8,26 @@
 
   </head>
   <body>
-    <p class="sub-header">
-  Sign up and get 20% off to your first order.
-  <span>Sign Up Now</span>
-</p>
+    <div class="announcement-bar js-announcement-bar">
+  <div class="announcement-bar__container">
+    <p class="announcement-bar__text">
+      Sign up and get 20% off to your first order.
+      <a href="#" class="announcement-bar__link">Sign Up Now</a>
+    </p>
+
+    <button class="announcement-bar__close js-announcement-bar__close" type="button"
+      aria-label="Close announcement"></button>
+  </div>
+</div>
 
 <header class="site-header">
-  <button
-    class="header-menu-toggle"
-    type="button"
-    aria-label="Open menu"
-  ></button>
+  <button class="header-menu-toggle" type="button" aria-label="Open menu"></button>
   <p class="logo">SHOP.CO</p>
 
   <nav class="header-links" aria-label="Main navigation">
     <ul id="nav-categories" class="js-nav-categories">
       <li>
-        <a href="#"
-          >Shop <img src="./assets/images/icn_arrow_down.svg" alt="Expand"
-        /></a>
+        <a href="#">Shop <img src="./assets/images/icn_arrow_down.svg" alt="Expand" /></a>
       </li>
       <li><a href="#">On Sale</a></li>
       <li><a href="#">New Arrivals</a></li>
@@ -35,33 +36,15 @@
   </nav>
 
   <form action="#" class="header-search js-search-form">
-    <input
-      type="text"
-      class="js-search-input"
-      placeholder="Search for products..."
-      aria-label="Search for products"
-    />
-    <button
-      class="header-search__button"
-      type="button"
-      aria-label="Search products"
-    ></button>
+    <input type="text" class="js-search-input" placeholder="Search for products..." aria-label="Search for products" />
+    <button class="header-search__button" type="button" aria-label="Search products"></button>
   </form>
 
   <div class="header-icon">
-    <button
-      class="header-icon__cart js-cart-button"
-      type="button"
-      aria-label="Cart"
-    ></button>
-    <button
-      class="header-icon__profile"
-      type="button"
-      aria-label="Profile"
-    ></button>
+    <button class="header-icon__cart js-cart-button" type="button" aria-label="Cart"></button>
+    <button class="header-icon__profile" type="button" aria-label="Profile"></button>
   </div>
 </header>
-
 
     <div class="container">
       <main class="catalog" aria-label="Product catalog">

@@ -15,10 +15,18 @@ export function initHeader(options = {}) {
     searchForm: document.querySelector(".js-search-form"),
     searchInput: document.querySelector(".js-search-input"),
     searchButton: document.querySelector(".header-search__button"),
+    announcementBar: document.querySelector(".js-announcement-bar"),
+    announcementBarClose: document.querySelector(".js-announcement-bar__close"),
   };
 
   dom.cartButton?.addEventListener("click", () => {
     window.location.href = "cart.html";
+  });
+
+  dom.announcementBarClose?.addEventListener("click", () => {
+    if (dom.announcementBar) {
+      dom.announcementBar.classList.add("announcement-bar--hidden");
+    }
   });
 
   const { onSearch } = options;

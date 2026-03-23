@@ -258,20 +258,65 @@ svg {
   width: 100%;
 }
 
-.sub-header {
+.announcement-bar {
+  width: 100%;
   background-color: #000;
   color: #fff;
-  width: 100%;
-  text-align: center;
-  padding: 10px 0;
+}
+.announcement-bar--hidden {
+  display: none;
+}
+.announcement-bar__container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 16px;
+}
+.announcement-bar__text {
+  margin: 0;
   font-size: 14px;
   font-weight: 400;
-  margin-bottom: 24px;
+  text-align: center;
 }
-.sub-header span {
+.announcement-bar__link {
+  color: inherit;
   font-weight: 500;
   text-decoration: underline;
+}
+.announcement-bar__link:hover {
+  text-decoration: none;
+}
+.announcement-bar__close {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
   cursor: pointer;
+  transform: translateY(-50%);
+  transition: opacity 0.2s ease;
+}
+.announcement-bar__close:hover {
+  opacity: 0.7;
+}
+.announcement-bar__close::before {
+  content: "";
+  display: block;
+  width: 14px;
+  height: 14px;
+  background-color: #fff;
+  -webkit-mask: url("../images/icn_close.svg") center/contain no-repeat;
+  mask: url("../images/icn_close.svg") center/contain no-repeat;
 }
 
 header {
@@ -280,7 +325,7 @@ header {
   gap: 40px;
   width: 100%;
   max-width: 1240px;
-  margin: 0 auto 24px;
+  margin: 24px auto 24px;
   padding-bottom: 24px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   min-width: 0;
@@ -396,7 +441,7 @@ header .header-icon__profile {
     flex-wrap: wrap;
     gap: 20px;
   }
-  .sub-header {
+  .announcement-bar__text {
     font-size: 12px;
   }
 }
