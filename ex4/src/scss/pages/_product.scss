@@ -56,7 +56,7 @@
   &__skeleton-thumb {
     width: 152px;
     height: 167px;
-    border-radius: 8px;
+    border-radius: 20px;
   }
 
   &__main-image {
@@ -170,7 +170,7 @@
       font-weight: 700;
       font-family: v.$font-family-display;
       margin-bottom: 14px;
-      line-height: 1.1;
+      line-height: 1;
       @include m.line-clamp(2);
     }
   }
@@ -483,12 +483,45 @@
     &-wrapper {
       display: grid;
       grid-template-columns: 1fr;
+      grid-auto-rows: 167px;
       gap: 14px;
+      // Cap height to match the main image panel, scroll when images exceed it
+      max-height: 560px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      // Hide scrollbar across all browsers while keeping scroll functional
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      // Fade edges — controlled by JS scroll-state classes, not always-on
+      mask-image: none;
+      -webkit-mask-image: none;
+
+      &.js-has-scroll-bottom:not(.js-has-scroll-top) {
+        mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - 28px), transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - 28px), transparent 100%);
+      }
+
+      &.js-has-scroll-top:not(.js-has-scroll-bottom) {
+        mask-image: linear-gradient(to bottom, transparent 0%, #000 28px, #000 100%);
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 28px, #000 100%);
+      }
+
+      &.js-has-scroll-top.js-has-scroll-bottom {
+        mask-image: linear-gradient(to bottom, transparent 0%, #000 28px, #000 calc(100% - 28px), transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 28px, #000 calc(100% - 28px), transparent 100%);
+      }
 
       .image-wrapper {
         position: relative;
         width: 152px;
-        height: 167px;
+        // Height derived from design ratio — no fixed height needed
+        aspect-ratio: 152 / 167;
+        flex: 0 0 auto;
         border-radius: 20px;
         overflow: hidden;
         border: 1px solid transparent;
@@ -500,9 +533,15 @@
           border-color: rgba(0, 0, 0, 0.2);
         }
 
+        &.js-is-active {
+          border-color: #000;
+        }
+
         .image-placeholder {
           grid-column: 1;
           grid-row: 1;
+          width: 100%;
+          height: 100%;
           @include skeleton-shimmer;
           transition: opacity 0.2s ease;
           z-index: 1;
@@ -516,6 +555,7 @@
         .product-image {
           grid-column: 1;
           grid-row: 1;
+          display: block;
           width: 100%;
           height: 100%;
           object-fit: cover;
@@ -534,12 +574,14 @@
     .image-wrapper-main {
       position: relative;
       flex: 1;
-      max-height: 560px;
+      // Design spec: 444 × 530 — aspect-ratio derives height from available width
+      aspect-ratio: 444 / 530;
       overflow: hidden;
       border-radius: 20px;
       background-color: #f0f0f0;
 
       img {
+        display: block;
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -832,19 +874,65 @@
       flex-direction: column-reverse;
 
       &-wrapper {
-        grid-template-columns: repeat(3, 1fr);
+        // Switch from desktop grid to a horizontal flex strip
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        // Reset desktop grid rules
+        grid-template-columns: unset;
+        grid-auto-rows: unset;
+        max-height: none;
+        // Horizontal scroll; no vertical growth
+        overflow-x: auto;
+        overflow-y: hidden;
+        // Remove desktop vertical mask - JS classes handle fade on this axis
+        mask-image: none;
+        -webkit-mask-image: none;
+        // Smooth touch/trackpad scrolling
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        // Hide scrollbar across all browsers
+        scrollbar-width: none;
+        -ms-overflow-style: none;
 
+        &::-webkit-scrollbar {
+          display: none;
+        }
+
+        // Skeleton: wrapper controls the size, not the element itself
         .product-overview__skeleton-thumb {
-          width: 100%;
+          flex: 0 0 112px;
+          width: auto;
           height: auto;
-          aspect-ratio: 1/1;
+          aspect-ratio: 112 / 106;
         }
 
+        // Thumbnail wrapper controls size via flex-basis + aspect-ratio
         .image-wrapper {
-          width: 100%;
+          flex: 0 0 112px;
+          width: auto;
           height: auto;
-          aspect-ratio: 1/1;
+          aspect-ratio: 112 / 106;
         }
+
+        // Image and placeholder fill the wrapper — no direct sizing on the image
+        .product-image,
+        .image-placeholder {
+          width: 100%;
+          height: 100%;
+        }
+
+        .product-image {
+          display: block;
+          object-fit: cover;
+        }
+      }
+
+      // Mobile main image: design spec 358 × 290
+      .image-wrapper-main {
+        flex: none;
+        width: 100%;
+        aspect-ratio: 358 / 290;
       }
     }
 
