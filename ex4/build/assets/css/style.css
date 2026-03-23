@@ -3987,7 +3987,8 @@ body.review-modal-open {
     margin-top: 10px;
   }
   .cart-item__quantity {
-    width: 126px;
+    max-width: 105px;
+    padding: 0;
   }
   .cart-summary__row dt,
   .cart-summary__row dd {
@@ -4004,6 +4005,9 @@ body.review-modal-open {
   }
   .cart-summary__coupon button {
     padding: 0 20px;
+  }
+  .cart-summary__checkout {
+    min-height: 48px;
   }
 }
 .checkout-page {
