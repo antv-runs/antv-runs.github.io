@@ -788,12 +788,8 @@ function bindStaticEvents() {
     }
   });
 
-  document.addEventListener("click", () => {
-    dom.reviewsFilterDropdown?.classList.remove(
-      "reviews__filter-dropdown--show",
-    );
-    dom.reviewsFilterBtn?.setAttribute("aria-expanded", "false");
-  });
+  document.removeEventListener("click", handleDocumentClickForDropdown);
+  document.addEventListener("click", handleDocumentClickForDropdown);
 
   dom.reviewsFilterOptions.forEach((option) => {
     option.addEventListener("click", (event) => {
@@ -888,11 +884,8 @@ function bindStaticEvents() {
     });
   });
 
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      closeReviewModal();
-    }
-  });
+  document.removeEventListener("keydown", handleEscapeKeyToCloseModal);
+  document.addEventListener("keydown", handleEscapeKeyToCloseModal);
 
   dom.reviewModalForm?.addEventListener("submit", handleReviewSubmit);
 
@@ -1170,6 +1163,19 @@ async function loadSelectedProduct(productId) {
         setInitialBootstrapUiLock(false);
       }
     }
+  }
+}
+
+function handleDocumentClickForDropdown() {
+  dom.reviewsFilterDropdown?.classList.remove(
+    "reviews__filter-dropdown--show",
+  );
+  dom.reviewsFilterBtn?.setAttribute("aria-expanded", "false");
+}
+
+function handleEscapeKeyToCloseModal(event) {
+  if (event.key === "Escape") {
+    if (typeof closeReviewModal === "function") closeReviewModal();
   }
 }
 
