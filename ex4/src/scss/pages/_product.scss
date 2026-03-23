@@ -898,3 +898,17 @@
   white-space: nowrap;
   border-width: 0;
 }
+
+@media (max-width: 360px) {
+  .product-overview {
+    &__actions {
+      flex-direction: column;
+      align-items: stretch;
+
+      form {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+}
