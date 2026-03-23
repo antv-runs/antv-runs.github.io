@@ -160,6 +160,8 @@
   }
 
   &__info {
+    flex: 1;
+    min-width: 0;
     padding-left: 20px;
     max-width: 600px;
 
@@ -739,10 +741,8 @@
   &__skeleton-line {
     height: 14px;
     border-radius: 8px;
-    @include skeleton-shimmer(
-      linear-gradient(90deg, rgba(0, 0, 0, 0.08) 25%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0.08) 75%),
-      220% 100%
-    );
+    @include skeleton-shimmer(linear-gradient(90deg, rgba(0, 0, 0, 0.08) 25%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0.08) 75%),
+      220% 100%);
 
     &--stars {
       width: 110px;

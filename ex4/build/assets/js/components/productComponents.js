@@ -167,7 +167,7 @@ export function renderBreadcrumb(container, product) {
       const isLast = index === breadcrumb.length - 1;
 
       if (isLast) {
-        return `<li aria-current="page">${crumb}</li>`;
+        return `<li aria-current="page"><span class="product-breadcrumb__current">${crumb}</span></li>`;
       }
 
       const href = getBreadcrumbHref(crumb, index);

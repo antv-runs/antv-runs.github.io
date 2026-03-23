@@ -7,6 +7,32 @@
   &__breadcrumb {
     @include m.breadcrumb();
   }
+}
+
+.product-breadcrumb {
+  flex-wrap: nowrap;
+  min-width: 0;
+
+  li {
+    flex: 0 0 auto;
+  }
+
+  li[aria-current="page"] {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden; // Clip the flex item so the span inside cannot escape
+  }
+
+  &__current {
+    display: block;         // Block box is required for text-overflow to fire
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+.cart-page {
+
 
   &__title {
     font-family: "IntegralCF", sans-serif;
