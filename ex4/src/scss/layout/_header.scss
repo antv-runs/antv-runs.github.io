@@ -75,7 +75,7 @@ header {
   gap: 40px;
   width: 100%;
   max-width: 1240px;
-  margin: 24px auto 24px;
+  margin: 24px auto 25px;
   padding-bottom: 24px;
   border-bottom: 1px solid v.$color-border;
   min-width: 0;
@@ -212,6 +212,12 @@ header {
 }
 
 @media (max-width: 768px) {
+  .announcement-bar {
+    &__close {
+      display: none;
+    }
+  }
+
   header {
     flex-wrap: nowrap;
     gap: 12px;

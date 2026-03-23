@@ -27,6 +27,8 @@ let isCartLoading = false;
 
 const dom = {
   cartPage: document.querySelector(".cart-page"),
+  cartLayout: document.querySelector(".js-cart-layout"),
+  cartEmpty: document.querySelector(".js-cart-empty"),
   cartItems: document.querySelector(".js-cart-items"),
   cartSummary: document.querySelector(".js-cart-summary"),
   subtotal: document.querySelector(".js-cart-subtotal"),
@@ -339,14 +341,28 @@ function renderEmptyCart() {
   }
 
   cartItemsState = [];
-  dom.cartItems.innerHTML = "<p>Your cart is empty.</p>";
+  dom.cartItems.innerHTML = "";
   renderSummary([]);
   setCartHydrationState(CART_HYDRATION_STATES.SUCCESS);
+
+  if (dom.cartLayout) {
+    dom.cartLayout.style.display = "none";
+  }
+  if (dom.cartEmpty) {
+    dom.cartEmpty.style.display = "flex";
+  }
 }
 
 function renderCartItems(items) {
   if (!dom.cartItems) {
     return;
+  }
+
+  if (dom.cartLayout) {
+    dom.cartLayout.style.display = "";
+  }
+  if (dom.cartEmpty) {
+    dom.cartEmpty.style.display = "none";
   }
 
   dom.cartItems.innerHTML = items
@@ -359,7 +375,7 @@ function renderCartItems(items) {
           : Number(item.pricing.original);
       const discountPercent =
         item.pricing?.discountPercent === null ||
-        item.pricing?.discountPercent === undefined
+          item.pricing?.discountPercent === undefined
           ? null
           : Number(item.pricing.discountPercent);
       const currency = item.pricing?.currency || "USD";
@@ -391,13 +407,9 @@ function renderCartItems(items) {
               ${discountPercent ? `<p class="cart-item__price-discount">-${discountPercent}%</p>` : ""}
             </div>
             <div class="cart-item__quantity" aria-label="Quantity controls">
-              <button class="js-cart-item-qty-minus" type="button" aria-label="Decrease quantity">
-                <img src="~/images/icn_minus.svg" alt="Minus" />
-              </button>
-              <input class="js-cart-item-qty-input" type="text" value="${item.quantity}" aria-label="Quantity" readonly />
-              <button class="js-cart-item-qty-plus" type="button" aria-label="Increase quantity">
-                <img src="~/images/icn_plus.svg" alt="Plus" />
-              </button>
+              <button class="cart-item__qty-btn js-cart-item-qty-minus ${quantity <= 1 ? "is-disabled" : ""}" type="button" aria-label="Decrease quantity" ${quantity <= 1 ? "disabled" : ""}></button>
+              <input class="js-cart-item-qty-input" type="number" min="1" value="${quantity}" aria-label="Quantity" />
+              <button class="cart-item__qty-btn js-cart-item-qty-plus" type="button" aria-label="Increase quantity"></button>
             </div>
           </div>
         </div>
@@ -408,9 +420,66 @@ function renderCartItems(items) {
   renderSummary(items);
   bindCartItemImages();
   setCartHydrationState(CART_HYDRATION_STATES.SUCCESS);
+
+  syncAllCartQuantityControls();
 }
 
-function updateCartItemQuantity(productId, color, size, delta) {
+function syncCartItemQuantityControls(cartItemElement) {
+  const input = cartItemElement.querySelector(".js-cart-item-qty-input");
+  const quantity = input ? (Number(input.value) || 1) : 1;
+  const minusBtn = cartItemElement.querySelector(".js-cart-item-qty-minus");
+  
+  if (minusBtn) {
+    setControlDisabledState(minusBtn, quantity <= 1);
+  }
+}
+
+function syncAllCartQuantityControls() {
+  if (!dom.cartItems) return;
+  const items = dom.cartItems.querySelectorAll(".cart-item");
+  items.forEach(syncCartItemQuantityControls);
+}
+
+function updateCartItemDOM(item, cartItemElement) {
+  const input = cartItemElement.querySelector(".js-cart-item-qty-input");
+  if (input) {
+    input.value = item.quantity;
+  }
+
+  syncCartItemQuantityControls(cartItemElement);
+
+  const currentPrice = Number(item.pricing?.current || 0);
+  const originalPrice =
+    item.pricing?.original === null || item.pricing?.original === undefined
+      ? null
+      : Number(item.pricing.original);
+  const currency = item.pricing?.currency || "USD";
+
+  const lineCurrentPrice = currentPrice * item.quantity;
+  const lineOriginalPrice =
+    originalPrice && originalPrice > currentPrice
+      ? originalPrice * item.quantity
+      : null;
+
+  const priceEl = cartItemElement.querySelector(".cart-item__price");
+  if (priceEl) {
+    priceEl.textContent = formatPrice(lineCurrentPrice, currency);
+  }
+
+  const origPriceEl = cartItemElement.querySelector(".cart-item__price-original");
+  if (origPriceEl) {
+    if (lineOriginalPrice) {
+      origPriceEl.textContent = formatPrice(lineOriginalPrice, currency);
+      origPriceEl.style.display = "";
+    } else {
+      origPriceEl.style.display = "none";
+    }
+  }
+
+  renderSummary(cartItemsState);
+}
+
+function updateCartItemQuantity(productId, color, size, delta, absoluteValue = null) {
   const item = cartItemsState.find(
     (cartItem) =>
       String(cartItem.id) === String(productId) &&
@@ -422,9 +491,25 @@ function updateCartItemQuantity(productId, color, size, delta) {
     return;
   }
 
-  item.quantity = Math.max(1, Number(item.quantity || 1) + delta);
+  if (absoluteValue !== null) {
+    item.quantity = Math.max(1, absoluteValue);
+  } else {
+    item.quantity = Math.max(1, Number(item.quantity || 1) + delta);
+  }
+
   persistStoredCart(cartItemsState);
-  renderCartItems(cartItemsState);
+
+  const cartItemElement = document.querySelector(
+    `[data-cart-product-id="${productId}"]` +
+    (color ? `[data-cart-color="${color}"]` : `[data-cart-color=""]`) +
+    (size ? `[data-cart-size="${size}"]` : `[data-cart-size=""]`),
+  );
+
+  if (cartItemElement) {
+    updateCartItemDOM(item, cartItemElement);
+  } else {
+    renderCartItems(cartItemsState);
+  }
 }
 
 function removeCartItem(productId, color, size) {
@@ -510,6 +595,56 @@ function bindCartEvents() {
 
     setButtonLoadingState(dom.checkoutButton, true, "Redirecting...");
     window.location.href = "checkout.html";
+  });
+
+  dom.cartItems?.addEventListener("change", (event) => {
+    if (isCartLoading || cartHydrationState !== CART_HYDRATION_STATES.SUCCESS) {
+      return;
+    }
+
+    const target = event.target;
+    if (target.classList.contains("js-cart-item-qty-input")) {
+      const cartItemElement = target.closest("[data-cart-product-id]");
+      if (!cartItemElement) {
+        return;
+      }
+
+      const productId = cartItemElement.getAttribute("data-cart-product-id");
+      const productColor = cartItemElement.getAttribute("data-cart-color") ?? "";
+      const productSize = cartItemElement.getAttribute("data-cart-size") ?? "";
+
+      let newQty = parseInt(target.value, 10);
+      if (isNaN(newQty) || newQty < 1) {
+        newQty = 1;
+      }
+      target.value = newQty;
+
+      updateCartItemQuantity(productId, productColor, productSize, 0, newQty);
+    }
+  });
+
+  const promoForm = document.querySelector(".cart-summary__coupon");
+  const applyBtn = document.querySelector(".js-cart-coupon-apply");
+
+  promoForm?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (isCartLoading || cartHydrationState !== CART_HYDRATION_STATES.SUCCESS) {
+      return;
+    }
+
+    if (applyBtn && !applyBtn.disabled) {
+      setButtonLoadingState(applyBtn, true, "Applying...");
+      // Simulate API call for Quick Win B
+      setTimeout(() => {
+        setButtonLoadingState(applyBtn, false);
+      }, 800);
+    }
+  });
+
+  applyBtn?.addEventListener("click", () => {
+    if (promoForm) {
+      promoForm.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
+    }
   });
 }
 

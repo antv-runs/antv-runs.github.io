@@ -25,9 +25,9 @@ export function renderCatalogProducts(container, products, helpers) {
         originalPrice > currentPrice;
       const discountPercent = Number(
         pricing.discountPercent ||
-          (hasComparePrice && originalPrice
-            ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100)
-            : 0),
+        (hasComparePrice && originalPrice
+          ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100)
+          : 0),
       );
       const productUrl = createCatalogProductUrl(product.id);
       const productImage =
@@ -44,14 +44,13 @@ export function renderCatalogProducts(container, products, helpers) {
           <a class="js-product-link" href="${productUrl}" data-product-id="${product.id}">${product.name}</a>
         </h2>
         <div class="product-tile__rating" aria-label="Rating ${ratingValue} out of 5">
-          ${
-            ratingValue > 0
-              ? `
+          ${ratingValue > 0
+          ? `
             <span>${helpers.renderStars(ratingValue, "product-item__star", { showEmpty: false })}</span>
             <span>${ratingValue.toFixed(1)}/5</span>
           `
-              : ""
-          }
+          : ""
+        }
         </div>
         <p class="product-tile__price">
           <span class="product-tile__price-current">${helpers.formatPrice(currentPrice, pricing.currency || "USD")}</span>
@@ -127,7 +126,7 @@ export function renderCategories(container, categories) {
   container.innerHTML = categories
     .map((category) => {
       const icon = category.hasChildren
-        ? '<img src="./assets/images/icn_arrow-down.png" alt="Expand" />'
+        ? '<img src="./assets/images/icn_dropdown.svg" alt="Expand" />'
         : "";
 
       return `<li><a href="${category.href}">${category.name}</a>${icon}</li>`;
@@ -139,11 +138,11 @@ export function renderBreadcrumb(container, product) {
   const breadcrumb = Array.isArray(product.breadcrumb)
     ? product.breadcrumb
     : [
-        "Home",
-        "Shop",
-        product.category?.name || "Catalog",
-        product.name || "Product",
-      ];
+      "Home",
+      "Shop",
+      product.category?.name || "Catalog",
+      product.name || "Product",
+    ];
 
   const getBreadcrumbHref = (label, index) => {
     if (index === 0) {

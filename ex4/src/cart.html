@@ -15,7 +15,14 @@
 
         <h1 class="cart-page__title">Your Cart</h1>
 
-        <section class="cart-page__layout" aria-label="Cart summary">
+        <div class="cart-empty js-cart-empty" style="display: none;" aria-live="polite">
+          <div class="cart-empty__inner">
+            <p class="cart-empty__text">Your cart is empty.</p>
+            <a href="/" class="cart-empty__cta">Continue Shopping</a>
+          </div>
+        </div>
+
+        <section class="cart-page__layout js-cart-layout" aria-label="Cart summary">
           <div
             class="cart-items js-cart-items"
             aria-busy="true"
