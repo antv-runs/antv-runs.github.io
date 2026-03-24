@@ -2671,8 +2671,6 @@ body.review-modal-open {
   background: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
   background-size: 200% 100%;
   animation: reviews-skeleton-shimmer 1.2s ease-in-out infinite;
-}
-.product-overview__skeleton-thumb, .product-overview__skeleton-image, .product-overview__skeleton-line, .product-overview__skeleton-circle, .product-overview__skeleton-pill, .product-overview__skeleton-size {
   pointer-events: none;
 }
 .product-overview__skeleton-thumb {

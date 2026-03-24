@@ -10,6 +10,38 @@
   overflow: hidden;
 }
 
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin focus-ring($outline-offset: 2px, $border-radius: 4px) {
+  &:focus-visible {
+    outline: 2px solid v.$color-black;
+    outline-offset: $outline-offset;
+    border-radius: $border-radius;
+  }
+}
+
+@mixin transparent-button-reset($with-cursor: true) {
+  background-color: transparent;
+  border: none;
+
+  @if $with-cursor {
+    cursor: pointer;
+  }
+}
+
+@mixin skeleton-shimmer(
+  $bg: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%),
+  $bg-size: 200% 100%
+) {
+  background: $bg;
+  background-size: $bg-size;
+  animation: reviews-skeleton-shimmer 1.2s ease-in-out infinite;
+}
+
 @mixin icon-bg($url, $width: 16px, $height: 16px) {
   content: "";
   width: $width;

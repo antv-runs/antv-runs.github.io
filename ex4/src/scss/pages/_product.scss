@@ -1,15 +1,6 @@
 @use "~/scss/abstracts/variables" as v;
 @use "~/scss/abstracts/mixins" as m;
 
-@mixin skeleton-shimmer(
-  $bg: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%),
-  $bg-size: 200% 100%
-) {
-  background: $bg;
-  background-size: $bg-size;
-  animation: reviews-skeleton-shimmer 1.2s ease-in-out infinite;
-}
-
 .product-overview {
   margin-bottom: 80px;
 
@@ -43,15 +34,7 @@
   &__skeleton-circle,
   &__skeleton-pill,
   &__skeleton-size {
-    @include skeleton-shimmer;
-  }
-
-  &__skeleton-thumb,
-  &__skeleton-image,
-  &__skeleton-line,
-  &__skeleton-circle,
-  &__skeleton-pill,
-  &__skeleton-size {
+    @include m.skeleton-shimmer;
     pointer-events: none;
   }
 
@@ -281,9 +264,7 @@
       padding: 0;
       appearance: none;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      @include m.flex-center;
       background-repeat: no-repeat;
       background-position: center;
       background-size: 16px 16px;
@@ -355,9 +336,7 @@
       font-weight: 400;
       color: rgba(0, 0, 0, 0.6);
       padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      @include m.flex-center;
       cursor: pointer;
 
       &:disabled {
@@ -397,8 +376,7 @@
         min-width: 0;
         width: auto;
         text-align: center;
-        background-color: transparent;
-        border: none;
+        @include m.transparent-button-reset($with-cursor: false);
         font-size: 16px;
         font-weight: 500;
         // Hide native number spinners — custom ± buttons handle increment
@@ -426,12 +404,8 @@
       .quantity-button-plus {
         // 44px tap area column — icon stays 20px, centered inside
         flex: 0 0 44px;
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        @include m.transparent-button-reset;
+        @include m.flex-center;
         background-repeat: no-repeat;
         background-position: center;
         background-size: 20px 20px;
@@ -590,7 +564,7 @@
           grid-row: 1;
           width: 100%;
           height: 100%;
-          @include skeleton-shimmer;
+          @include m.skeleton-shimmer;
           transition: opacity 0.2s ease;
           z-index: 1;
 
@@ -659,7 +633,7 @@
 
   &__skeleton-line,
   &__skeleton-icon {
-    @include skeleton-shimmer;
+    @include m.skeleton-shimmer;
   }
 
   &__skeleton-line {
@@ -687,7 +661,7 @@
   &__skeleton-line,
   &__skeleton-circle,
   &__skeleton-pill {
-    @include skeleton-shimmer;
+    @include m.skeleton-shimmer;
   }
 
   &__skeleton-image {
@@ -744,7 +718,7 @@
     grid-row: 1;
     width: 100%;
     min-height: 300px;
-    @include skeleton-shimmer;
+    @include m.skeleton-shimmer;
     transition: opacity 0.2s ease;
     z-index: 1;
 
@@ -831,7 +805,7 @@
   &__skeleton-line {
     height: 14px;
     border-radius: 8px;
-    @include skeleton-shimmer(
+    @include m.skeleton-shimmer(
       linear-gradient(
         90deg,
         rgba(0, 0, 0, 0.08) 25%,
