@@ -1,17 +1,10 @@
 @use "~/scss/abstracts/variables" as v;
 @use "~/scss/abstracts/mixins" as m;
 
-@mixin skeleton-shimmer($bg: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%), $bg-size: 200% 100%) {
-  background: $bg;
-  background-size: $bg-size;
-  animation: reviews-skeleton-shimmer 1.2s ease-in-out infinite;
-}
-
 .product-overview {
   margin-bottom: 80px;
 
   &--bootstrap-locked {
-
     .product-overview__choose-colors,
     .product-overview__size-options,
     .product-overview__actions {
@@ -41,15 +34,7 @@
   &__skeleton-circle,
   &__skeleton-pill,
   &__skeleton-size {
-    @include skeleton-shimmer;
-  }
-
-  &__skeleton-thumb,
-  &__skeleton-image,
-  &__skeleton-line,
-  &__skeleton-circle,
-  &__skeleton-pill,
-  &__skeleton-size {
+    @include m.skeleton-shimmer;
     pointer-events: none;
   }
 
@@ -70,7 +55,7 @@
     opacity: 1;
   }
 
-  &__main-image.is-loaded+&__skeleton-image {
+  &__main-image.is-loaded + &__skeleton-image {
     opacity: 0;
     visibility: hidden;
   }
@@ -180,7 +165,7 @@
     gap: 16px;
     margin-bottom: 14px;
 
-    >div {
+    > div {
       display: flex;
       gap: 4px;
     }
@@ -275,13 +260,12 @@
       width: 37px;
       height: 37px;
       border-radius: 100%;
-      border: none;
-      padding: 0;
-      appearance: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      @include m.button-native-reset(
+        $transparent-bg: false,
+        $appearance-none: true,
+        $padding-zero: true
+      );
+      @include m.flex-center;
       background-repeat: no-repeat;
       background-position: center;
       background-size: 16px 16px;
@@ -347,16 +331,13 @@
       min-width: 86px;
       height: 46px;
       background-color: #f0f0f0;
-      border: none;
+      @include m.button-native-reset($transparent-bg: false);
       border-radius: v.$radius-pill;
       font-size: 16px;
       font-weight: 400;
       color: rgba(0, 0, 0, 0.6);
       padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
+      @include m.flex-center;
 
       &:disabled {
         cursor: not-allowed;
@@ -395,8 +376,7 @@
         min-width: 0;
         width: auto;
         text-align: center;
-        background-color: transparent;
-        border: none;
+        @include m.button-native-reset($with-cursor: false);
         font-size: 16px;
         font-weight: 500;
         // Hide native number spinners — custom ± buttons handle increment
@@ -424,12 +404,8 @@
       .quantity-button-plus {
         // 44px tap area column — icon stays 20px, centered inside
         flex: 0 0 44px;
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        @include m.button-native-reset;
+        @include m.flex-center;
         background-repeat: no-repeat;
         background-position: center;
         background-size: 20px 20px;
@@ -457,12 +433,10 @@
       min-width: 0;
       background-color: #000;
       color: #fff;
-      border: none;
       border-radius: v.$radius-pill;
       font-size: 16px;
       font-weight: 500;
       white-space: nowrap;
-      cursor: pointer;
       transition:
         transform 0.2s ease,
         background-color 0.2s ease;
@@ -517,25 +491,56 @@
       -webkit-mask-image: none;
 
       &.js-has-scroll-bottom:not(.js-has-scroll-top) {
-        mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - 28px), transparent 100%);
-        -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - 28px), transparent 100%);
+        mask-image: linear-gradient(
+          to bottom,
+          #000 0%,
+          #000 calc(100% - 28px),
+          transparent 100%
+        );
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          #000 0%,
+          #000 calc(100% - 28px),
+          transparent 100%
+        );
       }
 
       &.js-has-scroll-top:not(.js-has-scroll-bottom) {
-        mask-image: linear-gradient(to bottom, transparent 0%, #000 28px, #000 100%);
-        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 28px, #000 100%);
+        mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          #000 28px,
+          #000 100%
+        );
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          #000 28px,
+          #000 100%
+        );
       }
 
       &.js-has-scroll-top.js-has-scroll-bottom {
-        mask-image: linear-gradient(to bottom, transparent 0%, #000 28px, #000 calc(100% - 28px), transparent 100%);
-        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 28px, #000 calc(100% - 28px), transparent 100%);
+        mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          #000 28px,
+          #000 calc(100% - 28px),
+          transparent 100%
+        );
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          #000 28px,
+          #000 calc(100% - 28px),
+          transparent 100%
+        );
       }
 
       .image-wrapper {
         position: relative;
-        width: 152px;
-        // Height derived from design ratio — no fixed height needed
-        aspect-ratio: 152 / 167;
+        max-width: 152px;
+        max-height: 167px;
         flex: 0 0 auto;
         border-radius: 20px;
         overflow: hidden;
@@ -557,7 +562,7 @@
           grid-row: 1;
           width: 100%;
           height: 100%;
-          @include skeleton-shimmer;
+          @include m.skeleton-shimmer;
           transition: opacity 0.2s ease;
           z-index: 1;
 
@@ -589,8 +594,8 @@
     .image-wrapper-main {
       position: relative;
       flex: 1;
-      // Design spec: 444 × 530 — aspect-ratio derives height from available width
-      aspect-ratio: 444 / 530;
+      max-width: 444px;
+      max-height: 530px;
       overflow: hidden;
       border-radius: 20px;
       background-color: #f0f0f0;
@@ -616,9 +621,7 @@
 
 .faqs {
   &__skeleton {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @include m.flex-between-center;
     gap: 16px;
     padding: 14px 0;
     pointer-events: none;
@@ -626,7 +629,7 @@
 
   &__skeleton-line,
   &__skeleton-icon {
-    @include skeleton-shimmer;
+    @include m.skeleton-shimmer;
   }
 
   &__skeleton-line {
@@ -654,7 +657,7 @@
   &__skeleton-line,
   &__skeleton-circle,
   &__skeleton-pill {
-    @include skeleton-shimmer;
+    @include m.skeleton-shimmer;
   }
 
   &__skeleton-image {
@@ -711,7 +714,7 @@
     grid-row: 1;
     width: 100%;
     min-height: 300px;
-    @include skeleton-shimmer;
+    @include m.skeleton-shimmer;
     transition: opacity 0.2s ease;
     z-index: 1;
 
@@ -798,8 +801,15 @@
   &__skeleton-line {
     height: 14px;
     border-radius: 8px;
-    @include skeleton-shimmer(linear-gradient(90deg, rgba(0, 0, 0, 0.08) 25%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0.08) 75%),
-      220% 100%);
+    @include m.skeleton-shimmer(
+      linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.08) 25%,
+        rgba(0, 0, 0, 0.15) 50%,
+        rgba(0, 0, 0, 0.08) 75%
+      ),
+      220% 100%
+    );
 
     &--stars {
       width: 110px;
@@ -879,7 +889,6 @@
 
     &__choose,
     &__size {
-
       p,
       div {
         font-size: 14px;

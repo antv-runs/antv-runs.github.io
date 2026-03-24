@@ -10,6 +10,72 @@
   overflow: hidden;
 }
 
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between-center {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin inline-flex-center {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin focus-ring($outline-offset: 2px, $border-radius: 4px) {
+  &:focus-visible {
+    outline: 2px solid v.$color-black;
+    outline-offset: $outline-offset;
+    border-radius: $border-radius;
+  }
+}
+
+/// Strip default button / control chrome. Set `$transparent-bg: false` when a solid or image background follows in the same rule.
+@mixin button-native-reset(
+  $transparent-bg: true,
+  $with-cursor: true,
+  $appearance-none: false,
+  $padding-zero: false,
+  $font-inherit: false
+) {
+  border: none;
+
+  @if $transparent-bg {
+    background-color: transparent;
+  }
+
+  @if $with-cursor {
+    cursor: pointer;
+  }
+
+  @if $appearance-none {
+    appearance: none;
+  }
+
+  @if $padding-zero {
+    padding: 0;
+  }
+
+  @if $font-inherit {
+    font: inherit;
+  }
+}
+
+@mixin skeleton-shimmer(
+  $bg: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%),
+  $bg-size: 200% 100%
+) {
+  background: $bg;
+  background-size: $bg-size;
+  animation: reviews-skeleton-shimmer 1.2s ease-in-out infinite;
+}
+
 @mixin icon-bg($url, $width: 16px, $height: 16px) {
   content: "";
   width: $width;

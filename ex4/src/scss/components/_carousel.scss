@@ -5,11 +5,9 @@
   position: relative;
 
   &__item {
-    cursor: pointer;
     max-width: 295px;
     flex: 0 0 auto;
-    border: 0;
-    background: transparent;
+    @include button-native-reset;
     transition: color 0.2s ease;
 
     &:hover {
@@ -62,12 +60,9 @@
   &__next {
     position: absolute;
     background: v.$color-white;
-    border: none;
+    @include button-native-reset($transparent-bg: false);
     padding: 5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-center;
     transition: all 0.3s ease;
     z-index: 100;
     top: 50%;

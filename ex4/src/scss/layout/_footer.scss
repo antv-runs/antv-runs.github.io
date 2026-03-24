@@ -1,4 +1,5 @@
 @use "~/scss/abstracts/variables" as v;
+@use "~/scss/abstracts/mixins" as m;
 
 .footer {
   background-color: v.$color-surface;
@@ -45,9 +46,7 @@
     figure {
       width: 20.25px;
       height: 15.75px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      @include m.flex-center;
     }
 
     input {
@@ -68,11 +67,10 @@
     margin-top: 12px;
     padding: 15px 0;
     background-color: v.$color-white;
-    border: none;
+    @include m.button-native-reset($transparent-bg: false);
     font-size: 16px;
     font-weight: 500;
     border-radius: v.$radius-pill;
-    cursor: pointer;
 
     &:hover {
       background-color: #e0e0e0;

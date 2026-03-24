@@ -1,4 +1,5 @@
 @use "~/scss/abstracts/variables" as v;
+@use "~/scss/abstracts/mixins" as m;
 
 .announcement-bar {
   width: 100%;
@@ -40,16 +41,11 @@
     position: absolute;
     top: 50%;
     right: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    @include m.inline-flex-center;
     width: 24px;
     height: 24px;
-    padding: 0;
-    border: 0;
-    background: transparent;
+    @include m.button-native-reset($padding-zero: true);
     color: inherit;
-    cursor: pointer;
     transform: translateY(-50%);
     transition: opacity 0.2s ease;
 
@@ -93,10 +89,9 @@ header {
     justify-content: center;
     width: 19px;
     height: 15px;
-    border: none;
+    @include m.button-native-reset($transparent-bg: false);
     background: url("~/images/icn_menu.svg") no-repeat center;
     background-size: contain;
-    cursor: pointer;
     color: v.$color-black;
   }
 
@@ -154,11 +149,8 @@ header {
       flex: 0 0 21px;
       background: url("~/images/icn_search.svg") no-repeat center;
       background-size: contain;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      @include m.button-native-reset($transparent-bg: false);
+      @include m.inline-flex-center;
     }
 
     &.is-disabled {
@@ -174,12 +166,8 @@ header {
     flex: 0 0 auto;
 
     button {
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      @include m.button-native-reset;
+      @include m.inline-flex-center;
       color: v.$color-black;
       flex-shrink: 0;
     }

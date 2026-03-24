@@ -9,41 +9,123 @@ import { getProducts } from "../services/productService.js";
 import { formatPrice } from "../utils/formatters.js";
 import { renderStars } from "../utils/ratingUtils.js";
 
-const PRODUCTS_PER_PAGE = 9;
-const MOBILE_FILTER_BREAKPOINT = 768;
+// ============================================================================
+// CONSTANTS
+// ============================================================================
+
+const PAGINATION = {
+  productsPerPage: 9,
+  defaultPerPage: 12,
+  defaultPage: 1,
+};
+
+const BREAKPOINT = {
+  mobileFilter: 768,
+};
+
+const LOAD_TYPES = {
+  initial: "initial",
+  refresh: "refresh",
+};
+
+const UI_TEXT = {
+  allProducts: "All Products",
+  noProducts: "No products found",
+  errorLoading: "Error loading products",
+  applying: "Applying...",
+  applyFilter: "Apply Filter",
+  noCategories: "No categories available",
+  unnamedCategory: "Unnamed category",
+  defaultProduct: "product",
+  defaultProducts: "products",
+};
+
+const CSS_CLASSES = {
+  open: "is-open",
+  active: "is-active",
+  loading: "is-loading",
+  navigating: "is-navigating",
+  gridLoading: "catalog-products__grid--loading",
+  gridRefreshing: "catalog-products__grid--refreshing",
+  paginationActive: "catalog-pagination__number--active",
+  colorActive: "catalog-filters__color--active",
+  paginationNumber: "catalog-pagination__number",
+  categoryPlaceholder: "catalog-filters__item--placeholder",
+  categoryItem: "catalog-filters__item",
+  accordionOpen: "is-open",
+};
+
+const SELECTORS = {
+  productList: ".js-product-list",
+  productCount: ".js-product-count",
+  categoryList: ".js-category-list",
+  categoryButton: ".js-category-button",
+  colorButton: ".js-color-button",
+  sizeButton: ".js-size-button",
+  dressStyleItem: ".js-dress-style-item",
+  paginationPrev: ".js-pagination-prev",
+  paginationNext: ".js-pagination-next",
+  paginationNumbers: ".js-pagination-numbers",
+  paginationNumber: ".js-pagination-number",
+  productLink: ".js-product-link",
+  productCard: ".js-product-card",
+  filterSidebar: ".js-catalog-filters",
+  filterToggle: ".js-filter-toggle",
+  filterClose: ".js-filter-close",
+  filtersOverlay: ".js-filters-overlay",
+  priceRangeMin: ".js-price-range-min",
+  priceRangeMax: ".js-price-range-max",
+  priceRangeProgress: ".js-price-range-progress",
+  priceRangeMinValue: ".js-price-range-min-value",
+  priceRangeMaxValue: ".js-price-range-max-value",
+  applyFilterButton: ".js-apply-filter",
+  applyFilterText: ".catalog-filters__apply-text",
+  breadcrumb: ".catalog__breadcrumb",
+  catalogTitle: ".catalog-products__title",
+  filterSection: ".js-filter-section",
+  filterAccordionToggle: ".js-filter-accordion-toggle",
+  filterAccordionContent: ".js-filter-accordion-content",
+  categoryButtonSelector: "button[data-category-id]",
+};
+
+const LOG_PREFIX = {
+  api: "[API]",
+  init: "[INIT]",
+};
+
+// ============================================================================
+// STATE MANAGEMENT
+// ============================================================================
 
 /**
- * STATE MANAGEMENT
- * ================
- * Single source of truth for UI state.
- * Why? Prevents inconsistencies when multiple events (search, pagination) modify state.
- * Ensures: same state values trigger same API params → reproducible behavior.
+ * APPLICATION STATE
+ * Unified state object for products and pagination.
+ * Tracks loading flags, request token, and current filters.
  */
 function createAppState() {
   return {
     searchKeyword: "",
     categoryId: null,
     categoryName: null,
-    currentPage: 1,
-    lastPage: 1,
+    currentPage: PAGINATION.defaultPage,
+    lastPage: PAGINATION.defaultPage,
     totalCount: 0,
-    perPage: 12,
-    // Committed filter values (set when Apply Filter is clicked)
+    perPage: PAGINATION.defaultPerPage,
     minPrice: null,
     maxPrice: null,
     colors: [],
     sizes: [],
     dressStyle: null,
-    // LOADING STATE MANAGEMENT
-    // ========================
-    // Tracks which phase of the data lifecycle we're in.
-    // Distinguishes between first page load and subsequent updates.
-    isInitialLoading: false, // true = first page load with skeleton
-    isRefreshing: false, // true = search/filter/pagination update
-    productRequestToken: 0, // Incremented per request; used to invalidate stale responses
+    isInitialLoading: false,
+    isRefreshing: false,
+    productRequestToken: 0,
   };
 }
 
+/**
+ * FILTER STATE
+ * Stores pending filter selections until "Apply Filter" is clicked.
+ */
 function createFilterState() {
   return {
     categoryId: null,
@@ -56,32 +138,84 @@ function createFilterState() {
   };
 }
 
+// ============================================================================
+// HELPER FUNCTIONS
+// ============================================================================
+
 /**
- * LOADING STATE HELPERS
- * =====================
- * Manage loading state for product data fetching.
- * Reuses pattern from productDetail.js: request tokens prevent race conditions.
+ * Guard: Check if any loading operation is in progress.
  */
+function isLoadingInProgress(state) {
+  return state.isInitialLoading || state.isRefreshing;
+}
+
+/**
+ * Scroll product list into view with smooth behavior.
+ */
+function scrollToProductList(elements) {
+  if (elements.productList) {
+    elements.productList.scrollIntoView({ behavior: "smooth" });
+  }
+}
+
+/**
+ * Set aria-attribute to string of boolean value.
+ */
+function setAriaBool(element, attr, value) {
+  if (element) {
+    element.setAttribute(attr, String(Boolean(value)));
+  }
+}
+
+/**
+ * Open filter drawer: update UI, manage overlay, prevent scroll.
+ */
+function openFilterDrawer(elements) {
+  if (elements.filterSidebar) {
+    elements.filterSidebar.classList.add(CSS_CLASSES.open);
+  }
+  setAriaBool(elements.filterToggle, "aria-expanded", true);
+  if (elements.filtersOverlay) {
+    elements.filtersOverlay.classList.add(CSS_CLASSES.open);
+  }
+  document.body.style.overflow = "hidden";
+}
+
+/**
+ * Close filter drawer: update UI, manage overlay, restore scroll.
+ */
+function closeFilterDrawer(elements) {
+  if (elements.filterSidebar) {
+    elements.filterSidebar.classList.remove(CSS_CLASSES.open);
+  }
+  setAriaBool(elements.filterToggle, "aria-expanded", false);
+  if (elements.filtersOverlay) {
+    elements.filtersOverlay.classList.remove(CSS_CLASSES.open);
+  }
+  document.body.style.overflow = "";
+}
+
+// ============================================================================
+// LOADING STATE MANAGEMENT
+// ============================================================================
+
 function setCatalogLoadingState(elements, state, loadType) {
-  const isInitial = loadType === "initial";
-  const isRefresh = loadType === "refresh";
+  const isInitial = loadType === LOAD_TYPES.initial;
+  const isRefresh = loadType === LOAD_TYPES.refresh;
 
   if (isInitial) {
     state.isInitialLoading = true;
     state.isRefreshing = false;
     if (elements.productList) {
       elements.productList.setAttribute("aria-busy", "true");
-      renderProductSkeleton(elements.productList, PRODUCTS_PER_PAGE);
-    }
-    if (elements.productList) {
-      elements.productList.classList.add("catalog-products__grid--loading");
+      renderProductSkeleton(elements.productList, PAGINATION.productsPerPage);
+      elements.productList.classList.add(CSS_CLASSES.gridLoading);
     }
   } else if (isRefresh) {
     state.isRefreshing = true;
     if (elements.productList) {
       elements.productList.setAttribute("aria-busy", "true");
-      // Keep current products rendered and show in-place refresh overlay.
-      elements.productList.classList.add("catalog-products__grid--refreshing");
+      elements.productList.classList.add(CSS_CLASSES.gridRefreshing);
     }
   }
 
@@ -95,8 +229,8 @@ function clearCatalogLoadingState(elements, state) {
   if (elements.productList) {
     elements.productList.setAttribute("aria-busy", "false");
     elements.productList.classList.remove(
-      "catalog-products__grid--loading",
-      "catalog-products__grid--refreshing",
+      CSS_CLASSES.gridLoading,
+      CSS_CLASSES.gridRefreshing,
     );
   }
 
@@ -106,7 +240,7 @@ function clearCatalogLoadingState(elements, state) {
 function setControlsDisabled(elements, state, isDisabled) {
   const shouldDisable = Boolean(isDisabled);
   const pageButtons = elements.paginationNumbers?.querySelectorAll(
-    ".js-pagination-number",
+    SELECTORS.paginationNumber,
   );
 
   if (elements.headerApi) {
@@ -114,8 +248,12 @@ function setControlsDisabled(elements, state, isDisabled) {
   }
 
   if (shouldDisable) {
-    if (elements.paginationPrev) elements.paginationPrev.disabled = true;
-    if (elements.paginationNext) elements.paginationNext.disabled = true;
+    if (elements.paginationPrev) {
+      elements.paginationPrev.disabled = true;
+    }
+    if (elements.paginationNext) {
+      elements.paginationNext.disabled = true;
+    }
     pageButtons?.forEach((button) => {
       button.disabled = true;
     });
@@ -126,7 +264,8 @@ function setControlsDisabled(elements, state, isDisabled) {
   }
 
   if (elements.paginationPrev) {
-    elements.paginationPrev.disabled = state.currentPage === 1;
+    elements.paginationPrev.disabled =
+      state.currentPage === PAGINATION.defaultPage;
   }
 
   if (elements.paginationNext) {
@@ -137,36 +276,38 @@ function setControlsDisabled(elements, state, isDisabled) {
     button.disabled = false;
   });
 
-  // Preserve existing apply-filter loading UI ownership in bindApplyFilter.
   if (
     elements.applyFilterButton &&
-    !elements.applyFilterButton.classList.contains("is-loading")
+    !elements.applyFilterButton.classList.contains(CSS_CLASSES.loading)
   ) {
     elements.applyFilterButton.disabled = false;
   }
 }
 
+// ============================================================================
+// DOM ELEMENT RETRIEVAL
+// ============================================================================
+
 function getPageElements() {
   return {
-    breadcrumb: document.querySelector(".catalog__breadcrumb"),
-    catalogTitle: document.querySelector(".catalog-products__title"),
-    productList: document.querySelector(".js-product-list"),
-    productCount: document.querySelector(".js-product-count"),
-    filterSidebar: document.querySelector(".js-catalog-filters"),
-    filterToggle: document.querySelector(".js-filter-toggle"),
-    filterClose: document.querySelector(".js-filter-close"),
-    filtersOverlay: document.querySelector(".js-filters-overlay"),
-    priceRangeMin: document.querySelector(".js-price-range-min"),
-    priceRangeMax: document.querySelector(".js-price-range-max"),
-    priceRangeProgress: document.querySelector(".js-price-range-progress"),
-    priceRangeMinValue: document.querySelector(".js-price-range-min-value"),
-    priceRangeMaxValue: document.querySelector(".js-price-range-max-value"),
-    categoryList: document.querySelector(".js-category-list"),
-    applyFilterButton: document.querySelector(".js-apply-filter"),
-    // Pagination elements
-    paginationPrev: document.querySelector(".js-pagination-prev"),
-    paginationNext: document.querySelector(".js-pagination-next"),
-    paginationNumbers: document.querySelector(".js-pagination-numbers"),
+    breadcrumb: document.querySelector(SELECTORS.breadcrumb),
+    catalogTitle: document.querySelector(SELECTORS.catalogTitle),
+    productList: document.querySelector(SELECTORS.productList),
+    productCount: document.querySelector(SELECTORS.productCount),
+    filterSidebar: document.querySelector(SELECTORS.filterSidebar),
+    filterToggle: document.querySelector(SELECTORS.filterToggle),
+    filterClose: document.querySelector(SELECTORS.filterClose),
+    filtersOverlay: document.querySelector(SELECTORS.filtersOverlay),
+    priceRangeMin: document.querySelector(SELECTORS.priceRangeMin),
+    priceRangeMax: document.querySelector(SELECTORS.priceRangeMax),
+    priceRangeProgress: document.querySelector(SELECTORS.priceRangeProgress),
+    priceRangeMinValue: document.querySelector(SELECTORS.priceRangeMinValue),
+    priceRangeMaxValue: document.querySelector(SELECTORS.priceRangeMaxValue),
+    categoryList: document.querySelector(SELECTORS.categoryList),
+    applyFilterButton: document.querySelector(SELECTORS.applyFilterButton),
+    paginationPrev: document.querySelector(SELECTORS.paginationPrev),
+    paginationNext: document.querySelector(SELECTORS.paginationNext),
+    paginationNumbers: document.querySelector(SELECTORS.paginationNumbers),
   };
 }
 
@@ -188,7 +329,7 @@ function createBreadcrumbListItem(content, isCurrentPage = false) {
 }
 
 function updateCatalogHeader(elements, categoryName = null) {
-  const title = String(categoryName || "").trim() || "All Products";
+  const title = String(categoryName || "").trim() || UI_TEXT.allProducts;
 
   if (elements.catalogTitle) {
     elements.catalogTitle.textContent = title;
@@ -209,12 +350,11 @@ function renderCategoryItems(container, categories, selectedCategoryId) {
     return;
   }
 
-  container.classList.remove("catalog-filters__list--loading");
+  container.classList.remove(CSS_CLASSES.gridLoading);
   container.setAttribute("aria-busy", "false");
 
   if (!Array.isArray(categories) || categories.length === 0) {
-    container.innerHTML =
-      '<li><button type="button" class="catalog-filters__item" disabled>No categories available</button></li>';
+    container.innerHTML = `<li><button type="button" class="${CSS_CLASSES.categoryItem} ${CSS_CLASSES.categoryPlaceholder}" disabled>${UI_TEXT.noCategories}</button></li>`;
     return;
   }
 
@@ -225,10 +365,11 @@ function renderCategoryItems(container, categories, selectedCategoryId) {
         selectedCategoryId !== null &&
         selectedCategoryId !== undefined &&
         String(selectedCategoryId) === categoryId;
-      const activeClass = isActive ? " is-active" : "";
-      const label = String(category.name || "").trim() || "Unnamed category";
+      const activeClass = isActive ? ` ${CSS_CLASSES.active}` : "";
+      const label =
+        String(category.name || "").trim() || UI_TEXT.unnamedCategory;
 
-      return `<li><button type="button" class="catalog-filters__item js-category-button${activeClass}" data-category-id="${categoryId}" aria-pressed="${isActive}">${label}</button></li>`;
+      return `<li><button type="button" class="${CSS_CLASSES.categoryItem} js-category-button${activeClass}" data-category-id="${categoryId}" aria-pressed="${isActive}">${label}</button></li>`;
     })
     .join("");
 }
@@ -239,10 +380,10 @@ function renderCategoryPlaceholders(container, count = 5) {
   }
 
   const safeCount = Math.max(1, Number(count) || 5);
-  container.classList.add("catalog-filters__list--loading");
+  container.classList.add(CSS_CLASSES.gridLoading);
   container.setAttribute("aria-busy", "true");
   container.innerHTML = Array.from({ length: safeCount }, () => {
-    return `<li><button type="button" class="catalog-filters__item catalog-filters__item--placeholder" disabled aria-hidden="true"><span class="catalog-filters__placeholder-line"></span></button></li>`;
+    return `<li><button type="button" class="${SELECTORS.categoryButton} ${CSS_CLASSES.categoryPlaceholder}" disabled aria-hidden="true"><span class="catalog-filters__placeholder-line"></span></button></li>`;
   }).join("");
 }
 
@@ -260,12 +401,12 @@ async function loadCategories(elements, state) {
       : [];
 
     if (categories.length === 0) {
-      console.warn("[API] No categories returned from API.");
+      console.warn(`${LOG_PREFIX.api} No categories returned from API.`);
     }
 
     renderCategoryItems(elements.categoryList, categories, state.categoryId);
   } catch (error) {
-    console.warn("[API] Failed to fetch categories.", error);
+    console.warn(`${LOG_PREFIX.api} Failed to fetch categories.`, error);
     renderCategoryItems(elements.categoryList, [], state.categoryId);
   }
 }
@@ -276,7 +417,7 @@ function bindCategoryFilter(elements, filterState) {
   }
 
   elements.categoryList.addEventListener("click", (event) => {
-    const categoryButton = event.target.closest("button[data-category-id]");
+    const categoryButton = event.target.closest(SELECTORS.categoryButton);
 
     if (!categoryButton || !elements.categoryList.contains(categoryButton)) {
       return;
@@ -300,11 +441,11 @@ function bindCategoryFilter(elements, filterState) {
     }
 
     elements.categoryList
-      .querySelectorAll("button[data-category-id]")
+      .querySelectorAll(SELECTORS.categoryButton)
       .forEach((button) => {
         const isActive = button.dataset.categoryId === filterState.categoryId;
-        button.classList.toggle("is-active", isActive);
-        button.setAttribute("aria-pressed", String(isActive));
+        button.classList.toggle(CSS_CLASSES.active, isActive);
+        setAriaBool(button, "aria-pressed", isActive);
       });
   });
 }
@@ -375,7 +516,7 @@ function bindColorFilter(elements, filterState) {
   }
 
   elements.filterSidebar.addEventListener("click", (event) => {
-    const colorButton = event.target.closest(".js-color-button");
+    const colorButton = event.target.closest(SELECTORS.colorButton);
 
     if (!colorButton || !elements.filterSidebar.contains(colorButton)) {
       return;
@@ -386,14 +527,15 @@ function bindColorFilter(elements, filterState) {
       return;
     }
 
-    const isNowActive = !colorButton.classList.contains("is-active");
-    colorButton.classList.toggle("catalog-filters__color--active", isNowActive);
-    colorButton.classList.toggle("is-active", isNowActive);
-    colorButton.setAttribute("aria-pressed", String(isNowActive));
+    const isNowActive = !colorButton.classList.contains(CSS_CLASSES.active);
+    colorButton.classList.toggle(CSS_CLASSES.colorActive, isNowActive);
+    colorButton.classList.toggle(CSS_CLASSES.active, isNowActive);
+    setAriaBool(colorButton, "aria-pressed", isNowActive);
 
-    // Keep filter state in sync with current active color buttons.
     filterState.colors = Array.from(
-      elements.filterSidebar.querySelectorAll(".js-color-button.is-active"),
+      elements.filterSidebar.querySelectorAll(
+        `${SELECTORS.colorButton}.${CSS_CLASSES.active}`,
+      ),
     )
       .map((button) => String(button.dataset.color || "").toLowerCase())
       .filter(Boolean);
@@ -406,7 +548,7 @@ function bindSizeFilter(elements, filterState) {
   }
 
   elements.filterSidebar.addEventListener("click", (event) => {
-    const sizeButton = event.target.closest(".js-size-button");
+    const sizeButton = event.target.closest(SELECTORS.sizeButton);
 
     if (!sizeButton || !elements.filterSidebar.contains(sizeButton)) {
       return;
@@ -426,7 +568,7 @@ function bindSizeFilter(elements, filterState) {
       filterState.sizes.splice(index, 1);
     }
 
-    sizeButton.classList.toggle("is-active", isNowActive);
+    sizeButton.classList.toggle(CSS_CLASSES.active, isNowActive);
   });
 }
 
@@ -436,7 +578,7 @@ function bindDressStyleFilter(elements, filterState) {
   }
 
   elements.filterSidebar.addEventListener("click", (event) => {
-    const styleLink = event.target.closest(".js-dress-style-item");
+    const styleLink = event.target.closest(SELECTORS.dressStyleItem);
 
     if (!styleLink || !elements.filterSidebar.contains(styleLink)) {
       return;
@@ -453,11 +595,11 @@ function bindDressStyleFilter(elements, filterState) {
     filterState.dressStyle = style === filterState.dressStyle ? null : style;
 
     elements.filterSidebar
-      .querySelectorAll(".js-dress-style-item")
+      .querySelectorAll(SELECTORS.dressStyleItem)
       .forEach((item) => {
         const isActive =
           (item.dataset.style || "").toLowerCase() === filterState.dressStyle;
-        item.classList.toggle("is-active", isActive);
+        item.classList.toggle(CSS_CLASSES.active, isActive);
       });
   });
 }
@@ -468,36 +610,23 @@ function bindApplyFilter(elements, state, filterState) {
   }
 
   const button = elements.applyFilterButton;
-  const applyText = button.querySelector(".catalog-filters__apply-text");
-
-  const closeFilters = () => {
-    if (elements.filterSidebar) {
-      elements.filterSidebar.classList.remove("is-open");
-    }
-    if (elements.filterToggle) {
-      elements.filterToggle.setAttribute("aria-expanded", "false");
-    }
-    if (elements.filtersOverlay) {
-      elements.filtersOverlay.classList.remove("is-open");
-    }
-    document.body.style.overflow = "";
-  };
+  const applyText = button.querySelector(SELECTORS.applyFilterText);
 
   const setApplyButtonLoading = (isLoading) => {
     button.disabled = isLoading;
-    button.classList.toggle("is-loading", isLoading);
+    button.classList.toggle(CSS_CLASSES.loading, isLoading);
     if (applyText) {
-      applyText.textContent = isLoading ? "Applying..." : "Apply Filter";
+      applyText.textContent = isLoading
+        ? UI_TEXT.applying
+        : UI_TEXT.applyFilter;
     }
   };
 
   button.addEventListener("click", async () => {
-    // Guard: skip if already loading
     if (button.disabled || state.isInitialLoading || state.isRefreshing) {
       return;
     }
 
-    // Commit pending filterState into appState
     state.categoryId = filterState.categoryId;
     state.categoryName = filterState.categoryName;
     state.minPrice = filterState.minPrice;
@@ -505,16 +634,14 @@ function bindApplyFilter(elements, state, filterState) {
     state.colors = [...filterState.colors];
     state.sizes = [...filterState.sizes];
     state.dressStyle = filterState.dressStyle;
-    state.currentPage = 1;
+    state.currentPage = PAGINATION.defaultPage;
 
     updateCatalogHeader(elements, state.categoryName);
 
     setApplyButtonLoading(true);
     try {
-      // Use unified loading state system
-      await handlePageLoad(elements, state, "refresh");
-      // Close filters after successfully applying them
-      closeFilters();
+      await handlePageLoad(elements, state, LOAD_TYPES.refresh);
+      closeFilterDrawer(elements);
     } finally {
       setApplyButtonLoading(false);
     }
@@ -526,12 +653,23 @@ function updateProductCount(element, state, searchKeyword = "") {
     return;
   }
 
-  const { currentPage = 1, totalCount = 0, perPage = 12 } = state || {};
+  const {
+    currentPage = PAGINATION.defaultPage,
+    totalCount = 0,
+    perPage = PAGINATION.defaultPerPage,
+  } = state || {};
 
-  const safePage = Math.max(1, Number(currentPage) || 1);
-  const safePerPage = Math.max(1, Number(perPage) || 12);
+  const safePage = Math.max(
+    PAGINATION.defaultPage,
+    Number(currentPage) || PAGINATION.defaultPage,
+  );
+  const safePerPage = Math.max(
+    PAGINATION.defaultPage,
+    Number(perPage) || PAGINATION.defaultPerPage,
+  );
   const safeTotalCount = Math.max(0, Number(totalCount) || 0);
-  const label = safeTotalCount === 1 ? "product" : "products";
+  const label =
+    safeTotalCount === 1 ? UI_TEXT.defaultProduct : UI_TEXT.defaultProducts;
   const start = safeTotalCount === 0 ? 0 : (safePage - 1) * safePerPage + 1;
   const end = Math.min(safePage * safePerPage, safeTotalCount);
   const trimmedKeyword = String(searchKeyword || "").trim();
@@ -541,16 +679,8 @@ function updateProductCount(element, state, searchKeyword = "") {
 }
 
 /**
- * FETCH PRODUCTS
- * ==============
- * Calls API with current state values.
- * Returns: { products, pagination } or null on error.
- * Logs response structure for debugging.
- *
- * REQUEST GUARD (Token Pattern):
- * - Captures current token before fetch
- * - On response, validates token matches
- * - Ignores stale responses from cancelled/superseded requests
+ * FETCH PRODUCTS WITH REQUEST TOKEN GUARD
+ * Returns response or null on error/stale request.
  */
 async function fetchProducts(state, requestToken) {
   try {
@@ -563,18 +693,16 @@ async function fetchProducts(state, requestToken) {
       sizes: state.sizes?.length ? state.sizes.join(",") : undefined,
       style: state.dressStyle || undefined,
       page: state.currentPage,
-      per_page: PRODUCTS_PER_PAGE,
+      per_page: PAGINATION.productsPerPage,
     };
 
-    console.log("[API] Fetching products with params:", params);
+    console.log(`${LOG_PREFIX.api} Fetching products with params:`, params);
 
     const response = await getProducts(params);
 
-    // STALE REQUEST CHECK: If token changed, a new request was triggered
-    // Discard this response and let the newer request handle rendering
     if (requestToken !== state.productRequestToken) {
       console.log(
-        "[API] Ignoring stale response (token mismatch)",
+        `${LOG_PREFIX.api} Ignoring stale response (token mismatch)`,
         requestToken,
         "!=",
         state.productRequestToken,
@@ -582,8 +710,7 @@ async function fetchProducts(state, requestToken) {
       return null;
     }
 
-    // Log response structure for debugging
-    console.log("[API] Response structure:", {
+    console.log(`${LOG_PREFIX.api} Response structure:`, {
       productsCount: response.products?.length || 0,
       paginationData: response.pagination,
       hasLinks: !!response.links,
@@ -591,15 +718,13 @@ async function fetchProducts(state, requestToken) {
 
     return response;
   } catch (error) {
-    console.error("[API] Error fetching products:", error);
+    console.error(`${LOG_PREFIX.api} Error fetching products:`, error);
     return null;
   }
 }
 
 /**
  * RENDER PRODUCTS
- * ===============
- * Updates product list and count.
  */
 function renderProducts(elements, apiResponse, state) {
   if (!elements.productList || !apiResponse) {
@@ -611,7 +736,7 @@ function renderProducts(elements, apiResponse, state) {
   updateProductCount(elements.productCount, state, state.searchKeyword);
 
   if (products.length === 0) {
-    renderCatalogEmptyState(elements.productList, "No products found");
+    renderCatalogEmptyState(elements.productList, UI_TEXT.noProducts);
     return;
   }
 
@@ -623,9 +748,6 @@ function renderProducts(elements, apiResponse, state) {
 
 /**
  * RENDER PAGINATION
- * =================
- * Updates pagination UI and button states.
- * Generates page numbers with ellipsis for large page counts.
  */
 function renderPagination(elements, state) {
   const { currentPage, lastPage } = state;
@@ -635,35 +757,34 @@ function renderPagination(elements, state) {
     return;
   }
 
-  // Clear and rebuild page numbers
   elements.paginationNumbers.innerHTML = "";
 
-  for (let i = 1; i <= lastPage; i++) {
+  for (let i = PAGINATION.defaultPage; i <= lastPage; i++) {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = "catalog-pagination__number js-pagination-number";
+    button.className = `${CSS_CLASSES.paginationNumber} ${SELECTORS.paginationNumber}`;
     button.textContent = i;
     button.dataset.page = i;
     button.disabled = isLoading;
 
     if (i === currentPage) {
-      button.classList.add("catalog-pagination__number--active");
+      button.classList.add(CSS_CLASSES.paginationActive);
     }
 
     elements.paginationNumbers.appendChild(button);
 
-    // Add ellipsis after 3rd page if many pages exist
+    // Add ellipsis after page 3 if many pages exist
     if (i === 3 && lastPage > 4) {
       const ellipsis = document.createElement("span");
       ellipsis.textContent = "...";
       elements.paginationNumbers.appendChild(ellipsis);
-      i = lastPage - 1; // Jump near the end
+      i = lastPage - 1;
     }
   }
 
-  // Update button states
   if (elements.paginationPrev) {
-    elements.paginationPrev.disabled = isLoading || currentPage === 1;
+    elements.paginationPrev.disabled =
+      isLoading || currentPage === PAGINATION.defaultPage;
   }
 
   if (elements.paginationNext) {
@@ -671,63 +792,55 @@ function renderPagination(elements, state) {
   }
 }
 
+// ============================================================================
+// PAGE LOAD ORCHESTRATION
+// ============================================================================
+
 /**
  * HANDLE PAGE LOAD
- * ================
- * Main function: Update state → Set loading → Fetch API → Render UI.
+ * Main orchestrator: Update state → Set loading → Fetch API → Render UI.
  * Called on: initial load, search, filter apply, pagination.
- *
- * LOADING LIFECYCLE:
- * 1. Determine load type (initial vs refresh)
- * 2. Increment request token (invalidates prior requests)
- * 3. Set loading state (disable controls, show indicators)
- * 4. Fetch products with token guard
- * 5. Validate response token before rendering
- * 6. Render UI or error state
- * 7. Clear loading state (re-enable controls)
  */
-async function handlePageLoad(elements, state, loadType = "refresh") {
-  // Increment request token to invalidate any in-flight requests
+async function handlePageLoad(elements, state, loadType = LOAD_TYPES.refresh) {
   state.productRequestToken += 1;
   const requestToken = state.productRequestToken;
 
-  // Set appropriate loading state based on context
   setCatalogLoadingState(elements, state, loadType);
 
   try {
     const apiResponse = await fetchProducts(state, requestToken);
 
-    // Ignore stale responses; a newer request already owns rendering.
     if (requestToken !== state.productRequestToken) {
       return;
     }
 
-    // Only render if this is still the current request
     if (apiResponse) {
       const { pagination } = apiResponse;
 
-      // Update state from API response
-      state.currentPage = pagination.page || 1;
-      state.lastPage = pagination.lastPage || 1;
+      state.currentPage = pagination.page || PAGINATION.defaultPage;
+      state.lastPage = pagination.lastPage || PAGINATION.defaultPage;
       state.totalCount = pagination.total || 0;
-      state.perPage = Number(pagination.perPage || state.perPage || 12);
+      state.perPage = Number(
+        pagination.perPage || state.perPage || PAGINATION.defaultPerPage,
+      );
 
-      // Render UI
       renderProducts(elements, apiResponse, state);
       renderPagination(elements, state);
     } else {
-      // Fallback: show error state
       updateProductCount(elements.productCount, state, state.searchKeyword);
-      renderCatalogEmptyState(elements.productList, "Error loading products");
+      renderCatalogEmptyState(elements.productList, UI_TEXT.errorLoading);
       renderPagination(elements, state);
     }
   } finally {
-    // Only clear loading for the latest request.
     if (requestToken === state.productRequestToken) {
       clearCatalogLoadingState(elements, state);
     }
   }
 }
+
+// ============================================================================
+// EVENT BINDING
+// ============================================================================
 
 function bindProductNavigation(elements) {
   const productList = elements.productList;
@@ -736,14 +849,14 @@ function bindProductNavigation(elements) {
   }
 
   productList.addEventListener("click", (event) => {
-    const productLink = event.target.closest(".js-product-link");
+    const productLink = event.target.closest(SELECTORS.productLink);
 
     if (!productLink) {
       return;
     }
 
-    const productCard = productLink.closest(".js-product-card");
-    if (productCard?.classList.contains("is-navigating")) {
+    const productCard = productLink.closest(SELECTORS.productCard);
+    if (productCard?.classList.contains(CSS_CLASSES.navigating)) {
       event.preventDefault();
       return;
     }
@@ -751,7 +864,7 @@ function bindProductNavigation(elements) {
     event.preventDefault();
 
     if (productCard) {
-      productCard.classList.add("is-navigating");
+      productCard.classList.add(CSS_CLASSES.navigating);
       productCard.setAttribute("aria-busy", "true");
     }
 
@@ -763,13 +876,12 @@ function bindProductNavigation(elements) {
 
     if (!targetUrl) {
       if (productCard) {
-        productCard.classList.remove("is-navigating");
+        productCard.classList.remove(CSS_CLASSES.navigating);
         productCard.setAttribute("aria-busy", "false");
       }
       return;
     }
 
-    // Let the pending state paint before navigating away.
     window.requestAnimationFrame(() => {
       window.location.href = targetUrl;
     });
@@ -785,62 +897,36 @@ function bindFilterToggle(elements) {
     return;
   }
 
-  const closeFilters = () => {
-    elements.filterSidebar.classList.remove("is-open");
-    elements.filterToggle.setAttribute("aria-expanded", "false");
-
-    // Hide overlay
-    if (elements.filtersOverlay) {
-      elements.filtersOverlay.classList.remove("is-open");
-    }
-
-    // Restore body scroll
-    document.body.style.overflow = "";
-  };
-
-  const openFilters = () => {
-    elements.filterSidebar.classList.add("is-open");
-    elements.filterToggle.setAttribute("aria-expanded", "true");
-
-    // Show overlay
-    if (elements.filtersOverlay) {
-      elements.filtersOverlay.classList.add("is-open");
-    }
-
-    // Prevent body scroll
-    document.body.style.overflow = "hidden";
-  };
-
   elements.filterToggle.addEventListener("click", () => {
-    const isOpen = elements.filterSidebar.classList.contains("is-open");
+    const isOpen = elements.filterSidebar.classList.contains(CSS_CLASSES.open);
     if (isOpen) {
-      closeFilters();
-      return;
+      closeFilterDrawer(elements);
+    } else {
+      openFilterDrawer(elements);
     }
-
-    openFilters();
   });
 
-  elements.filterClose.addEventListener("click", closeFilters);
+  elements.filterClose.addEventListener("click", () => {
+    closeFilterDrawer(elements);
+  });
 
-  // Close on overlay click
   if (elements.filtersOverlay) {
     elements.filtersOverlay.addEventListener("click", (event) => {
       if (event.target === elements.filtersOverlay) {
-        closeFilters();
+        closeFilterDrawer(elements);
       }
     });
   }
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
-      closeFilters();
+      closeFilterDrawer(elements);
     }
   });
 
   window.addEventListener("resize", () => {
-    if (window.innerWidth > MOBILE_FILTER_BREAKPOINT) {
-      closeFilters();
+    if (window.innerWidth > BREAKPOINT.mobileFilter) {
+      closeFilterDrawer(elements);
     }
   });
 }
@@ -853,110 +939,87 @@ function bindFilterAccordion(elements) {
   }
 
   const setAccordionState = (section, isOpen) => {
-    const toggle = section.querySelector(".js-filter-accordion-toggle");
-    const content = section.querySelector(".js-filter-accordion-content");
+    const toggle = section.querySelector(SELECTORS.filterAccordionToggle);
+    const content = section.querySelector(SELECTORS.filterAccordionContent);
 
     if (!toggle || !content) {
       return;
     }
 
-    section.classList.toggle("is-open", isOpen);
-    toggle.setAttribute("aria-expanded", String(isOpen));
+    section.classList.toggle(CSS_CLASSES.accordionOpen, isOpen);
+    setAriaBool(toggle, "aria-expanded", isOpen);
     content.setAttribute("aria-hidden", String(!isOpen));
     content.inert = !isOpen;
   };
 
-  filterSidebar.querySelectorAll(".js-filter-section").forEach((section) => {
-    if (!section.querySelector(".js-filter-accordion-toggle")) {
+  filterSidebar.querySelectorAll(SELECTORS.filterSection).forEach((section) => {
+    if (!section.querySelector(SELECTORS.filterAccordionToggle)) {
       return;
     }
 
-    setAccordionState(section, section.classList.contains("is-open"));
+    setAccordionState(
+      section,
+      section.classList.contains(CSS_CLASSES.accordionOpen),
+    );
   });
 
   filterSidebar.addEventListener("click", (event) => {
-    const toggle = event.target.closest(".js-filter-accordion-toggle");
+    const toggle = event.target.closest(SELECTORS.filterAccordionToggle);
 
     if (!toggle || !filterSidebar.contains(toggle)) {
       return;
     }
 
-    const section = toggle.closest(".js-filter-section");
+    const section = toggle.closest(SELECTORS.filterSection);
 
     if (!section) {
       return;
     }
 
-    setAccordionState(section, !section.classList.contains("is-open"));
+    setAccordionState(
+      section,
+      !section.classList.contains(CSS_CLASSES.accordionOpen),
+    );
   });
 }
 
 /**
- * BIND EVENTS
- * ===========
- * Attach event listeners for search, pagination, and filter toggle.
- * All events update state → trigger handlePageLoad().
- *
- * REQUEST GUARDS:
- * - Check state.isInitialLoading and state.isRefreshing to prevent overlapping requests
- * - Each request increments productRequestToken to invalidate stale responses
+ * BIND PAGINATION EVENTS
+ * Handles prev/next/page-number clicks with state guards and scroll.
  */
 function bindEvents(elements, state) {
-  // Pagination: Previous button
   if (elements.paginationPrev) {
     elements.paginationPrev.addEventListener("click", () => {
-      // Guard: skip if loading or invalid state
       if (
-        state.isInitialLoading ||
-        state.isRefreshing ||
-        state.currentPage <= 1
+        isLoadingInProgress(state) ||
+        state.currentPage <= PAGINATION.defaultPage
       ) {
         return;
       }
 
-      state.currentPage--;
-      handlePageLoad(elements, state, "refresh");
-
-      // Scroll to top of product list
-      if (elements.productList) {
-        elements.productList.scrollIntoView({ behavior: "smooth" });
-      }
+      state.currentPage -= 1;
+      handlePageLoad(elements, state, LOAD_TYPES.refresh);
+      scrollToProductList(elements);
     });
   }
 
-  // Pagination: Next button
   if (elements.paginationNext) {
     elements.paginationNext.addEventListener("click", () => {
-      // Guard: skip if loading or invalid state
-      if (
-        state.isInitialLoading ||
-        state.isRefreshing ||
-        state.currentPage >= state.lastPage
-      ) {
+      if (isLoadingInProgress(state) || state.currentPage >= state.lastPage) {
         return;
       }
 
-      state.currentPage++;
-      handlePageLoad(elements, state, "refresh");
-
-      // Scroll to top of product list
-      if (elements.productList) {
-        elements.productList.scrollIntoView({ behavior: "smooth" });
-      }
+      state.currentPage += 1;
+      handlePageLoad(elements, state, LOAD_TYPES.refresh);
+      scrollToProductList(elements);
     });
   }
 
-  // Pagination: Page number clicks
   if (elements.paginationNumbers) {
     elements.paginationNumbers.addEventListener("click", (event) => {
-      const pageButton = event.target.closest(".js-pagination-number");
+      const pageButton = event.target.closest(SELECTORS.paginationNumber);
 
-      // Guard: skip if loading or invalid state
-      if (
-        (state.isInitialLoading || state.isRefreshing) &&
-        pageButton &&
-        pageButton.dataset.page
-      ) {
+      if (isLoadingInProgress(state) && pageButton && pageButton.dataset.page) {
         return;
       }
 
@@ -965,12 +1028,8 @@ function bindEvents(elements, state) {
 
         if (newPage !== state.currentPage) {
           state.currentPage = newPage;
-          handlePageLoad(elements, state, "refresh");
-
-          // Scroll to top of product list
-          if (elements.productList) {
-            elements.productList.scrollIntoView({ behavior: "smooth" });
-          }
+          handlePageLoad(elements, state, LOAD_TYPES.refresh);
+          scrollToProductList(elements);
         }
       }
     });
@@ -982,17 +1041,21 @@ export function initIndexPage() {
   const state = createAppState();
   const filterState = createFilterState();
 
-  // Validate required elements
+  // -----------------------------------------------
+  // 1. VALIDATE REQUIRED DOM ELEMENTS
+  // -----------------------------------------------
   if (!elements.productList) {
-    console.error("[INIT] Required DOM elements not found");
+    console.error(`${LOG_PREFIX.init} Required DOM elements not found`);
     return;
   }
 
-  // Initialize header and store its api in elements for setControlsDisabled
+  // -----------------------------------------------
+  // 2. INITIALIZE HEADER
+  // -----------------------------------------------
   elements.headerApi = initHeader({
     onSearch: (keyword) => {
       // Guard: skip if loading
-      if (state.isInitialLoading || state.isRefreshing) {
+      if (isLoadingInProgress(state)) {
         return;
       }
 
@@ -1000,13 +1063,15 @@ export function initIndexPage() {
 
       if (newSearchTerm !== state.searchKeyword) {
         state.searchKeyword = newSearchTerm;
-        state.currentPage = 1; // Reset pagination on search
-        handlePageLoad(elements, state, "refresh");
+        state.currentPage = PAGINATION.defaultPage; // Reset pagination on search
+        handlePageLoad(elements, state, LOAD_TYPES.refresh);
       }
-    }
+    },
   });
 
-  // Setup UI interactions
+  // -----------------------------------------------
+  // 3. SETUP UI INTERACTIONS (FILTERS & PAGINATION)
+  // -----------------------------------------------
   bindProductNavigation(elements);
   bindFilterToggle(elements);
   bindFilterAccordion(elements);
@@ -1018,11 +1083,16 @@ export function initIndexPage() {
   bindApplyFilter(elements, state, filterState);
   bindEvents(elements, state);
 
+  // -----------------------------------------------
+  // 4. RENDER HEADER & LOAD CATEGORIES
+  // -----------------------------------------------
   updateCatalogHeader(elements, state.categoryName);
   loadCategories(elements, state);
 
-  // Load products on page load (initial load phase)
-  handlePageLoad(elements, state, "initial");
+  // -----------------------------------------------
+  // 5. LOAD INITIAL PRODUCT PAGE
+  // -----------------------------------------------
+  handlePageLoad(elements, state, LOAD_TYPES.initial);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
