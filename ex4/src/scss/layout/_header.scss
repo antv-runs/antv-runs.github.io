@@ -41,9 +41,7 @@
     position: absolute;
     top: 50%;
     right: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    @include m.inline-flex-center;
     width: 24px;
     height: 24px;
     @include m.button-native-reset($padding-zero: true);
@@ -152,9 +150,7 @@ header {
       background: url("~/images/icn_search.svg") no-repeat center;
       background-size: contain;
       @include m.button-native-reset($transparent-bg: false);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      @include m.inline-flex-center;
     }
 
     &.is-disabled {
@@ -171,9 +167,7 @@ header {
 
     button {
       @include m.button-native-reset;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      @include m.inline-flex-center;
       color: v.$color-black;
       flex-shrink: 0;
     }

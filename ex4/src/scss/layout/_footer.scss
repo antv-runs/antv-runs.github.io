@@ -46,9 +46,7 @@
     figure {
       width: 20.25px;
       height: 15.75px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      @include m.flex-center;
     }
 
     input {

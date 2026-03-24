@@ -106,9 +106,7 @@
     &--filter {
       height: 48px;
       width: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      @include flex-center;
 
       &::after {
         content: "";
@@ -148,9 +146,7 @@
     &--write {
       height: 48px;
       width: 166px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      @include inline-flex-center;
       white-space: nowrap;
       background-color: v.$color-black;
       color: v.$color-white;

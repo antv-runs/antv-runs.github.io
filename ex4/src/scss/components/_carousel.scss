@@ -62,9 +62,7 @@
     background: v.$color-white;
     @include button-native-reset($transparent-bg: false);
     padding: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-center;
     transition: all 0.3s ease;
     z-index: 100;
     top: 50%;
