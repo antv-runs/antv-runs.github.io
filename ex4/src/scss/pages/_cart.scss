@@ -408,11 +408,7 @@
       pointer-events: none;
     }
 
-    &:focus-visible {
-      outline: 2px solid v.$color-black;
-      outline-offset: 2px;
-      border-radius: 4px;
-    }
+    @include m.focus-ring(2px, 4px);
 
     &.js-cart-item-qty-minus {
       background-image: url(v.$icn_minus);

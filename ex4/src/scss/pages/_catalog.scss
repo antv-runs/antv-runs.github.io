@@ -113,11 +113,7 @@
       @include icon-bg(v.$icon-dropdown, 16px, 16px);
     }
 
-    &:focus-visible {
-      outline: 2px solid v.$color-black;
-      outline-offset: 4px;
-      border-radius: 4px;
-    }
+    @include m.focus-ring(4px, 4px);
   }
 
   &__content {
@@ -182,11 +178,7 @@
       }
     }
 
-    &:focus-visible {
-      outline: 2px solid v.$color-black;
-      outline-offset: 4px;
-      border-radius: 4px;
-    }
+    @include m.focus-ring(4px, 4px);
 
     &:disabled {
       cursor: default;
@@ -212,9 +204,7 @@
     width: 82%;
     height: 14px;
     border-radius: 999px;
-    background: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
-    background-size: 200% 100%;
-    animation: reviews-skeleton-shimmer 1.2s ease-in-out infinite;
+    @include m.skeleton-shimmer;
   }
 
   &__range {
@@ -686,9 +676,7 @@
 
   &__skeleton-block {
     display: block;
-    background: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
-    background-size: 200% 100%;
-    animation: reviews-skeleton-shimmer 1.2s ease-in-out infinite;
+    @include m.skeleton-shimmer;
     border-radius: 10px;
   }
 
