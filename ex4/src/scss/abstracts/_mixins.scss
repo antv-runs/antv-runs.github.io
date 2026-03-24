@@ -24,12 +24,34 @@
   }
 }
 
-@mixin transparent-button-reset($with-cursor: true) {
-  background-color: transparent;
+/// Strip default button / control chrome. Set `$transparent-bg: false` when a solid or image background follows in the same rule.
+@mixin button-native-reset(
+  $transparent-bg: true,
+  $with-cursor: true,
+  $appearance-none: false,
+  $padding-zero: false,
+  $font-inherit: false
+) {
   border: none;
+
+  @if $transparent-bg {
+    background-color: transparent;
+  }
 
   @if $with-cursor {
     cursor: pointer;
+  }
+
+  @if $appearance-none {
+    appearance: none;
+  }
+
+  @if $padding-zero {
+    padding: 0;
+  }
+
+  @if $font-inherit {
+    font: inherit;
   }
 }
 

@@ -260,10 +260,11 @@
       width: 37px;
       height: 37px;
       border-radius: 100%;
-      border: none;
-      padding: 0;
-      appearance: none;
-      cursor: pointer;
+      @include m.button-native-reset(
+        $transparent-bg: false,
+        $appearance-none: true,
+        $padding-zero: true
+      );
       @include m.flex-center;
       background-repeat: no-repeat;
       background-position: center;
@@ -330,14 +331,13 @@
       min-width: 86px;
       height: 46px;
       background-color: #f0f0f0;
-      border: none;
+      @include m.button-native-reset($transparent-bg: false);
       border-radius: v.$radius-pill;
       font-size: 16px;
       font-weight: 400;
       color: rgba(0, 0, 0, 0.6);
       padding: 12px 20px;
       @include m.flex-center;
-      cursor: pointer;
 
       &:disabled {
         cursor: not-allowed;
@@ -376,7 +376,7 @@
         min-width: 0;
         width: auto;
         text-align: center;
-        @include m.transparent-button-reset($with-cursor: false);
+        @include m.button-native-reset($with-cursor: false);
         font-size: 16px;
         font-weight: 500;
         // Hide native number spinners — custom ± buttons handle increment
@@ -404,7 +404,7 @@
       .quantity-button-plus {
         // 44px tap area column — icon stays 20px, centered inside
         flex: 0 0 44px;
-        @include m.transparent-button-reset;
+        @include m.button-native-reset;
         @include m.flex-center;
         background-repeat: no-repeat;
         background-position: center;
@@ -433,12 +433,10 @@
       min-width: 0;
       background-color: #000;
       color: #fff;
-      border: none;
       border-radius: v.$radius-pill;
       font-size: 16px;
       font-weight: 500;
       white-space: nowrap;
-      cursor: pointer;
       transition:
         transform 0.2s ease,
         background-color 0.2s ease;

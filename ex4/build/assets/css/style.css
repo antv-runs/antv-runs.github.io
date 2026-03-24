@@ -302,11 +302,11 @@ svg {
   justify-content: center;
   width: 24px;
   height: 24px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: inherit;
+  border: none;
+  background-color: transparent;
   cursor: pointer;
+  padding: 0;
+  color: inherit;
   transform: translateY(-50%);
   transition: opacity 0.2s ease;
 }
@@ -347,9 +347,9 @@ header .header-menu-toggle {
   width: 19px;
   height: 15px;
   border: none;
+  cursor: pointer;
   background: url("../images/icn_menu.svg") no-repeat center;
   background-size: contain;
-  cursor: pointer;
   color: #000;
 }
 header .header-links ul {
@@ -418,8 +418,8 @@ header .header-icon {
   flex: 0 0 auto;
 }
 header .header-icon button {
-  background-color: transparent;
   border: none;
+  background-color: transparent;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -551,10 +551,10 @@ header .header-icon__profile {
   padding: 15px 0;
   background-color: #fff;
   border: none;
+  cursor: pointer;
   font-size: 16px;
   font-weight: 500;
   border-radius: 62px;
-  cursor: pointer;
 }
 .footer-form__button:hover {
   background-color: #e0e0e0;
@@ -835,8 +835,8 @@ header .header-icon__profile {
   font-size: 20px;
   line-height: 1.1;
   text-align: center;
-  background: none;
   border: none;
+  background-color: transparent;
   cursor: pointer;
   padding: 0 0 20px;
 }
@@ -919,15 +919,15 @@ header .header-icon__profile {
   display: block;
 }
 .reviews__filter-option {
-  cursor: pointer;
   display: flex;
   align-items: center;
   width: 100%;
-  background: transparent;
   border: none;
+  background-color: transparent;
+  cursor: pointer;
   padding: 0;
-  text-align: left;
   font: inherit;
+  text-align: left;
 }
 .reviews__filter-option--active, .reviews__filter-option:hover {
   background: #f5f5f5;
@@ -1027,9 +1027,11 @@ header .header-icon__profile {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
 }
 .reviews__select {
-  background-color: transparent;
   border: none;
+  background-color: transparent;
+  cursor: pointer;
   appearance: none;
+  font: inherit;
   outline: none;
   width: 100%;
   height: 100%;
@@ -1149,8 +1151,8 @@ header .header-icon__profile {
 }
 .review-card__more-btn {
   border: none;
-  cursor: pointer;
   background-color: transparent;
+  cursor: pointer;
   padding: 0 25px 0 0;
   content: "";
   width: 25px;
@@ -1235,9 +1237,9 @@ header .header-icon__profile {
   width: 36px;
   height: 36px;
   border: none;
+  cursor: pointer;
   border-radius: 50%;
   background-color: #f3f3f3;
-  cursor: pointer;
   position: relative;
 }
 .review-modal__close::before, .review-modal__close::after {
@@ -1337,11 +1339,11 @@ header .header-icon__profile {
 }
 .review-modal__button {
   border: none;
+  cursor: pointer;
   border-radius: 62px;
   padding: 10px 18px;
   min-width: 130px;
   font-weight: 500;
-  cursor: pointer;
   background-color: #000;
   color: #fff;
   position: relative;
@@ -1575,11 +1577,11 @@ body.review-modal-open {
   position: relative;
 }
 .other-products__item {
-  cursor: pointer;
   max-width: 295px;
   flex: 0 0 auto;
-  border: 0;
-  background: transparent;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
   transition: color 0.2s ease;
 }
 .other-products__item:hover .product-item__title {
@@ -1621,8 +1623,8 @@ body.review-modal-open {
   position: absolute;
   background: #fff;
   border: none;
-  padding: 5px;
   cursor: pointer;
+  padding: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1738,9 +1740,9 @@ body.review-modal-open {
   width: 32px;
   height: 32px;
   border: none;
+  cursor: pointer;
   border-radius: 8px;
   background-color: #fff;
-  cursor: pointer;
 }
 .catalog-filters__close::before {
   content: "";
@@ -1798,12 +1800,12 @@ body.review-modal-open {
   justify-content: space-between;
   gap: 12px;
   border: none;
+  background-color: transparent;
+  cursor: pointer;
   padding: 0;
   margin-bottom: 0;
-  background-color: transparent;
   color: #000;
   text-align: left;
-  cursor: pointer;
 }
 .catalog-filters__toggle::after {
   content: "";
@@ -1844,18 +1846,18 @@ body.review-modal-open {
 .catalog-filters__item {
   width: 100%;
   border: none;
-  padding: 0;
-  background: transparent;
+  background-color: transparent;
+  cursor: pointer;
   appearance: none;
+  padding: 0;
+  font: inherit;
   color: inherit;
   text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font: inherit;
   line-height: inherit;
   text-align: left;
-  cursor: pointer;
 }
 .catalog-filters__item::after {
   content: "";
@@ -2867,9 +2869,9 @@ body.review-modal-open {
   height: 37px;
   border-radius: 100%;
   border: none;
-  padding: 0;
-  appearance: none;
   cursor: pointer;
+  appearance: none;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2925,6 +2927,7 @@ body.review-modal-open {
   height: 46px;
   background-color: #f0f0f0;
   border: none;
+  cursor: pointer;
   border-radius: 62px;
   font-size: 16px;
   font-weight: 400;
@@ -2933,7 +2936,6 @@ body.review-modal-open {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
 }
 .product-overview__size-options .size-option:disabled {
   cursor: not-allowed;
@@ -2964,8 +2966,8 @@ body.review-modal-open {
   min-width: 0;
   width: auto;
   text-align: center;
-  background-color: transparent;
   border: none;
+  background-color: transparent;
   font-size: 16px;
   font-weight: 500;
   -webkit-appearance: none;
@@ -2986,8 +2988,8 @@ body.review-modal-open {
 .product-overview__actions form .quantity-button-minus,
 .product-overview__actions form .quantity-button-plus {
   flex: 0 0 44px;
-  background-color: transparent;
   border: none;
+  background-color: transparent;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -3014,12 +3016,10 @@ body.review-modal-open {
   min-width: 0;
   background-color: #000;
   color: #fff;
-  border: none;
   border-radius: 62px;
   font-size: 16px;
   font-weight: 500;
   white-space: nowrap;
-  cursor: pointer;
   transition: transform 0.2s ease, background-color 0.2s ease;
 }
 .product-overview__actions .add-to-cart-button:disabled {
@@ -3623,13 +3623,13 @@ body.review-modal-open {
 }
 .cart-fetch-state__retry {
   border: none;
+  cursor: pointer;
   border-radius: 62px;
   background-color: #000;
   color: #fff;
   font-size: 14px;
   font-weight: 500;
   padding: 10px 18px;
-  cursor: pointer;
 }
 .cart-fetch-state__retry:disabled {
   opacity: 0.5;
@@ -3795,9 +3795,9 @@ body.review-modal-open {
   width: 18px;
   height: 19.5px;
   border: none;
+  cursor: pointer;
   background: url("../images/icn_trash.svg") no-repeat center;
   background-size: contain;
-  cursor: pointer;
   flex-shrink: 0;
 }
 .cart-item__remove:disabled {
@@ -3853,8 +3853,9 @@ body.review-modal-open {
   background-position: center;
   background-size: 16px;
   border: none;
-  padding: 0;
+  background-color: transparent;
   cursor: pointer;
+  padding: 0;
   flex-shrink: 0;
 }
 .cart-item__qty-btn:disabled, .cart-item__qty-btn.is-disabled {
@@ -3888,7 +3889,7 @@ body.review-modal-open {
   width: 26px;
   text-align: center;
   border: none;
-  background: transparent;
+  background-color: transparent;
   font-size: 14px;
   font-weight: 500;
   flex-shrink: 0;
@@ -4007,13 +4008,11 @@ body.review-modal-open {
   height: auto;
   min-height: 48px;
   padding: 0 28px;
-  border: none;
   border-radius: 62px;
   background-color: #000;
   color: #fff;
   font-size: 16px;
   font-weight: 500;
-  cursor: pointer;
 }
 .cart-summary__coupon button:disabled, .cart-summary__coupon button.is-disabled {
   opacity: 0.5;
@@ -4036,13 +4035,11 @@ body.review-modal-open {
   gap: 8px;
   width: 100%;
   padding: 16px 20px;
-  border: none;
   border-radius: 62px;
   background: #000;
   color: #fff;
   font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
 }
 .cart-summary__checkout:disabled {
   opacity: 0.6;
