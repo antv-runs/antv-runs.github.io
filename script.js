@@ -94,6 +94,13 @@ const exercises = [
       "Trang giỏ hàng": "https://antv-runs.github.io/ex4/build/cart.html",
     },
   },
+  {
+    category: "ReactJS + Vite + TypeScript",
+    name: "Shop quần áo",
+    links: {
+      "Source code": "https://github.com/antv-runs/clothing-store-fe",
+    },
+  },
 ];
 
 const container = document.getElementById("exercise-list");
