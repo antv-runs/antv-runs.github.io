@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    @@include('./partials/head.html', { "title": "Home" })
+  </head>
+
+  <body>
+    @@include('./partials/header.html')
+
+    <div class="container">
+      <main class="home-page js-home-page" aria-label="Homepage">
+        <section class="home-hero" aria-labelledby="home-hero-title">
+          <div class="home-hero__content">
+            <h1 id="home-hero-title" class="home-hero__title">
+              FIND CLOTHES THAT MATCHES YOUR STYLE
+            </h1>
+
+            <p class="home-hero__desc">
+              Browse through our diverse range of meticulously crafted garments,
+              designed to bring out your individuality and cater to your sense
+              of style.
+            </p>
+
+            <a href="index.html" class="home-hero__cta btn btn--primary"
+              >Shop Now</a
+            >
+
+            <div class="home-hero__stats" aria-label="Store achievements">
+              <article class="home-hero__stat">
+                <h2>200+</h2>
+                <p>International Brands</p>
+              </article>
+              <article class="home-hero__stat">
+                <h2>2,000+</h2>
+                <p>High-Quality Products</p>
+              </article>
+              <article class="home-hero__stat">
+                <h2>30,000+</h2>
+                <p>Happy Customers</p>
+              </article>
+            </div>
+          </div>
+
+          <figure class="home-hero__media">
+            <img
+              src="~/images/pic_hero_couple.png"
+              alt="Fashion models wearing black outfits"
+              loading="eager"
+              decoding="async"
+            />
+          </figure>
+        </section>
+
+        <section class="home-brands" aria-label="Partner brands">
+          <ul class="home-brands__list">
+            <li>VERSACE</li>
+            <li>ZARA</li>
+            <li>GUCCI</li>
+            <li>PRADA</li>
+            <li>Calvin Klein</li>
+          </ul>
+        </section>
+
+        <section
+          class="home-products"
+          aria-labelledby="home-new-arrivals-title"
+        >
+          <div class="home-products__head">
+            <h2 id="home-new-arrivals-title">NEW ARRIVALS</h2>
+          </div>
+
+          <div
+            class="home-products__grid js-home-new-arrivals"
+            aria-live="polite"
+            aria-busy="true"
+          ></div>
+
+          <div class="home-products__foot">
+            <a href="index.html" class="btn btn--light">View All</a>
+          </div>
+        </section>
+
+        <section
+          class="home-products home-products--bordered"
+          aria-labelledby="home-top-selling-title"
+        >
+          <div class="home-products__head">
+            <h2 id="home-top-selling-title">TOP SELLING</h2>
+          </div>
+
+          <div
+            class="home-products__grid js-home-top-selling"
+            aria-live="polite"
+            aria-busy="true"
+          ></div>
+
+          <div class="home-products__foot">
+            <a href="index.html" class="btn btn--light">View All</a>
+          </div>
+        </section>
+
+        <section class="home-styles" aria-labelledby="home-styles-title">
+          <div class="home-styles__box">
+            <h2 id="home-styles-title">BROWSE BY DRESS STYLE</h2>
+
+            <div class="home-styles__grid">
+              <a
+                href="index.html"
+                class="home-style-card home-style-card--small"
+              >
+                <span>Casual</span>
+                <img
+                  src="~/images/pic_style_casual.png"
+                  alt="Casual style"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+              <a
+                href="index.html"
+                class="home-style-card home-style-card--large"
+              >
+                <span>Formal</span>
+                <img
+                  src="~/images/pic_style_formal.png"
+                  alt="Formal style"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+              <a
+                href="index.html"
+                class="home-style-card home-style-card--large"
+              >
+                <span>Party</span>
+                <img
+                  src="~/images/pic_style_party.png"
+                  alt="Party style"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+              <a
+                href="index.html"
+                class="home-style-card home-style-card--small"
+              >
+                <span>Gym</span>
+                <img
+                  src="~/images/pic_style_gym.png"
+                  alt="Gym style"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section class="home-reviews" aria-labelledby="home-reviews-title">
+          <div class="home-reviews__head">
+            <h2 id="home-reviews-title">OUR HAPPY CUSTOMERS</h2>
+            <div class="home-reviews__actions">
+              <button
+                class="home-reviews__action js-home-review-prev"
+                type="button"
+                aria-label="Scroll reviews left"
+              ></button>
+              <button
+                class="home-reviews__action js-home-review-next"
+                type="button"
+                aria-label="Scroll reviews right"
+              ></button>
+            </div>
+          </div>
+
+          <ul
+            class="home-reviews__track reviews__list js-home-reviews-track"
+            aria-label="Customer reviews"
+            aria-live="polite"
+            aria-busy="true"
+          ></ul>
+        </section>
+      </main>
+
+      @@include('./partials/footer-form.html')
+    </div>
+
+    @@include('./partials/footer.html')
+    @@include('./partials/scripts.html', { "script": "~/js/pages/homePage.js" })
+  </body>
+</html>
