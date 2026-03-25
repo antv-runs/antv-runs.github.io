@@ -53,11 +53,46 @@
 
         <section class="home-brands" aria-label="Partner brands">
           <ul class="home-brands__list">
-            <li>VERSACE</li>
-            <li>ZARA</li>
-            <li>GUCCI</li>
-            <li>PRADA</li>
-            <li>Calvin Klein</li>
+            <li>
+              <img
+                src="~/images/pic_versace_logo.png"
+                alt="Versace logo"
+                loading="lazy"
+                decoding="async"
+              />
+            </li>
+            <li>
+              <img
+                src="~/images/pic_zara_logo.png"
+                alt="Zara logo"
+                loading="lazy"
+                decoding="async"
+              />
+            </li>
+            <li>
+              <img
+                src="~/images/pic_gucci_logo.png"
+                alt="Gucci logo"
+                loading="lazy"
+                decoding="async"
+              />
+            </li>
+            <li>
+              <img
+                src="~/images/pic_prada_logo.png"
+                alt="Prada logo"
+                loading="lazy"
+                decoding="async"
+              />
+            </li>
+            <li>
+              <img
+                src="~/images/pic_calvin_klein_logo.png"
+                alt="Calvin Klein logo"
+                loading="lazy"
+                decoding="async"
+              />
+            </li>
           </ul>
         </section>
 
@@ -173,19 +208,21 @@
             </div>
           </div>
 
-          <ul
-            class="home-reviews__track reviews__list js-home-reviews-track"
-            aria-label="Customer reviews"
-            aria-live="polite"
-            aria-busy="true"
-          ></ul>
+          <div class="home-reviews__viewport js-home-reviews-viewport">
+            <ul
+              class="home-reviews__track reviews__list js-home-reviews-track"
+              aria-label="Customer reviews"
+              aria-live="polite"
+              aria-busy="true"
+            ></ul>
+          </div>
         </section>
       </main>
 
       @@include('./partials/footer-form.html')
     </div>
 
-    @@include('./partials/footer.html')
-    @@include('./partials/scripts.html', { "script": "~/js/pages/homePage.js" })
+    @@include('./partials/footer.html') @@include('./partials/scripts.html', {
+    "script": "~/js/pages/homePage.js" })
   </body>
 </html>

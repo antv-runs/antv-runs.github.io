@@ -106,11 +106,19 @@
     align-items: center;
 
     li {
-      text-align: center;
-      white-space: nowrap;
-      font-size: 36px;
-      font-family: v.$font-family-display;
-      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+
+      img {
+        display: block;
+        width: 100%;
+        max-width: 170px;
+        max-height: 40px;
+        object-fit: contain;
+        object-position: center;
+      }
     }
   }
 }
@@ -226,7 +234,9 @@
   padding-bottom: 14px;
 
   &__head {
-    @include m.flex-between-center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 30px;
     gap: 20px;
 
@@ -234,16 +244,23 @@
       margin: 0;
       font-family: v.$font-family-display;
       font-size: 48px;
+      line-height: 1;
       letter-spacing: -0.03em;
     }
   }
 
   &__actions {
-    display: inline-flex;
+    display: flex;
+    align-items: center;
     gap: 12px;
+    flex: 0 0 auto;
   }
 
   &__action {
+    @include m.flex-center;
+    flex-shrink: 0;
+    padding: 0;
+    line-height: 1;
     width: 40px;
     height: 40px;
     border-radius: 999px;
@@ -253,6 +270,8 @@
 
     &::before {
       @include m.icon-mask(v.$icn_arrow_right_home, 24px, 24px, v.$color-black);
+      display: block;
+      flex: 0 0 24px;
     }
 
     &:first-child::before {
@@ -260,15 +279,62 @@
     }
   }
 
+  &__viewport {
+    position: relative;
+    overflow: hidden;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 72px;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    &::before {
+      left: 0;
+      background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.96),
+        rgba(255, 255, 255, 0)
+      );
+    }
+
+    &::after {
+      right: 0;
+      background: linear-gradient(
+        to left,
+        rgba(255, 255, 255, 0.96),
+        rgba(255, 255, 255, 0)
+      );
+    }
+
+    &.has-overflow.is-not-at-start::before {
+      opacity: 1;
+    }
+
+    &.has-overflow.is-not-at-end::after {
+      opacity: 1;
+    }
+  }
+
   &__track {
     margin-bottom: 0;
+    padding: 0;
     display: grid;
     grid-template-columns: none;
     grid-auto-flow: column;
-    grid-auto-columns: 400px;
+    grid-auto-columns: calc((100% - 40px) / 3);
     gap: 20px;
     overflow-x: auto;
+    overscroll-behavior-x: contain;
     scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
     scrollbar-width: none;
 
     &::-webkit-scrollbar {
@@ -277,14 +343,21 @@
   }
 
   .reviews__item {
-    min-width: 400px;
-    max-width: 400px;
+    min-width: 0;
+    max-width: none;
     height: 240px;
-    flex: 0 0 400px;
+    flex: none;
+    scroll-snap-align: start;
   }
 
   .review-card {
     overflow: hidden;
+    height: 100%;
+  }
+
+  .review-card__content {
+    @include m.line-clamp(5);
+    min-height: 0;
   }
 }
 
@@ -343,6 +416,20 @@
       width: 100%;
       min-width: 100%;
       max-width: 100%;
+    }
+  }
+
+  .home-reviews {
+    &__track {
+      grid-auto-columns: calc((100% - 16px) / 2);
+      gap: 16px;
+    }
+
+    &__viewport {
+      &::before,
+      &::after {
+        width: 52px;
+      }
     }
   }
 }
@@ -410,7 +497,12 @@
       padding: 34px 0;
 
       li {
-        font-size: 22px;
+        min-height: 44px;
+
+        img {
+          max-width: 150px;
+          max-height: 32px;
+        }
       }
     }
   }
@@ -466,16 +558,34 @@
       }
     }
 
+    &__actions {
+      gap: 10px;
+    }
+
+    &__action {
+      width: 36px;
+      height: 36px;
+
+      &::before {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    &__viewport {
+      &::before,
+      &::after {
+        display: none;
+      }
+    }
+
     &__track {
       grid-auto-columns: 100%;
       gap: 16px;
     }
 
     .reviews__item {
-      min-width: 100%;
-      max-width: 100%;
       height: 220px;
-      flex: 0 0 100%;
     }
 
     .review-card {
@@ -489,7 +599,7 @@
     .review-card__content {
       font-size: 14px;
       margin-bottom: 16px;
-      min-height: 58px;
+      min-height: 0;
     }
   }
 }

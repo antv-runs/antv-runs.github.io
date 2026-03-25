@@ -11,6 +11,7 @@ import { renderStars } from "../utils/ratingUtils.js";
 const SELECTORS = {
   newArrivals: ".js-home-new-arrivals",
   topSelling: ".js-home-top-selling",
+  reviewsViewport: ".js-home-reviews-viewport",
   reviewsTrack: ".js-home-reviews-track",
   reviewsPrev: ".js-home-review-prev",
   reviewsNext: ".js-home-review-next",
@@ -55,6 +56,22 @@ function syncReviewNavState(track, prevButton, nextButton) {
   nextButton.disabled = currentScrollLeft >= maxScrollLeft - 1;
 }
 
+function syncReviewViewportState(viewport, track) {
+  if (!viewport || !track) {
+    return;
+  }
+
+  const maxScrollLeft = Math.max(track.scrollWidth - track.clientWidth, 0);
+  const currentScrollLeft = Math.max(track.scrollLeft, 0);
+  const hasOverflow = maxScrollLeft > 1;
+  const isAtStart = currentScrollLeft <= 1;
+  const isAtEnd = currentScrollLeft >= maxScrollLeft - 1;
+
+  viewport.classList.toggle("has-overflow", hasOverflow);
+  viewport.classList.toggle("is-not-at-start", hasOverflow && !isAtStart);
+  viewport.classList.toggle("is-not-at-end", hasOverflow && !isAtEnd);
+}
+
 function renderHomeReviews(reviews = HOME_REVIEWS) {
   const track = document.querySelector(SELECTORS.reviewsTrack);
 
@@ -93,6 +110,7 @@ function getReviewScrollStep(track) {
 }
 
 function initReviewSlider() {
+  const viewport = document.querySelector(SELECTORS.reviewsViewport);
   const track = document.querySelector(SELECTORS.reviewsTrack);
   const prevButton = document.querySelector(SELECTORS.reviewsPrev);
   const nextButton = document.querySelector(SELECTORS.reviewsNext);
@@ -102,6 +120,7 @@ function initReviewSlider() {
   }
 
   syncReviewNavState(track, prevButton, nextButton);
+  syncReviewViewportState(viewport, track);
 
   prevButton.addEventListener("click", () => {
     track.scrollBy({ left: -getReviewScrollStep(track), behavior: "smooth" });
@@ -113,10 +132,12 @@ function initReviewSlider() {
 
   track.addEventListener("scroll", () => {
     syncReviewNavState(track, prevButton, nextButton);
+    syncReviewViewportState(viewport, track);
   });
 
   window.addEventListener("resize", () => {
     syncReviewNavState(track, prevButton, nextButton);
+    syncReviewViewportState(viewport, track);
   });
 }
 
