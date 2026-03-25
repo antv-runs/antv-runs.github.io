@@ -9,6 +9,7 @@ import { formatDate, formatPrice } from "../utils/formatters.js";
 import { renderStars } from "../utils/ratingUtils.js";
 
 const SELECTORS = {
+  linkButtons: ".js-btn-link",
   newArrivals: ".js-home-new-arrivals",
   topSelling: ".js-home-top-selling",
   reviewsViewport: ".js-home-reviews-viewport",
@@ -16,6 +17,22 @@ const SELECTORS = {
   reviewsPrev: ".js-home-review-prev",
   reviewsNext: ".js-home-review-next",
 };
+
+function initButtonLinks() {
+  const buttons = document.querySelectorAll(SELECTORS.linkButtons);
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const targetUrl = button.dataset.href;
+
+      if (!targetUrl) {
+        return;
+      }
+
+      window.location.href = targetUrl;
+    });
+  });
+}
 
 const HOME_REVIEWS = [
   {
@@ -200,6 +217,7 @@ async function initHomeProducts() {
 
 document.addEventListener("DOMContentLoaded", () => {
   initHeader();
+  initButtonLinks();
   renderHomeReviews();
   initReviewSlider();
   initHomeProducts();

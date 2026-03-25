@@ -30,6 +30,12 @@
   &--full {
     width: 100%;
   }
+
+  &--cta {
+    width: 218px;
+    min-height: 52px;
+    border-radius: 62px;
+  }
 }
 
 .add-to-cart-button,

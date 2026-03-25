@@ -21,9 +21,13 @@
               of style.
             </p>
 
-            <a href="index.html" class="home-hero__cta btn btn--primary"
-              >Shop Now</a
+            <button
+              type="button"
+              class="home-hero__cta btn btn--primary btn--cta js-btn-link"
+              data-href="index.html"
             >
+              Shop Now
+            </button>
 
             <div class="home-hero__stats" aria-label="Store achievements">
               <article class="home-hero__stat">
@@ -111,7 +115,13 @@
           ></div>
 
           <div class="home-products__foot">
-            <a href="index.html" class="btn btn--light">View All</a>
+            <button
+              type="button"
+              class="btn btn--light btn--cta js-btn-link"
+              data-href="index.html"
+            >
+              View All
+            </button>
           </div>
         </section>
 
@@ -130,7 +140,13 @@
           ></div>
 
           <div class="home-products__foot">
-            <a href="index.html" class="btn btn--light">View All</a>
+            <button
+              type="button"
+              class="btn btn--light btn--cta js-btn-link"
+              data-href="index.html"
+            >
+              View All
+            </button>
           </div>
         </section>
 
@@ -222,7 +238,7 @@
       @@include('./partials/footer-form.html')
     </div>
 
-    @@include('./partials/footer.html') @@include('./partials/scripts.html', {
-    "script": "~/js/pages/homePage.js" })
+    @@include('./partials/footer.html')
+    @@include('./partials/scripts.html', { "script": "~/js/pages/homePage.js" })
   </body>
 </html>
